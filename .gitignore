@@ -1,0 +1,12 @@
+/vendor/
+/logs/*
+!/logs/README.md
+
+/logs
+/tests
+.buildpath
+.project
+.settings
+docker-compose.yml
+phpunit.xml
+
