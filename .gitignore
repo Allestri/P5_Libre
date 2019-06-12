@@ -6,6 +6,7 @@
 /tests
 .buildpath
 .project
+composer.lock
 .settings
 docker-compose.yml
 phpunit.xml
