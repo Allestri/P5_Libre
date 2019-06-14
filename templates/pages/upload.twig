@@ -1,0 +1,18 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+
+<form method="post" action="upload" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="titre">Titre du fichier (max. 50 caractères) :</label><br />
+        <input type="text" name="name" placeholder="Titre du fichier" id="titre" required /><br />
+    </div>
+    <div class="form-group">
+        <label for="myfile">Fichier (tous formats | max. 10 Mo) :</label><br />
+        <input type="hidden" name="MAX_FILE_SIZE" value="10048576" />
+        <input type="file" name="myfile" id="myfile" /><br />
+    </div>
+    <input type="submit" name="submit" value="Envoyer" />
+</form>
+
+{% endblock %}

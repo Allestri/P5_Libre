@@ -38,7 +38,7 @@ class ContentController extends Controller
      $datas = $this->container->get('contentModel');
      
      $args['datas'] = $datas->getContent();
-     var_dump($args);
+     //var_dump($args);
      
      
      // get the template renderer and pass response and datas to the template file.
@@ -49,7 +49,7 @@ class ContentController extends Controller
      // Formulaire
      public function getForm($request, $response)
      {
-         return $this->container->get('renderer')->render($response, 'upload.php');
+         return $this->container->view->render($response, 'pages/upload.twig');
      }
      
      /* public function postUpload($request, $response, $args)
@@ -72,11 +72,12 @@ class ContentController extends Controller
          
          // Single file upload
          $uploadedFile = $uploadedFile['myfile'];
-         var_dump($uploadedFile->getError());
+         //var_dump($uploadedFile->getError());
          if($uploadedFile->getError() === UPLOAD_ERR_OK){
              $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
              $response->write('uploaded ' . $filename . '<br/>');
          }
+         //return $this->redirect($response, 'upload');
      }
      
      
@@ -90,7 +91,7 @@ class ContentController extends Controller
       */
      function moveUpLoadedFile($directory, UploadedFile $uploadedFile)
      {
-         var_dump($directory);
+         //var_dump($directory);
          $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
          $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
          $userFileName = $_POST['name'];

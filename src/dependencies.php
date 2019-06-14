@@ -15,6 +15,7 @@ return function (App $app) {
     $container['view'] = function ($container) {
         $dir = dirname(__DIR__);
         $view = new \Slim\Views\Twig($dir . '/templates/', [
+            'debug' => true, // This line should enable debug mode
             'cache' => false //$dir . '/tmp/cache'
         ]);
         
@@ -22,6 +23,10 @@ return function (App $app) {
         $router = $container->get('router');
         $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
         $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
+        
+        
+        // Debugging extension i.e {{ dump() }}
+        $view->addExtension(new \Twig\Extension\DebugExtension());
         
         return $view;
     };

@@ -19,7 +19,7 @@ return function (App $app) {
     
     $app->get('/', \App\Controllers\ContentController::class .':home')->setName('home');
         
-    $app->get('/content', \App\Controllers\ContentController::class . ':getContent')->setName('contact');
+    $app->get('/content', \App\Controllers\ContentController::class . ':getContent')->setName('content');
         
     // Upload de fichier
     $app->get('/upload', \App\Controllers\ContentController::class . ':getForm')->setName('upload');
