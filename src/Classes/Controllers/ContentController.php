@@ -77,7 +77,7 @@ class ContentController extends Controller
              $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
              $response->write('uploaded ' . $filename . '<br/>');
          }
-         //return $this->redirect($response, 'upload');
+         return $this->redirect($response, 'upload');
      }
      
      
