@@ -1,0 +1,15 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+
+    <form method="post" action="signup">
+        <div class="form-group">
+            <label for="titre">Inscription</label><br />
+            <input type="text" name="uid" placeholder="Username" id="uid" required /><br />
+            <input type="password" name="pwd" placeholder="Password" required /><br/>
+            <input type="password" name="pwd-repeat" placeholder="Password" required /><br/>
+        </div>
+        <input type="submit" name="submit" value="S'inscrire" />
+    </form>
+
+{% endblock %}

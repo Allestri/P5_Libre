@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Psr\Http\Message\ResponseInterface;
+
 class Controller
 {
     
@@ -11,6 +13,11 @@ class Controller
     function __construct($container)
     {
         $this->container = $container;
+    }
+    
+    public function render(ResponseInterface $response, $file, $params = []){
+        
+        $this->container->view->render($response, $file, $params);
     }
     
     public function redirect($response, $name){

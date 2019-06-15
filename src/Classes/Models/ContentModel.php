@@ -18,5 +18,11 @@ Class ContentModel extends Model
         return $posts;
     }
     
+    public function addContent()
+    {
+        $sql = "INSERT INTO posts (name, content) VALUES (?, ?)";
+        $this->executeQuery($sql, array($_POST['name'], $_POST['content']));
+    }
+    
 
 }

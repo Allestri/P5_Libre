@@ -20,7 +20,15 @@ return function (App $app) {
     $app->get('/', \App\Controllers\ContentController::class .':home')->setName('home');
         
     $app->get('/content', \App\Controllers\ContentController::class . ':getContent')->setName('content');
-        
+    
+    // Inscription
+    $app->get('/signup', \App\Controllers\ContentController::class . ':getFormInscripton')->setName('inscription');
+    
+    // Ajouter contenus ( test )
+    $app->get('/add', \App\Controllers\ContentController ::class . ':getAddForm')->setName('ajouter');
+    
+    $app->post('/addcontent', \App\Controllers\ContentController ::class . ':addContent');
+    
     // Upload de fichier
     $app->get('/upload', \App\Controllers\ContentController::class . ':getForm')->setName('upload');
     $app->post('/upload', \App\Controllers\ContentController::class . ':postUpload');

@@ -1,0 +1,14 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+
+    <form method="post" action="addcontent">
+        <div class="form-group">
+            <label for="titre">Test ajout données</label><br />
+            <input type="text" name="name" placeholder="Title" required /><br/>
+            <input type="text" name="content" placeholder="Content" required /><br/>
+        </div>
+        <input type="submit" name="submit" value="Ajouter" />
+    </form>
+	
+{% endblock %}

@@ -52,6 +52,31 @@ class ContentController extends Controller
          return $this->container->view->render($response, 'pages/upload.twig');
      }
      
+     public function getAddForm($request, $response)
+     {
+         return $this->container->view->render($response, 'pages/addForm.twig');
+     }
+     
+     public function addContent($request, $response)
+     {
+         $add = $this->container->get('contentModel');
+         $add->addContent();
+         return $this->redirect($response, 'content');
+     }
+     
+     
+     public function getFormInscripton($request, $response)
+     {
+         return $this->container->view->render($response, 'pages/inscription.twig');
+     }
+     
+     /*
+     // Inscription
+     public function postSignup($request, $response)
+     {
+         return $this->container->view->render($response, 'pages/upload.twig');
+     }
+     */
      /* public function postUpload($request, $response, $args)
      {
          $uploadedFile = $request->getUploadedFiles();
@@ -65,8 +90,15 @@ class ContentController extends Controller
          }
      } */
      
+     
+     // Upload photos / files
+     
      public function postUpload($request, $response, $args)
      {
+         $_SESSION['flash'] = [
+             'success' => 'Votre fichier a bien été envoyé'
+         ];
+         /*
          $uploadedFile = $request->getUploadedFiles();
          $directory = $this->container->get('uploaded_directory');
          
@@ -76,7 +108,7 @@ class ContentController extends Controller
          if($uploadedFile->getError() === UPLOAD_ERR_OK){
              $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
              $response->write('uploaded ' . $filename . '<br/>');
-         }
+         }*/
          return $this->redirect($response, 'upload');
      }
      
