@@ -49,7 +49,9 @@ class ContentController extends Controller
      // Formulaire
      public function getForm($request, $response)
      {
-         return $this->container->view->render($response, 'pages/upload.twig');
+         $flash = isset($_SESSION['flash']) ? $_SESSION['flash'] : [];
+         $_SESSION['flash'] = [];
+         return $this->render($response, 'pages/upload.twig', ['flash' => $flash]);
      }
      
      public function getAddForm($request, $response)
@@ -77,28 +79,19 @@ class ContentController extends Controller
          return $this->container->view->render($response, 'pages/upload.twig');
      }
      */
-     /* public function postUpload($request, $response, $args)
-     {
-         $uploadedFile = $request->getUploadedFiles();
-         //var_dump($myfile);
-         $directory = $this->container->get('uploaded_directory');
-         // Single file upload
-         $uploadedFile = $uploadedFile['myfile'];
-         if($uploadedFile->getError() === UPLOAD_ERR_OK){
-             $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
-             $response->write('uploaded ' . $filename . '<br/>');
-         }
-     } */
      
      
      // Upload photos / files
-     
+    
      public function postUpload($request, $response, $args)
      {
+         // Flash message
+         
          $_SESSION['flash'] = [
              'success' => 'Votre fichier a bien été envoyé'
          ];
          /*
+         
          $uploadedFile = $request->getUploadedFiles();
          $directory = $this->container->get('uploaded_directory');
          
@@ -108,7 +101,9 @@ class ContentController extends Controller
          if($uploadedFile->getError() === UPLOAD_ERR_OK){
              $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
              $response->write('uploaded ' . $filename . '<br/>');
-         }*/
+         }
+         */
+         
          return $this->redirect($response, 'upload');
      }
      
@@ -123,7 +118,7 @@ class ContentController extends Controller
       */
      function moveUpLoadedFile($directory, UploadedFile $uploadedFile)
      {
-         //var_dump($directory);
+         var_dump($directory);
          $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
          $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
          $userFileName = $_POST['name'];
