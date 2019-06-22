@@ -41,7 +41,9 @@ class MembersController extends Controller
                 echo 'Ce pseudo n\'est pas disponible';
             }
             elseif ($password == $passwordRpt){
-                $membersModel->signup();
+                $rdp = password_hash($password, PASSWORD_DEFAULT);
+                var_dump($rdp);
+                $membersModel->signup($rdp);
                 echo 'Bienvenue';
             } else {
                 echo 'Mauvaise combinaison de mdp';

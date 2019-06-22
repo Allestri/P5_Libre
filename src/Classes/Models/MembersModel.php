@@ -12,9 +12,9 @@ class MembersModel extends Model
         return $member;
     }
     
-    public function signup()
+    public function signup($args)
     {
         $sql = "INSERT INTO members (name, password, date) VALUES (?, ?, NOW())";
-        $this->executeQuery($sql, array($_POST['uid'], $_POST['pwd']));
+        $this->executeQuery($sql, array($_POST['uid'], $args));
     }
 }
