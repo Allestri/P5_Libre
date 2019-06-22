@@ -21,12 +21,12 @@ return function (App $app) {
         
     $app->get('/content', \App\Controllers\ContentController::class . ':getContent')->setName('content');
     
-    // Inscription
-    $app->get('/signup', \App\Controllers\ContentController::class . ':getFormInscripton')->setName('inscription');
+    // Inscription ( test )
+    $app->get('/signup', \App\Controllers\MembersController::class . ':getFormInscripton')->setName('inscription');
+    $app->post('/signup', \App\Controllers\MembersController:: class . ':postSignup')->setName('postInscription');
     
     // Ajouter contenus ( test )
     $app->get('/add', \App\Controllers\ContentController ::class . ':getAddForm')->setName('ajouter');
-    
     $app->post('/addcontent', \App\Controllers\ContentController ::class . ':addContent');
     
     // Upload de fichier

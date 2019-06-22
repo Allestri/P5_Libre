@@ -38,7 +38,7 @@ class ContentController extends Controller
      $datas = $this->container->get('contentModel');
      
      $args['datas'] = $datas->getContent();
-     //var_dump($args);
+     //var_dump($datas);
      
      
      // get the template renderer and pass response and datas to the template file.
@@ -65,20 +65,8 @@ class ContentController extends Controller
          $add->addContent();
          return $this->redirect($response, 'content');
      }
-     
-     
-     public function getFormInscripton($request, $response)
-     {
-         return $this->container->view->render($response, 'pages/inscription.twig');
-     }
-     
-     /*
-     // Inscription
-     public function postSignup($request, $response)
-     {
-         return $this->container->view->render($response, 'pages/upload.twig');
-     }
-     */
+          
+
      
      
      // Upload photos / files
@@ -90,11 +78,11 @@ class ContentController extends Controller
          $_SESSION['flash'] = [
              'success' => 'Votre fichier a bien été envoyé'
          ];
-         /*
+         
          
          $uploadedFile = $request->getUploadedFiles();
          $directory = $this->container->get('uploaded_directory');
-         
+         var_dump($directory);
          // Single file upload
          $uploadedFile = $uploadedFile['myfile'];
          //var_dump($uploadedFile->getError());
@@ -102,7 +90,7 @@ class ContentController extends Controller
              $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
              $response->write('uploaded ' . $filename . '<br/>');
          }
-         */
+         
          
          return $this->redirect($response, 'upload');
      }

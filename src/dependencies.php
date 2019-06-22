@@ -56,6 +56,8 @@ return function (App $app) {
     
     // Model data stored
     $container['contentModel'] = new \App\Models\ContentModel($container);
+    // Model members & registration
+    $container['membersModel'] = new \App\Models\MembersModel($container);
     
     
 };
