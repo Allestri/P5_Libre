@@ -2,6 +2,11 @@
 
 {% block content %}
 
+	{% if flash.success %}
+	<div class="alert alert-success">
+		{{ flash.success }}
+	</div>
+	{% endif %}
     <form method="post" action="addcontent">
         <div class="form-group">
             <label for="titre">Test ajout données</label><br />

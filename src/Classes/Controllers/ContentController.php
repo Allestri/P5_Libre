@@ -61,9 +61,10 @@ class ContentController extends Controller
      
      public function addContent($request, $response)
      {
+         $this->flash('Votre contenus a bien été envoyé');
          $add = $this->container->get('contentModel');
          $add->addContent();
-         return $this->redirect($response, 'content');
+         return $this->redirect($response, 'ajouter');
      }
           
 
