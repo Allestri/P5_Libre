@@ -4,7 +4,11 @@
 <div class="col-lg-12">
 	<h1>Contenus</h1>
 	{% for content in datas %}
+	{{ dump(content) }}
+		{#
 		<p>Titre : {{ content.name }}</p>
+		<p>Contenus : {{ content.content }}</p>
+		#}
 	{% endfor %} 
 </div>
 {% endblock %}

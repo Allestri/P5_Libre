@@ -25,6 +25,15 @@ return function (App $app) {
     $app->get('/signup', \App\Controllers\MembersController::class . ':getFormInscripton')->setName('inscription');
     $app->post('/signup', \App\Controllers\MembersController:: class . ':postSignup')->setName('postInscription');
     
+    //Login
+    $app->post('/login', \App\Controllers\MembersController:: class . ':login')->setName('login');
+    
+    // Espace membre
+    $app->get('/profile', \App\Controllers\MembersController:: class . ':displayProfile')->setName('profile');
+    
+    // Deconnexion
+    $app->get('/deconnexion', \App\Controllers\MembersController:: class . ':logout')->setName('deconnexion');
+    
     // Ajouter contenus ( test )
     $app->get('/add', \App\Controllers\ContentController ::class . ':getAddForm')->setName('ajouter');
     $app->post('/addcontent', \App\Controllers\ContentController ::class . ':addContent');

@@ -9,7 +9,14 @@ class MembersModel extends Model
     {
         $sql = "SELECT * FROM members WHERE name = ?";
         $member = $this->executeQuery($sql, array($_POST['uid']));
-        return $member;
+        return $member->fetch();
+    }
+    
+    public function countMembers()
+    {
+        $sql ="SELECT count(*) FROM members WHERE name = ?";
+        $members = $this->executeQuery($sql, array($_POST['uid']));
+        return $members;
     }
     
     public function signup($args)

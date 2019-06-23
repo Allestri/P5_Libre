@@ -28,13 +28,12 @@ class MembersController extends Controller
         $password = $_POST['pwd'];
         $passwordRpt = $_POST['pwdRpt'];
         
-        var_dump($passwordRpt);
-        
         if(isset ($username))
         {
             $username = htmlspecialchars($username);
             //var_dump($username);
-            $sql = $membersModel->getAccountInfo();
+            $sql = $membersModel->countMembers();
+            var_dump($sql);
             // Verification pseudo disponible
             if($sql->rowCount() > 0)
             {
@@ -42,7 +41,7 @@ class MembersController extends Controller
             }
             elseif ($password == $passwordRpt){
                 $rdp = password_hash($password, PASSWORD_DEFAULT);
-                var_dump($rdp);
+                //var_dump($rdp);
                 $membersModel->signup($rdp);
                 echo 'Bienvenue';
             } else {
@@ -53,11 +52,44 @@ class MembersController extends Controller
         return $this->container->view->render($response, 'pages/inscription.twig');
     }
     
+    
+    public function login($request, $response)
+    {
+        $membersModel = $this->container->get('membersModel');
+        $username = $_POST['uid'];
+        $connexion = false;
+        
+        if(isset($username) && ($_POST['pwd'])){
+            $member = $membersModel->getAccountInfo();
+            $isPwdCorrect = password_verify($_POST['pwd'], $member['password']);
+            
+            if($isPwdCorrect){
+                $_SESSION['uid'] = $username;
+                $connexion = true;
+            } else {
+                $connexion = false;
+            }
+        }
+        if($connexion){
+           $this->displayProfile($request, $response, $member);           
+        } else {
+            echo 'il y a une erreur';
+        }
+    }
+    
+    public function displayProfile($request, $response, $members)
+    {
+        $args['member'] = $members;
+        return $this->container->view->render($response, 'pages/account.twig', $args);
+    }
+    
+    
+    
     public function logout($request, $response)
     {
         session_unset();
         session_destroy();
-        return $this->redirect($response, 'accueil');
+        return $this->redirect($response, 'home');
     }
     
     
