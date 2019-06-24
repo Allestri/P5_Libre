@@ -66,10 +66,14 @@ class ContentController extends Controller
          $add->addContent();
          return $this->redirect($response, 'ajouter');
      }
+     
+     // Google Maps
+     public function displayMap($request, $response)
+     {
+         return $this->container->view->render($response, 'pages/map.twig');
+     }
           
 
-     
-     
      // Upload photos / files
     
      public function postUpload($request, $response, $args)

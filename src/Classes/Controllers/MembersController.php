@@ -32,10 +32,10 @@ class MembersController extends Controller
         {
             $username = htmlspecialchars($username);
             //var_dump($username);
-            $sql = $membersModel->countMembers();
+            $sql = $membersModel->getAccountInfo();
             var_dump($sql);
             // Verification pseudo disponible
-            if($sql->rowCount() > 0)
+            if(count($sql) > 0)
             {
                 echo 'Ce pseudo n\'est pas disponible';
             }
