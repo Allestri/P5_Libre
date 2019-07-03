@@ -4,16 +4,7 @@
 	<div class="col-lg-5">
     	<h2>Test ajout données</h2>
     	
-    	{% if flash.success %}
-    	<div class="alert alert-success">
-    		{{ flash.success }}
-    	</div>
-    	{% endif %}
-    	{% if flash.error %}
-    	<div class="alert alert-danger">
-    		{{ flash.error }}
-    	</div>
-    	{% endif %}
+{# include flash #}
     	
     	{# {{ dump(flash.errors) }} #}
     	

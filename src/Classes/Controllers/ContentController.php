@@ -50,9 +50,9 @@ class ContentController extends Controller
      // Formulaire
      public function getForm($request, $response)
      {
-         $flash = isset($_SESSION['flash']) ? $_SESSION['flash'] : [];
-         $_SESSION['flash'] = [];
-         return $this->render($response, 'pages/upload.twig', ['flash' => $flash]);
+         //$flash = isset($_SESSION['flash']) ? $_SESSION['flash'] : [];
+         //$_SESSION['flash'] = [];
+         return $this->render($response, 'pages/upload.twig');
      }
      
      public function getAddForm($request, $response)
@@ -91,9 +91,7 @@ class ContentController extends Controller
      {
          // Flash message
          
-         $_SESSION['flash'] = [
-             'success' => 'Votre fichier a bien été envoyé'
-         ];
+         $this->flash('Votre image a bien été envoyée');
          
          
          $uploadedFile = $request->getUploadedFiles();

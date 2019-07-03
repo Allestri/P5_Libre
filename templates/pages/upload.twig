@@ -7,6 +7,9 @@
 		{{ flash.success }}
 	</div>
 	{% endif %}
+	
+	{{ dump(flash.success) }}
+	
     <form method="post" action="upload" enctype="multipart/form-data">
         <div class="form-group">
             <label for="titre">Titre du fichier (max. 50 caractères) :</label><br />

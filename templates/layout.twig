@@ -34,6 +34,9 @@
         			<li>
         				<a class="nav-link" href="{{ path_for('map') }}">Map</a>
         			</li>
+        			<li>
+        				<a class="nav-link" href="{{ path_for('newUpload') }}">Upload NG</a>
+        			</li>
         		</ul>
         		<form method="POST" action="login" class="form-inline my-2 my-lg-0">
         			<input class="form-control mr-sm-2" type="text" name="uid" placeholder="Pseudonyme" aria-label="Pseudonyme">
@@ -50,9 +53,11 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- JS -->
+		<script src="js/ext_script/markerclusterer.js"></script>
         <script src="js/map.js"></script>
         <script async defer
-    	src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap">
+    	src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initApp">
    		</script>
     </body>
 </html>

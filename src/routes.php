@@ -45,4 +45,9 @@ return function (App $app) {
     $app->get('/upload', \App\Controllers\ContentController::class . ':getForm')->setName('upload');
     $app->post('/upload', \App\Controllers\ContentController::class . ':postUpload');
     
+    // Upload de fichier 2
+    $app->get('/newupload', \App\Controllers\ImagesController::class . ':getForm')->setName('newUpload');
+    $app->post('/newupload', \App\Controllers\ImagesController:: class . ':placeholder');
+    
+    
 };

@@ -1,0 +1,16 @@
+{% extends "layout.twig" %}
+
+{% block flash %}	
+	
+	{% if flash.success %}
+	<div class="alert alert-success">
+		{{ flash.success }}
+	</div>
+	{% endif %}
+	{% if flash.error %}
+	<div class="alert alert-danger">
+		{{ flash.error }}
+	</div>
+	{% endif %}
+	
+{% endblock %}

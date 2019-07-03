@@ -10,7 +10,7 @@ return function (App $app) {
     $app->add(new \App\Middlewares\FlashMiddleware($container->view->getEnvironment()));
     // Old Values Middleware
     $app->add(new \App\Middlewares\OldValuesMiddleware($container->view->getEnvironment()));
-    // CSRF
+    // CSRF - not functioning
     //$app->add(new \App\Middlewares\TwigCsrfMiddleware($container->view->getEnvironment(), $container->csrf));
     //$app->add($container->csrf);
     
