@@ -8,6 +8,8 @@ return function (App $app) {
     
     // Flash messages
     $app->add(new \App\Middlewares\FlashMiddleware($container->view->getEnvironment()));
+    // Old Values Middleware
+    $app->add(new \App\Middlewares\OldValuesMiddleware($container->view->getEnvironment()));
     // CSRF
     //$app->add($container->csrf);
 };
