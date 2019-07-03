@@ -32,7 +32,7 @@ return function (App $app) {
     };
     
     // CSRF 
-    $container['csrf'] = function ($c) {
+    $container['csrf'] = function () {
         return new \Slim\Csrf\Guard;
     };
 

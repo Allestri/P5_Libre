@@ -11,5 +11,7 @@ return function (App $app) {
     // Old Values Middleware
     $app->add(new \App\Middlewares\OldValuesMiddleware($container->view->getEnvironment()));
     // CSRF
+    //$app->add(new \App\Middlewares\TwigCsrfMiddleware($container->view->getEnvironment(), $container->csrf));
     //$app->add($container->csrf);
+    
 };
