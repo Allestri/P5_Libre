@@ -1,19 +1,39 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-
-	{% if flash.success %}
-	<div class="alert alert-success">
-		{{ flash.success }}
-	</div>
-	{% endif %}
-    <form method="post" action="addcontent">
-        <div class="form-group">
-            <label for="titre">Test ajout données</label><br />
-            <input type="text" name="name" placeholder="Title" required /><br/>
-            <input type="text" name="content" placeholder="Content" required /><br/>
-        </div>
-        <input type="submit" name="submit" value="Ajouter" />
-    </form>
+	<div class="col-lg-5">
+    	<h2>Test ajout données</h2>
+    	
+    	{% if flash.success %}
+    	<div class="alert alert-success">
+    		{{ flash.success }}
+    	</div>
+    	{% endif %}
+    	{% if flash.error %}
+    	<div class="alert alert-danger">
+    		{{ flash.error }}
+    	</div>
+    	{% endif %}
+    	
+    	{# {{ dump(flash.errors) }} #}
+    	
+        <form id="form" method="post" action="addcontent">
+            <div class="form-group">
+                <label for="titre">Titre</label><br />
+                <input type="text" class="form-control{% if flash.errors.name %} is-invalid{% endif %}" name="name" placeholder="Title" />
+                {% if flash.errors.name %}
+                	<span class="text-danger">{{ flash.errors.name }}</span>
+                {% endif %} 
+            </div>
+            <div class="form-group">
+            	<label for="content">Contenus</label>
+            	<input type="text" class="form-control{% if flash.errors.content %} is-invalid{% endif %}" name="content" placeholder="Contenus" />
+            	{% if flash.errors.content %}
+                	<span class="text-danger">{{ flash.errors.content }}</span>
+                {% endif %} 
+            </div>
+            <input type="submit" class="btn btn-primary" name="submit" value="Ajouter" />
+        </form>
+    </div>
 	
 {% endblock %}

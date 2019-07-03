@@ -30,6 +30,11 @@ return function (App $app) {
         
         return $view;
     };
+    
+    // CSRF 
+    $container['csrf'] = function ($c) {
+        return new \Slim\Csrf\Guard;
+    };
 
     // monolog
     $container['logger'] = function ($c) {

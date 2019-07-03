@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use Respect\Validation\Validator;
 use Slim\Http\UploadedFile;
 
 class ContentController extends Controller
@@ -61,9 +62,19 @@ class ContentController extends Controller
      
      public function addContent($request, $response)
      {
-         $this->flash('Votre contenus a bien été envoyé');
-         $add = $this->container->get('contentModel');
-         $add->addContent();
+         $errors = [];
+         Validator::notEmpty()->validate($request->getParam('name')) || $errors['name'] = 'Veuillez remplir ce champ Titre';
+         Validator::notEmpty()->validate($request->getParam('content')) || $errors['content'] = 'Veuillez remplir ce champ Contenus';
+         if(empty($errors)) {
+             $this->flash('Votre contenus a bien été envoyé');
+             $add = $this->container->get('contentModel');
+             $add->addContent();
+         } else {
+             $this->flash('Il y a une erreur', 'error');
+             $this->flash($errors, 'errors');
+         }
+         
+
          return $this->redirect($response, 'ajouter');
      }
      

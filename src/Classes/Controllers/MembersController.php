@@ -30,7 +30,7 @@ class MembersController extends Controller
         
         if(isset ($username))
         {
-            $username = htmlspecialchars($username);
+            //$username = htmlspecialchars($username);
             //var_dump($username);
             $sql = $membersModel->getAccountInfo();
             var_dump($sql);
