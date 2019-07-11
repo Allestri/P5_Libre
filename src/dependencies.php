@@ -63,6 +63,8 @@ return function (App $app) {
     $container['contentModel'] = new \App\Models\ContentModel($container);
     // Model members & registration
     $container['membersModel'] = new \App\Models\MembersModel($container);
+    // Model images exif
+    $container['imagesModel'] = new \App\Models\ImagesModel($container);
     
     
 };

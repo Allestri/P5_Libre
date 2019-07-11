@@ -47,7 +47,6 @@ return function (App $app) {
     
     // Upload de fichier 2
     $app->get('/newupload', \App\Controllers\ImagesController::class . ':getForm')->setName('newUpload');
-    $app->post('/newupload', \App\Controllers\ImagesController:: class . ':placeholder');
-    
+    $app->post('/addexif', \App\Controllers\ImagesController:: class . ':manageExif');
     
 };

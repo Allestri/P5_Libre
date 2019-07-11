@@ -16,7 +16,7 @@ Class ImagesModel extends Model
     
     public function addDatas($expr, $lng, $lat)
     {
-        $sql = "INSERT INTO markers (name, address, lng, lat, upload_date, type) VALUES(?, ?, ?, ?, NOW(), 'jpeg')";
+        $sql = "INSERT INTO photos (name, address, lng, lat, upload_date, type) VALUES(?, 'placeholder', ?, ?, NOW(), 'jpeg')";
         $title = $_POST['titre'];
         $this->executeQuery($sql, array($title, $expr, $lng, $lat));
     }
