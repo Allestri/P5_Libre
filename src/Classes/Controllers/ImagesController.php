@@ -27,18 +27,25 @@ class ImagesController extends ContentController
         $imageModel = $this->container->get('imagesModel');
         
         
-        //$this->postUpload($request, $response, $args);
+        //$this->postUpload($request, $response);
+        $uploadedFile = $request->getUploadedFiles();
+        $uploadedFile = $uploadedFile['image'];
+        $directory = $this->container->get('uploaded_directory');
+        
+        
+        $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
+        
+        var_dump($uploadedFile);
         
         // EXIF
-        $coordinates = $this->putExif($name);
-        $exifValides = $this->exifReady($name);
+        $coordinates = $this->putExif($filename, $directory);
+        $exifValides = $this->exifReady($filename, $directory);
         var_dump($exifValides);
         
         // Insert exif Datas if there is exif available.
         if($exifValides){
-            $imageModel->insertDatas($coordinates['longitude'], $coordinates['latitude']);
+            $imageModel->addDatas($coordinates['longitude'], $coordinates['latitude']);
         }
-        
         
         return $this->container->view->render($response, 'pages/uploadng.twig');
     }
@@ -128,8 +135,8 @@ class ImagesController extends ContentController
     
     
     // Test if Exif or not.
-    public function exifReady($file){
-        $exif = @exif_read_data('images/' . $file, 0, true);
+    public function exifReady($file, $directory){
+        $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . $file, 0, true);
         $hasExif = null;
         if(isset($exif['GPS'])){
             $hasExif = true;
@@ -145,9 +152,9 @@ class ImagesController extends ContentController
         return $coords[0] / $coords[1];
     }
     
-    public function putExif($file){
-        
-        $exif = @exif_read_data('images/' . $file, 0, true);
+    public function putExif($file, $directory){
+
+        $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . $file, 0, true);
         
         if(isset($exif['GPS'])){
             
@@ -166,16 +173,16 @@ class ImagesController extends ContentController
                 $longM = -1;
             }
             
-            $GPSLongDegrees = getCoords($exif['GPS']['GPSLongitude'][0]);
-            $GPSLongMinutes = getCoords($exif['GPS']['GPSLongitude'][1]);
-            $GPSLongSeconds = getCoords($exif['GPS']['GPSLongitude'][2]);
+            $GPSLongDegrees = $this->getCoords($exif['GPS']['GPSLongitude'][0]);
+            $GPSLongMinutes = $this->getCoords($exif['GPS']['GPSLongitude'][1]);
+            $GPSLongSeconds = $this->getCoords($exif['GPS']['GPSLongitude'][2]);
             
             $Longitude = $longM * ($GPSLongDegrees + $GPSLongMinutes / 60 + $GPSLongSeconds / 3600);
             //($GPSLongDegrees + $GPSLongMinutes / 60 + $GPSLongSeconds / 3600);
             
-            $GPSLatDegrees = getCoords($exif['GPS']['GPSLatitude'][0]);
-            $GPSLatMinutes = getCoords($exif['GPS']['GPSLatitude'][1]);
-            $GPSLatSeconds = getCoords($exif['GPS']['GPSLatitude'][2]);
+            $GPSLatDegrees = $this->getCoords($exif['GPS']['GPSLatitude'][0]);
+            $GPSLatMinutes = $this->getCoords($exif['GPS']['GPSLatitude'][1]);
+            $GPSLatSeconds = $this->getCoords($exif['GPS']['GPSLatitude'][2]);
             
             $Latitude = $latM *($GPSLatDegrees + $GPSLatMinutes / 60 + $GPSLatSeconds / 3600);
                       
@@ -183,7 +190,7 @@ class ImagesController extends ContentController
             // Return coordinates
             $result['latitude'] = $Latitude;
             $result['longitude'] = $Longitude;
-            
+            var_dump($result);
             return $result;
         } else {
             echo 'Votre fichier ne contient pas de données EXIF';

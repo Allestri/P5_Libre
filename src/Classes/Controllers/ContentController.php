@@ -87,26 +87,24 @@ class ContentController extends Controller
 
      // Upload photos / files
     
-     public function postUpload($request, $response, $args)
+     public function postUpload($request, $response)
      {
          // Flash message
          
          $this->flash('Votre image a bien été envoyée');
          
-         
          $uploadedFile = $request->getUploadedFiles();
          $directory = $this->container->get('uploaded_directory');
-         var_dump($directory);
          // Single file upload
          $uploadedFile = $uploadedFile['myfile'];
          //var_dump($uploadedFile->getError());
          if($uploadedFile->getError() === UPLOAD_ERR_OK){
-             $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
-             $response->write('uploaded ' . $filename . '<br/>');
+             $this->moveUpLoadedFile($directory, $uploadedFile);
+             //$response->write('uploaded ' . $filename . '<br/>');
          }
-         
-         
-         return $this->redirect($response, 'upload');
+         // for debugging purposes
+         return $this->container->view->render($response, 'pages/upload.twig');
+         //return $this->redirect($response, 'upload');
      }
      
      
@@ -120,11 +118,10 @@ class ContentController extends Controller
       */
      function moveUpLoadedFile($directory, UploadedFile $uploadedFile)
      {
-         var_dump($directory);
          $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
          $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
-         $userFileName = $_POST['name'];
-         var_dump($userFileName);
+         //$userFileName = $_POST['name'];
+         //var_dump($userFileName);
          $filename = sprintf('%s.%0.8s', $basename, $extension);
          
          $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);

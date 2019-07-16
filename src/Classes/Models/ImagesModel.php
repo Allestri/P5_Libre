@@ -14,11 +14,12 @@ Class ImagesModel extends Model
     
     // NOT FINISHED
     
-    public function addDatas($expr, $lng, $lat)
+    public function addDatas($lng, $lat)
     {
-        $sql = "INSERT INTO photos (name, address, lng, lat, upload_date, type) VALUES(?, 'placeholder', ?, ?, NOW(), 'jpeg')";
-        $title = $_POST['titre'];
-        $this->executeQuery($sql, array($title, $expr, $lng, $lat));
+        $sql = "INSERT INTO photos (name, address, lng, lat, altitude, upload_date, type) VALUES(?, 'placeholder', ?, ?, 5, NOW(), 'jpeg')";
+        // Title goes to controller soon.
+        $title = $_POST['name'];
+        $this->executeQuery($sql, array($title, $lng, $lat));
     }
     
 }
