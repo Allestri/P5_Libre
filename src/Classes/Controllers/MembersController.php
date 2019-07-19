@@ -59,9 +59,11 @@ class MembersController extends Controller
         $membersModel = $this->container->get('membersModel');
         $username = $_POST['uid'];
         $connexion = false;
+        $member = $membersModel->getAccountInfo();
+        var_dump($member);
         
         if(isset($username) && ($_POST['pwd'])){
-            $member = $membersModel->getAccountInfo();
+            
             $isPwdCorrect = password_verify($_POST['pwd'], $member['password']);
             
             if($isPwdCorrect){
@@ -80,8 +82,12 @@ class MembersController extends Controller
     
     public function displayProfile($request, $response, $members)
     {
-        $args['member'] = $members;
-        return $this->container->view->render($response, 'pages/account.twig', $args);
+        if(isset($_SESSION['uid'])){
+            return $this->container->view->render($response, 'pages/account.twig');
+        } else {
+            return $this->redirect($response, 'home');
+        }
+        
     }
     
     
