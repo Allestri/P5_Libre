@@ -22,7 +22,7 @@ return function (App $app) {
     $app->get('/content', \App\Controllers\ContentController::class . ':getContent')->setName('content');
     
     // Google Map
-    $app->get('/map', \App\Controllers\ContentController:: class . ':displayMap')->setName('map');
+    $app->get('/map', \App\Controllers\ImagesController:: class . ':displayMap')->setName('map');
     
     // Inscription ( test )
     $app->get('/signup', \App\Controllers\MembersController::class . ':getFormInscripton')->setName('inscription');

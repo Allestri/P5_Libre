@@ -7,11 +7,12 @@ class ImagesController extends ContentController
 {
     protected $container;
     
-    public function __construct($container) {
+    public function __construct($container) 
+    {
         $this->container = $container;
     }
     
-    
+    // Personal notes - image model construct
     // NOT FINISHED
     
     // Formulaire
@@ -20,10 +21,29 @@ class ImagesController extends ContentController
         return $this->render($response, 'pages/uploadng.twig');
     }
     
+    // Google Maps
+    public function displayMap($request, $response)
+    {
+        $this->fetchMarkers($request, $response);
+        return $this->container->view->render($response, 'pages/map.twig');
+    }
     
+    public function fetchMarkers($request, $response)
+    {
+        $imageModel = $this->container->get('imagesModel');
+        $markers = $imageModel->fetchMarkersM();
+        
+        $directory = $this->container->get('json_directory');
+
+        $json = json_encode($markers);
+        $filename = $directory . DIRECTORY_SEPARATOR . "markertest.json";
+        
+        file_put_contents($filename, $json);
+    }
+         
     public function manageExif($request, $response)
     {
-        
+
         $imageModel = $this->container->get('imagesModel');
         
         
@@ -31,20 +51,19 @@ class ImagesController extends ContentController
         $uploadedFile = $request->getUploadedFiles();
         $uploadedFile = $uploadedFile['image'];
         $directory = $this->container->get('uploaded_directory');
-        
-        
+                
         $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
         
         var_dump($uploadedFile);
         
         // EXIF
         $coordinates = $this->putExif($filename, $directory);
-        $exifValides = $this->exifReady($filename, $directory);
-        var_dump($exifValides);
+        $hasExif = $this->exifReady($filename, $directory);
+        var_dump($hasExif);
         
         // Insert exif Datas if there is exif available.
-        if($exifValides){
-            $imageModel->addDatas($coordinates['longitude'], $coordinates['latitude']);
+        if($hasExif){
+            $imageModel->addDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude']);
         }
         
         return $this->container->view->render($response, 'pages/uploadng.twig');
@@ -136,6 +155,7 @@ class ImagesController extends ContentController
     
     // Test if Exif or not.
     public function exifReady($file, $directory){
+        
         $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . $file, 0, true);
         $hasExif = null;
         if(isset($exif['GPS'])){
@@ -155,7 +175,7 @@ class ImagesController extends ContentController
     public function putExif($file, $directory){
 
         $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . $file, 0, true);
-        
+
         if(isset($exif['GPS'])){
             
             $GPSLatitudeRef = $exif['GPS']['GPSLatitudeRef'];
@@ -185,11 +205,16 @@ class ImagesController extends ContentController
             $GPSLatSeconds = $this->getCoords($exif['GPS']['GPSLatitude'][2]);
             
             $Latitude = $latM *($GPSLatDegrees + $GPSLatMinutes / 60 + $GPSLatSeconds / 3600);
+            
+            
+            $Altitude = $this->getCoords($exif['GPS']['GPSAltitude']);
                       
             
             // Return coordinates
             $result['latitude'] = $Latitude;
             $result['longitude'] = $Longitude;
+            $result['altitude'] = $Altitude;
+            
             var_dump($result);
             return $result;
         } else {

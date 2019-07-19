@@ -18,10 +18,10 @@ function displayMap()
 	this.getPoints = function() {
 		$.ajax({
 	        type: "GET",
-	        url: "json/markers.json",
+	        url: "json/markertest.json",
 	        dataType: "json",
 	        success: (data)=> {
-	            console.log(data[2].lat, data[2].lng);
+	            console.log(data[0].lng, data[0].lat);
 	            console.log(data.length);
 	            
 	            // Info window

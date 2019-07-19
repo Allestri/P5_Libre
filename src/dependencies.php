@@ -59,6 +59,9 @@ return function (App $app) {
     // Directory upload
     $container['uploaded_directory'] = __DIR__ . '/../uploads';
     
+    // Directory JSON
+    $container['json_directory'] = __DIR__ . '/../public/json';
+    
     // Model data stored
     $container['contentModel'] = new \App\Models\ContentModel($container);
     // Model members & registration
