@@ -30,20 +30,19 @@ class MembersController extends Controller
         
         if(isset ($username))
         {
-            //$username = htmlspecialchars($username);
-            //var_dump($username);
-            $sql = $membersModel->getAccountInfo();
-            var_dump($sql);
+            $isUnique = $membersModel->checkMemberUnique($username);
             // Verification pseudo disponible
             //if($sql->rowCount() > 0)
-            if(count($sql) > 0)
+            //if(($sql) > 0)
+            
+            if(!$isUnique)
             {
                 echo 'Ce pseudo n\'est pas disponible';
             }
             elseif ($password == $passwordRpt){
                 $rdp = password_hash($password, PASSWORD_DEFAULT);
                 //var_dump($rdp);
-                $membersModel->signup($rdp);
+                $membersModel->signup($username, $rdp);
                 echo 'Bienvenue';
             } else {
                 echo 'Mauvaise combinaison de mdp';
@@ -56,11 +55,15 @@ class MembersController extends Controller
     
     public function login($request, $response)
     {
+        $datas = $request->getParsedBody();
+
+        $uid = $datas['uid'];
+        var_dump($uid);
+        
         $membersModel = $this->container->get('membersModel');
         $username = $_POST['uid'];
         $connexion = false;
-        $member = $membersModel->getAccountInfo();
-        var_dump($member);
+        $member = $membersModel->getAccountInfo($username);
         
         if(isset($username) && ($_POST['pwd'])){
             
@@ -80,10 +83,13 @@ class MembersController extends Controller
         }
     }
     
-    public function displayProfile($request, $response, $members)
+    public function displayProfile($request, $response, $member)
     {
+        $username = $_SESSION['uid'];
+        $member['profile'] = $username;
+        var_dump($member);
         if(isset($_SESSION['uid'])){
-            return $this->container->view->render($response, 'pages/account.twig');
+            return $this->container->view->render($response, 'pages/account.twig', $member);
         } else {
             return $this->redirect($response, 'home');
         }
@@ -95,6 +101,7 @@ class MembersController extends Controller
     public function logout($request, $response)
     {
         session_unset();
+        // Troubleshooting Session flash
         session_destroy();
         return $this->redirect($response, 'home');
     }

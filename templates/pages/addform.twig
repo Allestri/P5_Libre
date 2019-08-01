@@ -4,9 +4,9 @@
 	<div class="col-lg-5">
     	<h2>Test ajout données</h2>
     	
-{# include flash #}
-    	
-    	{# {{ dump(flash.errors) }} #}
+        {{ include ('flash.twig') }}
+            	
+        {# {{ dump(flash.errors) }} #}
     	
         <form id="form" method="post" action="addcontent">
             <div class="form-group">
