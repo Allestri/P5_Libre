@@ -18,7 +18,13 @@ class ImagesController extends ContentController
     // Formulaire
     public function getForm($request, $response)
     {
-        return $this->render($response, 'pages/uploadng.twig');
+        if(isset($_SESSION['uid'])){
+            $username = $_SESSION['uid'];
+            $member['profile'] = $username;
+            return $this->render($response, 'pages/uploadng.twig', $member);
+        } else {
+            return $this->render($response, 'pages/uploadng.twig');
+        }
     }
     
     // Google Maps

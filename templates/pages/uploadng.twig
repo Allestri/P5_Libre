@@ -13,21 +13,29 @@
     	
     	{{ dump(flash.success) }}
     	
-        <form id="myForm" method="post" action="addexif" id="form" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="titre">Renommez votre image</label><br />
-                <input type="text" class="form-control" name="name" placeholder="Titre du fichier" id="titre" required /><br />
-            </div>
-            <div class="form-group">
-                <label for="myfile">Fichier</label><br />
-                <input type="hidden" name="MAX_FILE_SIZE" value="10048576" />
-                <input type="file" name="image" id="myfile" /><br />
-            </div>
-            <input type="submit" class="btn btn-primary" name="submit" value="Envoyer" />
-            <button id="refresh" type="button" class="btn btn-primary">Rafraîchir</button>
-            <div class="g-recaptcha" data-sitekey="6LfscakUAAAAANphF8fAwRgEYRV-aEAn3F0PiPwX"></div>
-        </form>
+    	{{ dump(member) }}
+
+    	{% if not member %}
+    		<div class="alert alert-primary">
+    			<p>Veuillez vous <a href="#" class="alert-link">authentifier</a></p>
+    		</div>
+    		{% else %}
+    		<form id="myForm" method="post" action="addexif" id="form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="titre">Renommez votre image</label><br />
+                    <input type="text" class="form-control" name="name" placeholder="Titre du fichier" id="titre" required /><br />
+                </div>
+                <div class="form-group">
+                    <label for="myfile">Fichier</label><br />
+                    <input type="hidden" name="MAX_FILE_SIZE" value="10048576" />
+                    <input type="file" name="image" id="myfile" /><br />
+                </div>
+                <input type="submit" class="btn btn-primary" name="submit" value="Envoyer" />
+                <button id="refresh" type="button" class="btn btn-primary">Rafraîchir</button>
+                <div class="g-recaptcha" data-sitekey="6LfscakUAAAAANphF8fAwRgEYRV-aEAn3F0PiPwX"></div>
+        	</form>
+    	{% endif %}
+
     </div>
-    <div id="map" style="height:500px"></div>
 
 {% endblock %}
