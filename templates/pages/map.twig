@@ -1,5 +1,29 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-	<div id="map" style="height:500px"></div>
+	<div class="row">
+		<div class="col-lg-9">
+			<div id="map" style="height:600px"></div>
+		</div>
+		<div class="col-lg-3">
+			<h1>Informations</h1>
+			<ul class="list-group" id="infoList">
+				<li class="list-group-item list-group-item-primary""><span class="titleInfo">Nom :</span><span id="name"></span></li>
+				<li class="list-group-item"><span class="titleInfo">Addresse :</span><span id="address"></span></li>
+				<li class="list-group-item"><span class="titleInfo">Longitude :</span><span id="long"></span></li>
+				<li class="list-group-item"><span class="titleInfo">Latitude :</span><span id="lat"></span></li>
+				<li class="list-group-item"><span class="titleInfo">Altitude :</span><span id="alt"></span></li>
+				<hr>
+				<li class="list-group-item"><span class="titleInfo">Hauteur :</span><span id="height"></span></li>
+				<li class="list-group-item"><span class="titleInfo">Largeur :</span><span id="width"></span></li>
+				<li class="list-group-item"><span class="titleInfo">Type :</span><span id="type"></span></li>
+				<li class="list-group-item"><span class="titleInfo">Thumbnail :</span><span id="thumbnail"></span></li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<button id="refresh" type="button" class="btn btn-primary">Rafraîchir</button>
+		</div>
+	</div>
 {% endblock %}

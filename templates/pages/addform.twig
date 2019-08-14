@@ -1,10 +1,11 @@
 {% extends "layout.twig" %}
 
 {% block content %}
+	{{ include ('flash.twig') }}
+	
 	<div class="col-lg-5">
     	<h2>Test ajout données</h2>
     	
-        {{ include ('flash.twig') }}
             	
         {# {{ dump(flash.errors) }} #}
     	

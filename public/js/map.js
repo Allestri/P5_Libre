@@ -12,45 +12,67 @@ function displayMap()
 	this.initialization = function() {
 		this.initMap();
 		this.refreshMap();
+		this.markerCluster = new MarkerClusterer(gmap, markers,{
+			imagePath: 'images/assets/m'
+		});
 	}
 	
 	// Fetch the points
-	this.getPoints = function() {
+	this.getPoints = function(refresh = false) {
 		$.ajax({
 	        type: "GET",
 	        url: "json/markertest.json",
 	        dataType: "json",
 	        success: (data)=> {
 	            console.log(data[0].lng, data[0].lat);
-	            console.log(data.length);
-	            
+	            	            
 	            // Info window
                 var infoWindow = new google.maps.InfoWindow;
+                
+                if(refresh === true){
+                	// Unset all markers
+                    var i = 0, l = markers.length;
+                    for (i; i<l; i++) {
+                        markers[i].setMap(null)
+                    }
+                    markers = [];
+
+                    // Clears all clusters and markers from the clusterer.
+                   this.markerCluster.clearMarkers();
+                }
+                
                 
 	            // Loop through each locations.
 	            for(var i = 0; i < data.length; i++){
 	            	
 	            	// Position
 	                var latlngset = new google.maps.LatLng(data[i].lat, data[i].lng);
-	            	
-	                marker = new google.maps.Marker({
+	                
+	                let point = new points(data, i);
+	                //console.log(point);
+	                let marker = new google.maps.Marker({
 	                    position: latlngset,
 	                    map: gmap,
-	                    title: 'Click me ' + i
+	                    point: point,
+	                    title: 'Marker : ' + data[i].name
 	                });
-	                markers.push(marker);
+	                
+
+	                console.log(i);
 	                // Event listener
 	                marker.addListener('click', function() {
-	                	console.log('open');
-	                	console.log(infoWindow);
+	                	//console.log(infoWindow);
 	                	infoWindow.setContent("Bonjour");
-	                	
+	                	marker.point.displayInfos();
 	                	
 	                	infoWindow.open(map, marker);
 	                });
+	                marker.setMap(gmap);
+	                markers.push(marker);
 	            }
 	    		// Clusterer
-	    		var markerCluster = new MarkerClusterer(gmap, markers,{
+	    		//this.markerCluster.setMap(null);
+	    		this.markerCluster = new MarkerClusterer(gmap, markers,{
 	    			imagePath: 'images/assets/m'
 	    		});
 	        },
@@ -72,10 +94,11 @@ function displayMap()
 	
 	};	
 	
-	// Refresh the map (test)
+	// Refreshes the map.
 	this.refreshMap = function () {
-		$("button").click(function () {
-			self.getPoints();
+		$("#refresh").click(function () {
+			self.getPoints(true);
+			console.log("Map Refreshed !");
 		});
 	};	
 	
@@ -85,3 +108,4 @@ function initApp(){
 	var myMap = new displayMap();
 	myMap.initialization();
 }
+

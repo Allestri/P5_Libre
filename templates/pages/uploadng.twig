@@ -1,6 +1,7 @@
 {% extends "layout.twig" %}
 
 {% block content %}
+	{{ include ('flash.twig') }}
 	<div class="col-lg-6">
     	<h2>Test final Upload Images + Exif</h2>
     	
@@ -12,7 +13,7 @@
     	
     	{{ dump(flash.success) }}
     	
-        <form method="post" action="addexif" id="form" enctype="multipart/form-data">
+        <form id="myForm" method="post" action="addexif" id="form" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="titre">Renommez votre image</label><br />
                 <input type="text" class="form-control" name="name" placeholder="Titre du fichier" id="titre" required /><br />
@@ -23,6 +24,8 @@
                 <input type="file" name="image" id="myfile" /><br />
             </div>
             <input type="submit" class="btn btn-primary" name="submit" value="Envoyer" />
+            <button id="refresh" type="button" class="btn btn-primary">Rafraîchir</button>
+            <div class="g-recaptcha" data-sitekey="6LfscakUAAAAANphF8fAwRgEYRV-aEAn3F0PiPwX"></div>
         </form>
     </div>
     <div id="map" style="height:500px"></div>

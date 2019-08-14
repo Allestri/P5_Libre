@@ -28,6 +28,8 @@ class MembersController extends Controller
         $password = $_POST['pwd'];
         $passwordRpt = $_POST['pwdRpt'];
         
+        $ip = $_SERVER['REMOTE_ADDR'];
+        
         if(isset ($username))
         {
             $isUnique = $membersModel->checkMemberUnique($username);
@@ -42,7 +44,7 @@ class MembersController extends Controller
             elseif ($password == $passwordRpt){
                 $rdp = password_hash($password, PASSWORD_DEFAULT);
                 //var_dump($rdp);
-                $membersModel->signup($username, $rdp);
+                $membersModel->signup($username, $rdp, $ip);
                 echo 'Bienvenue';
             } else {
                 echo 'Mauvaise combinaison de mdp';

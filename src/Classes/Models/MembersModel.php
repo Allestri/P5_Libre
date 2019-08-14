@@ -28,9 +28,9 @@ class MembersModel extends Model
         return $members->fetch();
     }
     
-    public function signup($username, $rdp)
+    public function signup($username, $rdp, $ip)
     {
-        $sql = "INSERT INTO members (name, password, date) VALUES (?, ?, NOW())";
-        $this->executeQuery($sql, array($username, $rdp));
+        $sql = "INSERT INTO members (name, password, ip_address, date) VALUES (?, ?, ?, NOW())";
+        $this->executeQuery($sql, array($username, $rdp, $ip));
     }
 }

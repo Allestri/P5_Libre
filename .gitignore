@@ -4,6 +4,8 @@
 
 /logs
 /tests
+/public/images/favicon.png
+/public/images/favicon3.png
 .buildpath
 .project
 composer.lock
