@@ -60,16 +60,21 @@ class ImagesController extends ContentController
                 
         $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
         
-        var_dump($uploadedFile);
+        //var_dump($uploadedFile);
+        
+        // Picture infos ( size, height, width)
+        $picInfos = $this->putPictureInfos($filename, $directory);
         
         // EXIF
         $coordinates = $this->putExif($filename, $directory);
         $hasExif = $this->exifReady($filename, $directory);
-        var_dump($hasExif);
+        //var_dump($hasExif);
+        
+        $imageModel->addInfos($picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type']);
         
         // Insert exif Datas if there is exif available.
         if($hasExif){
-            $imageModel->addDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude']);
+            $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude']);
         }
         
         return $this->container->view->render($response, 'pages/uploadng.twig');
@@ -94,10 +99,18 @@ class ImagesController extends ContentController
         return $coords[0] / $coords[1];
     }
     
+    public function seekExif($file, $directory){
+        
+        $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . $file, 0, true);
+        return $exif;
+    }
+    
     public function putExif($file, $directory){
 
-        $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . $file, 0, true);
+        $exif = $this->seekExif($file, $directory);
+        //var_dump($exif);
 
+        // Checks geo coordinates
         if(isset($exif['GPS'])){
             
             $GPSLatitudeRef = $exif['GPS']['GPSLatitudeRef'];
@@ -140,9 +153,34 @@ class ImagesController extends ContentController
             var_dump($result);
             return $result;
         } else {
-            echo 'Votre fichier ne contient pas de données EXIF';
+            echo 'Votre fichier ne contient pas de données de géolocalisation';
         }
     }
+    
+    public function putPictureInfos($file, $directory){
+        
+        $exif = $this->seekExif($file, $directory);
+        
+        if(isset($exif)){
+            
+            $pictureSize = $exif['FILE']['FileSize'];
+            $pictureHeight = $exif['COMPUTED']['Height'];
+            $pictureWidth = $exif['COMPUTED']['Width'];
+            $pictureType = $exif['FILE']['MimeType'];
+            
+            // Return infos
+            $result['size'] = $pictureSize;
+            $result['height'] = $pictureHeight;
+            $result['width'] = $pictureWidth;
+            $result['type'] = $pictureType;
+            
+            var_dump($result);
+            return $result;
+        } else {
+            echo "Pas de données";
+        }
+    }
+    
     
     /*
      if(isset($_FILES['myfile'])){
