@@ -37,12 +37,15 @@ class ImagesController extends ContentController
     public function fetchMarkers($request, $response)
     {
         $imageModel = $this->container->get('imagesModel');
-        $markers = $imageModel->fetchMarkersM();
+        
+        //$markers = $imageModel->fetchMarkersM();
+        
+        $datasImages = $imageModel->fetchDatas();
         
         $directory = $this->container->get('json_directory');
 
-        $json = json_encode($markers);
-        $filename = $directory . DIRECTORY_SEPARATOR . "markertest.json";
+        $json = json_encode($datasImages);
+        $filename = $directory . DIRECTORY_SEPARATOR . "datasimages.json";
         
         file_put_contents($filename, $json);
     }
@@ -65,12 +68,17 @@ class ImagesController extends ContentController
         // Picture infos ( size, height, width)
         $picInfos = $this->putPictureInfos($filename, $directory);
         
+        // Thumbnail
+        $thumbnail = $this->getThumbnail($filename, $directory);
+        //var_dump($thumbnail);
+        
         // EXIF
         $coordinates = $this->putExif($filename, $directory);
         $hasExif = $this->exifReady($filename, $directory);
         //var_dump($hasExif);
         
-        $imageModel->addInfos($picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type']);
+        // Insert info data (including base64 thumbnail content) 
+        $imageModel->addInfos($picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $thumbnail);
         
         // Insert exif Datas if there is exif available.
         if($hasExif){
@@ -157,8 +165,27 @@ class ImagesController extends ContentController
         }
     }
     
+    public function getThumbnail($file, $directory){            
+        
+        $image = exif_thumbnail($directory. DIRECTORY_SEPARATOR . $file, $width, $height, $type);
+        //$baseEncode = base64_encode($image);
+        file_put_contents($directory. DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . "monfichier2.jpg", $image);
+        if ($image) {
+            // send image data to the browser:
+            echo "Thumbnail available</br>";
+            echo "<img width='$width' height='$height' src='data:image/gif;base64,".base64_encode($image)."'>";
+            // return base64 content
+            //return $baseEncode;    
+        }
+        else {
+            // handling error:
+            print 'No thumbnail available';
+        }
+    }
+    
     public function putPictureInfos($file, $directory){
         
+        // Fetch and return Exif datas
         $exif = $this->seekExif($file, $directory);
         
         if(isset($exif)){

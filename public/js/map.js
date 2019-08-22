@@ -21,7 +21,7 @@ function displayMap()
 	this.getPoints = function(refresh = false) {
 		$.ajax({
 	        type: "GET",
-	        url: "json/markertest.json",
+	        url: "json/datasimages.json",
 	        dataType: "json",
 	        success: (data)=> {
 	            console.log(data[0].lng, data[0].lat);
@@ -58,11 +58,14 @@ function displayMap()
 	                });
 	                
 
-	                console.log(i);
+	                console.log(data[3].thumbnail_base64);
+	                
+	                var windowContent = "<a href='#'><img src='https://yak-ridge.com/wp-content/uploads/2019/04/image-placeholder-350x350.png' width='100px' height='100px'></a>";
+	                var windowContent2 = "<a href='#'><img src='data:image/jpeg;base64, " + data[i].thumbnail_base64 + "></a>";
 	                // Event listener
 	                marker.addListener('click', function() {
 	                	//console.log(infoWindow);
-	                	infoWindow.setContent("Bonjour");
+	                	infoWindow.setContent(windowContent);
 	                	marker.point.displayInfos();
 	                	
 	                	infoWindow.open(map, marker);
