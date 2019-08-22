@@ -73,6 +73,7 @@ class MembersController extends Controller
             
             if($isPwdCorrect){
                 $_SESSION['uid'] = $username;
+                $_SESSION['placeholder'] = $member['id'];
                 $connexion = true;
             } else {
                 $connexion = false;

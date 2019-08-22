@@ -49,6 +49,17 @@ class ImagesController extends ContentController
         
         file_put_contents($filename, $json);
     }
+    
+    /* 
+     * Gets the user who uploaded the content 
+     * returns his unique ID
+    */
+    public function getUser($request, $response)
+    {
+        $userId = $_SESSION['placeholder'];
+        var_dump($_SESSION);
+        return $userId;
+    }
          
     public function manageExif($request, $response)
     {
@@ -65,6 +76,9 @@ class ImagesController extends ContentController
         
         //var_dump($uploadedFile);
         
+        // Gets the user who uploaded the photo
+        $user = $this->getUser($request, $response);
+        
         // Picture infos ( size, height, width)
         $picInfos = $this->putPictureInfos($filename, $directory);
         
@@ -78,7 +92,7 @@ class ImagesController extends ContentController
         //var_dump($hasExif);
         
         // Insert info data (including base64 thumbnail content) 
-        $imageModel->addInfos($picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $thumbnail);
+        $imageModel->addInfos($picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user);
         
         // Insert exif Datas if there is exif available.
         if($hasExif){

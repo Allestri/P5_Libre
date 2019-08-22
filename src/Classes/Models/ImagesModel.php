@@ -23,7 +23,7 @@ Class ImagesModel extends Model
     {
         $sql = "SELECT markers.id, markers.name, markers.address, markers.lng, 
                 markers.lat, markers.altitude, images.upload_date, markers.type, 
-                images.height, images.width, images.size, images.thumbnail_base64 
+                images.height, images.width, images.size 
                 FROM markers INNER JOIN images ON markers.image_id = images.id";
         $dataImages = $this->executeQuery($sql);
         return $dataImages->fetchAll();
@@ -37,9 +37,9 @@ Class ImagesModel extends Model
         $this->executeQuery($sql, array($title, $lng, $lat, $alt));
     }
     
-    public function addInfos($height, $width, $size, $type, $base64){
-        $sql = "INSERT INTO images (height, width, size, type, upload_date, user_id, thumbnail_base64) VALUES(?, ?, ?, ?, NOW(), 1, ?)";
-        $this->executeQuery($sql, array($height, $width, $size, $type, $base64));
+    public function addInfos($height, $width, $size, $type, $user){
+        $sql = "INSERT INTO images (height, width, size, type, upload_date, user_id, thumbnail_base64) VALUES(?, ?, ?, ?, NOW(), ?, 'placeholder')";
+        $this->executeQuery($sql, array($height, $width, $size, $type, $user));
     }
     
     public function fetchImgInfos(){
