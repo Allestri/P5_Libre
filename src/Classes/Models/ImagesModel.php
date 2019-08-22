@@ -23,7 +23,7 @@ Class ImagesModel extends Model
     {
         $sql = "SELECT markers.id, markers.name, markers.address, markers.lng, 
                 markers.lat, markers.altitude, images.upload_date, markers.type, 
-                images.height, images.width, images.size 
+                images.height, images.width, images.size, images.user_id
                 FROM markers INNER JOIN images ON markers.image_id = images.id";
         $dataImages = $this->executeQuery($sql);
         return $dataImages->fetchAll();
