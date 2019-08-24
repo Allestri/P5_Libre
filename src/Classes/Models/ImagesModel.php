@@ -22,19 +22,26 @@ Class ImagesModel extends Model
     public function fetchDatas()
     {
         $sql = "SELECT markers.id, markers.name, markers.address, markers.lng, 
-                markers.lat, markers.altitude, images.upload_date, markers.type, 
+                markers.lat, markers.altitude, images.upload_date, images.type, 
                 images.height, images.width, images.size, images.user_id
                 FROM markers INNER JOIN images ON markers.image_id = images.id";
         $dataImages = $this->executeQuery($sql);
         return $dataImages->fetchAll();
     }
-           
-    public function addGeoDatas($lng, $lat, $alt)
+    
+    public function linkId()
     {
-        $sql = "INSERT INTO markers (name, address, lng, lat, altitude, upload_date, type) VALUES(?, 'placeholder', ?, ?, ?, NOW(), 'jpeg')";
+        $sql = "SELECT MAX(id) AS id FROM images";
+        $id = $this->executeQuery($sql);
+        return $id->fetch();
+    }
+           
+    public function addGeoDatas($lng, $lat, $alt, $imgId)
+    {
+        $sql = "INSERT INTO markers (name, address, lng, lat, altitude, image_id) VALUES(?, 'placeholder', ?, ?, ?, ?)";
         // Title goes to controller soon.
         $title = $_POST['name'];
-        $this->executeQuery($sql, array($title, $lng, $lat, $alt));
+        $this->executeQuery($sql, array($title, $lng, $lat, $alt, $imgId));
     }
     
     public function addInfos($height, $width, $size, $type, $user){

@@ -94,9 +94,12 @@ class ImagesController extends ContentController
         // Insert info data (including base64 thumbnail content) 
         $imageModel->addInfos($picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user);
         
+        // Fetch the file's unique ID
+        $imageId = $imageModel->linkId();
+        
         // Insert exif Datas if there is exif available.
         if($hasExif){
-            $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude']);
+            $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude'], $imageId['id']);
         }
         
         return $this->container->view->render($response, 'pages/uploadng.twig');

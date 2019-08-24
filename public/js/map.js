@@ -24,7 +24,7 @@ function displayMap()
 	        url: "json/datasimages.json",
 	        dataType: "json",
 	        success: (data)=> {
-	            console.log(data[0].lng, data[0].lat);
+	            //console.log(data[0].lng, data[0].lat);
 	            	            
 	            // Info window
                 var infoWindow = new google.maps.InfoWindow;
@@ -58,10 +58,10 @@ function displayMap()
 	                });
 	                
 
-	                console.log(data[3].thumbnail_base64);
+	                //console.log(data[3].thumbnail_base64);
 	                
 	                var windowContent = "<a href='#'><img src='https://yak-ridge.com/wp-content/uploads/2019/04/image-placeholder-350x350.png' width='100px' height='100px'></a>";
-	                var windowContent2 = "<a href='#'><img src='data:image/jpeg;base64, " + data[i].thumbnail_base64 + "></a>";
+	                //var windowContent2 = "<a href='#'><img src='data:image/jpeg;base64, " + data[i].thumbnail_base64 + "></a>";
 	                // Event listener
 	                marker.addListener('click', function() {
 	                	//console.log(infoWindow);
