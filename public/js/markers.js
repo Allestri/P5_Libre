@@ -9,7 +9,7 @@ function points(data, i){
 	this.height = data[i].height;
 	this.width = data[i].width;
 	this.size = data[i].size;
-	this.user = data[i].user_id;
+	this.user = data[i].user_name;
 	
 	
 	this.displayInfos = function() {
