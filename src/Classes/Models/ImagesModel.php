@@ -21,7 +21,7 @@ Class ImagesModel extends Model
     
     public function fetchDatas()
     {
-        $sql = "SELECT markers.id, markers.name, markers.address, markers.lng, 
+        $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng, 
                 markers.lat, markers.altitude, images.upload_date, images.type, 
                 images.height, images.width, images.size, members.name as user_name              
                 FROM markers 
@@ -48,9 +48,9 @@ Class ImagesModel extends Model
         $this->executeQuery($sql, array($title, $lng, $lat, $alt, $imgId));
     }
     
-    public function addInfos($height, $width, $size, $type, $user){
-        $sql = "INSERT INTO images (height, width, size, type, upload_date, user_id, thumbnail_base64) VALUES(?, ?, ?, ?, NOW(), ?, 'placeholder')";
-        $this->executeQuery($sql, array($height, $width, $size, $type, $user));
+    public function addInfos($filename, $height, $width, $size, $type, $user){
+        $sql = "INSERT INTO images (filename, height, width, size, type, upload_date, user_id, thumbnail_base64) VALUES(?, ?, ?, ?, ?, NOW(), ?, 'placeholder')";
+        $this->executeQuery($sql, array($filename, $height, $width, $size, $type, $user));
     }
     
     public function fetchImgInfos(){

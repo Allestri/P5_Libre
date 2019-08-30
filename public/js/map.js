@@ -9,6 +9,7 @@ function displayMap()
 	var gmap = null;
 	var markers = [];
 	
+	
 	this.initialization = function() {
 		this.initMap();
 		this.refreshMap();
@@ -57,18 +58,21 @@ function displayMap()
 	                    title: 'Marker : ' + data[i].name
 	                });
 	                
-
-	                //console.log(data[3].thumbnail_base64);
 	                
-	                var windowContent = "<a href='#'><img src='https://yak-ridge.com/wp-content/uploads/2019/04/image-placeholder-350x350.png' width='100px' height='100px'></a>";
+
 	                //var windowContent2 = "<a href='#'><img src='data:image/jpeg;base64, " + data[i].thumbnail_base64 + "></a>";
+	                var windowContent = "<div id='divImg'></div>";
+	                let filename = data[i].filename;
+	                
 	                // Event listener
-	                marker.addListener('click', function() {
+	                marker.addListener('click', ()=> {
 	                	//console.log(infoWindow);
 	                	infoWindow.setContent(windowContent);
 	                	marker.point.displayInfos();
 	                	
 	                	infoWindow.open(map, marker);
+	                	
+	                	this.getThumbnail(filename);
 	                });
 	                marker.setMap(gmap);
 	                markers.push(marker);
@@ -83,6 +87,27 @@ function displayMap()
 	            console.log('erreur');
 	        }
 	    });
+	};
+	
+	// NOTE WORK IN PROGRESS
+	
+	this.getThumbnail = function (filename) {
+		
+		//console.log(filename);
+		var dir = "uploads/thumbnails";
+		var file = dir + "/" + filename;
+		
+	    $.ajax({
+	    	type: "GET",
+	        url: file,
+	        success: function(result) {
+	        	$('#divImg').append($('<img />').attr('src', file));
+	        },
+	    	error : function(result, status, error){
+            console.log('erreur');
+	    	}
+	    });
+		
 	};
 	
 	// Init Google Map

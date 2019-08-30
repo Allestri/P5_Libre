@@ -34,7 +34,7 @@ class ImagesController extends ContentController
         return $this->container->view->render($response, 'pages/map.twig');
     }
     
-    public function fetchMarkers($request, $response)
+    public function fetchMarkers()
     {
         $imageModel = $this->container->get('imagesModel');
         
@@ -54,8 +54,8 @@ class ImagesController extends ContentController
      * Gets the user who uploaded the content 
      * returns his unique ID
     */
-    public function getUser($request, $response)
-    {
+    public function getUser()
+    {   
         $userId = $_SESSION['placeholder'];
         var_dump($_SESSION);
         return $userId;
@@ -77,7 +77,7 @@ class ImagesController extends ContentController
         //var_dump($uploadedFile);
         
         // Gets the user who uploaded the photo
-        $user = $this->getUser($request, $response);
+        $user = $this->getUser();
         
         // Picture infos ( size, height, width)
         $picInfos = $this->putPictureInfos($filename, $directory);
@@ -92,7 +92,7 @@ class ImagesController extends ContentController
         //var_dump($hasExif);
         
         // Insert info data (including base64 thumbnail content) 
-        $imageModel->addInfos($picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user);
+        $imageModel->addInfos($filename, $picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user);
         
         // Fetch the file's unique ID
         $imageId = $imageModel->linkId();
@@ -182,11 +182,11 @@ class ImagesController extends ContentController
         }
     }
     
-    public function getThumbnail($file, $directory){            
-        
+    public function getThumbnail($file, $directory){
+                
         $image = exif_thumbnail($directory. DIRECTORY_SEPARATOR . $file, $width, $height, $type);
         //$baseEncode = base64_encode($image);
-        file_put_contents($directory. DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . "monfichier2.jpg", $image);
+        file_put_contents($directory. DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $file, $image);
         if ($image) {
             // send image data to the browser:
             echo "Thumbnail available</br>";

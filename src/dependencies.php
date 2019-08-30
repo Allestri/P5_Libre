@@ -57,7 +57,7 @@ return function (App $app) {
     };
     
     // Directory upload
-    $container['uploaded_directory'] = __DIR__ . '/../uploads';
+    $container['uploaded_directory'] = __DIR__ . '/../public/uploads/';
     
     // Directory JSON
     $container['json_directory'] = __DIR__ . '/../public/json';
