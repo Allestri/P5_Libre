@@ -24,7 +24,7 @@ class MembersController extends Controller
     {
         $membersModel = $this->container->get('membersModel');
         
-        $username = $_POST['uid'];
+        $username = $_POST['username'];
         $password = $_POST['pwd'];
         $passwordRpt = $_POST['pwdRpt'];
         
@@ -57,23 +57,22 @@ class MembersController extends Controller
     
     public function login($request, $response)
     {
-        $datas = $request->getParsedBody();
+        $userEntries = $request->getParsedBody();
 
-        $uid = $datas['uid'];
-        var_dump($uid);
+        $username = $userEntries['uname'];
         
         $membersModel = $this->container->get('membersModel');
-        $username = $_POST['uid'];
+
         $connexion = false;
         $member = $membersModel->getAccountInfo($username);
         
-        if(isset($username) && ($_POST['pwd'])){
+        if(isset($username) && ($userEntries['pwd'])){
             
-            $isPwdCorrect = password_verify($_POST['pwd'], $member['password']);
+            $isPwdCorrect = password_verify($userEntries['pwd'], $member['password']);
             
             if($isPwdCorrect){
-                $_SESSION['uid'] = $username;
-                $_SESSION['placeholder'] = $member['id'];
+                $_SESSION['username'] = $username;
+                $_SESSION['uid'] = $member['id'];
                 $connexion = true;
             } else {
                 $connexion = false;
@@ -86,12 +85,29 @@ class MembersController extends Controller
         }
     }
     
+    
+    public function countImgMember($userId)
+    {
+        $imageModel = $this->container->get('imagesModel');        
+        $imgNumber = $imageModel->countImgMember($userId);
+        
+        return $imgNumber;
+    }
+        
+    
     public function displayProfile($request, $response, $member)
     {
-        $username = $_SESSION['uid'];
+        // To be deleted.
+        $username = $_SESSION['username'];
+        $uid = $_SESSION['uid'];
         $member['profile'] = $username;
-        var_dump($member);
-        if(isset($_SESSION['uid'])){
+        $member['uid'] = $uid;
+        
+        // Gets images number this user uploaded.
+        $imgNbr = $this->countImgMember($uid);
+        $member = array_merge($member, $imgNbr);
+        
+        if(isset($_SESSION['username'])){
             return $this->container->view->render($response, 'pages/account.twig', $member);
         } else {
             return $this->redirect($response, 'home');

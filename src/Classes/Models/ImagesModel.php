@@ -33,6 +33,13 @@ Class ImagesModel extends Model
         return $dataImages->fetchAll();
     }
     
+    public function countImgMember($userId)
+    {
+        $sql = "SELECT count(*) as imgnbr FROM images WHERE user_id = ?";
+        $imgNbr = $this->executeQuery($sql, array ($userId));
+        return $imgNbr->fetch();
+    }
+    
     public function linkId()
     {
         $sql = "SELECT MAX(id) AS id FROM images";
