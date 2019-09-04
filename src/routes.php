@@ -24,6 +24,8 @@ return function (App $app) {
     // Google Map
     $app->get('/map', \App\Controllers\ImagesController:: class . ':displayMap')->setName('map');
     
+    $app->get('/map/api', \App\Controllers\ImagesController:: class . ':fetchMarkersRest');
+    
     // Inscription ( test )
     $app->get('/signup', \App\Controllers\MembersController::class . ':getFormInscripton')->setName('inscription');
     $app->post('/signup', \App\Controllers\MembersController:: class . ':postSignup')->setName('postInscription');

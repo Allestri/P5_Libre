@@ -10,6 +10,7 @@ function displayMap()
 	var markers = [];
 	
 	
+	
 	this.initialization = function() {
 		this.initMap();
 		this.refreshMap();
@@ -22,7 +23,7 @@ function displayMap()
 	this.getPoints = function(refresh = false) {
 		$.ajax({
 	        type: "GET",
-	        url: "json/datasimages.json",
+	        url: "http://projetlibre/map/api",
 	        dataType: "json",
 	        success: (data)=> {
 	            //console.log(data[0].lng, data[0].lat);
@@ -61,7 +62,7 @@ function displayMap()
 	                
 
 	                //var windowContent2 = "<a href='#'><img src='data:image/jpeg;base64, " + data[i].thumbnail_base64 + "></a>";
-	                var windowContent = "<div id='divImg'></div>";
+	                var windowContent = "<div id='divImg'><a href='#' title='Cliquez pour visualiser'></a></div>";
 	                let filename = data[i].filename;
 	                
 	                // Event listener
@@ -87,11 +88,13 @@ function displayMap()
 	            console.log('erreur');
 	        }
 	    });
-	};
+	}
 	
 	// NOTE WORK IN PROGRESS
 	
 	this.getThumbnail = function (filename) {
+		
+		//this.imageFullScreen(filename);
 		
 		//console.log(filename);
 		var dir = "uploads/thumbnails";
@@ -101,13 +104,31 @@ function displayMap()
 	    	type: "GET",
 	        url: file,
 	        success: function(result) {
-	        	$('#divImg').append($('<img />').attr('src', file));
+	        	$('#divImg').append($('<img class="img" />').attr('src', file));
 	        },
 	    	error : function(result, status, error){
             console.log('erreur');
 	    	}
 	    });
 		
+	};
+	
+	this.imageFullScreen = function (filename){
+		
+		var dir = "uploads/";
+		var file = dir + "/" + filename;
+		
+		$.ajax({
+			type:"GET",
+			url: file,
+			success: function(result){
+				$('#overlay').append($('<img />').attr('src', file));
+				$('#overlay').show(1000);
+			},
+			error: function(result, status, error){
+				console.log('erreur');
+			}
+		});
 	};
 	
 	// Init Google Map

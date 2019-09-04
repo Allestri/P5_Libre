@@ -30,15 +30,12 @@ class ImagesController extends ContentController
     // Google Maps
     public function displayMap($request, $response)
     {
-        $this->fetchMarkers($request, $response);
         return $this->container->view->render($response, 'pages/map.twig');
     }
-    
+        
     public function fetchMarkers()
     {
-        $imageModel = $this->container->get('imagesModel');
-        
-        //$markers = $imageModel->fetchMarkersM();
+        $imageModel = $this->container->get('imagesModel');        
         
         $datasImages = $imageModel->fetchDatas();
         
@@ -48,6 +45,14 @@ class ImagesController extends ContentController
         $filename = $directory . DIRECTORY_SEPARATOR . "datasimages.json";
         
         file_put_contents($filename, $json);
+    }
+    
+    public function fetchMarkersRest()
+    {
+        $imageModel = $this->container->get('imagesModel');              
+        $datasImages = $imageModel->fetchDatas();
+        
+        echo json_encode($datasImages);
     }
     
     /* 

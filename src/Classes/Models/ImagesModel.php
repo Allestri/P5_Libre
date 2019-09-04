@@ -4,34 +4,21 @@ namespace App\Models;
 
 Class ImagesModel extends Model
 {
-    
-    public function testContent()
-    {
-        $testDatas = "Hello world";
-        return $testDatas;
-    }
-      
-    
-    public function fetchMarkersM()
-    {
-        $sql = "SELECT * FROM markers WHERE 1";
-        $markers = $this->executeQuery($sql);
-        return $markers->fetchAll();
-    }
-    
+                 
     public function fetchDatas()
     {
         $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng, 
                 markers.lat, markers.altitude, images.upload_date, images.type, 
-                images.height, images.width, images.size, members.name as user_name              
+                images.height, images.width, images.size, members.name as user_name, images.privacy              
                 FROM markers 
                     INNER JOIN images 
                         ON markers.image_id = images.id
                     INNER JOIN members 
-                        ON images.user_id = members.id";
+                        ON images.user_id = members.id
+                WHERE images.privacy = 0";
         $dataImages = $this->executeQuery($sql);
         return $dataImages->fetchAll();
-    }
+    }    
     
     public function countImgMember($userId)
     {
