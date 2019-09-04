@@ -97,7 +97,7 @@ class MembersController extends Controller
     
     public function displayProfile($request, $response, $member)
     {
-        // To be deleted.
+        
         $username = $_SESSION['username'];
         $uid = $_SESSION['uid'];
         $member['profile'] = $username;
@@ -122,6 +122,30 @@ class MembersController extends Controller
         session_unset();
         // Troubleshooting Session flash
         session_destroy();
+        return $this->redirect($response, 'home');
+    }
+    
+    public function displayMembersList($request, $response)
+    {
+        $memberModel = $this->container->get('membersModel');
+        
+        $membersList['datas'] = $memberModel->getMembersList();
+        
+        
+        return $this->container->view->render($response, 'pages/members.twig', $membersList);
+    }
+    
+    public function addFriend($request, $response)
+    {
+        
+        $datas = $request->getParsedBody();
+        var_dump($datas);
+        $myId = $datas['myId'];
+        $memberId = $datas['memberId'];
+        
+        $memberModel = $this->container->get('membersModel');
+        $memberModel->addFriend($myId, $memberId);
+        
         return $this->redirect($response, 'home');
     }
     

@@ -14,7 +14,7 @@ class SessionMiddleware
     
     public function __invoke($request, $response, $next)
     {
-        $this->twig->addGlobal('member', isset($_SESSION['username']) ? $_SESSION['username'] : []);
+        $this->twig->addGlobal('member', isset($_SESSION['uid']) ? $_SESSION['uid'] : []);
         
         return $next($request, $response);
     }

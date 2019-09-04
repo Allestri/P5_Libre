@@ -5,6 +5,13 @@ namespace App\Models;
 class MembersModel extends Model
 {
     
+    public function getMembersList()
+    {
+        $sql = "SELECT id, name FROM members";
+        $members = $this->executeQuery($sql);
+        return $members->fetchAll();
+    }
+    
     public function getAccountInfo($username)
     {        
         $sql = "SELECT * FROM members WHERE name = ?";
@@ -32,5 +39,11 @@ class MembersModel extends Model
     {
         $sql = "INSERT INTO members (name, password, ip_address, date) VALUES (?, ?, ?, NOW())";
         $this->executeQuery($sql, array($username, $rdp, $ip));
+    }
+    
+    public function addFriend($uid, $fid)
+    {
+        $sql = "INSERT INTO friend_requests (uid, fid, created_at) VALUES (?, ?, NOW())";
+        $this->executeQuery($sql, array($uid, $fid));
     }
 }

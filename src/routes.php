@@ -39,6 +39,11 @@ return function (App $app) {
     // Deconnexion
     $app->get('/deconnexion', \App\Controllers\MembersController:: class . ':logout')->setName('deconnexion');
     
+    // Memberlist
+    $app->get('/members', \App\Controllers\MembersController:: class . ':displayMembersList')->setName('memberList');
+    
+    $app->post('/addfriend', \App\Controllers\MembersController:: class . ':addFriend')->setName('addFriend');
+    
     // Ajouter contenus ( test )
     $app->get('/add', \App\Controllers\ContentController ::class . ':getAddForm')->setName('ajouter');
     $app->post('/addcontent', \App\Controllers\ContentController ::class . ':addContent');
