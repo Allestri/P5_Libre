@@ -23,10 +23,11 @@ class MembersController extends Controller
     public function postSignup($request, $response)
     {
         $membersModel = $this->container->get('membersModel');
+        $userEntries = $request->getParsedBody();       
         
-        $username = $_POST['username'];
-        $password = $_POST['pwd'];
-        $passwordRpt = $_POST['pwdRpt'];
+        $username = $userEntries['uid'];
+        $password = $userEntries['pwd'];
+        $passwordRpt = $userEntries['pwdRpt'];
         
         $ip = $_SERVER['REMOTE_ADDR'];
         
@@ -98,17 +99,25 @@ class MembersController extends Controller
     public function displayProfile($request, $response, $member)
     {
         
+        $memberModel = $this->container->get('membersModel');  
+        
         $username = $_SESSION['username'];
         $uid = $_SESSION['uid'];
         $member['profile'] = $username;
-        $member['uid'] = $uid;
-        
-        // Gets images number this user uploaded.
-        $imgNbr = $this->countImgMember($uid);
-        $member = array_merge($member, $imgNbr);
+        $member['uid'] = $uid;        
         
         if(isset($_SESSION['username'])){
-            return $this->container->view->render($response, 'pages/account.twig', $member);
+            
+            // Gets images number this user uploaded.
+            $imgNbr = $this->countImgMember($uid);
+            $member = array_merge($member, $imgNbr);
+            
+            // Friend Request notifications
+            $friendReqs['datas'] = $memberModel->getFriendRequests($uid);
+            //var_dump($friendReqs);
+            
+            
+            return $this->container->view->render($response, 'pages/account.twig', $friendReqs);
         } else {
             return $this->redirect($response, 'home');
         }
@@ -127,26 +136,59 @@ class MembersController extends Controller
     
     public function displayMembersList($request, $response)
     {
-        $memberModel = $this->container->get('membersModel');
         
-        $membersList['datas'] = $memberModel->getMembersList();
+        $memberModel = $this->container->get('membersModel');
+        $username = $_SESSION['username'];
+        $membersList['datas'] = $memberModel->getMembersList($username);
         
         
         return $this->container->view->render($response, 'pages/members.twig', $membersList);
     }
     
-    public function addFriend($request, $response)
+    // Friendship System
+    
+    public function getIds($uid, $fid)
+    {
+        $ids = array("userId" => $uid, "friendId" => $fid);
+        $this->setIds($ids);
+    }
+    
+    public function addFriendRequest($request, $response)
     {
         
         $datas = $request->getParsedBody();
-        var_dump($datas);
+
         $myId = $datas['myId'];
         $memberId = $datas['memberId'];
+        $_SESSION['fid'] = $memberId;
         
         $memberModel = $this->container->get('membersModel');
-        $memberModel->addFriend($myId, $memberId);
+        $memberModel->addFriendRequest($myId, $memberId);
+        //$this->getIds($myId, $memberId);
         
-        return $this->redirect($response, 'home');
+        return $this->container->view->render($response, 'pages/members.twig');
+    }
+       
+    public function ignoreFriendRequest()
+    {
+        $membersModel = $this->container->get('membersModel');
+        
+        $uid = $_SESSION['uid'];
+        $fid = $_SESSION['fid'];         
+        
+        $membersModel->clearFriendRequest($uid, $fid);
+    }
+    
+    public function acceptFriend()
+    {
+        $memberModel = $this->container->get('membersModel');
+        
+        $uid = $_SESSION['uid'];
+        $fid = $_SESSION['fid'];  
+        
+        $memberModel->addFriendAccept($uid, $fid);
+        $memberModel->clearFriendRequest($uid, $fid);
+        
     }
     
     

@@ -42,7 +42,9 @@ return function (App $app) {
     // Memberlist
     $app->get('/members', \App\Controllers\MembersController:: class . ':displayMembersList')->setName('memberList');
     
-    $app->post('/addfriend', \App\Controllers\MembersController:: class . ':addFriend')->setName('addFriend');
+    $app->post('/addfriend', \App\Controllers\MembersController:: class . ':addFriendRequest')->setName('addFriend');
+    $app->get('/addedfriend', \App\Controllers\MembersController:: class . ':acceptFriend');
+    $app->get('/ignorefriend', \App\Controllers\MembersController:: class . ':ignoreFriendRequest');
     
     // Ajouter contenus ( test )
     $app->get('/add', \App\Controllers\ContentController ::class . ':getAddForm')->setName('ajouter');

@@ -22,6 +22,7 @@ class FlashMiddleware
             unset($_SESSION['flash']);
         }
         return $next($request, $response);
+        
     }
     
 }

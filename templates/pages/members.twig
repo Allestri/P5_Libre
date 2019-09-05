@@ -2,17 +2,17 @@
 
 {% block content %}
 {{ dump(member) }}
+{{ dump(datas) }}
     <div class="row">
     	<div class="col-lg-4 mx-auto">
             <ul class="list-group">
             {% for members in datas %}
               <li class="list-group-item">{{ members.name }}
-                  <form method="POST" action="addfriend">
+              	<form method="POST" action="addfriend">
                   	<input type="hidden" name="myId" value="{{ member }}" />
                   	<input type="hidden" name="memberId" value="{{ members.id }}"/>
                   	<button class="btn btn-primary">Ajouter en amis</button>
-                  	
-                  </form>
+              	</form>
               </li>
               
 			{% endfor %}
