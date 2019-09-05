@@ -110,14 +110,17 @@ class MembersController extends Controller
             
             // Gets images number this user uploaded.
             $imgNbr = $this->countImgMember($uid);
-            $member = array_merge($member, $imgNbr);
+            $args = array_merge($member, $imgNbr);
             
             // Friend Request notifications
-            $friendReqs['datas'] = $memberModel->getFriendRequests($uid);
-            //var_dump($friendReqs);
+            $args['request'] = $memberModel->getFriendRequests($uid);
+            var_dump($args);
             
+            if(isset($args['request']['0'])){
+                $_SESSION['sender_id'] = $args['request']['0']['sender_id'];
+            }
             
-            return $this->container->view->render($response, 'pages/account.twig', $friendReqs);
+            return $this->container->view->render($response, 'pages/account.twig', $args);
         } else {
             return $this->redirect($response, 'home');
         }
@@ -169,26 +172,30 @@ class MembersController extends Controller
         return $this->container->view->render($response, 'pages/members.twig');
     }
        
-    public function ignoreFriendRequest()
+    public function ignoreFriendRequest($request, $response)
     {
         $membersModel = $this->container->get('membersModel');
-        
+        //var_dump($_SESSION);
         $uid = $_SESSION['uid'];
-        $fid = $_SESSION['fid'];         
+        $fid = $_SESSION['sender_id'];
         
-        $membersModel->clearFriendRequest($uid, $fid);
+        $membersModel->clearFriendRequest($fid, $uid);
+        
+        return $this->container->view->render($response, 'pages/account.twig');
     }
     
-    public function acceptFriend()
+    public function acceptFriend($request, $response)
     {
         $memberModel = $this->container->get('membersModel');
         
         $uid = $_SESSION['uid'];
-        $fid = $_SESSION['fid'];  
-        
+        $fid = $_SESSION['sender_id'];
+                
         $memberModel->addFriendAccept($uid, $fid);
-        $memberModel->clearFriendRequest($uid, $fid);
+        $memberModel->clearFriendRequest($fid, $uid);
         
+        return $this->container->view->render($response, 'pages/account.twig');
+              
     }
     
     

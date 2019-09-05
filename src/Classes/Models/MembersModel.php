@@ -46,18 +46,18 @@ class MembersModel extends Model
     
     public function addFriendRequest($uid, $fid)
     {
-        $sql = "INSERT INTO friend_requests (uid, fid, created_at) VALUES (?, ?, NOW())";
+        $sql = "INSERT INTO friend_requests (sender_id, receiver_id, created_at) VALUES (?, ?, NOW())";
         $this->executeQuery($sql, array($uid, $fid));
     }
     
-    public function clearFriendRequest()
+    public function clearFriendRequest($fid, $uid)
     {
         $sql = "DELETE FROM friend_requests
-                WHERE uid = ? AND fid = ?";
-        $this->executeQuery($sql, array($uid, $fid));
+                WHERE sender_id = ? AND receiver_id = ?";
+        $this->executeQuery($sql, array($fid, $uid));
     }
     
-    public function addFriendAccept()
+    public function addFriendAccept($uid, $fid)
     {
         $sql ="INSERT INTO friendship (uid, fid) VALUES (?, ?)";
         $this->executeQuery($sql, array($uid, $fid));
@@ -65,11 +65,11 @@ class MembersModel extends Model
     
     public function getFriendRequests($uid)
     {
-        $sql = "SELECT friend_requests.uid, members.name
+        $sql = "SELECT friend_requests.sender_id, members.name
                 FROM friend_requests
                 INNER JOIN members 
-                    ON friend_requests.uid = members.id
-                WHERE fid = ?";
+                    ON friend_requests.sender_id = members.id
+                WHERE receiver_id = ?";
         $fReq = $this->executeQuery($sql, array($uid));
         return $fReq->fetchAll();
     }
