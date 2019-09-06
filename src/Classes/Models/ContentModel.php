@@ -15,7 +15,7 @@ Class ContentModel extends Model
     {
         $sql = 'SELECT * FROM posts';
         $posts = $this->executeQuery($sql);
-        return $posts;
+        return $posts->fetchAll();
     }
     
     public function addContent()

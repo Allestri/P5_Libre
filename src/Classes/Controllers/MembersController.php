@@ -112,6 +112,10 @@ class MembersController extends Controller
             $imgNbr = $this->countImgMember($uid);
             $args = array_merge($member, $imgNbr);
             
+            // Get friends
+            $args['friends'] = $memberModel->getFriends($uid);
+            
+            
             // Friend Request notifications
             $args['request'] = $memberModel->getFriendRequests($uid);
             var_dump($args);
@@ -164,7 +168,7 @@ class MembersController extends Controller
 
         $myId = $datas['myId'];
         $memberId = $datas['memberId'];
-        $_SESSION['fid'] = $memberId;
+        $_SESSION['sender_id'] = $memberId;
         
         $memberModel = $this->container->get('membersModel');
         $memberModel->addFriendRequest($myId, $memberId);
@@ -176,7 +180,7 @@ class MembersController extends Controller
     public function ignoreFriendRequest($request, $response)
     {
         $membersModel = $this->container->get('membersModel');
-        //var_dump($_SESSION);
+
         $uid = $_SESSION['uid'];
         $fid = $_SESSION['sender_id'];
         

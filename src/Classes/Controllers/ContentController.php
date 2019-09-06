@@ -40,6 +40,7 @@ class ContentController extends Controller
      
      $args['datas'] = $datas->getContent();
      //var_dump($datas);
+     var_dump($args);
      
      
      // get the template renderer and pass response and datas to the template file.

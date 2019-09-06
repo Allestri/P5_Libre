@@ -74,4 +74,15 @@ class MembersModel extends Model
         return $fReq->fetchAll();
     }
     
+    public function getFriends($uid)
+    {
+        $sql = "SELECT members.id, members.name
+                FROM members
+                INNER JOIN friendship
+                    ON members.id = friendship.friend_b
+                WHERE friendship.friend_a = ?";
+        $friends = $this->executeQuery($sql, array($uid));
+        return $friends->fetchAll();
+    }
+    
 }

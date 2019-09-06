@@ -3,6 +3,7 @@
 {% block content %}
 
 {{ dump(request) }}
+{{ dump(friends) }}
 
 <div class="row py-5 px-4">
 
@@ -13,7 +14,8 @@
     		<a class ="btn btn-danger" href="/ignorefriend">Refuser</a>
     	</div>
 	{% endif %}
-    <div class="col-xl-7 col-md-7 col-sm-10 mx-auto">
+	
+    <div class="col-xl-8 col-md-8 col-sm-10 mx-auto">
 
         <!-- Profile widget -->
         <div class="bg-white shadow rounded overflow-hidden">
@@ -36,6 +38,21 @@
                         <h5 class="font-weight-bold mb-0 d-block">{{ imgnbr }}</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Photos</small>
                     </li>
                 </ul>
+            </div>
+            
+            <!-- Friends -->
+            <div class="py-4 px-4"">
+            	<div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="mb-0">Amis</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                </div>
+                {% if not friends %}
+                	<p>Vous n'avez pas d'amis !</p>
+                {% endif %}
+                <div class="row">
+					{% for friendship in friends %}
+						<span class="btn btn-primary">{{ friendship.name }}</span>
+					{% endfor %}
+                </div>
             </div>
 
             <div class="py-4 px-4">
