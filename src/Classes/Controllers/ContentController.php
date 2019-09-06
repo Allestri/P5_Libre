@@ -118,7 +118,7 @@ class ContentController extends Controller
          //var_dump($userFileName);
          $filename = sprintf('%s.%0.8s', $basename, $extension);
          
-         $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+         $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename);
          
          return $filename;
      }

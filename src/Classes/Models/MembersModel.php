@@ -38,7 +38,7 @@ class MembersModel extends Model
     
     public function signup($username, $rdp, $ip)
     {
-        $sql = "INSERT INTO members (name, password, ip_address, date) VALUES (?, ?, ?, NOW())";
+        $sql = "INSERT INTO members (name, password, ip_address, group_id, date) VALUES (?, ?, ?, 3, NOW())";
         $this->executeQuery($sql, array($username, $rdp, $ip));
     }
     
@@ -57,10 +57,10 @@ class MembersModel extends Model
         $this->executeQuery($sql, array($fid, $uid));
     }
     
-    public function addFriendAccept($uid, $fid)
+    public function addFriendAccept($fid, $uid)
     {
-        $sql ="INSERT INTO friendship (uid, fid) VALUES (?, ?)";
-        $this->executeQuery($sql, array($uid, $fid));
+        $sql ="INSERT INTO friendship (friend_a, friend_b, friend_date) VALUES (?, ?, NOW())";
+        $this->executeQuery($sql, array($fid, $uid));
     }
     
     public function getFriendRequests($uid)

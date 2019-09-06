@@ -49,13 +49,9 @@ return function (App $app) {
     // Ajouter contenus ( test )
     $app->get('/add', \App\Controllers\ContentController ::class . ':getAddForm')->setName('ajouter');
     $app->post('/addcontent', \App\Controllers\ContentController ::class . ':addContent');
-    
-    // Upload de fichier
-    $app->get('/upload', \App\Controllers\ContentController::class . ':getForm')->setName('upload');
-    $app->post('/upload', \App\Controllers\ContentController::class . ':postUpload');
-    
-    // Upload de fichier 2
-    $app->get('/newupload', \App\Controllers\ImagesController::class . ':getForm')->setName('newUpload');
+        
+    // Upload de photos
+    $app->get('/upload', \App\Controllers\ImagesController::class . ':getForm')->setName('upload');
     $app->post('/addexif', \App\Controllers\ImagesController:: class . ':manageExif');
     
 };

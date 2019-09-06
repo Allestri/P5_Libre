@@ -116,6 +116,7 @@ class MembersController extends Controller
             $args['request'] = $memberModel->getFriendRequests($uid);
             var_dump($args);
             
+            
             if(isset($args['request']['0'])){
                 $_SESSION['sender_id'] = $args['request']['0']['sender_id'];
             }
@@ -191,7 +192,7 @@ class MembersController extends Controller
         $uid = $_SESSION['uid'];
         $fid = $_SESSION['sender_id'];
                 
-        $memberModel->addFriendAccept($uid, $fid);
+        $memberModel->addFriendAccept($fid, $uid);
         $memberModel->clearFriendRequest($fid, $uid);
         
         return $this->container->view->render($response, 'pages/account.twig');

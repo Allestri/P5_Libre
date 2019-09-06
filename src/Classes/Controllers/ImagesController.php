@@ -21,9 +21,9 @@ class ImagesController extends ContentController
         if(isset($_SESSION['username'])){
             $username = $_SESSION['username'];
             $member['profile'] = $username;
-            return $this->render($response, 'pages/uploadng.twig', $member);
+            return $this->render($response, 'pages/upload.twig', $member);
         } else {
-            return $this->render($response, 'pages/uploadng.twig');
+            return $this->render($response, 'pages/upload.twig');
         }
     }
     
@@ -107,13 +107,13 @@ class ImagesController extends ContentController
             $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude'], $imageId['id']);
         }
         
-        return $this->container->view->render($response, 'pages/uploadng.twig');
+        return $this->container->view->render($response, 'pages/upload.twig');
     }
         
     // Test if Exif or not.
     public function exifReady($file, $directory){
         
-        $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . $file, 0, true);
+        $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR .$file, 0, true);
         $hasExif = null;
         if(isset($exif['GPS'])){
             $hasExif = true;
@@ -131,7 +131,7 @@ class ImagesController extends ContentController
     
     public function seekExif($file, $directory){
         
-        $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . $file, 0, true);
+        $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file, 0, true);
         return $exif;
     }
     
@@ -189,7 +189,7 @@ class ImagesController extends ContentController
     
     public function getThumbnail($file, $directory){
                 
-        $image = exif_thumbnail($directory. DIRECTORY_SEPARATOR . $file, $width, $height, $type);
+        $image = exif_thumbnail($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file, $width, $height, $type);
         //$baseEncode = base64_encode($image);
         file_put_contents($directory. DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $file, $image);
         if ($image) {
