@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 04 sep. 2019 à 11:34
+-- Généré le :  ven. 06 sep. 2019 à 06:35
 -- Version du serveur :  5.7.21
 -- Version de PHP :  7.2.4
 
@@ -31,11 +31,21 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `friendship`;
 CREATE TABLE IF NOT EXISTS `friendship` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) NOT NULL,
-  `fid` int(11) NOT NULL,
-  `friends_since` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `friend_a` tinyint(4) NOT NULL,
+  `friend_b` tinyint(4) NOT NULL,
+  `friend_date` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_friendship_to_members` (`friend_b`),
+  KEY `fk_friendship_to_members2` (`friend_a`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `friendship`
+--
+
+INSERT INTO `friendship` (`id`, `friend_a`, `friend_b`, `friend_date`) VALUES
+(6, 6, 18, '2019-09-06'),
+(7, 6, 18, '2019-09-06');
 
 -- --------------------------------------------------------
 
@@ -46,18 +56,20 @@ CREATE TABLE IF NOT EXISTS `friendship` (
 DROP TABLE IF EXISTS `friend_requests`;
 CREATE TABLE IF NOT EXISTS `friend_requests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) NOT NULL,
-  `fid` int(11) NOT NULL,
+  `sender_id` tinyint(4) NOT NULL,
+  `receiver_id` tinyint(4) NOT NULL,
   `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `uid` (`sender_id`),
+  KEY `fk_members_to_friend_req2` (`receiver_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `friend_requests`
 --
 
-INSERT INTO `friend_requests` (`id`, `uid`, `fid`, `created_at`) VALUES
-(1, 6, 14, '2019-09-04 13:20:10');
+INSERT INTO `friend_requests` (`id`, `sender_id`, `receiver_id`, `created_at`) VALUES
+(5, 6, 21, '2019-09-05 10:14:19');
 
 -- --------------------------------------------------------
 
@@ -78,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `images` (
   `privacy` int(11) DEFAULT '0',
   `thumbnail_base64` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `images`
@@ -88,7 +100,8 @@ INSERT INTO `images` (`id`, `filename`, `height`, `width`, `size`, `type`, `uplo
 (23, '291b42e7a2b5b405.JPG', 3000, 4000, 4977227, 'image/jpeg', '2019-08-30 07:54:23', 6, 0, 'placeholder'),
 (25, 'fd53e0ff42e734bb.JPG', 3672, 4896, 5235515, 'image/jpeg', '2019-08-30 08:17:19', 6, 1, 'placeholder'),
 (26, '635e6a83076ae87a.jpg', 1080, 1920, 233172, 'image/jpeg', '2019-09-04 05:21:51', 6, 0, 'placeholder'),
-(27, 'ba5a170e7ba993d9.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-09-04 06:52:48', 6, 0, 'placeholder');
+(27, 'ba5a170e7ba993d9.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-09-04 06:52:48', 6, 0, 'placeholder'),
+(32, 'fea47e658a416473.jpg', 2242, 3992, 6071612, 'image/jpeg', '2019-09-06 07:29:31', 6, 0, 'placeholder');
 
 -- --------------------------------------------------------
 
@@ -107,17 +120,18 @@ CREATE TABLE IF NOT EXISTS `markers` (
   `image_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_image_to_markers` (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `markers`
 --
 
 INSERT INTO `markers` (`id`, `name`, `address`, `lng`, `lat`, `altitude`, `image_id`) VALUES
-(12, 'TestImage', 'placeholder', -3.37521, 47.7069, 82.81, 23),
+(12, 'Larmor-Plages', 'placeholder', -3.37521, 47.7069, 82.81, 23),
 (14, 'Scotland', 'placeholder', -6.18284, 57.4577, 177.1, 25),
 (15, 'Tihany', 'Tihany', 17.8895, 46.9144, 100, 26),
-(16, 'test', 'placeholder', -3.507, 47.7474, 99.203, 27);
+(16, 'Maeva', 'placeholder', -3.507, 47.7474, 99.203, 27),
+(21, 'Douarnenez', 'placeholder', -4.28549, 48.108, 72.636, 32);
 
 -- --------------------------------------------------------
 
@@ -130,19 +144,45 @@ CREATE TABLE IF NOT EXISTS `members` (
   `id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `group_id` tinyint(4) NOT NULL,
   `ip_address` varchar(50) DEFAULT NULL,
   `date` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `fk_members_to_members_groups` (`group_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `members`
 --
 
-INSERT INTO `members` (`id`, `name`, `password`, `ip_address`, `date`) VALUES
-(1, 'Placeholder', 'aa', NULL, '2019-06-22 02:00:00'),
-(14, 'Alexandre', '$2y$10$0RtFWp6D9EQaCQ6yfBDzweTLmV0FlzlLuS3LBOIJlJmCb.Rrldw9.', NULL, '2019-07-22 23:28:40'),
-(6, 'SOku', '$2y$10$lOIr/VRtSKqwFFM5NoNJb.mMH9aoO2s1h97tzsDpFZmaCiSiuK59q', NULL, '2019-06-23 02:47:26');
+INSERT INTO `members` (`id`, `name`, `password`, `group_id`, `ip_address`, `date`) VALUES
+(6, 'SOku', '$2y$10$lOIr/VRtSKqwFFM5NoNJb.mMH9aoO2s1h97tzsDpFZmaCiSiuK59q', 1, NULL, '2019-06-23 02:47:26'),
+(18, 'John', '$2y$10$UDVjA2pLHdZIfO64peq.W.QS3GlEVFeGkvUSKL7cg./Hb/ttB1qrW', 2, '::1', '2019-09-05 06:04:44'),
+(19, 'Membre1', '$2y$10$qeOKW7srtV0iGFBfz7bBGuMckXoj5TddK290Zo/RL3NRXsTK4yHqW', 3, '::1', '2019-09-05 06:30:48'),
+(20, 'Membre2', '$2y$10$RV21BhyVsqSLOiLoBCeWrOoStOhU7NVr5t57lZD0VvISc3c7HKlme', 3, '::1', '2019-09-05 06:31:57'),
+(21, 'Membre3', '$2y$10$aPT267hpOs8skX3tGQyoduPpq6VFiBz.9EWVm2FxGjxbCzdWD2Mga', 3, '::1', '2019-09-05 06:32:13');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `members_groups`
+--
+
+DROP TABLE IF EXISTS `members_groups`;
+CREATE TABLE IF NOT EXISTS `members_groups` (
+  `id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `label` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `members_groups`
+--
+
+INSERT INTO `members_groups` (`id`, `label`) VALUES
+(1, 'Administrateur'),
+(2, 'Moderateur'),
+(3, 'Membre');
 
 -- --------------------------------------------------------
 
@@ -156,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `name` varchar(255) NOT NULL,
   `content` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `posts`
@@ -177,7 +217,8 @@ INSERT INTO `posts` (`id`, `name`, `content`) VALUES
 (51, 'test', 'test'),
 (52, 'Test', 'content'),
 (53, 'Test donnÃ©e', 'Contenus donnÃ©es'),
-(54, 'Test donnÃ©e', 'Contenus donnÃ©es');
+(54, 'Test donnÃ©e', 'Contenus donnÃ©es'),
+(56, 'TestMethode', 'Voila');
 
 -- --------------------------------------------------------
 
@@ -205,10 +246,30 @@ INSERT INTO `privacy_categories` (`id`, `private_label`) VALUES
 --
 
 --
+-- Contraintes pour la table `friendship`
+--
+ALTER TABLE `friendship`
+  ADD CONSTRAINT `fk_friendship_to_members` FOREIGN KEY (`friend_b`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_friendship_to_members2` FOREIGN KEY (`friend_a`) REFERENCES `members` (`id`);
+
+--
+-- Contraintes pour la table `friend_requests`
+--
+ALTER TABLE `friend_requests`
+  ADD CONSTRAINT `fk_members_to_friend_req` FOREIGN KEY (`sender_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_members_to_friend_req2` FOREIGN KEY (`receiver_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Contraintes pour la table `markers`
 --
 ALTER TABLE `markers`
   ADD CONSTRAINT `fk_image_to_markers` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `members`
+--
+ALTER TABLE `members`
+  ADD CONSTRAINT `fk_members_to_members_groups` FOREIGN KEY (`group_id`) REFERENCES `members_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
