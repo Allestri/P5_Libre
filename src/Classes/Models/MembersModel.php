@@ -85,10 +85,23 @@ class MembersModel extends Model
         return $friends->fetchAll();
     }
     
+    public function getAvatar($uid)
+    {
+        $sql = "SELECT avatar_file FROM members WHERE id = ?";
+        $avatar = $this->executeQuery($sql, array($uid));
+        return $avatar->fetch();
+    }
+    
     public function changeAvatar($filename, $uid)
     {
         $sql = "UPDATE members SET avatar_file = ? WHERE id = ?";
         $this->executeQuery($sql, array($filename, $uid));
     }
     
+    public function getRecentPhotos($uid)
+    {
+        $sql = "SELECT filename FROM images WHERE user_id = 6 LIMIT 0,4";
+        $recentImgs = $this->executeQuery($sql, array($uid));
+        return $recentImgs->fetchAll();
+    }
 }

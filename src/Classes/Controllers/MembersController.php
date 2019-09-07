@@ -109,13 +109,19 @@ class MembersController extends Controller
         
         if(isset($_SESSION['username'])){
             
+                       
             // Gets images number this user uploaded.
             $imgNbr = $this->countImgMember($uid);
             $args = array_merge($member, $imgNbr);
             
+            // Gets avatar
+            $avatar = $memberModel->getAvatar($uid);
+            $args = array_merge($args, $avatar);
+            
             // Get friends
             $args['friends'] = $memberModel->getFriends($uid);
             
+            $args['recentimg'] = $memberModel->getRecentPhotos($uid);
             
             // Friend Request notifications
             $args['request'] = $memberModel->getFriendRequests($uid);

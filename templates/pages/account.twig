@@ -2,9 +2,6 @@
 
 {% block content %}
 
-{{ dump(request) }}
-{{ dump(friends) }}
-
 <div class="row py-5 px-4">
 
 	{% if request %}
@@ -27,9 +24,9 @@
             <div class="px-4 pt-0 pb-4 bg-dark">
                 <div class="media align-items-end profile-header">
                     <div class="profile mr-3">
-                    	<img src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="..." width="130" class="rounded mb-2 img-thumbnail">
-                    	<a href="{{ path_for('deconnexion') }}" class="btn btn-light btn-sm btn-block">Se deconnecter</a>
+                    	<img src="uploads/avatar/{{ avatar_file }}" alt="..." width="150" class="rounded mb-2 img-thumbnail">
                     	<a href="#" class="btn btn-light btn-sm btn-block">Editer mon Profil</a>
+                    	<a href="{{ path_for('deconnexion') }}" class="btn btn-light btn-sm btn-block">Se deconnecter</a>
                     </div>
                     <div class="media-body mb-5 text-white">
                         <h4 class="mt-0 mb-0">{{ profile }}</h4>
@@ -65,10 +62,10 @@
                     <h5 class="mb-0">Photos récentes</h5><a href="#" class="btn btn-link text-muted">Show all</a>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 mb-2 pl-lg-1"><img src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 pr-lg-1 mb-2"><img src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 pl-lg-1"><img src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="" class="img-fluid rounded shadow-sm"></div>
+                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.0.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
+                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.1.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
+                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.2.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
+                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.3.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
                 </div>
             </div>
         </div><!-- End profile widget -->
