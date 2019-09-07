@@ -45,6 +45,7 @@ return function (App $app) {
     $app->post('/addfriend', \App\Controllers\MembersController:: class . ':addFriendRequest')->setName('addFriend');
     $app->get('/addedfriend', \App\Controllers\MembersController:: class . ':acceptFriend');
     $app->get('/ignorefriend', \App\Controllers\MembersController:: class . ':ignoreFriendRequest');
+    $app->post('/addavatar', \App\Controllers\MembersController:: class . ':changeAvatar');
     
     // Ajouter contenus ( test )
     $app->get('/add', \App\Controllers\ContentController ::class . ':getAddForm')->setName('ajouter');

@@ -17,14 +17,19 @@
 	
     <div class="col-xl-8 col-md-8 col-sm-10 mx-auto">
 
+	<form method="POST" action="addavatar" enctype="multipart/form-data">
+    	<input type="file" name="image"/>
+    	<input type="submit" class="btn btn-primary" name="submit" value="Envoyer" />
+    </form>
+
         <!-- Profile widget -->
         <div class="bg-white shadow rounded overflow-hidden">
             <div class="px-4 pt-0 pb-4 bg-dark">
                 <div class="media align-items-end profile-header">
                     <div class="profile mr-3">
                     	<img src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="..." width="130" class="rounded mb-2 img-thumbnail">
-                    	<a href="#" class="btn btn-light btn-sm btn-block">Editer mon Profil</a>
                     	<a href="{{ path_for('deconnexion') }}" class="btn btn-light btn-sm btn-block">Se deconnecter</a>
+                    	<a href="#" class="btn btn-light btn-sm btn-block">Editer mon Profil</a>
                     </div>
                     <div class="media-body mb-5 text-white">
                         <h4 class="mt-0 mb-0">{{ profile }}</h4>

@@ -3,6 +3,7 @@
 
 namespace App\Controllers;
 
+
 class MembersController extends Controller 
 {
     
@@ -201,6 +202,55 @@ class MembersController extends Controller
         
         return $this->container->view->render($response, 'pages/account.twig');
               
+    }
+    
+    // Upload Avatar
+    
+    public function changeAvatar($request, $response)
+    {
+                
+        $uploadedFile = $request->getUploadedFiles();
+        $directory = $this->container->get('uploaded_directory');
+        
+        $uploadedFile = $uploadedFile['image'];
+                
+        $avatarDir = $directory . DIRECTORY_SEPARATOR . "avatar";
+        
+        // Deletes the previous avatar if there is one 
+        $scan = scandir($avatarDir,1);
+        if(isset($scan['0'])){
+            unlink($avatarDir . DIRECTORY_SEPARATOR . $scan['0']);
+        }
+
+        $this->moveUploadedFile($directory, $uploadedFile);
+        
+        // for debugging purposes
+        //return $this->container->view->render($response, 'pages/account.twig');
+        return $this->redirect($response, 'profile');
+    }
+    
+    
+       
+    function moveUpLoadedFile($directory, $uploadedFile)
+    {
+        
+        $memberModel = $this->container->get('membersModel');
+        $uid = $_SESSION['uid'];
+        
+        $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+        
+        $basename = "avatar";
+        $author = strtolower($_SESSION['username']);
+        // Makes the filename unique
+        $fid = date('H-i-s');
+        $filename = $basename ."_". $author ."_". $fid . "." . $extension;
+        
+        // Sends the filename to the DB
+        $memberModel->changeAvatar($filename, $uid);
+        
+        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $filename);
+        
+        return $filename;
     }
     
     

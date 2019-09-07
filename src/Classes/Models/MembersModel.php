@@ -85,4 +85,10 @@ class MembersModel extends Model
         return $friends->fetchAll();
     }
     
+    public function changeAvatar($filename, $uid)
+    {
+        $sql = "UPDATE members SET avatar_file = ? WHERE id = ?";
+        $this->executeQuery($sql, array($filename, $uid));
+    }
+    
 }
