@@ -30,6 +30,7 @@
                     </div>
                     <div class="media-body mb-5 text-white">
                         <h4 class="mt-0 mb-0">{{ profile }}</h4>
+                        <p class="small mb-4"> <i class="france flag"></i>France</p>
                     </div>
                 </div>
             </div>
@@ -48,11 +49,13 @@
                     <h5 class="mb-0">Amis</h5><a href="#" class="btn btn-link text-muted">Show all</a>
                 </div>
                 {% if not friends %}
-                	<p>Vous n'avez pas d'amis !</p>
+                	<p>Vous n'avez pas encore d'amis !</p>
                 {% endif %}
                 <div class="row">
 					{% for friendship in friends %}
-						<span class="btn btn-primary">{{ friendship.name }}</span>
+						<span>
+							<img src="uploads/avatar/{{ friendship.avatar_file }}" class="rounded-circle" alt="friend avatar" height="35">{{ friendship.name }}
+						</span>
 					{% endfor %}
                 </div>
             </div>
@@ -61,12 +64,16 @@
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <h5 class="mb-0">Photos récentes</h5><a href="#" class="btn btn-link text-muted">Show all</a>
                 </div>
+                {%  if not recentimg %}
+                	<p>Vous n'avez pas encore publié de photos !</p>
+                {% else %}
                 <div class="row">
                     <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.0.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
                     <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.1.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
                     <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.2.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
                     <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.3.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
                 </div>
+                {% endif %}
             </div>
         </div><!-- End profile widget -->
 

@@ -38,7 +38,7 @@ class MembersModel extends Model
     
     public function signup($username, $rdp, $ip)
     {
-        $sql = "INSERT INTO members (name, password, ip_address, group_id, date) VALUES (?, ?, ?, 3, NOW())";
+        $sql = "INSERT INTO members (name, password, avatar_file, ip_address, group_id, date) VALUES (?, ?, 'avatar_default.png', ?, 3, NOW())";
         $this->executeQuery($sql, array($username, $rdp, $ip));
     }
     
@@ -76,7 +76,7 @@ class MembersModel extends Model
     
     public function getFriends($uid)
     {
-        $sql = "SELECT members.id, members.name
+        $sql = "SELECT members.id, members.name, members.avatar_file
                 FROM members
                 INNER JOIN friendship
                     ON members.id = friendship.friend_b
@@ -100,7 +100,7 @@ class MembersModel extends Model
     
     public function getRecentPhotos($uid)
     {
-        $sql = "SELECT filename FROM images WHERE user_id = 6 LIMIT 0,4";
+        $sql = "SELECT filename FROM images WHERE user_id = ? LIMIT 0,4";
         $recentImgs = $this->executeQuery($sql, array($uid));
         return $recentImgs->fetchAll();
     }
