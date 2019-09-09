@@ -51,11 +51,23 @@ class ImagesController extends ContentController
     {
         $imageModel = $this->container->get('imagesModel');
         
-        // Controller WIP 
+        // Controller WIP
         // ( friends, public, private )
-        $datasImages = $imageModel->fetchDatasFriends();
-        
-        echo json_encode($datasImages);
+        // Displaying friends markers
+        if(isset($_SESSION['uid'])){
+            
+            $uid = $_SESSION['uid'];
+
+            $publicImgs = $imageModel->fetchDatasPublic();
+            $friendsImgs = $imageModel->fetchDatasFriends($uid);
+            $myPrivateImgs = $imageModel->fetchMyImgs($uid);
+            $datasImgs = array_merge($publicImgs, $friendsImgs, $myPrivateImgs);
+        } else {
+            // Displaying public images only.
+            $datasImgs = $imageModel->fetchDatasPublic();
+        }
+         
+        echo json_encode($datasImgs);
     }
     
     /* 

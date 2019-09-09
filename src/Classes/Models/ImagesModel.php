@@ -20,7 +20,7 @@ Class ImagesModel extends Model
         return $dataImages->fetchAll();
     }
     
-    public function fetchDatasFriends()
+    public function fetchDatasFriends($uid)
     {
         $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng,
                 markers.lat, markers.altitude, images.upload_date, images.type,
@@ -30,10 +30,28 @@ Class ImagesModel extends Model
                         ON markers.image_id = images.id
                     INNER JOIN members
                         ON images.user_id = members.id
-                WHERE images.privacy = 0 OR images.privacy = 1";
-        $dataImages = $this->executeQuery($sql);
+					INNER JOIN friendship
+						ON images.user_id = friendship.friend_b
+                WHERE friendship.friend_a = ? AND images.privacy = 1";
+        $dataImages = $this->executeQuery($sql, array($uid));
         return $dataImages->fetchAll();
-    }  
+    }
+    
+    public function fetchMyImgs($uid)
+    {
+        $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng,
+                markers.lat, markers.altitude, images.upload_date, images.type,
+                images.height, images.width, images.size, members.name as user_name, images.privacy
+                FROM markers
+                    INNER JOIN images
+                        ON markers.image_id = images.id
+                    INNER JOIN members
+                        ON images.user_id = members.id
+                WHERE images.user_id = ? 
+                AND images.privacy = 1 OR images.privacy = 2";
+        $dataImages = $this->executeQuery($sql, array($uid));
+        return $dataImages->fetchAll();
+    }
     
     public function countImgMember($userId)
     {
