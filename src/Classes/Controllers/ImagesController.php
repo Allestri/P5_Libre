@@ -49,8 +49,11 @@ class ImagesController extends ContentController
     
     public function fetchMarkersRest()
     {
-        $imageModel = $this->container->get('imagesModel');              
-        $datasImages = $imageModel->fetchDatas();
+        $imageModel = $this->container->get('imagesModel');
+        
+        // Controller WIP 
+        // ( friends, public, private )
+        $datasImages = $imageModel->fetchDatasFriends();
         
         echo json_encode($datasImages);
     }
