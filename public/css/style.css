@@ -23,6 +23,25 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0,0,0,0.5);
-  z-index: 2;
-  cursor: pointer;
+  z-index: 2;	
+}
+
+/* Thumbnail */
+.myImg
+{
+	cursor: pointer;
+}
+
+/* Full size Image */
+
+.img-wrapper
+{
+	width:80%;
+	cursor: pointer;
+}
+
+.fullImg
+{
+	width:100%;
+	/* display:none; */
 }

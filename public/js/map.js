@@ -31,6 +31,8 @@ function displayMap()
 	            // Info window
                 var infoWindow = new google.maps.InfoWindow;
                 
+
+                
                 if(refresh === true){
                 	// Unset all markers
                     var i = 0, l = markers.length;
@@ -62,8 +64,10 @@ function displayMap()
 	                
 
 	                //var windowContent2 = "<a href='#'><img src='data:image/jpeg;base64, " + data[i].thumbnail_base64 + "></a>";
-	                var windowContent = "<div id='divImg'><a href='#' title='Cliquez pour visualiser'></a></div>";
+	                var windowContent = "<div id='divImg'></div>";
 	                let filename = data[i].filename;
+
+
 	                
 	                // Event listener
 	                marker.addListener('click', ()=> {
@@ -71,9 +75,19 @@ function displayMap()
 	                	infoWindow.setContent(windowContent);
 	                	marker.point.displayInfos();
 	                	
+	                	// Test marker manual position ( draggable )
+	                	var position = marker.getPosition();
+	                	var latitude = position.lat();
+	                	console.log(latitude);
+	                	
 	                	infoWindow.open(map, marker);
 	                	
+
 	                	this.getThumbnail(filename);
+
+
+	                	this.getImageFullScreen(filename);
+	                	
 	                });
 	                marker.setMap(gmap);
 	                markers.push(marker);
@@ -94,7 +108,8 @@ function displayMap()
 	
 	this.getThumbnail = function (filename) {
 		
-		//this.imageFullScreen(filename);
+		//this.getImageFullScreen(filename);
+
 		
 		//console.log(filename);
 		var dir = "uploads/thumbnails";
@@ -104,7 +119,8 @@ function displayMap()
 	    	type: "GET",
 	        url: file,
 	        success: function(result) {
-	        	$('#divImg').append($('<img class="img" />').attr('src', file));
+	        	$('#divImg').append($('<img class="myImg" />').attr('src', file));
+	        	//$('#divImg').append('<img class="img" src=' + file + ' />');
 	        },
 	    	error : function(result, status, error){
             console.log('erreur');
@@ -113,22 +129,28 @@ function displayMap()
 		
 	};
 	
-	this.imageFullScreen = function (filename){
+	this.getImageFullScreen = function (filename){
+							
+			var dir = "uploads/photos";
+			var file = dir + "/" + filename;
+			
+			$.ajax({
+				type:"GET",
+				url: file,
+				success: function(result){
+					//$('#overlay').append('<div class="img-wrapper"></div>');
+					//$('.img-wrapper').append($('<img />').attr({ src: file, class: 'fullImg' } ));
+					// Display / Hide
+					
+					$('#overlay').show();
+					//$('.fullImg').toggle(1000);
+				},
+				error: function(result, status, error){
+					console.log('erreur');
+				}
+			});
+			
 		
-		var dir = "uploads/";
-		var file = dir + "/" + filename;
-		
-		$.ajax({
-			type:"GET",
-			url: file,
-			success: function(result){
-				$('#overlay').append($('<img />').attr('src', file));
-				$('#overlay').show(1000);
-			},
-			error: function(result, status, error){
-				console.log('erreur');
-			}
-		});
 	};
 	
 	// Init Google Map
