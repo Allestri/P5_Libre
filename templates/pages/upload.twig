@@ -2,7 +2,7 @@
 
 {% block content %}
 	{{ include ('flash.twig') }}
-	<div class="col-lg-6">
+	<div class="col-lg-6 mx-auto">
     	<h2>Test final Upload Images + Exif</h2>
     	
     	{% if flash.success %}
@@ -24,6 +24,18 @@
                 <div class="form-group">
                     <label for="titre">Renommez votre image</label><br />
                     <input type="text" class="form-control" name="name" placeholder="Titre du fichier" id="titre" required /><br />
+                </div>
+                <div class="form-check form-check-inline">
+                	<input class="form-check-input" type="radio" name="privacy" id="privacy0"value="0" checked>
+                	<label class="form-check-label" for="privacy0">Publique</label>
+                </div>
+                <div class="form-check form-check-inline">
+                	<input class="form-check-input" type="radio" name="privacy" id="privacy1"value="1">
+                	<label class="form-check-label" for="privacy1">Mes amis</label>
+                </div>
+                <div class="form-check form-check-inline">
+                	<input class="form-check-input" type="radio" name="privacy" id="privacy2"value="2">
+                	<label class="form-check-label" for="privacy2">Privée</label>
                 </div>
                 <div class="form-group">
                     <label for="myfile">Fichier</label><br />

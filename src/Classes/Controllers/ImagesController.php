@@ -99,6 +99,9 @@ class ImagesController extends ContentController
 
         $imageModel = $this->container->get('imagesModel');
         
+        // Get form datas
+        $datas = $request->getParsedBody();
+        $privacy = $datas['privacy'];
         
         //$this->postUpload($request, $response);
         $uploadedFile = $request->getUploadedFiles();
@@ -125,7 +128,7 @@ class ImagesController extends ContentController
         //var_dump($hasExif);
         
         // Insert info data (including base64 thumbnail content) 
-        $imageModel->addInfos($filename, $picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user);
+        $imageModel->addInfos($filename, $picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user, $privacy);
         
         // Fetch the file's unique ID
         $imageId = $imageModel->linkId();
