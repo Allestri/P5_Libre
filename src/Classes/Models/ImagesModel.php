@@ -8,7 +8,7 @@ Class ImagesModel extends Model
     public function fetchDatasPublic()
     {
         $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng, 
-                markers.lat, markers.altitude, images.upload_date, images.type, 
+                markers.lat, markers.altitude, images.upload_date, images.type, images.liked,
                 images.height, images.width, images.size, members.name as user_name, images.privacy              
                 FROM markers 
                     INNER JOIN images 
@@ -23,7 +23,7 @@ Class ImagesModel extends Model
     public function fetchDatasFriends($uid)
     {
         $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng,
-                markers.lat, markers.altitude, images.upload_date, images.type,
+                markers.lat, markers.altitude, images.upload_date, images.type, images.liked,
                 images.height, images.width, images.size, members.name as user_name, images.privacy
                 FROM markers
                     INNER JOIN images
@@ -40,7 +40,7 @@ Class ImagesModel extends Model
     public function fetchMyImgs($uid)
     {
         $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng,
-                markers.lat, markers.altitude, images.upload_date, images.type,
+                markers.lat, markers.altitude, images.upload_date, images.type, images.liked,
                 images.height, images.width, images.size, members.name as user_name, images.privacy
                 FROM markers
                     INNER JOIN images
@@ -84,6 +84,13 @@ Class ImagesModel extends Model
         $sql = "SELECT * FROM images WHERE 1";
         $imgDatas = $this->executeQuery($sql);
         return $imgDatas->fetchAll();
+    }
+    
+    public function likeImage($imgId){
+        $sql = "UPDATE images
+                SET liked = liked + 1
+                WHERE id = ?";
+        $this->executeQuery($sql, array($imgId));
     }
     
 }

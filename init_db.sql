@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 09 sep. 2019 à 09:54
+-- Généré le :  lun. 16 sep. 2019 à 19:11
 -- Version du serveur :  5.7.21
 -- Version de PHP :  7.2.4
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `friend_requests` (
   PRIMARY KEY (`id`),
   KEY `uid` (`sender_id`),
   KEY `fk_members_to_friend_req2` (`receiver_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `friend_requests`
@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `images` (
   `size` int(11) NOT NULL,
   `type` varchar(11) NOT NULL,
   `upload_date` datetime NOT NULL,
+  `liked` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL,
   `groupimg_id` int(11) NOT NULL,
   `privacy` int(11) DEFAULT '0',
@@ -98,12 +99,13 @@ CREATE TABLE IF NOT EXISTS `images` (
 -- Déchargement des données de la table `images`
 --
 
-INSERT INTO `images` (`id`, `filename`, `height`, `width`, `size`, `type`, `upload_date`, `user_id`, `groupimg_id`, `privacy`, `thumbnail_base64`) VALUES
-(23, '291b42e7a2b5b405.JPG', 3000, 4000, 4977227, 'image/jpeg', '2019-08-30 07:54:23', 6, 1, 0, 'placeholder'),
-(25, 'fd53e0ff42e734bb.JPG', 3672, 4896, 5235515, 'image/jpeg', '2019-08-30 08:17:19', 6, 1, 1, 'placeholder'),
-(26, '635e6a83076ae87a.jpg', 1080, 1920, 233172, 'image/jpeg', '2019-09-04 05:21:51', 6, 3, 1, 'placeholder'),
-(27, 'ba5a170e7ba993d9.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-09-04 06:52:48', 6, 1, 0, 'placeholder'),
-(32, 'fea47e658a416473.jpg', 2242, 3992, 6071612, 'image/jpeg', '2019-09-06 07:29:31', 6, 1, 0, 'placeholder');
+INSERT INTO `images` (`id`, `filename`, `height`, `width`, `size`, `type`, `upload_date`, `liked`, `user_id`, `groupimg_id`, `privacy`, `thumbnail_base64`) VALUES
+(23, '291b42e7a2b5b405.JPG', 3000, 4000, 4977227, 'image/jpeg', '2019-08-30 07:54:23', 9, 18, 1, 0, 'placeholder'),
+(25, 'fd53e0ff42e734bb.JPG', 3672, 4896, 5235515, 'image/jpeg', '2019-08-30 08:17:19', 0, 6, 1, 1, 'placeholder'),
+(26, '635e6a83076ae87a.jpg', 1080, 1920, 233172, 'image/jpeg', '2019-09-04 05:21:51', 0, 6, 3, 2, 'placeholder'),
+(27, 'ba5a170e7ba993d9.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-09-04 06:52:48', 0, 6, 1, 0, 'placeholder'),
+(32, 'fea47e658a416473.jpg', 2242, 3992, 6071612, 'image/jpeg', '2019-09-06 07:29:31', 0, 6, 1, 0, 'placeholder'),
+(33, '28baef665fcce266.jpg', 2242, 3992, 5447704, 'image/jpeg', '2019-09-16 20:55:51', 0, 6, 1, 0, 'placeholder');
 
 -- --------------------------------------------------------
 
@@ -145,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `markers` (
   `image_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_image_to_markers` (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `markers`
@@ -156,7 +158,8 @@ INSERT INTO `markers` (`id`, `name`, `address`, `lng`, `lat`, `altitude`, `image
 (14, 'Scotland', 'placeholder', -6.18284, 57.4577, 177.1, 25),
 (15, 'Tihany', 'Tihany', 17.8895, 46.9144, 100, 26),
 (16, 'Maeva', 'placeholder', -3.507, 47.7474, 99.203, 27),
-(21, 'Douarnenez', 'placeholder', -4.28549, 48.108, 72.636, 32);
+(21, 'Douarnenez', 'placeholder', -4.28549, 48.108, 72.636, 32),
+(22, 'Tihany', 'placeholder', 17.8909, 46.9152, 158.645, 33);
 
 -- --------------------------------------------------------
 
@@ -175,15 +178,15 @@ CREATE TABLE IF NOT EXISTS `members` (
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_members_to_members_groups` (`group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `members`
 --
 
 INSERT INTO `members` (`id`, `name`, `password`, `avatar_file`, `group_id`, `ip_address`, `date`) VALUES
-(6, 'SOku', '$2y$10$lOIr/VRtSKqwFFM5NoNJb.mMH9aoO2s1h97tzsDpFZmaCiSiuK59q', 'avatar_soku_08-31-53.jpg', 1, NULL, '2019-06-23 02:47:26'),
-(18, 'John', '$2y$10$UDVjA2pLHdZIfO64peq.W.QS3GlEVFeGkvUSKL7cg./Hb/ttB1qrW', 'avatar_default.png', 2, '::1', '2019-09-05 06:04:44'),
+(6, 'SOku', '$2y$10$lOIr/VRtSKqwFFM5NoNJb.mMH9aoO2s1h97tzsDpFZmaCiSiuK59q', 'avatar_soku_18-55-26.jpg', 1, NULL, '2019-06-23 02:47:26'),
+(18, 'John', '$2y$10$UDVjA2pLHdZIfO64peq.W.QS3GlEVFeGkvUSKL7cg./Hb/ttB1qrW', 'avatar_john_21-02-10.gif', 2, '::1', '2019-09-05 06:04:44'),
 (19, 'Membre1', '$2y$10$qeOKW7srtV0iGFBfz7bBGuMckXoj5TddK290Zo/RL3NRXsTK4yHqW', 'avatar_default.png', 3, '::1', '2019-09-05 06:30:48'),
 (20, 'Membre2', '$2y$10$RV21BhyVsqSLOiLoBCeWrOoStOhU7NVr5t57lZD0VvISc3c7HKlme', 'avatar_default.png', 3, '::1', '2019-09-05 06:31:57'),
 (21, 'Membre3', '$2y$10$aPT267hpOs8skX3tGQyoduPpq6VFiBz.9EWVm2FxGjxbCzdWD2Mga', 'avatar_default.png', 3, '::1', '2019-09-05 06:32:13'),

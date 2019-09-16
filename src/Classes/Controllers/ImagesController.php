@@ -30,6 +30,9 @@ class ImagesController extends ContentController
     // Google Maps
     public function displayMap($request, $response)
     {
+        $uri = $request->getUri();
+        var_dump($uri);
+        
         return $this->container->view->render($response, 'pages/map.twig');
     }
         
@@ -68,6 +71,16 @@ class ImagesController extends ContentController
         }
          
         echo json_encode($datasImgs);
+    }
+    
+    /* Social functionalities */
+    public function likeImage($request, $response) {
+        
+        $datas = $request->getParsedBody();
+        $imgId = $datas['imgId'];
+        
+        $imageModel = $this->container->get('imagesModel');
+        $imageModel->likeImage($imgId);
     }
     
     /* 

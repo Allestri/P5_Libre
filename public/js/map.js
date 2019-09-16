@@ -140,10 +140,12 @@ function displayMap()
 				success: function(result){
 					//$('#overlay').append('<div class="img-wrapper"></div>');
 					//$('.img-wrapper').append($('<img />').attr({ src: file, class: 'fullImg' } ));
-					// Display / Hide
 					
+					// WIP
+					// Display / Hide ( note : refer to imageviewer.js for the hiding method - WIP )
+					$('.fullImg').attr('src', file);
 					$('#overlay').show();
-					//$('.fullImg').toggle(1000);
+					
 				},
 				error: function(result, status, error){
 					console.log('erreur');
