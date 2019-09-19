@@ -94,4 +94,13 @@ Class ImagesModel extends Model
         $this->executeQuery($sql, array($imgId));
     }
     
+    public function mostLikedImgs(){
+        $sql = "SELECT id, filename, liked 
+                FROM images 
+                WHERE privacy = 0
+				ORDER BY liked DESC 
+                LIMIT 0,3";
+        $likedImages = $this->executeQuery($sql);
+        return $likedImages->fetchAll();
+    }
 }

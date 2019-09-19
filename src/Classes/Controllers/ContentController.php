@@ -25,11 +25,15 @@ class ContentController extends Controller
         // get the template renderer and pass response and datas to the template file.
         return $this->container->get('renderer')->render($response, 'content.php', $args); 
     } */
-    
+        
     
     public function home($request, $response)
     {
-        return $this->container->view->render($response, 'home.twig');
+        
+        $imageModel = $this->container->get('imagesModel');
+        $args['images'] = $imageModel->mostLikedImgs();
+
+        return $this->render($response, 'home.twig', $args);
     }
     
     

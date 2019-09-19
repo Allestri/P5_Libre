@@ -2,6 +2,9 @@
 
 // dbugging purposes
 
+
+
+// Hiding overlay 
 $('.fullImg').click(function(){
 	
 	$('#overlay').hide();

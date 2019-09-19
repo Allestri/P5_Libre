@@ -30,8 +30,6 @@ class ImagesController extends ContentController
     // Google Maps
     public function displayMap($request, $response)
     {
-        $uri = $request->getUri();
-        var_dump($uri);
         
         return $this->container->view->render($response, 'pages/map.twig');
     }

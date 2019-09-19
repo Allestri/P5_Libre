@@ -28,9 +28,19 @@ function displayMap()
 	        success: (data)=> {
 	            //console.log(data[0].lng, data[0].lat);
 	            	            
+	        	console.log(data);
 	            // Info window
                 var infoWindow = new google.maps.InfoWindow;
                 
+                
+                google.maps.event.addListener(infoWindow, 'domready', ()=> {
+                	
+                	$('#myImg').click(()=> {
+                		console.log('salut');
+                		this.getImageFullScreen();
+                	})
+                	
+                });
 
                 
                 if(refresh === true){
@@ -66,6 +76,8 @@ function displayMap()
 	                //var windowContent2 = "<a href='#'><img src='data:image/jpeg;base64, " + data[i].thumbnail_base64 + "></a>";
 	                var windowContent = "<div id='divImg'></div>";
 	                let filename = data[i].filename;
+	                
+	                marker.filename = filename;
 
 
 	                
@@ -74,7 +86,7 @@ function displayMap()
 	                	//console.log(infoWindow);
 	                	infoWindow.setContent(windowContent);
 	                	marker.point.displayInfos();
-	                	
+
 	                	// Test marker manual position ( draggable )
 	                	var position = marker.getPosition();
 	                	var latitude = position.lat();
@@ -83,10 +95,11 @@ function displayMap()
 	                	infoWindow.open(map, marker);
 	                	
 
+	                	
 	                	this.getThumbnail(filename);
 
 
-	                	this.getImageFullScreen(filename);
+	                	
 	                	
 	                });
 	                marker.setMap(gmap);
@@ -119,7 +132,7 @@ function displayMap()
 	    	type: "GET",
 	        url: file,
 	        success: function(result) {
-	        	$('#divImg').append($('<img class="myImg" />').attr('src', file));
+	        	$('#divImg').append($('<img id="myImg" />').attr('src', file));
 	        	//$('#divImg').append('<img class="img" src=' + file + ' />');
 	        },
 	    	error : function(result, status, error){
@@ -129,10 +142,13 @@ function displayMap()
 		
 	};
 	
-	this.getImageFullScreen = function (filename){
-							
+	this.getImageFullScreen = function (){
+			
+			let src = $('#myImg').attr('src');
+			let filename = src.split("uploads/thumbnails/");
+			console.log(filename);
 			var dir = "uploads/photos";
-			var file = dir + "/" + filename;
+			var file = dir + "/" + filename[1];
 			
 			$.ajax({
 				type:"GET",
