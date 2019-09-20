@@ -26,9 +26,9 @@ function displayMap()
 	        url: "http://projetlibre/map/api",
 	        dataType: "json",
 	        success: (data)=> {
-	            //console.log(data[0].lng, data[0].lat);
-	            	            
-	        	console.log(data);
+	           //console.log(data[0].lng, data[0].lat);
+	        	
+	           //console.log(data);
 	            // Info window
                 var infoWindow = new google.maps.InfoWindow;
                 
@@ -62,12 +62,21 @@ function displayMap()
 	            	// Position
 	                var latlngset = new google.maps.LatLng(data[i].lat, data[i].lng);
 	                
+	                // Customizing marker
+	                let iconImg;
+	                if( (data[i].groupimg_id) > 1){
+	                	iconImg = 'images/camera.png';
+	                } else {
+	                	iconImg = 'images/beachflag.png';
+	                }
+	                
 	                let point = new points(data, i);
 	                //console.log(point);
 	                let marker = new google.maps.Marker({
 	                    position: latlngset,
 	                    map: gmap,
 	                    point: point,
+	                    icon: iconImg,
 	                    title: 'Marker : ' + data[i].name
 	                });
 	                
@@ -159,7 +168,7 @@ function displayMap()
 					
 					// WIP
 					// Display / Hide ( note : refer to imageviewer.js for the hiding method - WIP )
-					$('.fullImg').attr('src', file);
+					$('#img-wrapper').prepend($('<img class="fullImg" />').attr('src', file));
 					$('#overlay').show();
 					
 				},

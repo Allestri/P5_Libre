@@ -30,12 +30,16 @@
 	</div>
 	
 	<div id="overlay">
-		<div class="img-wrapper mx-auto">
-			<img class="fullImg" src="uploads/photos/fea47e658a416473.jpg" />
+		<div id="img-wrapper" class="mx-auto">
+			<!-- <img class="fullImg" /> -->
 			<div id="imgPanel">
 				<form id="likeImg" method="POST" action="map">
 					<input type="hidden" name="imgId" value="23"/>
 					<button class="fas fa-heart"></button>
+				</form>
+				<form id="reportImg" method="POST" action="map/report">
+					<input type="hidden" name="imgId" value="23" />
+					<button class="fas fa-exclamation-circle"></button>
 				</form>
 				
 			</div>

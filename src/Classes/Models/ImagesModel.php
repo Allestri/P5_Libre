@@ -9,7 +9,7 @@ Class ImagesModel extends Model
     {
         $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng, 
                 markers.lat, markers.altitude, images.upload_date, images.type, images.liked,
-                images.height, images.width, images.size, members.name as user_name, images.privacy              
+                images.height, images.width, images.size, members.name as user_name, images.groupimg_id, images.privacy              
                 FROM markers 
                     INNER JOIN images 
                         ON markers.image_id = images.id
@@ -24,7 +24,7 @@ Class ImagesModel extends Model
     {
         $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng,
                 markers.lat, markers.altitude, images.upload_date, images.type, images.liked,
-                images.height, images.width, images.size, members.name as user_name, images.privacy
+                images.height, images.width, images.size, members.name as user_name, images.groupimg_id, images.privacy
                 FROM markers
                     INNER JOIN images
                         ON markers.image_id = images.id
@@ -41,7 +41,7 @@ Class ImagesModel extends Model
     {
         $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng,
                 markers.lat, markers.altitude, images.upload_date, images.type, images.liked,
-                images.height, images.width, images.size, members.name as user_name, images.privacy
+                images.height, images.width, images.size, members.name as user_name, images.groupimg_id, images.privacy
                 FROM markers
                     INNER JOIN images
                         ON markers.image_id = images.id
@@ -103,4 +103,16 @@ Class ImagesModel extends Model
         $likedImages = $this->executeQuery($sql);
         return $likedImages->fetchAll();
     }
+    
+    public function reportImage($imgId) {
+        $sql = "UPDATE images
+                SET reported = reported + 1
+                WHERE id = ?";
+        $this->executeQuery($sql, array($imgId));
+    }
+    
+    // Moderation
+    // Administration
+    
+    
 }

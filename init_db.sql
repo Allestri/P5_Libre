@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 16 sep. 2019 à 19:11
+-- Généré le :  ven. 20 sep. 2019 à 21:14
 -- Version du serveur :  5.7.21
 -- Version de PHP :  7.2.4
 
@@ -90,22 +90,22 @@ CREATE TABLE IF NOT EXISTS `images` (
   `user_id` int(11) NOT NULL,
   `groupimg_id` int(11) NOT NULL,
   `privacy` int(11) DEFAULT '0',
+  `reported` tinyint(4) NOT NULL DEFAULT '0',
   `thumbnail_base64` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `group_img` (`groupimg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `images`
 --
 
-INSERT INTO `images` (`id`, `filename`, `height`, `width`, `size`, `type`, `upload_date`, `liked`, `user_id`, `groupimg_id`, `privacy`, `thumbnail_base64`) VALUES
-(23, '291b42e7a2b5b405.JPG', 3000, 4000, 4977227, 'image/jpeg', '2019-08-30 07:54:23', 9, 18, 1, 0, 'placeholder'),
-(25, 'fd53e0ff42e734bb.JPG', 3672, 4896, 5235515, 'image/jpeg', '2019-08-30 08:17:19', 0, 6, 1, 1, 'placeholder'),
-(26, '635e6a83076ae87a.jpg', 1080, 1920, 233172, 'image/jpeg', '2019-09-04 05:21:51', 0, 6, 3, 2, 'placeholder'),
-(27, 'ba5a170e7ba993d9.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-09-04 06:52:48', 0, 6, 1, 0, 'placeholder'),
-(32, 'fea47e658a416473.jpg', 2242, 3992, 6071612, 'image/jpeg', '2019-09-06 07:29:31', 0, 6, 1, 0, 'placeholder'),
-(33, '28baef665fcce266.jpg', 2242, 3992, 5447704, 'image/jpeg', '2019-09-16 20:55:51', 0, 6, 1, 0, 'placeholder');
+INSERT INTO `images` (`id`, `filename`, `height`, `width`, `size`, `type`, `upload_date`, `liked`, `user_id`, `groupimg_id`, `privacy`, `reported`, `thumbnail_base64`) VALUES
+(23, '291b42e7a2b5b405.JPG', 3000, 4000, 4977227, 'image/jpeg', '2019-08-30 07:54:23', 16, 18, 1, 0, 4, 'placeholder'),
+(25, 'fd53e0ff42e734bb.JPG', 3672, 4896, 5235515, 'image/jpeg', '2019-08-30 08:17:19', 2, 6, 1, 1, 0, 'placeholder'),
+(26, '635e6a83076ae87a.jpg', 1080, 1920, 233172, 'image/jpeg', '2019-09-04 05:21:51', 6, 6, 3, 2, 0, 'placeholder'),
+(27, 'ba5a170e7ba993d9.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-09-04 06:52:48', 4, 6, 1, 0, 0, 'placeholder'),
+(32, 'fea47e658a416473.jpg', 2242, 3992, 6071612, 'image/jpeg', '2019-09-06 07:29:31', 1, 6, 1, 0, 0, 'placeholder');
 
 -- --------------------------------------------------------
 
@@ -147,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `markers` (
   `image_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_image_to_markers` (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `markers`
@@ -158,8 +158,7 @@ INSERT INTO `markers` (`id`, `name`, `address`, `lng`, `lat`, `altitude`, `image
 (14, 'Scotland', 'placeholder', -6.18284, 57.4577, 177.1, 25),
 (15, 'Tihany', 'Tihany', 17.8895, 46.9144, 100, 26),
 (16, 'Maeva', 'placeholder', -3.507, 47.7474, 99.203, 27),
-(21, 'Douarnenez', 'placeholder', -4.28549, 48.108, 72.636, 32),
-(22, 'Tihany', 'placeholder', 17.8909, 46.9152, 158.645, 33);
+(21, 'Douarnenez', 'placeholder', -4.28549, 48.108, 72.636, 32);
 
 -- --------------------------------------------------------
 

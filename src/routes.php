@@ -25,6 +25,7 @@ return function (App $app) {
     $app->get('/map', \App\Controllers\ImagesController:: class . ':displayMap')->setName('map');
     
     $app->post('/map', \App\Controllers\ImagesController:: class . ':likeImage');
+    $app->post('/map/report', \App\Controllers\ImagesController:: class . ':reportImage');
     
     $app->get('/map/api', \App\Controllers\ImagesController:: class . ':fetchMarkersRest');
     

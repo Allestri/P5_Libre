@@ -81,6 +81,14 @@ class ImagesController extends ContentController
         $imageModel->likeImage($imgId);
     }
     
+    public function reportImage($request, $response){
+        $datas = $request->getParsedBody();
+        $imgId = $datas['imgId'];
+        
+        $imageModel = $this->container->get('imagesModel');
+        $imageModel->reportImage($imgId);
+    }
+    
     /* 
      * Gets the user who uploaded the content 
      * returns his unique ID
