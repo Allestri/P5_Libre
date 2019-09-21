@@ -39,6 +39,9 @@ return function (App $app) {
     // Espace membre
     $app->get('/profile', \App\Controllers\MembersController:: class . ':displayProfile')->setName('profile');
     
+    // Admin
+    $app->get('/admin', \App\Controllers\AdminController:: class . ':adminPanel')->setName('admin');
+    
     // Deconnexion
     $app->get('/deconnexion', \App\Controllers\MembersController:: class . ':logout')->setName('deconnexion');
     

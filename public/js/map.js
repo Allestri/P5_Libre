@@ -83,7 +83,7 @@ function displayMap()
 	                
 
 	                //var windowContent2 = "<a href='#'><img src='data:image/jpeg;base64, " + data[i].thumbnail_base64 + "></a>";
-	                var windowContent = "<div id='divImg'></div>";
+	                var windowContent = "<div id='thumbnail'></div>";
 	                let filename = data[i].filename;
 	                
 	                marker.filename = filename;
@@ -141,8 +141,8 @@ function displayMap()
 	    	type: "GET",
 	        url: file,
 	        success: function(result) {
-	        	$('#divImg').append($('<img id="myImg" />').attr('src', file));
-	        	//$('#divImg').append('<img class="img" src=' + file + ' />');
+	        	$('#thumbnail').append($('<img id="myImg" />').attr('src', file));
+	        	//$('#thumbnail').append('<img class="myImg" src=' + file + ' />');
 	        },
 	    	error : function(result, status, error){
             console.log('erreur');
@@ -168,7 +168,8 @@ function displayMap()
 					
 					// WIP
 					// Display / Hide ( note : refer to imageviewer.js for the hiding method - WIP )
-					$('#img-wrapper').prepend($('<img class="fullImg" />').attr('src', file));
+					//$('#img-wrapper').prepend($('<img id="fullImg" />').attr('src', file));
+					$('#fullImg').attr('src', file);
 					$('#overlay').show();
 					
 				},

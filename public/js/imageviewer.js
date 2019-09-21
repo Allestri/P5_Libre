@@ -1,16 +1,17 @@
 /* Image Viewer */
 
-// dbugging purposes
 
-
-
-// Hiding overlay 
-$('.fullImg').click(function(){
+// Hiding overlay
+$('#fullImg').ready(function(){
+	console.log('Image ready');
 	
-	$('#overlay').hide();
-	
-	
+	$('#fullImg').click(function(){
+		
+		$('#overlay').hide();
+				
+	});
 });
+
 
 
 /* Social functionalities */

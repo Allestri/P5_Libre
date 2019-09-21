@@ -64,10 +64,12 @@ return function (App $app) {
     
     // Model data stored
     $container['contentModel'] = new \App\Models\ContentModel($container);
-    // Model members & registration
+    // Model members & registrations
     $container['membersModel'] = new \App\Models\MembersModel($container);
-    // Model images exif
+    // Model Images
     $container['imagesModel'] = new \App\Models\ImagesModel($container);
+    // Model Admin & Moderation
+    $container['adminModel'] = new \App\Models\AdminModel($container);
     
     
 };
