@@ -15,8 +15,15 @@ class AdminController extends Controller
     public function adminPanel($request, $response){
         
         $adminModel = $this->container->get('adminModel');
-        $args['reportedImgs'] = $adminModel->getReports();
         
+        $args = $adminModel->countReports();
+        // If there are any reports, fetch those ones.
+        if($args > 1){
+            
+            $args['reportedImgs'] = $adminModel->getReports();
+            
+        }
+          
         return $this->render($response, 'pages/admin.twig', $args);
     }
     

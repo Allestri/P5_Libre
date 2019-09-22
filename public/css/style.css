@@ -77,6 +77,44 @@
 	margin-bottom:50px;
 }
 
+
+/* Admin panel */
+
+#profile-wrapper
+{
+	padding: 20px 10px 30px 10px;
+	background-color:red;
+}
+
+#reports-wrapper
+{
+	padding:0;
+	background-color:#e7e7e7;
+}
+
+#img-report-wrapper
+{
+	height:500px;
+}
+
+.img-single-report
+{
+	height:300px;
+	padding:40px 10px 10px 20px;
+	width:auto;
+}
+
+.img-info-panel
+{
+	height:100px;
+	background-color:white;
+}
+
+.imageReported
+{
+	height:100%;
+}
+
 [class*="col-"] {
   background-color: #d2d2d2;
   border: 2px solid black;
