@@ -2,10 +2,10 @@
 
 
 // Hiding overlay
-$('#fullImg').ready(function(){
+$('#image-midsize').ready(function(){
 	console.log('Image ready');
 	
-	$('#fullImg').click(function(){
+	$('#image-midsize').click(function(){
 		
 		$('#overlay').hide();
 				

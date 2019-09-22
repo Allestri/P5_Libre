@@ -12,13 +12,14 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        	<a class="navbar-brand" href="#">P5</a>
+        	<!-- <a class="navbar-brand" href="#">P5</a> !-->
         	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         		<span class="navbar-toggler-icon"></span>
         	</button>
         
         	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-        		<ul class="navbar-nav mr-auto">
+        		<ul class="navbar-nav mx-auto">
+        			<a class="navbar-brand" href="#">My website</a>
         			<li class="nav-item active">
         				<a class="nav-link" href="{{ path_for('home') }}">Home <span class="sr-only">(current)</span></a>
         			</li>
@@ -37,9 +38,6 @@
         			<li>
         				<a class="nav-link" href="{{ path_for('upload') }}">Upload</a>
         			</li>
-        			<li>
-        				<a class="nav-link" href="{{ path_for('admin') }}">Administration(temp.)</a>
-        			</li>
         	{% if member %}
         			<li>
         				<a class="nav-link" href="{{ path_for('memberList') }}">Membres</a>
@@ -53,17 +51,22 @@
         			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Se connecter</button>
         		</form>
         	    {% else %}
-        	    <ul class="navbar-nav ml-auto">
-        	    	<li class="nav-item">
-						<a class="nav-link" href="{{ path_for('profile') }}">Mon Profil</a>
-    				</li>
-    				<li class="nav-item">
-    					<a class="nav-link" href="{{ path_for('deconnexion') }}">Se Deconnecter</a>
+    
+
+        	    <ul class="navbar-nav mr-auto">
+        	    	<li class="nav-item dropdown ml-auto">
+    	    			<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mon Profil</a>
+    	    		    <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path_for('profile') }}">Mon profil</a>
+                            <a class="dropdown-item" href="{{ path_for('admin') }}">Administration</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path_for('deconnexion') }}">Se deconnecter</a>
+                        </div>
     				</li>
     			</ul>
             {% endif %}
         	</div>
-        	</nav>
+        </nav>
     	<div class="container">
             {% block content %}{% endblock %}
             

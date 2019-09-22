@@ -164,12 +164,12 @@ function displayMap()
 				url: file,
 				success: function(result){
 					//$('#overlay').append('<div class="img-wrapper"></div>');
-					//$('.img-wrapper').append($('<img />').attr({ src: file, class: 'fullImg' } ));
+					//$('.img-wrapper').append($('<img />').attr({ src: file, class: 'image-midsize' } ));
 					
 					// WIP
 					// Display / Hide ( note : refer to imageviewer.js for the hiding method - WIP )
-					//$('#img-wrapper').prepend($('<img id="fullImg" />').attr('src', file));
-					$('#fullImg').attr('src', file);
+					//$('#img-wrapper').prepend($('<img id="image-midsize" />').attr('src', file));
+					$('#image-midsize').attr('src', file);
 					$('#overlay').show();
 					
 				},
