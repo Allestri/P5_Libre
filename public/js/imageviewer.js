@@ -68,12 +68,30 @@ $("#comment").on('click', (function(e) {
 			data: formData,
 			success: function(data){
 				console.log('Success, image commented');
+				showComments();
 			},
 			error: function(result, status, error){
 				console.log('erreur');
 			}
 		});
 }));
+
+
+function showComments() {
+	$.ajax({
+			type: "POST",
+			url:"http://projetlibre/map/showcomment",
+			success: function(data){
+				console.log(data);
+				console.log('Success, comments loaded');
+			},
+			error: function(result, status, error){
+				console.log('erreur');
+			}
+	});
+};
+
+
 
 // Home page carousel
 

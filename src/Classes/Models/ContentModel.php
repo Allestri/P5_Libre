@@ -26,14 +26,19 @@ Class ContentModel extends Model
     
     public function getComments()
     {
-        $sql = "SELECT author_id, content FROM comments WHERE img_id = 23";
+        $sql = "SELECT members.name, comments.content, comments.com_date
+                FROM comments 
+                INNER JOIN members
+	               ON comments.author_id = members.id
+                WHERE img_id = 23
+                ORDER BY comments.id ASC";
         $comments = $this->executeQuery($sql);
         return $comments->fetchAll();
     }
     
     public function addComment($uid, $comment, $imgId)
     {
-        $sql = "INSERT INTO comments (author_id, content, date, img_id) VALUES (?, ?, NOW(), ?)";
+        $sql = "INSERT INTO comments (author_id, content, com_date, img_id) VALUES (?, ?, NOW(), ?)";
         $this->executeQuery($sql, array($uid, $comment, $imgId));
     }
     

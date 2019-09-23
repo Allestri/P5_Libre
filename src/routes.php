@@ -28,6 +28,8 @@ return function (App $app) {
     $app->post('/map/report', \App\Controllers\ImagesController:: class . ':reportImage');
     $app->post('/map/comment', \App\Controllers\ImagesController:: class . ':commentImage');
     
+    $app->get('/map/showcomment', \App\Controllers\ImagesController:: class . ':getComments');
+    
     $app->get('/map/api', \App\Controllers\ImagesController:: class . ':fetchMarkersRest');
     
     // Inscription ( test )

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 20 sep. 2019 à 21:14
+-- Généré le :  lun. 23 sep. 2019 à 14:58
 -- Version du serveur :  5.7.21
 -- Version de PHP :  7.2.4
 
@@ -21,6 +21,35 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `slimappmvc`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE IF NOT EXISTS `comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `author_id` tinyint(4) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `com_date` datetime NOT NULL,
+  `reported` int(11) NOT NULL DEFAULT '0',
+  `moderated` int(11) NOT NULL DEFAULT '0',
+  `img_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `comments`
+--
+
+INSERT INTO `comments` (`id`, `author_id`, `content`, `com_date`, `reported`, `moderated`, `img_id`) VALUES
+(1, 6, 'Superbe photo !', '2019-09-23 04:44:37', 0, 0, 23),
+(2, 6, 'DeuxiÃ¨me commentaire', '2019-09-23 04:59:23', 0, 0, 23),
+(3, 6, 'Bonjour', '2019-09-23 04:59:53', 0, 0, 23),
+(17, 6, 'test', '2019-09-23 16:54:52', 0, 0, 23),
+(16, 6, '', '2019-09-23 16:54:50', 0, 0, 23);
 
 -- --------------------------------------------------------
 
@@ -101,11 +130,11 @@ CREATE TABLE IF NOT EXISTS `images` (
 --
 
 INSERT INTO `images` (`id`, `filename`, `height`, `width`, `size`, `type`, `upload_date`, `liked`, `user_id`, `groupimg_id`, `privacy`, `reported`, `thumbnail_base64`) VALUES
-(23, '291b42e7a2b5b405.JPG', 3000, 4000, 4977227, 'image/jpeg', '2019-08-30 07:54:23', 16, 18, 1, 0, 4, 'placeholder'),
+(23, '291b42e7a2b5b405.JPG', 3000, 4000, 4977227, 'image/jpeg', '2019-08-30 07:54:23', 19, 18, 1, 0, 10, 'placeholder'),
 (25, 'fd53e0ff42e734bb.JPG', 3672, 4896, 5235515, 'image/jpeg', '2019-08-30 08:17:19', 2, 6, 1, 1, 0, 'placeholder'),
-(26, '635e6a83076ae87a.jpg', 1080, 1920, 233172, 'image/jpeg', '2019-09-04 05:21:51', 6, 6, 3, 2, 0, 'placeholder'),
-(27, 'ba5a170e7ba993d9.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-09-04 06:52:48', 4, 6, 1, 0, 0, 'placeholder'),
-(32, 'fea47e658a416473.jpg', 2242, 3992, 6071612, 'image/jpeg', '2019-09-06 07:29:31', 1, 6, 1, 0, 0, 'placeholder');
+(26, '635e6a83076ae87a.jpg', 1080, 1920, 233172, 'image/jpeg', '2019-09-04 05:21:51', 6, 6, 3, 2, 1, 'placeholder'),
+(27, 'ba5a170e7ba993d9.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-09-04 06:52:48', 4, 6, 1, 0, 1, 'placeholder'),
+(32, 'fea47e658a416473.jpg', 2242, 3992, 6071612, 'image/jpeg', '2019-09-06 07:29:31', 1, 6, 1, 0, 1, 'placeholder');
 
 -- --------------------------------------------------------
 

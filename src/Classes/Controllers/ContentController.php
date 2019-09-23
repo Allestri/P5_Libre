@@ -50,7 +50,7 @@ class ContentController extends Controller
      // get the template renderer and pass response and datas to the template file.
      return $this->container->view->render($response, 'content.twig', $args);
      }
-     
+          
      
      // Formulaire
      public function getForm($request, $response)
