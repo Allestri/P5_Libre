@@ -57,7 +57,7 @@ $("#reportImg").on('click', (function(e) {
 
 /* Comment an image */
 
-$("#comment").on('click', (function(e) {
+$("#comment-btn").on('click', (function(e) {
 	e.preventDefault();
 	
 	var formData = $("#comment").serialize();
@@ -69,24 +69,28 @@ $("#comment").on('click', (function(e) {
 			success: function(data){
 				console.log('Success, image commented');
 				showComments();
+				$("#comment")[0].reset();
+				
 			},
 			error: function(result, status, error){
 				console.log('erreur');
 			}
 		});
+	
 }));
 
 
 function showComments() {
 	$.ajax({
-			type: "POST",
+			type: "GET",
 			url:"http://projetlibre/map/showcomment",
+			dataType: "json",
 			success: function(data){
 				console.log(data);
 				console.log('Success, comments loaded');
 			},
 			error: function(result, status, error){
-				console.log('erreur');
+				console.log('error on displaying comments');
 			}
 	});
 };

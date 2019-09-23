@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 23 sep. 2019 à 14:58
+-- Généré le :  lun. 23 sep. 2019 à 18:48
 -- Version du serveur :  5.7.21
 -- Version de PHP :  7.2.4
 
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `images` (
   `thumbnail_base64` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `group_img` (`groupimg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `images`
@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `markers` (
   `image_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_image_to_markers` (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `markers`

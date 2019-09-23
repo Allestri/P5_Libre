@@ -35,8 +35,7 @@ function displayMap()
                 
                 google.maps.event.addListener(infoWindow, 'domready', ()=> {
                 	
-                	$('#myImg').click(()=> {
-                		console.log('salut');
+                	$('#thumbnail').click(()=> {
                 		this.getImageFullScreen();
                 	})
                 	
@@ -83,7 +82,7 @@ function displayMap()
 	                
 
 	                //var windowContent2 = "<a href='#'><img src='data:image/jpeg;base64, " + data[i].thumbnail_base64 + "></a>";
-	                var windowContent = "<div id='thumbnail'></div>";
+	                var windowContent = "<div id='thumbnail-wrapper'></div>";
 	                let filename = data[i].filename;
 	                
 	                marker.filename = filename;
@@ -141,8 +140,8 @@ function displayMap()
 	    	type: "GET",
 	        url: file,
 	        success: function(result) {
-	        	$('#thumbnail').append($('<img id="myImg" />').attr('src', file));
-	        	//$('#thumbnail').append('<img class="myImg" src=' + file + ' />');
+	        	$('#thumbnail-wrapper').append($('<img id="thumbnail" />').attr('src', file));
+	        	//$('#thumbnail-wrapper').append('<img class="myThumbnail" src=' + file + ' />');
 	        },
 	    	error : function(result, status, error){
             console.log('erreur');
@@ -153,7 +152,7 @@ function displayMap()
 	
 	this.getImageFullScreen = function (){
 			
-			let src = $('#myImg').attr('src');
+			let src = $('#thumbnail').attr('src');
 			let filename = src.split("uploads/thumbnails/");
 			console.log(filename);
 			var dir = "uploads/photos";
