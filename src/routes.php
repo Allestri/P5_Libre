@@ -26,6 +26,7 @@ return function (App $app) {
     
     $app->post('/map', \App\Controllers\ImagesController:: class . ':likeImage');
     $app->post('/map/report', \App\Controllers\ImagesController:: class . ':reportImage');
+    $app->post('/map/comment', \App\Controllers\ImagesController:: class . ':commentImage');
     
     $app->get('/map/api', \App\Controllers\ImagesController:: class . ':fetchMarkersRest');
     

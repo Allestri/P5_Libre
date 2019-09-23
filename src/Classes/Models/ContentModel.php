@@ -24,5 +24,18 @@ Class ContentModel extends Model
         $this->executeQuery($sql, array($_POST['name'], $_POST['content']));
     }
     
+    public function getComments()
+    {
+        $sql = "SELECT author_id, content FROM comments WHERE img_id = 23";
+        $comments = $this->executeQuery($sql);
+        return $comments->fetchAll();
+    }
+    
+    public function addComment($uid, $comment, $imgId)
+    {
+        $sql = "INSERT INTO comments (author_id, content, date, img_id) VALUES (?, ?, NOW(), ?)";
+        $this->executeQuery($sql, array($uid, $comment, $imgId));
+    }
+    
 
 }

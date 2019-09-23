@@ -12,7 +12,11 @@ class AdminModel extends Model
     }
     
     public function getReports(){
-        $sql = "SELECT * FROM images WHERE reported > 0";
+        $sql = "SELECT images.id, images.filename, images.liked, images.reported, markers.name
+                FROM images
+                INNER JOIN markers
+                    ON images.id = markers.image_id
+                WHERE reported > 0";
         $reports = $this->executeQuery($sql);
         return $reports->fetchAll();
     }

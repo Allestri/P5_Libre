@@ -30,8 +30,10 @@ class ImagesController extends ContentController
     // Google Maps
     public function displayMap($request, $response)
     {
-        
-        return $this->container->view->render($response, 'pages/map.twig');
+        // Work in progress
+        $contentModel = $this->container->get('contentModel');
+        $args['comments'] = $contentModel->getComments();
+        return $this->container->view->render($response, 'pages/map.twig', $args);
     }
         
     public function fetchMarkers()
@@ -87,6 +89,19 @@ class ImagesController extends ContentController
         
         $imageModel = $this->container->get('imagesModel');
         $imageModel->reportImage($imgId);
+    }
+    
+    public function commentImage($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        $uid = $datas['uid'];
+        
+        $content = $datas['content'];
+        $imgId = $datas['imgId'];
+        
+        
+        $contentModel = $this->container->get('contentModel');
+        $contentModel->addComment($uid, $content, $imgId);
     }
     
     /* 

@@ -28,15 +28,17 @@
     </div>
     <div id="reports-wrapper" class="col-lg-10">
 	    {% if reportsNbr > 0 %}
-        	<div class="alert alert-warning">
+        	<div class="alert alert-danger">
         		<i class="fas fa-exclamation-triangle"></i>
         		<span>Il y a {{ reportsNbr }} photos qui ont été reportées par la communauté</span>
         	</div>
-        	<div id="img-report-wrapper" class="d-flex justify-content-around flex-row">
+        	<div id="img-report-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
         	{% for images in reportedImgs %}
-        		<div class="img-single-report d-flex flex-column">
-        			<img class="imageReported" src="uploads/photos/{{ images.filename }}" />
+        		<div class="img-single-report">
+        			<img class="image-reported" src="uploads/photos/{{ images.filename }}" />
         			<div class="img-info-panel">
+        				<div class="alert alert-warning">Cette image a été reportée {{ images.reported }} fois</div>
+        				<h2 class="card-title">{{ images.name }}</h2>
         				<p>Bonjour</p>
         			</div>
         		</div>
@@ -45,8 +47,10 @@
         	
         {% endif %}
 	</div>
+</div>
+<div class="row">
 	<div class="col-lg-10">
-	{{ dump(reportedImgs) }}
+	    {{ dump(reportedImgs) }}
 	</div>
 </div>
 

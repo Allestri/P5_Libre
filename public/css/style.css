@@ -89,31 +89,31 @@
 #reports-wrapper
 {
 	padding:0;
+	min-height:500px;
 	background-color:#e7e7e7;
 }
 
 #img-report-wrapper
 {
-	height:500px;
+	padding: 0 30px 0 30px;
 }
 
 .img-single-report
 {
-	height:300px;
-	padding:40px 10px 10px 20px;
+	padding:30px 0px 10px 0px;
 	width:auto;
+}
+
+.image-reported
+{
+	width:350px;
 }
 
 .img-info-panel
 {
-	height:100px;
 	background-color:white;
 }
 
-.imageReported
-{
-	height:100%;
-}
 
 [class*="col-"] {
   background-color: #d2d2d2;
@@ -149,8 +149,10 @@
 #content-wrapper
 {
 	width:70%;
+	min-height:550px;
 	background-color: #d2d2d2;
 	z-index: 3;
+	overflow:auto;
 }
 
 #image-wrapper
@@ -165,20 +167,29 @@
 	cursor: pointer;
 }
 
-
-
 #button-panel
 {
 	position:absolute;
-	top:50px;
+	top:90%;
+	height:50px;
 	width:100%;
-	background-color: rgba(191,191,191, 0.5);
+	background-color: rgba(191,191,191, 0.3);
 }
 
+.like i
+{
+	color:#f90d0d;
+}
+
+.report i
+
+{
+	color:#ffe912;
+}
 
 #imgPanel
 {
-	height:100px;
+	height:200px;
 	background-color: #d2d2d2;
-	overflow:auto;
+	padding-bottom:50px;
 }

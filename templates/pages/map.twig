@@ -28,24 +28,48 @@
 			<button id="refresh" type="button" class="btn btn-primary">Rafraîchir</button>
 		</div>
 	</div>
-	
+	{{ dump(member) }}
+	{{ dump(comments) }}
 	<div id="overlay">
 		<div id="content-wrapper" class="mx-auto">
 			<div id="image-wrapper">
 				<img id="image-midsize" />
-				<div id="button-panel">
+				<div id="button-panel" class="d-flex align-items-center justify-content-around">
     				<form id="likeImg" method="POST" action="map">
     					<input type="hidden" name="imgId" value="23"/>
-    					<button class="fas fa-heart"></button>
+    					<button class="btn btn-secondary like">
+    						<i class="fas fa-heart"></i>
+    						J'aime !
+    					</button>
     				</form>
     				<form id="reportImg" method="POST" action="map/report">
     					<input type="hidden" name="imgId" value="23" />
-    					<button class="fas fa-exclamation-circle"></button>
+    					<button class="btn btn-secondary report">
+    						<i class="fas fa-exclamation-circle"></i>
+    						Signaler
+    					</button>
     				</form>
 				</div>
 			</div>
 			<div id="imgPanel">
-				<p>Placeholder</p>
+				<h2>Placeholder</h2>
+				{% for content in comments %}
+				<div class="comment">
+    				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+    				Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+    				when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+    				</p>
+				</div>
+				{% endfor %}
+				<form id="comment" method="POST" action="map/comment">
+					<input type="hidden" name="uid" value="{{ member }}" />
+					<textarea form="comment" name="content" rows="5"></textarea>
+					<input type="hidden" name="imgId" value="23" />
+					<button class="btn btn-secondary comment">
+					<i class="fas fa-comments"></i>
+					Commenter
+					</button>
+				</form>
 			</div>
 		</div>
 	</div>
