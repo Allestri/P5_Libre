@@ -75,10 +75,10 @@ Class ImagesModel extends Model
         $this->executeQuery($sql, array($title, $lng, $lat, $alt, $imgId));
     }
     
-    public function addInfos($filename, $height, $width, $size, $type, $user, $privacy){
+    public function addInfos($filename, $height, $width, $size, $type, $user, $groupImg, $privacy){
         $sql = "INSERT INTO images (filename, height, width, size, type, upload_date, user_id, groupimg_id, privacy, thumbnail_base64) 
-                VALUES(?, ?, ?, ?, ?, NOW(), ?, 1, ?, 'placeholder')";
-        $this->executeQuery($sql, array($filename, $height, $width, $size, $type, $user, $privacy));
+                VALUES(?, ?, ?, ?, ?, NOW(), ?, ?, ?, 'placeholder')";
+        $this->executeQuery($sql, array($filename, $height, $width, $size, $type, $user, $groupImg, $privacy));
     }
     
     public function fetchImgInfos(){

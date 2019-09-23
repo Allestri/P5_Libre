@@ -33,20 +33,6 @@ class ImagesController extends ContentController
         return $this->container->view->render($response, 'pages/map.twig');
     }
         
-    public function fetchMarkers()
-    {
-        $imageModel = $this->container->get('imagesModel');        
-        
-        $datasImages = $imageModel->fetchDatas();
-        
-        $directory = $this->container->get('json_directory');
-
-        $json = json_encode($datasImages);
-        $filename = $directory . DIRECTORY_SEPARATOR . "datasimages.json";
-        
-        file_put_contents($filename, $json);
-    }
-    
     public function fetchMarkersRest()
     {
         $imageModel = $this->container->get('imagesModel');
@@ -142,7 +128,9 @@ class ImagesController extends ContentController
         $user = $this->getUser();
         
         // Picture infos ( size, height, width)
-        $picInfos = $this->putPictureInfos($filename, $directory);
+        $picInfos = $this->getPictureInfos($filename, $directory);
+        
+        $groupImg = $this->manageDevice($filename, $directory);
         
         // Thumbnail
         $thumbnail = $this->getThumbnail($filename, $directory);
@@ -154,7 +142,7 @@ class ImagesController extends ContentController
         //var_dump($hasExif);
         
         // Insert info data (including base64 thumbnail content) 
-        $imageModel->addInfos($filename, $picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user, $privacy);
+        $imageModel->addInfos($filename, $picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user, $groupImg, $privacy);
         
         // Fetch the file's unique ID
         $imageId = $imageModel->linkId();
@@ -180,6 +168,38 @@ class ImagesController extends ContentController
         return $hasExif;
     }
     
+    // Fetch the device the photo is taken from.
+    public function getDevice($file, $directory)
+    {
+        $exif = $this->seekExif($file, $directory);
+        $deviceBrand = null;
+        if(isset($exif['IFD0'])){
+            $deviceBrand = $exif['IFD0']['Make'];            
+        }
+        return $deviceBrand;
+    }
+    
+    // Assigns a group depending on the device found.
+    // If null, assigns 4 ( Others )
+    public function manageDevice($file, $directory)
+    {
+        $device = $this->getDevice($file, $directory);
+        
+        if(!empty($device)){
+            if($device == "DJI"){
+                // Drones
+                $groupImg = 1;
+            } else {
+                // Smartphones
+                $groupImg = 2;
+            }
+        } else {
+            // "Others"
+            $groupImg = 4;
+        }
+        return $groupImg;
+    }
+    
     // Get the coordinates.
     public function getCoords($expr){
         $coords = explode('/', $expr);
@@ -195,7 +215,7 @@ class ImagesController extends ContentController
     public function putExif($file, $directory){
 
         $exif = $this->seekExif($file, $directory);
-        //var_dump($exif);
+        var_dump($exif);
 
         // Checks geo coordinates
         if(isset($exif['GPS'])){
@@ -262,7 +282,7 @@ class ImagesController extends ContentController
         }
     }
     
-    public function putPictureInfos($file, $directory){
+    public function getPictureInfos($file, $directory){
         
         // Fetch and return Exif datas
         $exif = $this->seekExif($file, $directory);
