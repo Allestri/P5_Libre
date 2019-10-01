@@ -75,6 +75,9 @@ class MembersController extends Controller
             if($isPwdCorrect){
                 $_SESSION['username'] = $username;
                 $_SESSION['uid'] = $member['id'];
+                if($member['group_id'] == 1){
+                    $_SESSION['admin'] = $member['group_id'];
+                }
                 $connexion = true;
             } else {
                 $connexion = false;
@@ -99,7 +102,6 @@ class MembersController extends Controller
     
     public function displayProfile($request, $response, $member)
     {
-        
         $memberModel = $this->container->get('membersModel');  
         
         $username = $_SESSION['username'];

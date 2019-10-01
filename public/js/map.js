@@ -168,6 +168,7 @@ function displayMap()
 					// WIP
 					// Display / Hide ( note : refer to imageviewer.js for the hiding method - WIP )
 					//$('#img-wrapper').prepend($('<img id="image-midsize" />').attr('src', file));
+					showComments();
 					$('#image-midsize').attr('src', file);
 					$('#overlay').show();
 					

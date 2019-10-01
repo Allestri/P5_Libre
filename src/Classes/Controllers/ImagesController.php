@@ -102,7 +102,6 @@ class ImagesController extends ContentController
     public function getUser()
     {   
         $userId = $_SESSION['uid'];
-        var_dump($_SESSION);
         return $userId;
     }    
          
@@ -180,6 +179,7 @@ class ImagesController extends ContentController
     }
     
     // Assigns a group depending on the device found.
+    // Assigns 1 it's a DJI.
     // If null, assigns 4 ( Others )
     public function manageDevice($file, $directory)
     {
@@ -215,7 +215,7 @@ class ImagesController extends ContentController
     public function putExif($file, $directory){
 
         $exif = $this->seekExif($file, $directory);
-        var_dump($exif);
+        //var_dump($exif);
 
         // Checks geo coordinates
         if(isset($exif['GPS'])){
@@ -257,7 +257,7 @@ class ImagesController extends ContentController
             $result['longitude'] = $Longitude;
             $result['altitude'] = $Altitude;
             
-            var_dump($result);
+            //var_dump($result);
             return $result;
         } else {
             echo 'Votre fichier ne contient pas de données de géolocalisation';
@@ -269,6 +269,7 @@ class ImagesController extends ContentController
         $image = exif_thumbnail($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file, $width, $height, $type);
         //$baseEncode = base64_encode($image);
         file_put_contents($directory. DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $file, $image);
+        /*
         if ($image) {
             // send image data to the browser:
             echo "Thumbnail available</br>";
@@ -280,6 +281,7 @@ class ImagesController extends ContentController
             // handling error:
             print 'No thumbnail available';
         }
+        */
     }
     
     public function getPictureInfos($file, $directory){
@@ -300,7 +302,7 @@ class ImagesController extends ContentController
             $result['width'] = $pictureWidth;
             $result['type'] = $pictureType;
             
-            var_dump($result);
+            //var_dump($result);
             return $result;
         } else {
             echo "Pas de données";

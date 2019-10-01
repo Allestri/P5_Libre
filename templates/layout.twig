@@ -58,7 +58,9 @@
     	    			<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mon Profil</a>
     	    		    <div class="dropdown-menu">
                             <a class="dropdown-item" href="{{ path_for('profile') }}">Mon profil</a>
+                            {% if admin %}
                             <a class="dropdown-item" href="{{ path_for('admin') }}">Administration</a>
+                            {% endif %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ path_for('deconnexion') }}">Se deconnecter</a>
                         </div>

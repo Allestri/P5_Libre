@@ -9,7 +9,7 @@ return [
             'host' => 'localhost',
             'user' => 'root',
             'pass' => '',
-            'dbname' => 'slimappmvc'
+            'dbname' => 'p5_libre'
         ],
         
         // Renderer settings

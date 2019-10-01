@@ -32,7 +32,7 @@ class ContentController extends Controller
         
         $imageModel = $this->container->get('imagesModel');
         $args['images'] = $imageModel->mostLikedImgs();
-
+        
         return $this->render($response, 'home.twig', $args);
     }
     
@@ -45,6 +45,7 @@ class ContentController extends Controller
      $args['datas'] = $datas->getContent();
      //var_dump($datas);
      var_dump($args);
+     
      
      
      // get the template renderer and pass response and datas to the template file.

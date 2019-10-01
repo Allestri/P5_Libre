@@ -28,10 +28,9 @@
 			<button id="refresh" type="button" class="btn btn-primary">Rafraîchir</button>
 		</div>
 	</div>
-	{{ dump(member) }}
-	{{ dump(comments) }}
+
 	<div id="overlay">
-		<div id="content-wrapper" class="mx-auto">
+		<div id="content-wrapper" class="d-flex flex-row mx-auto">
 			<div id="image-wrapper">
 				<img id="image-midsize" />
 				<div id="button-panel" class="d-flex align-items-center justify-content-around">
@@ -53,12 +52,12 @@
 			</div>
 			<div id="imgPanel">
 				<h2>Placeholder</h2>
-				{% for content in comments %}
-				<div class="card">
-					<h5 class="card-header">{{ content.name }}</h5>
-    				<p>{{ content.content }}</p>
-				</div>
-				{% endfor %}
+				<div id="comments-wrapper">
+    				<div class="card">
+    					<h5 class="card-header">John Doe</h5>
+        				<p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+    				</div>
+    			</div>
 				<form id="comment" method="POST" action="map/comment">
 					<input type="hidden" name="uid" value="{{ member }}" />
 					<textarea form="comment" name="content" rows="5"></textarea>

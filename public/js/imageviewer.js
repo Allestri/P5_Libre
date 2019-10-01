@@ -86,7 +86,7 @@ function showComments() {
 			url:"http://projetlibre/map/showcomment",
 			dataType: "json",
 			success: function(data){
-				console.log(data);
+				displayComments(data);
 				console.log('Success, comments loaded');
 			},
 			error: function(result, status, error){
@@ -95,6 +95,23 @@ function showComments() {
 	});
 };
 
+function displayComments(data) {
+
+    var comments = null;
+    var comment = null;
+    for( var i = 0; i < data.length; i++){
+
+        comment = "<div class='card'><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><p class='card-text'>" + data[i].content + "</p></div></div>";
+
+        if(i === 0){
+            comments = comment;
+        } else {
+            comments = comments + comment;
+        }
+
+    }
+    $('#comments-wrapper').html(comments);
+};
 
 
 // Home page carousel

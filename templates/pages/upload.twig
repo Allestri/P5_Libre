@@ -2,8 +2,7 @@
 
 {% block content %}
 	{{ include ('flash.twig') }}
-	<div class="col-lg-6 mx-auto">
-    	<h2>Test final Upload Images + Exif</h2>
+	<div class="col-lg-8 mx-auto">
     	
     	{% if flash.success %}
     	<div class="alert alert-success">
@@ -11,41 +10,47 @@
     	</div>
     	{% endif %}
     	
-    	{{ dump(flash.success) }}
-    	
-    	{{ dump(member) }}
 
     	{% if not member %}
     		<div class="alert alert-primary">
     			<p>Veuillez vous <a href="{{ path_for('inscription') }}" class="alert-link">authentifier</a></p>
     		</div>
     		{% else %}
+    	<div class="upload-wrapper mx-auto">
+    		<h1>Upload image</h1>
     		<form id="myForm" method="post" action="addexif" id="form" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="titre">Renommez votre image</label><br />
-                    <input type="text" class="form-control" name="name" placeholder="Titre du fichier" id="titre" required /><br />
+                    <label for="titre">Nommez votre photo</label><br />
+                    <input type="text" class="form-control" name="name" placeholder="Titre de la photo" id="titre" required />
+                    <span class="text-info">Le nom de votre photo sera visible par les autres utilisateurs.</span>
                 </div>
-                <div class="form-check form-check-inline">
-                	<input class="form-check-input" type="radio" name="privacy" id="privacy0"value="0" checked>
-                	<label class="form-check-label" for="privacy0">Publique</label>
-                </div>
-                <div class="form-check form-check-inline">
-                	<input class="form-check-input" type="radio" name="privacy" id="privacy1"value="1">
-                	<label class="form-check-label" for="privacy1">Mes amis</label>
-                </div>
-                <div class="form-check form-check-inline">
-                	<input class="form-check-input" type="radio" name="privacy" id="privacy2"value="2">
-                	<label class="form-check-label" for="privacy2">Privée</label>
+                <div class="form-group">
+                	<label for="privacy0">Confidentialité de la photo</label><br>
+                    <div class="form-check form-check-inline">
+                    	<input class="form-check-input" type="radio" name="privacy" id="privacy0"value="0" checked>
+                    	<label class="form-check-label" for="privacy0">Publique</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    	<input class="form-check-input" type="radio" name="privacy" id="privacy1"value="1">
+                    	<label class="form-check-label" for="privacy1">Mes amis</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    	<input class="form-check-input" type="radio" name="privacy" id="privacy2"value="2">
+                    	<label class="form-check-label" for="privacy2">Privée</label>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="myfile">Fichier</label><br />
                     <input type="hidden" name="MAX_FILE_SIZE" value="10048576" />
-                    <input type="file" name="image" id="myfile" /><br />
+                    <input type="file" class="form-control-file" name="image" id="myfile" /><br />
                 </div>
-                <input type="submit" class="btn btn-primary" name="submit" value="Envoyer" />
-                <button id="refresh" type="button" class="btn btn-primary">Rafraîchir</button>
-                <div class="g-recaptcha" data-sitekey="6LfscakUAAAAANphF8fAwRgEYRV-aEAn3F0PiPwX"></div>
+                <div id="button-wrapper">
+                	<input type="submit" class="btn btn-primary" name="submit" value="Envoyer" />
+                </div>
+                <!-- <button id="refresh" type="button" class="btn btn-primary">Rafraîchir</button> -->
+                <div id="preview"></div>
         	</form>
+        </div>
     	{% endif %}
 
     </div>
