@@ -81,7 +81,6 @@ function displayMap()
 	                
 	                
 
-	                //var windowContent2 = "<a href='#'><img src='data:image/jpeg;base64, " + data[i].thumbnail_base64 + "></a>";
 	                var windowContent = "<div id='thumbnail-wrapper'></div>";
 	                let filename = data[i].filename;
 	                
@@ -144,7 +143,7 @@ function displayMap()
 	        	//$('#thumbnail-wrapper').append('<img class="myThumbnail" src=' + file + ' />');
 	        },
 	    	error : function(result, status, error){
-            console.log('erreur');
+	    		console.log('erreur');
 	    	}
 	    });
 		

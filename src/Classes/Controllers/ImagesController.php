@@ -284,6 +284,12 @@ class ImagesController extends ContentController
         */
     }
     
+    public function getImageRatio($width, $height)
+    {
+        $imageRatio = $width / $height;
+        var_dump($imageRatio);
+    }
+    
     public function getPictureInfos($file, $directory){
         
         // Fetch and return Exif datas
@@ -296,11 +302,13 @@ class ImagesController extends ContentController
             $pictureWidth = $exif['COMPUTED']['Width'];
             $pictureType = $exif['FILE']['MimeType'];
             
-            // Return infos
+            // Assigns infos
             $result['size'] = $pictureSize;
             $result['height'] = $pictureHeight;
             $result['width'] = $pictureWidth;
             $result['type'] = $pictureType;
+            
+            $this->getImageRatio($pictureWidth, $pictureHeight);
             
             //var_dump($result);
             return $result;

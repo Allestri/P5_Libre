@@ -34,10 +34,8 @@ class MembersController extends Controller
         
         if(isset ($username))
         {
+            // If Username available.
             $isUnique = $membersModel->checkMemberUnique($username);
-            // Verification pseudo disponible
-            //if($sql->rowCount() > 0)
-            //if(($sql) > 0)
             
             if(!$isUnique)
             {
@@ -45,11 +43,13 @@ class MembersController extends Controller
             }
             elseif ($password == $passwordRpt){
                 $rdp = password_hash($password, PASSWORD_DEFAULT);
-                //var_dump($rdp);
                 $membersModel->signup($username, $rdp, $ip);
+                // Avatar(personal) folder creation
+                $directory = $this->container->get('uploaded_directory');
+                mkdir($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $username);
                 echo 'Bienvenue';
             } else {
-                echo 'Mauvaise combinaison de mdp';
+                echo 'Mauvaise combinaison de mot de passe';
             }
         }
         
@@ -109,6 +109,7 @@ class MembersController extends Controller
         $member['profile'] = $username;
         $member['uid'] = $uid;        
         
+        var_dump($_SESSION);
         if(isset($_SESSION['username'])){
             
                        
@@ -221,8 +222,10 @@ class MembersController extends Controller
         $directory = $this->container->get('uploaded_directory');
         
         $uploadedFile = $uploadedFile['image'];
+
+        $member = $_SESSION['username'];
                 
-        $avatarDir = $directory . DIRECTORY_SEPARATOR . "avatar";
+        $avatarDir = $directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $member;
         
         // Deletes the previous avatar if there is one 
         $scan = scandir($avatarDir,1);
@@ -230,7 +233,7 @@ class MembersController extends Controller
             unlink($avatarDir . DIRECTORY_SEPARATOR . $scan['0']);
         }
 
-        $this->moveUploadedFile($directory, $uploadedFile);
+        $this->moveUploadedAvatar($directory, $uploadedFile, $member);
         
         // for debugging purposes
         //return $this->container->view->render($response, 'pages/account.twig');
@@ -239,7 +242,7 @@ class MembersController extends Controller
     
     
     
-    function moveUpLoadedFile($directory, $uploadedFile)
+    function moveUpLoadedAvatar($directory, $uploadedFile, $member)
     {
         
         $memberModel = $this->container->get('membersModel');
@@ -256,7 +259,7 @@ class MembersController extends Controller
         // Sends the filename to the DB
         $memberModel->changeAvatar($filename, $uid);
         
-        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $filename);
+        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $member . DIRECTORY_SEPARATOR . $filename);
         
         return $filename;
     }
