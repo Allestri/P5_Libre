@@ -32,7 +32,7 @@ return function (App $app) {
     
     $app->get('/map/api', \App\Controllers\ImagesController:: class . ':fetchMarkersRest');
     
-    // Inscription ( test )
+    // Inscription
     $app->get('/signup', \App\Controllers\MembersController::class . ':getFormInscripton')->setName('inscription');
     $app->post('/signup', \App\Controllers\MembersController:: class . ':postSignup')->setName('postInscription');
     
@@ -41,6 +41,7 @@ return function (App $app) {
     
     // Espace membre
     $app->get('/profile', \App\Controllers\MembersController:: class . ':displayProfile')->setName('profile');
+    $app->get('/profile/myimgs', \App\Controllers\MembersController:: class . ':getMyPhotos');
     
     // Admin
     $app->get('/admin', \App\Controllers\AdminController:: class . ':adminPanel')->setName('admin');

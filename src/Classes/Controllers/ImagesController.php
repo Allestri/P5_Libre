@@ -37,7 +37,6 @@ class ImagesController extends ContentController
     {
         $imageModel = $this->container->get('imagesModel');
         
-        // Controller WIP
         // ( friends, public, private )
         // Displaying friends markers
         if(isset($_SESSION['uid'])){
@@ -54,9 +53,10 @@ class ImagesController extends ContentController
         }
          
         echo json_encode($datasImgs);
-    }
+    }    
     
     /* Social functionalities */
+    
     public function likeImage($request, $response) {
         
         $datas = $request->getParsedBody();
@@ -120,9 +120,7 @@ class ImagesController extends ContentController
         $directory = $this->container->get('uploaded_directory');
                 
         $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
-        
-        //var_dump($uploadedFile);
-        
+               
         // Gets the user id who uploaded the photo
         $user = $this->getUser();
         
@@ -140,7 +138,7 @@ class ImagesController extends ContentController
         $hasExif = $this->exifReady($filename, $directory);
         //var_dump($hasExif);
         
-        // Insert info data (including base64 thumbnail content) 
+        // Insert info data ( height, width, privacy .. )
         $imageModel->addInfos($filename, $picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user, $groupImg, $privacy);
         
         // Fetch the file's unique ID
@@ -150,7 +148,7 @@ class ImagesController extends ContentController
         if($hasExif){
             $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude'], $imageId['id']);
         }
-        
+         
         return $this->container->view->render($response, 'pages/upload.twig');
     }
         
@@ -215,10 +213,9 @@ class ImagesController extends ContentController
     public function putExif($file, $directory){
 
         $exif = $this->seekExif($file, $directory);
-        //var_dump($exif);
 
         // Checks geo coordinates
-        if(isset($exif['GPS'])){
+        if(isset($exif['GPS']['GPSLatitudeRef'], $exif['GPS']['GPSLongitudeRef'])) {
             
             $GPSLatitudeRef = $exif['GPS']['GPSLatitudeRef'];
             $GPSLongitudeRef = $exif['GPS']['GPSLongitudeRef'];
@@ -260,16 +257,18 @@ class ImagesController extends ContentController
             //var_dump($result);
             return $result;
         } else {
-            echo 'Votre fichier ne contient pas de données de géolocalisation';
+            // Message flash erreur !
+            echo '<p>Votre fichier ne contient pas de données de géolocalisation</p>';
         }
     }
     
     public function getThumbnail($file, $directory){
-                
+        
+        $exif = $this->seekExif($file, $directory);
+                        
         $image = exif_thumbnail($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file, $width, $height, $type);
-        //$baseEncode = base64_encode($image);
         file_put_contents($directory. DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $file, $image);
-        /*
+        
         if ($image) {
             // send image data to the browser:
             echo "Thumbnail available</br>";
@@ -281,7 +280,7 @@ class ImagesController extends ContentController
             // handling error:
             print 'No thumbnail available';
         }
-        */
+        
     }
     
     public function getImageRatio($width, $height)
@@ -322,7 +321,7 @@ class ImagesController extends ContentController
                 imagejpeg($thumbnail, $path, 100);
         }
         
-
+    
         
     }
     
@@ -345,7 +344,6 @@ class ImagesController extends ContentController
             $result['type'] = $pictureType;
             
             $thumbnail = $this->createThumbnail($file, $directory, $pictureType, $pictureWidth, $pictureHeight);
-            echo $thumbnail;
             
             //var_dump($result);
             return $result;

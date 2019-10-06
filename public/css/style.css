@@ -6,6 +6,15 @@
 	z-index:1;
 }
 
+
+[class*="col-"] {
+  background-color: #d2d2d2;
+  border: 2px solid black;
+  border-radius: 6px;
+  line-height: 20px;
+  margin-top:50px;
+}
+
 /* Home */
 
 #carouselExampleControls
@@ -87,8 +96,6 @@
 
 
 
-
-
 /* Admin panel */
 
 #profile-wrapper
@@ -127,13 +134,8 @@
 }
 
 
-[class*="col-"] {
-  background-color: #d2d2d2;
-  border: 2px solid black;
-  border-radius: 6px;
-  line-height: 20px;
-  margin-top:50px;
-}
+/* Account page */
+
 
 
 
@@ -160,12 +162,46 @@
 
 #content-wrapper
 {
+	position:relative;
 	margin-top:3%;
 	width:70%;
 	min-height:550px;
 	background-color: #d2d2d2;
 	z-index: 3;
 }
+
+#profile-content-wrapper
+{
+	position:relative;
+	margin-top:5%;
+	width:50%;
+	padding:5px 5px 0 5px;
+	min-height:550px;
+	background-color: #d2d2d2;
+	z-index: 3;
+}
+
+#profile-images-wrapper
+{
+	max-height:750px;	
+	overflow:auto;
+}
+
+#icon-exit
+{
+	position:absolute;
+	top:0;
+	right:0;
+	font-size:45px;
+	cursor: pointer;
+	z-index: 2;
+}
+
+#icon-exit:hover
+{
+	color:white;
+}
+
 
 #image-wrapper
 {

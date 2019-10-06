@@ -13,6 +13,55 @@ $('#image-midsize').ready(function(){
 });
 
 
+/* Exit image viewer */
+
+$('#icon-exit').click(function() {
+	
+	$('#overlay').hide();
+	
+});
+
+
+/* Profile page */
+
+$('#showAllImages').click(function() {
+	
+	$('#overlay').show();
+	fetchMyPhotos();
+	
+});
+
+
+function fetchMyPhotos() {
+	
+	$.ajax({
+		type: "GET",
+		url: "http://projetlibre/profile/myimgs",
+		dataType: "json",
+		success: function(data){
+			displayMyPhotos(data);
+		},
+		error: function(result, status, error){
+			console.log('erreur');
+		}
+	});
+	
+};
+
+function displayMyPhotos(data) {
+	
+	var photos = "";
+	console.log(data);
+	
+	for( var i = 0; i < data.length; i++){
+		photos += "<div class='card'><img class='card-img-top' src='uploads/thumbnails/" + data[i].filename + "' /><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><p class='card-text'>" + data[i].address + "</p></div></div>";
+    }
+    $('#profile-images-wrapper').html(photos);
+    
+	
+};
+
+
 
 /* Social functionalities */
 /* Like an image */
@@ -102,8 +151,6 @@ function displayComments(data) {
     for( var i = 0; i < data.length; i++){
 
         comments += "<div class='card'><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><p class='card-text'>" + data[i].content + "</p></div></div>";
-        
-        
 
     }
     $('#comments-wrapper').html(comments);

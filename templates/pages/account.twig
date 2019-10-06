@@ -62,7 +62,7 @@
 
             <div class="py-4 px-4">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h5 class="mb-0">Photos récentes</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                    <h5 class="mb-0">Photos récentes</h5><a href="#" id="showAllImages" class="btn btn-link text-muted">Show all</a>
                 </div>
                 {% if not recentimg %}
                 	<p>Vous n'avez pas encore publié de photos !</p>
@@ -76,8 +76,24 @@
                {% endif %}
             </div>
         </div><!-- End profile widget -->
+        
 
+		
     </div>
+</div>
+
+<!-- Image Overlay -->
+<div id="overlay">
+	<div id="profile-content-wrapper" class="mx-auto">
+		<span id="icon-exit"
+			<i class="fas fa-times"></i>
+		</span>
+		<div id="profile-content-title">
+			<h2>Mes Photos</h2>
+		</div>
+		<div id="profile-images-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
+		</div>
+	</div>
 </div>
 
 

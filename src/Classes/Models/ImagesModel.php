@@ -37,6 +37,7 @@ Class ImagesModel extends Model
         return $dataImages->fetchAll();
     }
     
+    // Fetch remaining "non-public" photos posted from the connected member, used in GMap.
     public function fetchMyImgs($uid)
     {
         $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng,
@@ -49,6 +50,22 @@ Class ImagesModel extends Model
                         ON images.user_id = members.id
                 WHERE images.user_id = ? 
                 AND images.privacy = 1 OR images.privacy = 2";
+        $dataImages = $this->executeQuery($sql, array($uid));
+        return $dataImages->fetchAll();
+    }
+    
+    // Fetch every photos posted from the connected member, used in Profile Page.
+    public function fetchAllMyImgs($uid)
+    {
+        $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng,
+                markers.lat, markers.altitude, images.upload_date, images.type, images.liked,
+                images.height, images.width, images.size, members.name as user_name, images.groupimg_id, images.privacy
+                FROM markers
+                    INNER JOIN images
+                        ON markers.image_id = images.id
+                    INNER JOIN members
+                        ON images.user_id = members.id
+                WHERE images.user_id = ?";
         $dataImages = $this->executeQuery($sql, array($uid));
         return $dataImages->fetchAll();
     }
