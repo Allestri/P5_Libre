@@ -30,16 +30,16 @@
 	    {% if reportsNbr > 0 %}
         	<div class="alert alert-danger">
         		<i class="fas fa-exclamation-triangle"></i>
-        		<span>Il y a {{ reportsNbr }} photos qui ont �t� report�es par la communaut�</span>
+        		<span>Il y a {{ reportsNbr }} photos qui ont été reportées par la communauté</span>
         	</div>
         	<div id="img-report-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
         	{% for images in reportedImgs %}
-        		<div class="img-single-report">
-        			<img class="image-reported" src="uploads/photos/{{ images.filename }}" />
-        			<div class="img-info-panel">
+        		<div class="card img-single-report">
+        			<img class="card-img-top image-reported" src="uploads/photos/{{ images.filename }}" />
+        			<div class="card-body img-info-panel">
         				<div class="alert alert-warning">Cette image a éte reportée {{ images.reported }} fois</div>
         				<h2 class="card-title">{{ images.name }}</h2>
-        				<p>Bonjour</p>
+        				<p class="card-text">Bonjour</p>
         			</div>
         		</div>
         	{% endfor %}

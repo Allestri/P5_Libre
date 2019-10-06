@@ -97,17 +97,13 @@ function showComments() {
 
 function displayComments(data) {
 
-    var comments = null;
-    var comment = null;
+    var comments = "";
+
     for( var i = 0; i < data.length; i++){
 
-        comment = "<div class='card'><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><p class='card-text'>" + data[i].content + "</p></div></div>";
-
-        if(i === 0){
-            comments = comment;
-        } else {
-            comments = comments + comment;
-        }
+        comments += "<div class='card'><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><p class='card-text'>" + data[i].content + "</p></div></div>";
+        
+        
 
     }
     $('#comments-wrapper').html(comments);

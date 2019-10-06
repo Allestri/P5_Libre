@@ -54,7 +54,7 @@
                 <div class="row">
 					{% for friendship in friends %}
 						<span>
-							<img src="uploads/avatar/{{ friendship.name }}/{{ friendship.avatar_file }}" class="rounded-circle" alt="friend avatar" height="35">{{ friendship.name }}
+							<img src="uploads/avatar/{{ friendship.avatar_file }}" class="rounded-circle" alt="friend avatar" height="35">{{ friendship.name }}
 						</span>
 					{% endfor %}
                 </div>
@@ -64,7 +64,7 @@
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <h5 class="mb-0">Photos récentes</h5><a href="#" class="btn btn-link text-muted">Show all</a>
                 </div>
-                {%  if not recentimg %}
+                {% if not recentimg %}
                 	<p>Vous n'avez pas encore publié de photos !</p>
                 {% else %}
                 <div class="row">
@@ -73,7 +73,7 @@
                     <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.2.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
                     <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.3.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
                 </div>
-                {% endif %}
+               {% endif %}
             </div>
         </div><!-- End profile widget -->
 

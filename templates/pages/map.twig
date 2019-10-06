@@ -51,7 +51,10 @@
 				</div>
 			</div>
 			<div id="imgPanel">
-				<h2>Placeholder</h2>
+				<div class="card text-white bg-info mb-3">
+    				<h2 class="card-header">Placeholder</h2>
+    				<p class="card-text">Image description</p>
+				</div>
 				<div id="comments-wrapper">
     				<div class="card">
     					<h5 class="card-header">John Doe</h5>
@@ -60,7 +63,7 @@
     			</div>
 				<form id="comment" method="POST" action="map/comment">
 					<input type="hidden" name="uid" value="{{ member }}" />
-					<textarea form="comment" name="content" rows="5"></textarea>
+					<textarea class="input-comment" form="comment" name="content"></textarea>
 					<input type="hidden" name="imgId" value="23" />
 					<button class="btn btn-secondary comment" id="comment-btn">
 					<i class="fas fa-comments"></i>

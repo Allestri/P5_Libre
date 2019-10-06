@@ -286,8 +286,44 @@ class ImagesController extends ContentController
     
     public function getImageRatio($width, $height)
     {
-        $imageRatio = $width / $height;
-        var_dump($imageRatio);
+        $imageRatio = round($width / $height, 2);
+        return $imageRatio;
+    }
+    
+    public function createThumbnail($file, $directory, $ext, $fileWidth, $fileHeight)
+    {
+        // Gets image ratio
+        $ratio = $this->getImageRatio($fileWidth, $fileHeight);
+        
+        $thumbWidth = 160;
+        $thumbHeight = round($thumbWidth / $ratio);
+        
+        $path = $directory . DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $file;
+        var_dump($path);
+        $thumbnail = imagecreatetruecolor(160, $thumbHeight);
+        //$ext = exif_imagetype($file);
+        switch($ext){
+            case 'image/jpg' || 'image/jpeg':
+                $img = imageCreateFromJpeg($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file);
+            break;
+            case 'image/png':
+                $img = imageCreateFromPng($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file);
+            break;
+        }
+        imagecopyresized($thumbnail, $img, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $fileWidth, $fileHeight);
+        switch($ext){
+            case 'image/jpg' || 'image/jpeg':
+                imagejpeg($thumbnail, $path, 100);
+                break;
+            case 'image/png':
+                imagepng($thumbnail, $path, 100);
+                break;
+            default:
+                imagejpeg($thumbnail, $path, 100);
+        }
+        
+
+        
     }
     
     public function getPictureInfos($file, $directory){
@@ -301,14 +337,15 @@ class ImagesController extends ContentController
             $pictureHeight = $exif['COMPUTED']['Height'];
             $pictureWidth = $exif['COMPUTED']['Width'];
             $pictureType = $exif['FILE']['MimeType'];
-            
+            var_dump($pictureType);           
             // Assigns infos
             $result['size'] = $pictureSize;
             $result['height'] = $pictureHeight;
             $result['width'] = $pictureWidth;
             $result['type'] = $pictureType;
             
-            $this->getImageRatio($pictureWidth, $pictureHeight);
+            $thumbnail = $this->createThumbnail($file, $directory, $pictureType, $pictureWidth, $pictureHeight);
+            echo $thumbnail;
             
             //var_dump($result);
             return $result;

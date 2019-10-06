@@ -157,6 +157,8 @@ function displayMap()
 			var dir = "uploads/photos";
 			var file = dir + "/" + filename[1];
 			
+			// Requête recupérer ID image via file
+			
 			$.ajax({
 				type:"GET",
 				url: file,
