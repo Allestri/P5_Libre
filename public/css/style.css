@@ -123,9 +123,21 @@
 	box-shadow: 0px 11px 20px 1px rgba(0,0,0,0.3);
 }
 
+.image-reported-wrapper
+{
+	overflow:hidden;
+}
+
 .image-reported
 {
 	width:350px;
+	object-fit:cover;
+	transition: transform .5s; /* Animation */
+}
+
+.image-reported:hover
+{
+	transform: scale(1.2); /* (120% Zoom) */
 }
 
 .img-info-panel
@@ -136,7 +148,56 @@
 
 /* Account page */
 
+#profile-content-title
+{
+	position:relative;
+	/* box-shadow: 0px 8px 14px -3px rgba(255,255,255,0.61); */
+	
+}
 
+#profile-content-title h2
+{
+	line-height:50px;
+	padding-left:20px;
+	/* text-align:center; */
+}
+
+.profile-photos-card
+{
+	margin-bottom:15px;
+	box-shadow: 0px 11px 20px 1px rgba(0,0,0,0.3);
+}
+
+.profile-photo
+{
+	width:160px;
+	height:120px;
+	object-fit:cover;
+}
+
+.profile-photo-wrapper
+{
+	position:relative;
+}
+
+.card-overlay 
+{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+	opacity: 0;
+	transition: .5s ease;
+	background-color: rgba(0,0,0, 0.4);
+}
+
+.profile-photo-wrapper:hover .card-overlay
+{
+  	opacity: 1;
+}
 
 
 /* Thumbnail */
@@ -192,16 +253,16 @@
 	position:absolute;
 	top:0;
 	right:0;
-	font-size:45px;
+	font-size:30px;
 	cursor: pointer;
 	z-index: 2;
+	transition: color .5s;
 }
 
 #icon-exit:hover
 {
-	color:white;
+	color:#8d8d8d;
 }
-
 
 #image-wrapper
 {

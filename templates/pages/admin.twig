@@ -35,7 +35,9 @@
         	<div id="img-report-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
         	{% for images in reportedImgs %}
         		<div class="card img-single-report">
-        			<img class="card-img-top image-reported" src="uploads/photos/{{ images.filename }}" />
+        			<div class="image-reported-wrapper">
+        				<img class="card-img-top image-reported" src="uploads/photos/{{ images.filename }}" />
+        			</div>
         			<div class="card-body img-info-panel">
         				<div class="alert alert-warning">Cette image a éte reportée {{ images.reported }} fois</div>
         				<h2 class="card-title">{{ images.name }}</h2>

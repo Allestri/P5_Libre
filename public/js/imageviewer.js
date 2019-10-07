@@ -54,11 +54,17 @@ function displayMyPhotos(data) {
 	console.log(data);
 	
 	for( var i = 0; i < data.length; i++){
-		photos += "<div class='card'><img class='card-img-top' src='uploads/thumbnails/" + data[i].filename + "' /><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><p class='card-text'>" + data[i].address + "</p></div></div>";
+		photos += "<div class='profile-photos-card card'><div class='profile-photo-wrapper'><img class='profile-photo card-img-top' src='uploads/thumbnails/" + data[i].filename + "' /><div class='card-overlay'>Cliquez pour aggrandir</div></div><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5></div></div>";
     }
     $('#profile-images-wrapper').html(photos);
     
 	
+};
+
+function displayMyPhotoFullscreen() {
+	
+	// Get event content
+	// Display full screen via image viewer
 };
 
 
