@@ -83,6 +83,13 @@ Class ImagesModel extends Model
         $id = $this->executeQuery($sql);
         return $id->fetch();
     }
+    
+    public function getFilenameId($filename)
+    {
+        $sql = "SELECT id FROM images WHERE filename = ?";
+        $id = $this->executeQuery($sql, array($filename));
+        return $id->fetch();
+    }
            
     public function addGeoDatas($lng, $lat, $alt, $imgId)
     {

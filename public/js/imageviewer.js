@@ -134,6 +134,29 @@ $("#comment-btn").on('click', (function(e) {
 	
 }));
 
+// Show photo informations such as comments.
+// WIP
+
+function showInfos(filename){
+	
+	console.log(filename);
+	
+	$.ajax({
+		type: "GET",
+		url:"http://projetlibre/map/showinfo",
+		dataType: "JSON",
+		success: function(data){
+			displayComments(data);
+			console.log('Success, informations loaded');
+		},
+		error: function(result, status, error){
+			console.log('error on displaying informations');
+		}
+	});
+};
+
+
+// Deprecated.
 
 function showComments() {
 	$.ajax({

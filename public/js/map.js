@@ -149,15 +149,30 @@ function displayMap()
 		
 	};
 	
+	this.getId = function(filename) {
+		
+		return $.ajax({
+			type:"POST",
+			url: "http://projetlibre/map/getid",
+			data: {filename : filename[1]}
+		});
+		
+	};
+
+	function displayId(data, status, object) {
+		console.log(data);
+	};
+	
 	this.getImageFullScreen = function (){
 			
 			let src = $('#thumbnail').attr('src');
 			let filename = src.split("uploads/thumbnails/");
-			console.log(filename);
+			
 			var dir = "uploads/photos";
 			var file = dir + "/" + filename[1];
 			
-			// Requête recupérer ID image via file
+			// Requête recupérer ID image via filename
+			this.getId(filename).done(displayId);
 			
 			$.ajax({
 				type:"GET",
@@ -169,7 +184,7 @@ function displayMap()
 					// WIP
 					// Display / Hide ( note : refer to imageviewer.js for the hiding method - WIP )
 					//$('#img-wrapper').prepend($('<img id="image-midsize" />').attr('src', file));
-					showComments();
+					//showComments();
 					$('#image-midsize').attr('src', file);
 					$('#overlay').show();
 					

@@ -57,8 +57,21 @@ class ImagesController extends ContentController
     
     /* Social functionalities */
     
-    public function likeImage($request, $response) {
+    public function retrieveImageId($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        // debugging purposes
+        $filename = $_POST['filename'];
+        //$filename = $datas['filename'];    
         
+        $imageModel = $this->container->get('imagesModel');
+        $imageId = $imageModel->getFilenameId($filename);
+        
+        echo json_encode($imageId);
+    }
+    
+    public function likeImage($request, $response) 
+    {
         $datas = $request->getParsedBody();
         $imgId = $datas['imgId'];
         
@@ -66,9 +79,11 @@ class ImagesController extends ContentController
         $imageModel->likeImage($imgId);
     }
     
-    public function reportImage($request, $response){
+    public function reportImage($request, $response)
+    {
         $datas = $request->getParsedBody();
         $imgId = $datas['imgId'];
+        
         
         $imageModel = $this->container->get('imagesModel');
         $imageModel->reportImage($imgId);

@@ -27,6 +27,7 @@ return function (App $app) {
     $app->post('/map', \App\Controllers\ImagesController:: class . ':likeImage');
     $app->post('/map/report', \App\Controllers\ImagesController:: class . ':reportImage');
     $app->post('/map/comment', \App\Controllers\ImagesController:: class . ':commentImage');
+    $app->post('/map/getid', \App\Controllers\ImagesController:: class . ':retrieveImageId');
     
     $app->get('/map/showcomment', \App\Controllers\ImagesController:: class . ':getComments');
     
