@@ -141,19 +141,7 @@ class MembersController extends Controller
         }
         
     }
-    
-    // Fetch my photos
-    public function getMyPhotos()
-    {
-        $imageModel = $this->container->get('imagesModel');
-        $uid = $_SESSION['uid'];
-        
-        $myPhotos = $imageModel->fetchAllMyImgs($uid);
-        
-        echo json_encode($myPhotos);
-    }
-    
-    
+       
     
     public function logout($request, $response)
     {

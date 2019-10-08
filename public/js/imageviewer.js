@@ -1,6 +1,9 @@
 /* Image Viewer */
 
 
+var self = this;
+
+
 // Hiding overlay
 $('#image-midsize').ready(function(){
 	console.log('Image ready');
@@ -51,19 +54,39 @@ function fetchMyPhotos() {
 function displayMyPhotos(data) {
 	
 	var photos = "";
+	// 
+	var template = "";
 	console.log(data);
 	
 	for( var i = 0; i < data.length; i++){
-		photos += "<div class='profile-photos-card card'><div class='profile-photo-wrapper'><img class='profile-photo card-img-top' src='uploads/thumbnails/" + data[i].filename + "' /><div class='card-overlay'>Cliquez pour aggrandir</div></div><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5></div></div>";
+		// use template
+		photos += "<div class='profile-photos-card card'><div class='profile-photo-wrapper'><img class='profile-photo card-img-top' src='uploads/thumbnails/" + data[i].filename + "' /><div class='card-overlay'>Cliquez pour aggrandir</div></div><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><div class='card-social'><i class='fas fa-heart'></i>" + data[i].liked + "</div></div></div>";
     }
-    $('#profile-images-wrapper').html(photos);
+    $('#profile-images-wrapper').html(photos); // use template
     
+    
+    $('#profile-images-wrapper').ready(function (){
+    	
+    	$('.profile-photo-wrapper').click(function(){
+    		
+    		// Get event content
+    		console.log('clicked' + event.target);
+    		var child = ($(this).children());
+    		var filename = $(this).find("img").attr( "src" );
+    		console.log(filename);
+    		displayFullScreen(filename);
+    	});
+    	
+    });
 	
 };
 
-function displayMyPhotoFullscreen() {
+function displayFullScreen(filepath) {
 	
-	// Get event content
+	let filename = filepath.split("uploads/thumbnails/");
+	
+	var dir = "uploads/photos";
+	console.log(filename);
 	// Display full screen via image viewer
 };
 
