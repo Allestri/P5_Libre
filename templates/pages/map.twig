@@ -35,14 +35,14 @@
 				<img id="image-midsize" />
 				<div id="button-panel" class="d-flex align-items-center justify-content-around">
     				<form id="likeImg" method="POST" action="map">
-    					<input type="hidden" name="imgId" value="23"/>
+    					<input type="hidden" class="imgId" name="imgId" value="23"/>
     					<button class="btn btn-secondary like">
     						<i class="fas fa-heart"></i>
     						J'aime !
     					</button>
     				</form>
     				<form id="reportImg" method="POST" action="map/report">
-    					<input type="hidden" name="imgId" value="23" />
+    					<input type="hidden" class="imgId" name="imgId" value="23" />
     					<button class="btn btn-secondary report">
     						<i class="fas fa-exclamation-circle"></i>
     						Signaler
@@ -64,7 +64,7 @@
 				<form id="comment" method="POST" action="map/comment">
 					<input type="hidden" name="uid" value="{{ member }}" />
 					<textarea class="input-comment" form="comment" name="content"></textarea>
-					<input type="hidden" name="imgId" value="23" />
+					<input type="hidden" class="imgId" name="imgId" value="23" />
 					<button class="btn btn-secondary comment" id="comment-btn">
 					<i class="fas fa-comments"></i>
 					Commenter

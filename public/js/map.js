@@ -159,8 +159,21 @@ function displayMap()
 		
 	};
 
+	// debugging
 	function displayId(data, status, object) {
 		console.log(data);
+	};
+	
+	// Sets the unique ID value on inputs
+	function setValues(data, status, object){
+		
+		var id = data;
+		console.log(id);
+		
+		var elements = $(".imgId");
+		elements.val(id);
+		console.log(elements);
+		
 	};
 	
 	this.getImageFullScreen = function (){
@@ -172,7 +185,7 @@ function displayMap()
 			var file = dir + "/" + filename[1];
 			
 			// Requête recupérer ID image via filename
-			this.getId(filename).done(displayId);
+			this.getId(filename).done(setValues);
 			
 			$.ajax({
 				type:"GET",

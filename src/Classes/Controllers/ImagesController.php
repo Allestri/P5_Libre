@@ -60,14 +60,20 @@ class ImagesController extends ContentController
     public function retrieveImageId($request, $response)
     {
         $datas = $request->getParsedBody();
+        
         // debugging purposes
-        $filename = $_POST['filename'];
-        //$filename = $datas['filename'];    
+        //$filename = $_POST['filename'];
+        //$filename = '291b42e7a2b5b405.JPG';
+        
+        $filename = $datas['filename'];
         
         $imageModel = $this->container->get('imagesModel');
         $imageId = $imageModel->getFilenameId($filename);
         
-        echo json_encode($imageId);
+        // Makes sure to convert value into integer.
+        $idNbr = (int)$imageId['id'];
+        
+        echo json_encode($idNbr);
     }
     
     public function likeImage($request, $response) 

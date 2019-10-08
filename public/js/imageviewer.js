@@ -139,7 +139,7 @@ $("#comment-btn").on('click', (function(e) {
 	e.preventDefault();
 	
 	var formData = $("#comment").serialize();
-	
+	console.log(formData);
 	$.ajax({
 			type: "POST",
 			url: "http://projetlibre/map/comment",
