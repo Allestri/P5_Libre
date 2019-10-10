@@ -167,6 +167,7 @@ function showInfos(filename){
 	$.ajax({
 		type: "GET",
 		url:"http://projetlibre/map/showinfo",
+		data: id,
 		dataType: "JSON",
 		success: function(data){
 			displayComments(data);
@@ -182,9 +183,16 @@ function showInfos(filename){
 // Deprecated.
 
 function showComments() {
+		
+	// WIP
+	//var element = $('#comment').find('input');
+	var imgId = $('#imgId').attr('value');
+	console.log(imgId);
+
 	$.ajax({
 			type: "GET",
 			url:"http://projetlibre/map/showcomment",
+			data: "imgId=" + imgId,
 			dataType: "json",
 			success: function(data){
 				displayComments(data);

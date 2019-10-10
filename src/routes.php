@@ -47,6 +47,9 @@ return function (App $app) {
     // Admin
     $app->get('/admin', \App\Controllers\AdminController:: class . ':adminPanel')->setName('admin');
     
+    $app->get('/admin/debug', \App\Controllers\ContentController:: class . ':debug');
+    $app->post('/admin/debug', \App\Controllers\ContentController:: class . ':debug');
+    
     // Deconnexion
     $app->get('/deconnexion', \App\Controllers\MembersController:: class . ':logout')->setName('deconnexion');
     

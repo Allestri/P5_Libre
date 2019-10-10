@@ -157,6 +157,9 @@ function displayMap()
 			data: {filename : filename[1]}
 		});
 		
+		//showInfos(id);
+		showComments(id);
+		
 	};
 
 	// debugging
@@ -173,6 +176,7 @@ function displayMap()
 		var elements = $(".imgId");
 		elements.val(id);
 		console.log(elements);
+		
 		
 	};
 	
@@ -197,7 +201,7 @@ function displayMap()
 					// WIP
 					// Display / Hide ( note : refer to imageviewer.js for the hiding method - WIP )
 					//$('#img-wrapper').prepend($('<img id="image-midsize" />').attr('src', file));
-					//showComments();
+					showComments();
 					$('#image-midsize').attr('src', file);
 					$('#overlay').show();
 					

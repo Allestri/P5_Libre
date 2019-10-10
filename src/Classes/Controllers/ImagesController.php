@@ -108,10 +108,13 @@ class ImagesController extends ContentController
         $contentModel->addComment($uid, $content, $imgId);
     }
     
-    public function getComments()
+    public function getComments($request, $response)
     {
+        $datas = $request->getQueryParams();
+        $imgId = $datas['imgId'];
+        
         $contentModel = $this->container->get('contentModel');
-        $comments = $contentModel->getComments();
+        $comments = $contentModel->getComments($imgId);
         
         echo json_encode($comments);
     }

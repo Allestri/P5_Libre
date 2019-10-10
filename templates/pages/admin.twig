@@ -60,6 +60,12 @@
         {% endif %}
 	</div>
 </div>
+
+<form method="GET" action="admin/debug">
+	<input type="text" name="myText">
+	<button class="btn btn-primary">Submit</button>
+</form>
+
 <div class="row">
 	<div class="col-lg-10">
 	    {{ dump(reportedImgs) }}

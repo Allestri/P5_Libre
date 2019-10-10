@@ -24,15 +24,15 @@ Class ContentModel extends Model
         $this->executeQuery($sql, array($_POST['name'], $_POST['content']));
     }
     
-    public function getComments()
+    public function getComments($imgId)
     {
         $sql = "SELECT members.name, comments.content, comments.com_date
                 FROM comments 
                 INNER JOIN members
 	               ON comments.author_id = members.id
-                WHERE img_id = 23
+                WHERE img_id = ?
                 ORDER BY comments.id ASC";
-        $comments = $this->executeQuery($sql);
+        $comments = $this->executeQuery($sql, array($imgId));
         return $comments->fetchAll();
     }
     

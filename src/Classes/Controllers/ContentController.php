@@ -83,6 +83,15 @@ class ContentController extends Controller
 
          return $this->redirect($response, 'ajouter');
      }
+     
+     public function debug($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         $datas2 = $request->getQueryParams();
+         var_dump($_GET);
+         var_dump($datas2);
+         var_dump($datas);
+     }
                
 
      // Upload photos / files
