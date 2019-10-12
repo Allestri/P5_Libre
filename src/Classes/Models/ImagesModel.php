@@ -135,6 +135,14 @@ Class ImagesModel extends Model
         $this->executeQuery($sql, array($imgId));
     }
     
+    public function deleteImage($imgId) {
+        $sql = "DELETE FROM images
+                WHERE id = ?";
+                //AND user_id = ?
+        $this->executeQuery($sql, array($imgId));
+    }
+   
+    
     // Moderation
     // Administration
     

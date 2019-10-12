@@ -132,6 +132,23 @@ class ImagesController extends ContentController
     }
     
     
+    /* CRUD Image profile */
+    public function deletePhoto($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        $imgId = $datas['imgId'];
+        
+        $imageModel = $this->container->get('imagesModel');
+        $imageModel->deleteImage($imgId);
+        
+        //var_dump($filename);
+        //unlink($filename);
+        
+        
+        
+    }
+    
+    
     /* 
      * Gets the user who uploaded the content 
      * returns his unique ID

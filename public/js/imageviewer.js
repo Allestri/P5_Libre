@@ -56,7 +56,7 @@ function displayMyPhotos(data) {
 	var photos = "";
 	// 
 	var template = "";
-	console.log(data);
+	//console.log(data);
 	
 	for( var i = 0; i < data.length; i++){
 		// use template
@@ -70,7 +70,7 @@ function displayMyPhotos(data) {
     	$('.profile-photo-wrapper').click(function(){
     		
     		// Get event content
-    		console.log('clicked' + event.target);
+    		//console.log('clicked' + event.target);
     		var child = ($(this).children());
     		var filename = $(this).find("img").attr( "src" );
     		console.log(filename);
@@ -81,13 +81,26 @@ function displayMyPhotos(data) {
 	
 };
 
+//Display full screen via image viewer
 function displayFullScreen(filepath) {
 	
 	let filename = filepath.split("uploads/thumbnails/");
 	
 	var dir = "uploads/photos";
-	console.log(filename);
-	// Display full screen via image viewer
+	var file = dir + "/" + filename[1];
+
+	var deleteButton = "<span><i class='fas fa-trash-alt'></i></span>";
+	var editButton = "<span><i class='fas fa-edit'></i></span>";
+
+
+	/*
+	$('#profile-images-wrapper').append($('<div id="myphoto-wrapper"></div>'));
+	$('#myphoto-wrapper').append($('<img id="myphoto" />').attr('src', file));
+	$('#myphoto-wrapper').append($('<div id="myphoto-panel">' + deleteButton + editButton + '</div>'));
+	
+	// Show photo overlay.
+	$('#myphoto-wrapper').show();
+	*/
 };
 
 
@@ -215,6 +228,57 @@ function displayComments(data) {
     }
     $('#comments-wrapper').html(comments);
 };
+
+
+
+// CRUD
+
+// Edit a photo
+$('#edit-btn').on('click', function(e) {
+	e.preventDefault();
+	
+	var filename = $('#myphoto').attr('src');
+	console.log(filename);
+	
+	$.ajax({
+		type: "GET",
+		url:"http://projetlibre/map/showcomment",
+		data: "imgId=" + imgId,
+		dataType: "json",
+		success: function(data){
+			displayComments(data);
+			console.log('Success, comments loaded');
+		},
+		error: function(result, status, error){
+			console.log('error on displaying comments');
+		}
+	});
+	
+});
+
+
+// Delete a photo
+$('#delete-btn').on('click', function(e) {
+	e.preventDefault();
+	
+	var filename = $('#myphoto').attr('src');
+	console.log(filename);
+	var imgId = $("#delete").serialize();
+	console.log(imgId);
+	$.ajax({
+		type: "POST",
+		url:"http://projetlibre/profile/deleteimg",
+		data: imgId,
+		success: function(data){
+			console.log('Success, photo deleted');
+		},
+		error: function(result, status, error){
+			console.log('error on photo deletion');
+		}
+	});
+	
+});
+
 
 
 // Home page carousel

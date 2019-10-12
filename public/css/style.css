@@ -255,17 +255,52 @@
 {
 	position:relative;
 	margin-top:5%;
-	width:50%;
+	width:60%;
 	padding:5px 5px 0 5px;
 	min-height:550px;
 	background-color: #d2d2d2;
 	z-index: 3;
 }
 
+
 #profile-images-wrapper
 {
+	position:relative;
 	max-height:750px;	
 	overflow:auto;
+}
+
+#myphoto-wrapper
+{
+	position:absolute;
+	/* display:none; */
+	height:550px;
+}
+
+#myphoto
+{
+	height:100%;
+	position:relative;
+}
+
+#myphoto-panel
+{
+	position:absolute;
+	bottom:0;
+	height:50px;
+	width:100%;
+	background-color: rgba(191,191,191, 0.3);
+}
+
+#myphoto-panel i
+{
+	font-size:25px;
+	color:#dfdfdf;
+}
+
+edit-photo-icon
+{
+	
 }
 
 #icon-exit

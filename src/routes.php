@@ -43,6 +43,7 @@ return function (App $app) {
     // Espace membre
     $app->get('/profile', \App\Controllers\MembersController:: class . ':displayProfile')->setName('profile');
     $app->get('/profile/myimgs', \App\Controllers\ImagesController:: class . ':getMyPhotos');
+    $app->post('/profile/deleteimg', \App\Controllers\ImagesController:: class . ':deletePhoto');
     
     // Admin
     $app->get('/admin', \App\Controllers\AdminController:: class . ':adminPanel')->setName('admin');

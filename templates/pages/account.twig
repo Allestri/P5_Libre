@@ -91,9 +91,31 @@
 				<i class="fas fa-times"></i>
 			</span>
 		</div>
+
 		<div id="profile-images-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
 		</div>
-	</div>
+		<div id="test-design">
+			<div id="myphoto-wrapper">
+				<img id="myphoto" src="uploads/photos/ba5a170e7ba993d9.jpg" />
+				<div id="myphoto-panel" class="d-flex align-items-center justify-content-around">
+					<form id="delete" method="POST" action="profile/deleteimg">
+    					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
+    					<button class="btn btn-secondary comment" id="delete-btn">
+    					<i class='fas fa-trash-alt'></i>
+						Supprimer la photo
+						</button>
+					</form>
+					<form id="editImg" method="POST" action="profile/editimg">
+    					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
+    					<button class="btn btn-secondary comment" id="delete-btn">
+    					<i class='fas fa-edit'></i>
+						Editer la photo
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
 </div>
 
 
