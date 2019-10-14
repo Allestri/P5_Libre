@@ -273,7 +273,7 @@
 #myphoto-wrapper
 {
 	position:absolute;
-	/* display:none; */
+	display:none;
 	height:550px;
 }
 
@@ -296,11 +296,6 @@
 {
 	font-size:25px;
 	color:#dfdfdf;
-}
-
-edit-photo-icon
-{
-	
 }
 
 #icon-exit

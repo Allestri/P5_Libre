@@ -35,6 +35,31 @@ $('#showAllImages').click(function() {
 });
 
 
+function getMyPhotoId(filename) {
+	
+	return $.ajax({
+		type:"POST",
+		url: "http://projetlibre/map/getid",
+		data: {filename : filename[1]}
+	});
+	
+};
+
+
+// Sets the unique ID value on inputs
+function setValues(data, status, object){
+	
+	var id = data;
+	console.log(id);
+	
+	var elements = $(".imgId");
+	elements.val(id);
+	console.log(elements);
+	
+	
+};
+
+
 function fetchMyPhotos() {
 	
 	$.ajax({
@@ -91,16 +116,23 @@ function displayFullScreen(filepath) {
 
 	var deleteButton = "<span><i class='fas fa-trash-alt'></i></span>";
 	var editButton = "<span><i class='fas fa-edit'></i></span>";
-
-
-	/*
-	$('#profile-images-wrapper').append($('<div id="myphoto-wrapper"></div>'));
-	$('#myphoto-wrapper').append($('<img id="myphoto" />').attr('src', file));
-	$('#myphoto-wrapper').append($('<div id="myphoto-panel">' + deleteButton + editButton + '</div>'));
+	
+	// Get clicked photo unique ID
+	getMyPhotoId(filename).done(setValues);
+	
+	// Check container, removes any photo before insertion
+	if($('#myphoto').length > 0) {
+		let photo = $('#myphoto-wrapper').find('img');
+		photo.remove();
+		console.log('Container cleared !');
+	}
+	
+	$('#myphoto-wrapper').prepend($('<img id="myphoto" />').attr('src', file));
+	//$('#myphoto-wrapper').append($('<div id="myphoto-panel">' + deleteButton + editButton + '</div>'));
 	
 	// Show photo overlay.
 	$('#myphoto-wrapper').show();
-	*/
+	
 };
 
 
@@ -233,6 +265,20 @@ function displayComments(data) {
 
 // CRUD
 
+
+// Sets the unique ID value on inputs - !!! possible duplication w setValues on map.js
+function setIdPhoto(){
+	
+	var id = data;
+	console.log(id);
+	
+	var elements = $(".imgId");
+	elements.val(id);
+	console.log(elements);
+	
+	
+};
+
 // Edit a photo
 $('#edit-btn').on('click', function(e) {
 	e.preventDefault();
@@ -256,28 +302,36 @@ $('#edit-btn').on('click', function(e) {
 	
 });
 
-
-// Delete a photo
-$('#delete-btn').on('click', function(e) {
-	e.preventDefault();
+//Delete a photo
+function deletePhoto(imgId) { 
 	
-	var filename = $('#myphoto').attr('src');
-	console.log(filename);
-	var imgId = $("#delete").serialize();
-	console.log(imgId);
-	$.ajax({
-		type: "POST",
-		url:"http://projetlibre/profile/deleteimg",
-		data: imgId,
-		success: function(data){
-			console.log('Success, photo deleted');
-		},
-		error: function(result, status, error){
-			console.log('error on photo deletion');
-		}
+	$("#delete").on('click', function(e) {
+		//e.preventDefault();
+			if(confirm("Voulez vous supprimer cette photo ?")){
+				console.log("Confirmation suppression");
+				e.preventDefault();
+				
+				var filename = $('#myphoto').attr('src');
+				console.log(filename);
+				var imgId = $("#delete").serialize();
+	
+				$.ajax({
+					type: "POST",
+					url:"http://projetlibre/profile/deleteimg",
+					data: imgId,
+					success: function(data){
+						console.log('Success, photo deleted');
+					},
+					error: function(result, status, error){
+						console.log('error on photo deletion');
+					}
+				});
+				
+			} else {
+				e.preventDefault();
+			}
 	});
-	
-});
+};
 
 
 
