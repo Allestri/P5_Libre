@@ -25,6 +25,11 @@ $('#icon-exit').click(function() {
 });
 
 
+$('#icon-exit-full').click(function() {
+	$('#myphoto-wrapper').hide();
+});
+
+
 /* Profile page */
 
 $('#showAllImages').click(function() {
@@ -120,6 +125,10 @@ function displayFullScreen(filepath) {
 	// Get clicked photo unique ID
 	getMyPhotoId(filename).done(setValues);
 	
+	// Sets filename on form.
+	var filenameElt = $(".filename");
+	filenameElt.val(filename[1]);
+	
 	// Check container, removes any photo before insertion
 	if($('#myphoto').length > 0) {
 		let photo = $('#myphoto-wrapper').find('img');
@@ -128,6 +137,8 @@ function displayFullScreen(filepath) {
 	}
 	
 	$('#myphoto-wrapper').prepend($('<img id="myphoto" />').attr('src', file));
+	
+	// Icon exit (?)
 	//$('#myphoto-wrapper').append($('<div id="myphoto-panel">' + deleteButton + editButton + '</div>'));
 	
 	// Show photo overlay.
@@ -303,35 +314,37 @@ $('#edit-btn').on('click', function(e) {
 });
 
 //Delete a photo
-function deletePhoto(imgId) { 
 	
-	$("#delete").on('click', function(e) {
-		//e.preventDefault();
-			if(confirm("Voulez vous supprimer cette photo ?")){
-				console.log("Confirmation suppression");
-				e.preventDefault();
-				
-				var filename = $('#myphoto').attr('src');
-				console.log(filename);
-				var imgId = $("#delete").serialize();
-	
-				$.ajax({
-					type: "POST",
-					url:"http://projetlibre/profile/deleteimg",
-					data: imgId,
-					success: function(data){
-						console.log('Success, photo deleted');
-					},
-					error: function(result, status, error){
-						console.log('error on photo deletion');
-					}
-				});
-				
-			} else {
-				e.preventDefault();
-			}
-	});
-};
+$("#delete").on('click', function(e) {
+	//e.preventDefault();
+		if(confirm("Voulez vous supprimer cette photo ?")){
+			console.log("Confirmation suppression");
+			e.preventDefault();
+			
+			//var filename = $('#myphoto').attr('src');
+			console.log(filename);
+			var datas = $("#delete").serialize();
+
+			console.log(datas);
+			$.ajax({
+				type: "POST",
+				url:"http://projetlibre/profile/deleteimg",
+				data: datas,
+				success: function(data){
+					console.log('Success, photo deleted');
+				},
+				error: function(result, status, error){
+					console.log('error on photo deletion');
+				}
+			});
+			
+			// Confirmation
+			// clear window
+			
+		} else {
+			e.preventDefault();
+		}
+});
 
 
 

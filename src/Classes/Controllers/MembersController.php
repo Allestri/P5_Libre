@@ -109,7 +109,8 @@ class MembersController extends Controller
         $member['profile'] = $username;
         $member['uid'] = $uid;        
         
-        var_dump($_SESSION);
+        //var_dump($_SESSION);
+        
         if(isset($_SESSION['username'])){
             
                        
@@ -128,7 +129,7 @@ class MembersController extends Controller
             
             // Friend Request notifications
             $args['request'] = $memberModel->getFriendRequests($uid);
-            var_dump($args);
+            //var_dump($args);
             
             
             if(isset($args['request']['0'])){

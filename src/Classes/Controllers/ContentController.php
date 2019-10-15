@@ -46,6 +46,8 @@ class ContentController extends Controller
      //var_dump($datas);
      var_dump($args);
      
+     var_dump($_SESSION);
+     
      
      
      // get the template renderer and pass response and datas to the template file.

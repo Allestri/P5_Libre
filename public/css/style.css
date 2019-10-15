@@ -241,6 +241,10 @@
   z-index: 2;
 }
 
+.overlay-profile {
+  position: fixed;
+}
+
 #content-wrapper
 {
 	position:relative;
@@ -273,8 +277,11 @@
 #myphoto-wrapper
 {
 	position:absolute;
+	top:0;
+	right:0;
 	display:none;
 	height:550px;
+	z-index:4;
 }
 
 #myphoto
@@ -299,6 +306,17 @@
 }
 
 #icon-exit
+{
+	position:absolute;
+	top:0;
+	right:0;
+	font-size:30px;
+	cursor: pointer;
+	z-index: 2;
+	transition: color .5s;
+}
+
+#icon-exit-full
 {
 	position:absolute;
 	top:0;

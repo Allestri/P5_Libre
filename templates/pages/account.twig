@@ -83,7 +83,7 @@
 </div>
 
 <!-- Image Overlay -->
-<div id="overlay">
+<div id="overlay" class="overlay-profile">
 	<div id="profile-content-wrapper" class="mx-auto">
 		<div id="profile-content-title">
 			<h2>Mes Photos</h2>
@@ -94,12 +94,16 @@
 
 		<div id="profile-images-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
 		</div>
-		<div id="test-design">
+		<!--   <div id="test-design"> -->
 			<div id="myphoto-wrapper">
 				<!--   <img id="myphoto" src="uploads/photos/ba5a170e7ba993d9.jpg" /> -->
+				<span id="icon-exit-full">
+					<i class="fas fa-times"></i>
+				</span>
 				<div id="myphoto-panel" class="d-flex align-items-center justify-content-around">
 					<form id="delete" method="POST" action="profile/deleteimg">
     					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
+    					<input type="hidden" id="filename" class="filename" name="filename" value="placeholder" />
     					<button class="btn btn-secondary comment" id="delete-btn">
     					<i class='fas fa-trash-alt'></i>
 						Supprimer la photo
@@ -114,7 +118,7 @@
 					</form>
 				</div>
 			</div>
-		</div>
+	</div>
 
 </div>
 
