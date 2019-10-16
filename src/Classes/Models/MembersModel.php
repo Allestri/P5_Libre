@@ -92,10 +92,38 @@ class MembersModel extends Model
         return $avatar->fetch();
     }
     
+    public function getAvatarNew($uid)
+    {
+        $sql = "SELECT avatar_file FROM avatars WHERE user_id = ? AND active = 1";
+        $avatar = $this->executeQuery($sql, array($uid));
+        return $avatar->fetch();
+    }
+    
     public function changeAvatar($filename, $uid)
     {
         $sql = "UPDATE members SET avatar_file = ? WHERE id = ?";
         $this->executeQuery($sql, array($filename, $uid));
+    }
+    
+    public function switchAvatar($uid)
+    {
+        $sql = "UPDATE avatars SET active = CASE
+                WHEN 1 THEN 0
+                ELSE active
+                END
+                WHERE user_id = ?";
+        $this->executeQuery($sql, array($uid));
+    }
+    
+    public function hasCustomAvatar()
+    {
+        $sql = "UPDATE members SET custom_avatar = 1";
+        $this->executeQuery($sql);
+    }
+    public function changeAvatarNew($uid, $filename)
+    {
+        $sql = "INSERT INTO avatars (user_id, avatar_file, active) VALUES (?, ?, 1)";
+        $this->executeQuery($sql, array($uid, $filename));
     }
     
     public function getRecentPhotos($uid)

@@ -118,8 +118,17 @@ class MembersController extends Controller
             $imgNbr = $this->countImgMember($uid);
             $args = array_merge($member, $imgNbr);
             
-            // Gets avatar
-            $avatar = $memberModel->getAvatar($uid);
+            
+            $directory = $this->container->get('uploaded_directory');
+            $avatarDir = "uploads/avatar";
+            
+            // Checks has custom avatar, gets it, return default avatar otherwise.
+            $hasAvatar = $memberModel->getAvatarNew($uid);
+            if($hasAvatar){
+                $avatar['avatar_file'] = $avatarDir . DIRECTORY_SEPARATOR . $username . DIRECTORY_SEPARATOR . $hasAvatar['avatar_file'];
+            } else {
+                $avatar['avatar_file'] = $avatarDir . DIRECTORY_SEPARATOR . "avatar_default.png";
+            }
             $args = array_merge($args, $avatar);
             
             // Get friends
@@ -129,7 +138,7 @@ class MembersController extends Controller
             
             // Friend Request notifications
             $args['request'] = $memberModel->getFriendRequests($uid);
-            //var_dump($args);
+            var_dump($args);
             
             
             if(isset($args['request']['0'])){
@@ -213,6 +222,7 @@ class MembersController extends Controller
               
     }
     
+   
     // Upload Avatar
     
     public function changeAvatar($request, $response)
@@ -227,11 +237,13 @@ class MembersController extends Controller
                 
         $avatarDir = $directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $member;
         
-        // Deletes the previous avatar if there is one 
+        /* Deletes the previous avatar if there is one 
         $scan = scandir($avatarDir,1);
+        var_dump($scan);
         if(isset($scan['0'])){
             unlink($avatarDir . DIRECTORY_SEPARATOR . $scan['0']);
         }
+        */
 
         $this->moveUploadedAvatar($directory, $uploadedFile, $member);
         
@@ -256,8 +268,12 @@ class MembersController extends Controller
         $fid = date('H-i-s');
         $filename = $basename ."_". $author ."_". $fid . "." . $extension;
         
-        // Sends the filename to the DB
-        $memberModel->changeAvatar($filename, $uid);
+        // Switch active avatar on DB
+        $memberModel->switchAvatar($uid);
+        // Sends the filename to the DB, then sets has custom avatar.
+        $memberModel->changeAvatarNew($uid, $filename);
+        $memberModel->hasCustomAvatar();
+        
         
         $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $member . DIRECTORY_SEPARATOR . $filename);
         
