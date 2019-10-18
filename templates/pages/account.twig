@@ -12,19 +12,13 @@
     	</div>
 	{% endif %}
 	
-    <div class="col-xl-8 col-md-8 col-sm-10 mx-auto">
+    <div class="col-xl-9 col-md-9 col-sm-10 mx-auto">
 
-    	<form method="POST" action="addavatar" enctype="multipart/form-data">
-        	<input type="file" name="image"/>
-        	<input type="submit" class="btn btn-primary" name="submit" value="Envoyer" />
-        </form>
-
-        <!-- Profile widget -->
         <div class="bg-white shadow rounded overflow-hidden">
             <div class="px-4 pt-0 pb-4 bg-dark">
                 <div class="media align-items-end profile-header">
                     <div class="profile mr-3">
-                    	<img src="{{ avatar_file }}" alt="..." width="150" class="rounded mb-2 img-thumbnail">
+                    	<img src="{{ avatar }}" alt="..." width="150" class="rounded mb-2 img-thumbnail">
                     	<a href="#" class="btn btn-light btn-sm btn-block">Editer mon Profil</a>
                     	<a href="{{ path_for('deconnexion') }}" class="btn btn-light btn-sm btn-block">Se deconnecter</a>
                     </div>
@@ -33,51 +27,84 @@
                         <p class="small mb-4"> <i class="france flag"></i>France</p>
                     </div>
                 </div>
+                <button id="edit-profile-btn" type="button">
+                	<i class="fas fa-cog"></i>
+                </button>
             </div>
-
-            <div class="bg-light p-4 d-flex justify-content-end text-center">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">{{ imgnbr }}</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Photos</small>
-                    </li>
-                </ul>
-            </div>
-            
-            <!-- Friends -->
-            <div class="py-4 px-4"">
-            	<div class="d-flex align-items-center justify-content-between mb-3">
-                    <h5 class="mb-0">Amis</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+    		<div id="tab-profile">
+                <div class="bg-light p-4 d-flex justify-content-end text-center">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item">
+                            <h5 class="font-weight-bold mb-0 d-block">{{ imgnbr }}</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Photos</small>
+                        </li>
+                    </ul>
                 </div>
-                {% if not friends %}
-                	<p>Vous n'avez pas encore d'amis !</p>
-                {% endif %}
-                <div class="row">
-					{% for friendship in friends %}
-						<span>
-							<img src="uploads/avatar/{{ friendship.avatar_file }}" class="rounded-circle" alt="friend avatar" height="35">{{ friendship.name }}
-						</span>
-					{% endfor %}
+                
+                <!-- Friends -->
+                <div class="py-4 px-4"">
+                	<div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="mb-0">Amis</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                    </div>
+                    {% if not friends %}
+                    	<p>Vous n'avez pas encore d'amis !</p>
+                    {% endif %}
+                    <div class="row">
+    					{% for friendship in friends %}
+    						<span>
+    							<img src="uploads/avatar/{{ friendship.avatar_file }}" class="rounded-circle" alt="friend avatar" height="35">{{ friendship.name }}
+    						</span>
+    					{% endfor %}
+                    </div>
                 </div>
-            </div>
-
-            <div class="py-4 px-4">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h5 class="mb-0">Photos récentes</h5><a href="#" id="showAllImages" class="btn btn-link text-muted">Show all</a>
+    
+                <div class="py-4 px-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="mb-0">Photos récentes</h5><a href="#" id="showAllImages" class="btn btn-link text-muted">Show all</a>
+                    </div>
+                    {% if not recentimg %}
+                    	<p>Vous n'avez pas encore publié de photos !</p>
+                    {% else %}
+                    <div class="row">
+                        <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.0.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
+                        <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.1.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
+                        <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.2.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
+                        <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.3.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
+                    </div>
+                   {% endif %}
                 </div>
-                {% if not recentimg %}
-                	<p>Vous n'avez pas encore publié de photos !</p>
-                {% else %}
-                <div class="row">
-                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.0.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.1.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.2.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
-                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.3.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
-                </div>
-               {% endif %}
-            </div>
+             </div>
+             <div class="py-4 px-4" id="tab-profile-settings">
+                <form method="POST" action="#" class="form" id="PLACEHOLDER">
+                	<h3>Changer mon mot de passe</h3>
+                	<div class="form-group">
+                		<input type="password" class="form-control" id="inputPassword" placeholder="Mot de passe">
+                	</div>
+                	<div class="form-group">
+                		<input type="password" class="form-control" id="inputPassword" placeholder="Répeter mot de passe">
+                	</div>
+                	<div class="form-group">
+                    	<div class="form-check">
+                    		<input class="form-check-input" type="radio" name="avatar" id="activeAvatar" value="1" checked>
+                    		<label class="form-check-label" for="activeAvatar">Votre avatar actuel</label>
+                    	</div>
+                		{% for key, custom_avatar in inactive_avatars %}
+                		<div class="form-check">
+                			<input class="form-check-input" type="radio" name="avatar" id="activeAvatar" value="{{ key }}">
+                    		<label class="form-check-label" for="activeAvatar">Avatar {{ key }}</label>
+                		</div>
+                		{% endfor %}
+            		</div>
+            	</form>
+        		<form method="POST" action="addavatar" class="form" enctype="multipart/form-data">
+                	<div class="form-group">
+                		<label for="avatar-form">Avatar</label>
+            			<input type="file" class="form-control-file" id="avatar-form" name="image"/>
+            		</div>
+            		<input type="submit" class="btn btn-primary" name="submit" value="Modifier mon profil" />
+        		</form>
+             </div>
         </div><!-- End profile widget -->
-        
-
+               
 		
     </div>
 </div>

@@ -118,16 +118,21 @@ class MembersController extends Controller
             $imgNbr = $this->countImgMember($uid);
             $args = array_merge($member, $imgNbr);
             
+            $hasAvatars = $memberModel->getAvatars($uid);
+            //var_dump($avatars['0']);
             
-            $directory = $this->container->get('uploaded_directory');
             $avatarDir = "uploads/avatar";
             
             // Checks has custom avatar, gets it, return default avatar otherwise.
-            $hasAvatar = $memberModel->getAvatarNew($uid);
-            if($hasAvatar){
-                $avatar['avatar_file'] = $avatarDir . DIRECTORY_SEPARATOR . $username . DIRECTORY_SEPARATOR . $hasAvatar['avatar_file'];
+            // Gets inactive avatars in a separate array.
+            if($hasAvatars){
+                
+                $avatar['avatar'] = $avatarDir . DIRECTORY_SEPARATOR . $username . DIRECTORY_SEPARATOR . $hasAvatars['0']['avatar_file'];
+                $avatar['inactive_avatars'] = array_slice($hasAvatars,1);
+                var_dump($avatar);
+                
             } else {
-                $avatar['avatar_file'] = $avatarDir . DIRECTORY_SEPARATOR . "avatar_default.png";
+                $avatar['avatar'] = $avatarDir . DIRECTORY_SEPARATOR . "avatar_default.png";
             }
             $args = array_merge($args, $avatar);
             

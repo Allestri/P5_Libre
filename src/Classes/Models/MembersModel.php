@@ -99,6 +99,16 @@ class MembersModel extends Model
         return $avatar->fetch();
     }
     
+    public function getAvatars($uid)
+    {
+        $sql = "SELECT avatar_file 
+                FROM avatars 
+                WHERE user_id = ? 
+                ORDER BY active DESC";
+        $avatars = $this->executeQuery($sql, array($uid));
+        return $avatars->fetchAll();
+    }
+    
     public function changeAvatar($filename, $uid)
     {
         $sql = "UPDATE members SET avatar_file = ? WHERE id = ?";
