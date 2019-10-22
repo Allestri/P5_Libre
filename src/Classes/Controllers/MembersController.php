@@ -120,6 +120,7 @@ class MembersController extends Controller
             
             $hasAvatars = $memberModel->getAvatars($uid);
             //var_dump($avatars['0']);
+            var_dump($hasAvatars);
             
             $avatarDir = "uploads/avatar";
             
@@ -227,10 +228,24 @@ class MembersController extends Controller
               
     }
     
-   
+    
+    
+    public function switchAvatar($request, $response)
+    {
+        $uid = $_SESSION['uid'];
+        $memberModel = $this->container->get('membersModel');
+        
+        $datas = $request->getParsedBody();
+        $avatarId = $datas['avatarId'];
+        
+        $memberModel->unactiveAvatars($uid);
+        $memberModel->switchAvatar($avatarId, $uid);
+        
+        return $this->redirect($response, 'profile');
+    }
     // Upload Avatar
     
-    public function changeAvatar($request, $response)
+    public function addNewAvatar($request, $response)
     {
                 
         $uploadedFile = $request->getUploadedFiles();
@@ -273,9 +288,10 @@ class MembersController extends Controller
         $fid = date('H-i-s');
         $filename = $basename ."_". $author ."_". $fid . "." . $extension;
         
-        // Switch active avatar on DB
-        $memberModel->switchAvatar($uid);
-        // Sends the filename to the DB, then sets has custom avatar.
+        // Unactive previous avatar on DB
+        $memberModel->unactiveAvatar($uid);
+        // Sends the filename to the DB,
+        // Then sets has custom avatar.
         $memberModel->changeAvatarNew($uid, $filename);
         $memberModel->hasCustomAvatar();
         

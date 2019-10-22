@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 23 sep. 2019 à 18:48
--- Version du serveur :  5.7.21
--- Version de PHP :  7.2.4
+-- Généré le :  mar. 22 oct. 2019 à 19:27
+-- Version du serveur :  5.7.26
+-- Version de PHP :  7.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,8 +19,33 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `slimappmvc`
+-- Base de données :  `p5_libre`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `avatars`
+--
+
+DROP TABLE IF EXISTS `avatars`;
+CREATE TABLE IF NOT EXISTS `avatars` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `avatar_file` varchar(255) NOT NULL,
+  `active` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `avatars`
+--
+
+INSERT INTO `avatars` (`id`, `user_id`, `avatar_file`, `active`) VALUES
+(1, 6, 'avatar_soku_09-07-43.gif', 0),
+(2, 6, 'avatar_soku_10-15-07.jpg', 0),
+(3, 6, 'avatar_soku_10-41-11.jpg', 0),
+(4, 6, 'avatar_soku_08-06-15.png', 1);
 
 -- --------------------------------------------------------
 
@@ -38,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `moderated` int(11) NOT NULL DEFAULT '0',
   `img_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `comments`
@@ -47,9 +72,21 @@ CREATE TABLE IF NOT EXISTS `comments` (
 INSERT INTO `comments` (`id`, `author_id`, `content`, `com_date`, `reported`, `moderated`, `img_id`) VALUES
 (1, 6, 'Superbe photo !', '2019-09-23 04:44:37', 0, 0, 23),
 (2, 6, 'DeuxiÃ¨me commentaire', '2019-09-23 04:59:23', 0, 0, 23),
-(3, 6, 'Bonjour', '2019-09-23 04:59:53', 0, 0, 23),
-(17, 6, 'test', '2019-09-23 16:54:52', 0, 0, 23),
-(16, 6, '', '2019-09-23 16:54:50', 0, 0, 23);
+(23, 6, 'Belle photo', '2019-10-08 13:56:02', 0, 0, 23),
+(22, 6, '4e commentaire', '2019-10-01 23:35:53', 0, 0, 23),
+(21, 6, '3e commentaire', '2019-10-01 22:13:35', 0, 0, 23),
+(24, 6, 'Comment !', '2019-10-08 14:10:25', 0, 0, 32),
+(25, 6, 'Superbe !', '2019-10-08 14:12:14', 0, 0, 32),
+(26, 6, 'Bonjour', '2019-10-10 03:41:02', 0, 0, 32),
+(27, 6, 'yo', '2019-10-10 07:44:36', 0, 0, 32),
+(28, 6, 'df', '2019-10-10 07:54:48', 0, 0, 32),
+(29, 6, 'Bonjour', '2019-10-10 08:40:02', 0, 0, 32),
+(30, 6, 'jioj', '2019-10-10 08:40:12', 0, 0, 32),
+(31, 6, 'Hello', '2019-10-10 08:41:17', 0, 0, 27),
+(32, 6, 'Test', '2019-10-10 09:12:42', 0, 0, 32),
+(33, 6, 'test', '2019-10-10 09:12:54', 0, 0, 27),
+(34, 6, 'Test', '2019-10-11 03:27:49', 0, 0, 32),
+(35, 6, 'Hey', '2019-10-11 03:28:03', 0, 0, 27);
 
 -- --------------------------------------------------------
 
@@ -91,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `friend_requests` (
   PRIMARY KEY (`id`),
   KEY `uid` (`sender_id`),
   KEY `fk_members_to_friend_req2` (`receiver_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `friend_requests`
@@ -123,18 +160,15 @@ CREATE TABLE IF NOT EXISTS `images` (
   `thumbnail_base64` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `group_img` (`groupimg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `images`
 --
 
 INSERT INTO `images` (`id`, `filename`, `height`, `width`, `size`, `type`, `upload_date`, `liked`, `user_id`, `groupimg_id`, `privacy`, `reported`, `thumbnail_base64`) VALUES
-(23, '291b42e7a2b5b405.JPG', 3000, 4000, 4977227, 'image/jpeg', '2019-08-30 07:54:23', 19, 18, 1, 0, 10, 'placeholder'),
-(25, 'fd53e0ff42e734bb.JPG', 3672, 4896, 5235515, 'image/jpeg', '2019-08-30 08:17:19', 2, 6, 1, 1, 0, 'placeholder'),
-(26, '635e6a83076ae87a.jpg', 1080, 1920, 233172, 'image/jpeg', '2019-09-04 05:21:51', 6, 6, 3, 2, 1, 'placeholder'),
-(27, 'ba5a170e7ba993d9.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-09-04 06:52:48', 4, 6, 1, 0, 1, 'placeholder'),
-(32, 'fea47e658a416473.jpg', 2242, 3992, 6071612, 'image/jpeg', '2019-09-06 07:29:31', 1, 6, 1, 0, 1, 'placeholder');
+(1, 'c205e82a22a0f561.JPG', 3672, 4896, 5235515, 'image/jpeg', '2019-10-22 20:27:16', 0, 6, 2, 0, 0, 'placeholder'),
+(3, '831b8a40fc45ad30.JPG', 3000, 4000, 5232616, 'image/jpeg', '2019-10-22 21:24:56', 0, 6, 1, 0, 0, 'placeholder');
 
 -- --------------------------------------------------------
 
@@ -176,18 +210,15 @@ CREATE TABLE IF NOT EXISTS `markers` (
   `image_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_image_to_markers` (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `markers`
 --
 
 INSERT INTO `markers` (`id`, `name`, `address`, `lng`, `lat`, `altitude`, `image_id`) VALUES
-(12, 'Larmor-Plages', 'placeholder', -3.37521, 47.7069, 82.81, 23),
-(14, 'Scotland', 'placeholder', -6.18284, 57.4577, 177.1, 25),
-(15, 'Tihany', 'Tihany', 17.8895, 46.9144, 100, 26),
-(16, 'Maeva', 'placeholder', -3.507, 47.7474, 99.203, 27),
-(21, 'Douarnenez', 'placeholder', -4.28549, 48.108, 72.636, 32);
+(1, 'Scotland', 'placeholder', -6.18284, 57.4577, 177.1, 1),
+(2, 'Larmor', 'placeholder', -3.37273, 47.7015, 85.81, 3);
 
 -- --------------------------------------------------------
 
@@ -200,25 +231,27 @@ CREATE TABLE IF NOT EXISTS `members` (
   `id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `custom_avatar` tinyint(4) NOT NULL DEFAULT '0',
   `avatar_file` varchar(255) NOT NULL,
   `group_id` tinyint(4) NOT NULL,
   `ip_address` varchar(50) DEFAULT NULL,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_members_to_members_groups` (`group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `members`
 --
 
-INSERT INTO `members` (`id`, `name`, `password`, `avatar_file`, `group_id`, `ip_address`, `date`) VALUES
-(6, 'SOku', '$2y$10$lOIr/VRtSKqwFFM5NoNJb.mMH9aoO2s1h97tzsDpFZmaCiSiuK59q', 'avatar_soku_18-55-26.jpg', 1, NULL, '2019-06-23 02:47:26'),
-(18, 'John', '$2y$10$UDVjA2pLHdZIfO64peq.W.QS3GlEVFeGkvUSKL7cg./Hb/ttB1qrW', 'avatar_john_21-02-10.gif', 2, '::1', '2019-09-05 06:04:44'),
-(19, 'Membre1', '$2y$10$qeOKW7srtV0iGFBfz7bBGuMckXoj5TddK290Zo/RL3NRXsTK4yHqW', 'avatar_default.png', 3, '::1', '2019-09-05 06:30:48'),
-(20, 'Membre2', '$2y$10$RV21BhyVsqSLOiLoBCeWrOoStOhU7NVr5t57lZD0VvISc3c7HKlme', 'avatar_default.png', 3, '::1', '2019-09-05 06:31:57'),
-(21, 'Membre3', '$2y$10$aPT267hpOs8skX3tGQyoduPpq6VFiBz.9EWVm2FxGjxbCzdWD2Mga', 'avatar_default.png', 3, '::1', '2019-09-05 06:32:13'),
-(22, 'Private', '$2y$10$Ly4plL/wboZmuWYck.sSVu8itdXwGARhgBFbb2elWrR8tuYjsKvFW', 'avatar_default.png', 3, '::1', '2019-09-08 10:08:38');
+INSERT INTO `members` (`id`, `name`, `password`, `custom_avatar`, `avatar_file`, `group_id`, `ip_address`, `date`) VALUES
+(6, 'SOku', '$2y$10$lOIr/VRtSKqwFFM5NoNJb.mMH9aoO2s1h97tzsDpFZmaCiSiuK59q', 1, 'avatar_soku_05-06-35.jpeg', 1, NULL, '2019-06-23 02:47:26'),
+(18, 'John', '$2y$10$UDVjA2pLHdZIfO64peq.W.QS3GlEVFeGkvUSKL7cg./Hb/ttB1qrW', 1, 'avatar_default.png', 2, '::1', '2019-09-05 06:04:44'),
+(19, 'Membre1', '$2y$10$qeOKW7srtV0iGFBfz7bBGuMckXoj5TddK290Zo/RL3NRXsTK4yHqW', 1, 'avatar_default.png', 3, '::1', '2019-09-05 06:30:48'),
+(20, 'Membre2', '$2y$10$RV21BhyVsqSLOiLoBCeWrOoStOhU7NVr5t57lZD0VvISc3c7HKlme', 1, 'avatar_default.png', 3, '::1', '2019-09-05 06:31:57'),
+(21, 'Membre3', '$2y$10$aPT267hpOs8skX3tGQyoduPpq6VFiBz.9EWVm2FxGjxbCzdWD2Mga', 1, 'avatar_default.png', 3, '::1', '2019-09-05 06:32:13'),
+(22, 'Private', '$2y$10$Ly4plL/wboZmuWYck.sSVu8itdXwGARhgBFbb2elWrR8tuYjsKvFW', 1, 'avatar_default.png', 3, '::1', '2019-09-08 10:08:38'),
+(23, 'Test56', '$2y$10$srbzRZu4WXMQgPfHb5WztekDG0tClMjpbe2XHOb7KF6BA57KxaFvi', 1, 'avatar_test56_17-08-37.gif', 3, '::1', '2019-10-01 19:02:18');
 
 -- --------------------------------------------------------
 

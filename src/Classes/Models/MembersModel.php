@@ -101,7 +101,7 @@ class MembersModel extends Model
     
     public function getAvatars($uid)
     {
-        $sql = "SELECT avatar_file 
+        $sql = "SELECT id, avatar_file 
                 FROM avatars 
                 WHERE user_id = ? 
                 ORDER BY active DESC";
@@ -115,7 +115,7 @@ class MembersModel extends Model
         $this->executeQuery($sql, array($filename, $uid));
     }
     
-    public function switchAvatar($uid)
+    public function unactiveAvatars($uid)
     {
         $sql = "UPDATE avatars SET active = CASE
                 WHEN 1 THEN 0
@@ -123,6 +123,14 @@ class MembersModel extends Model
                 END
                 WHERE user_id = ?";
         $this->executeQuery($sql, array($uid));
+    }
+    
+    public function switchAvatar($avatarId, $uid)
+    {
+        $sql = "UPDATE avatars SET active = 1
+                WHERE id = ?
+                AND user_id = ?";
+        $this->executeQuery($sql, array($avatarId, $uid));
     }
     
     public function hasCustomAvatar()

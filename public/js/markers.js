@@ -6,8 +6,8 @@ function points(data, i){
 	this.lat = data[i].lat;
 	this.alt = data[i].altitude;
 	this.type = data[i].type;
-	this.height = data[i].height;
 	this.width = data[i].width;
+	this.height = data[i].height;
 	this.size = data[i].size;
 	this.user = data[i].user_name;
 	
@@ -20,8 +20,9 @@ function points(data, i){
 		$("#long").replaceWith("<span id='long'> " + this.lng + "</span>");
 		$("#lat").replaceWith("<span id='lat'> " + this.lat + "</span>");
 		$("#alt").replaceWith("<span id='alt'> " + this.alt + " m</span>");
-		$("#height").replaceWith("<span id='height'> " + this.height + " px</span>");
+
 		$("#width").replaceWith("<span id='width'> " + this.width + " px</span>");
+		$("#height").replaceWith("<span id='height'> " + this.height + " px</span>");
 		$("#type").replaceWith("<span id='type'> " + this.type + "</span>");
 	};
 }

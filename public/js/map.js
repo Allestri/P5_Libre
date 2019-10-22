@@ -40,6 +40,13 @@ function displayMap()
                 	})
                 	
                 });
+                
+                // Info button style toggle.
+                google.maps.event.addListener(infoWindow, 'closeclick', ()=> {
+                	
+                	$('#info-toggle').removeClass('active');
+                	
+                });
 
                 
                 if(refresh === true){
@@ -64,9 +71,9 @@ function displayMap()
 	                // Customizing marker
 	                let iconImg;
 	                if( (data[i].groupimg_id) > 1){
-	                	iconImg = 'images/camera.png';
+	                	iconImg = 'images/camera-pin-min.png';
 	                } else {
-	                	iconImg = 'images/beachflag.png';
+	                	iconImg = 'images/drone-pin-min.png';
 	                }
 	                
 	                let point = new points(data, i);
@@ -93,7 +100,10 @@ function displayMap()
 	                	//console.log(infoWindow);
 	                	infoWindow.setContent(windowContent);
 	                	marker.point.displayInfos();
-
+	                	
+	                	// info button
+	                	this.toggleInfoButton();
+	                	
 	                	// Test marker manual position ( draggable )
 	                	var position = marker.getPosition();
 	                	var latitude = position.lat();
@@ -123,6 +133,11 @@ function displayMap()
 	        }
 	    });
 	}
+	
+	this.toggleInfoButton = function() {
+		
+		$('#info-toggle').addClass("active");
+	};
 	
 	// NOTE WORK IN PROGRESS
 	
