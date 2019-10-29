@@ -32,6 +32,7 @@ return function (App $app) {
     $app->get('/map/showcomment', \App\Controllers\ImagesController:: class . ':getComments');
     
     $app->get('/map/api', \App\Controllers\ImagesController:: class . ':fetchMarkersRest');
+    $app->get('/map/infos', \App\Controllers\ImagesController:: class . ':getInfos');
     
     // Inscription
     $app->get('/signup', \App\Controllers\MembersController::class . ':getFormInscripton')->setName('inscription');

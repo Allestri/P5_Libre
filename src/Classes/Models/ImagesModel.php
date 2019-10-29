@@ -70,6 +70,24 @@ Class ImagesModel extends Model
         return $dataImages->fetchAll();
     }
     
+    public function fetchImgsInfos($markerId)
+    {
+        $sql = "SELECT markers.name, markers.address, markers.lng, markers.lat, markers.altitude,
+                images.height, images.width, images.size, images.type, images.upload_date, images.liked, 
+                members.name as user_name, members.avatar_file,
+                comments.content, comments.com_date
+                FROM markers
+                    INNER JOIN images
+                        ON markers.image_id = images.id
+                    INNER JOIN members
+                        ON images.user_id = members.id
+                    INNER JOIN comments
+                        ON images.id = comments.img_id
+                WHERE markers.id = ?";
+        $infosImages = $this->executeQuery($sql, array($markerId));
+        return $infosImages->fetchAll();
+    }
+    
     public function countImgMember($userId)
     {
         $sql = "SELECT count(*) as imgnbr FROM images WHERE user_id = ?";

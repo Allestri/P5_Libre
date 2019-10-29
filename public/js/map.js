@@ -78,7 +78,8 @@ function displayMap()
 	                }
 	                
 	                let point = new points(data, i);
-	                //console.log(point);
+	                //let infos = new imagesInfos(data, i);
+	                
 	                let marker = new google.maps.Marker({
 	                    position: latlngset,
 	                    map: gmap,
@@ -87,7 +88,9 @@ function displayMap()
 	                    title: 'Marker : ' + data[i].name
 	                });
 	                
+	                //console.log(marker.point);
 	                
+	                let markerId = data[i].id;
 
 	                var windowContent = "<div id='thumbnail-wrapper'></div>";
 	                let filename = data[i].filename;
@@ -100,10 +103,14 @@ function displayMap()
 	                marker.addListener('click', ()=> {
 	                	//console.log(infoWindow);
 	                	infoWindow.setContent(windowContent);
-	                	marker.point.displayInfos();
+	                	
 	                	
 	                	// info button
 	                	this.toggleInfoButton();
+	                	
+	                	// Get infos
+	                	//this.getInfos(markerId);
+	                	marker.point.displayInfos();
 	                	
 	                	// Test marker manual position ( draggable )
 	                	var position = marker.getPosition();
@@ -115,7 +122,7 @@ function displayMap()
 
 	                	
 	                	this.getThumbnail(filename);
-
+	                		
 
 	                	
 	                	
@@ -141,6 +148,26 @@ function displayMap()
 	};
 	
 	// NOTE WORK IN PROGRESS
+	
+	this.getInfos = function(markerId) {
+				
+		$.ajax({
+			type: "GET",
+	        url: "http://projetlibre/map/infos",
+	        data: "id=" + markerId,
+	        dataType: "JSON",
+	        success: (data)=> {
+	        	console.log('Infos success');
+	        	console.log(data);
+	        	let infos = new imagesInfos(data);
+	        	infos.displayInfos();
+	        },
+	    	error : function(result, status, error){
+	    		console.log('erreur fetch infos');
+	    	}
+	    });
+	};
+	
 	
 	this.getThumbnail = function (filename) {
 		
