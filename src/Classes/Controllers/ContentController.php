@@ -39,15 +39,13 @@ class ContentController extends Controller
     
     public function getContent($request, $response, $args)
      {
-     
+     $this->flash('Test message flash');
      $datas = $this->container->get('contentModel');
      
      $args['datas'] = $datas->getContent();
      //var_dump($datas);
      var_dump($args);
-     
-     var_dump($_SESSION);
-     
+         
      
      
      // get the template renderer and pass response and datas to the template file.
@@ -68,8 +66,16 @@ class ContentController extends Controller
          return $this->container->view->render($response, 'pages/addForm.twig');
      }
      
+     public function testFlash($request, $response)
+     {
+         $this->flash('Test message flash');
+         
+         return $this->render($response, 'content.twig');
+     }
+     
      public function addContent($request, $response)
      {
+         
          $errors = [];
          Validator::notEmpty()->validate($request->getParam('name')) || $errors['name'] = 'Veuillez remplir ce champ Titre';
          Validator::notEmpty()->validate($request->getParam('content')) || $errors['content'] = 'Veuillez remplir ce champ Contenus';

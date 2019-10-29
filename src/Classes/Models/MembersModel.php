@@ -144,6 +144,23 @@ class MembersModel extends Model
         $this->executeQuery($sql, array($uid, $filename));
     }
     
+    public function deleteAvatar($avatarId)
+    {
+        $sql = "DELETE FROM avatars
+                WHERE id = ?";
+        $this->executeQuery($sql, array($avatarId));
+    }
+    
+    
+    // Settings 
+    
+    public function setEmail($email, $uid)
+    {
+        $sql = "UPDATE members SET email = ?
+                WHERE id = ?";
+        $this->executeQuery($sql, array($email, $uid));
+    }
+    
     public function getRecentPhotos($uid)
     {
         $sql = "SELECT filename FROM images WHERE user_id = ? LIMIT 0,4";

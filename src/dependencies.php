@@ -35,6 +35,13 @@ return function (App $app) {
     $container['csrf'] = function () {
         return new \Slim\Csrf\Guard;
     };
+    
+    // Flash messages native
+    /*
+    $container['flash'] = function() {
+        return new \Slim\Flash\Messages();
+    };
+    */
 
     // monolog
     $container['logger'] = function ($c) {

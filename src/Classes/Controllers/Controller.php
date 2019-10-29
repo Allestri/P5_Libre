@@ -24,6 +24,15 @@ class Controller
         return $response->withStatus(302)->withHeader('Location', $this->container->router->pathFor($name));
     }
     
+    
+    public function flashNow($message, $type ='success')
+    {
+        if(!isset($_SESSION['flash'])){
+            $_SESSION['flash'] = [];
+        }
+        return $_SESSION['flash'][$type] = $message;
+    }
+    
     public function flash($message, $type ='success')
     {
         if(!isset($_SESSION['flash'])){

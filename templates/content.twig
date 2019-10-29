@@ -1,6 +1,8 @@
 {% extends "layout.twig" %}
 
 {% block content %}
+{{ include('flash.twig') }}
+{{ dump(flash) }}
 <div class="col-lg-12">
 	<h1>Contenus</h1>
 	{% for content in datas %}
@@ -9,4 +11,5 @@
 		<p>Contenus : {{ content.content }}</p>
 	{% endfor %} 
 </div>
+<a href="/flash">Test flash</a>
 {% endblock %}

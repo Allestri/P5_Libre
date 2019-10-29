@@ -1,7 +1,7 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-
+{{ include ('flash.twig') }}
 <div class="row py-5 px-4">
 
 	{% if request %}
@@ -11,7 +11,8 @@
     		<a class ="btn btn-danger" href="/ignorefriend">Refuser</a>
     	</div>
 	{% endif %}
-	
+	{{ dump (flash) }}
+	{{ messages }}
     <div class="col-xl-9 col-md-9 col-sm-10 mx-auto">
 
         <div class="bg-white shadow rounded overflow-hidden">
@@ -53,7 +54,8 @@
                             </li>
                         </ul>
                     </div>
-                    
+                    <a href="/add">Ajouter contenus</a>
+                    <a href="/flash">Test flash</a>
                     <!-- Friends -->
                     <div class="py-4 px-4"">
                     	<div class="d-flex align-items-center justify-content-between mb-3">
@@ -88,37 +90,48 @@
                     </div>
                  </div>
                  <div class="py-4 px-4 tab-pane fade" role="tabpanel" id="tab-profile-settings">
-                    <form method="POST" action="#" class="form" id="PLACEHOLDER">
-                    	<h3>Changer mon mot de passe</h3>
+                    <form method="POST" action="/settings" class="form" id="PLACEHOLDER" enctype="multipart/form-data">
+                    	<h3>Modifier mes informations</h3>
                     	<div class="form-group">
+    						<label for="inputEmail">Adresse e-mail</label>
+    						<input type="email" class="form-control" id="inputEmail" name="email" placeholder="nom@exemple.com">
+  						</div>
+                    	<div class="form-group">
+                    		<label for="inputPassword">Mot de passe</label>
                     		<input type="password" class="form-control" id="inputPassword" placeholder="Mot de passe">
                     	</div>
                     	<div class="form-group">
                     		<input type="password" class="form-control" id="inputPassword" placeholder="Répeter mot de passe">
                     	</div>
-                    </form>
-                    <form method="POST" action="switchavatar" class="form" id="PLACEHOLDER">
-                    	<div class="form-group">
-                        	<div class="form-check avatar-form">
-                        		<input class="form-check-input" type="radio" name="avatarId" id="activeAvatar" value="1" checked>
-                        		<label class="form-check-label" for="activeAvatar">Votre avatar actuel</label>
-                        		<img src="{{ avatar }}" width="50" alt="active-avatar">
-                        	</div>
-                    		{% for key, custom_avatar in inactive_avatars %}
-                    		<div class="form-check avatar-form">
-                    			<input class="form-check-input" type="radio" name="avatarId" value="{{ custom_avatar.id }}">
-                        		<label class="form-check-label" for="activeAvatar">Avatar {{ key }}</label>
-                        		<img src="uploads/avatar/{{ profile }}/{{ custom_avatar.avatar_file }}" width="50" alt="inactive-avatar">
+                    	<!-- <input type="submit" class="btn btn-primary" name="submit" value="Modifier mon profil" /> -->
+                    	<h3>Mes Avatars</h3>
+                    	<div class="row">
+                        	<div class="form-group col-md-6">
+                            	<div class="form-check avatar-form">
+                            		<input class="form-check-input" type="radio" name="avatarId" id="activeAvatar" value="1" checked>
+                            		<label class="form-check-label" for="activeAvatar">Votre avatar actuel</label>
+                            		<img src="{{ avatar }}" width="50" alt="active-avatar">
+                            	</div>
+                        		{% for key, custom_avatar in inactive_avatars %}
+                        		<div class="form-check avatar-form">
+                        			<input class="form-check-input" type="radio" name="avatarId" value="{{ custom_avatar.id }}">
+                            		<label class="form-check-label" for="activeAvatar">Avatar {{ key }}</label>
+                            		<img src="uploads/avatar/{{ profile }}/{{ custom_avatar.avatar_file }}" width="50" alt="inactive-avatar">
+                            		<a href="delete?id={{ custom_avatar.id }}">Supprimer</a>
+                        		</div>
+                        		{% endfor %}
                     		</div>
-                    		{% endfor %}
+                    		<div class="form-group col-md-6">
+                    		</div>
                 		</div>
-                		<input type="submit" class="btn btn-primary" name="submit" value="Modifier mon Avatar" />
-                	</form>
-            		<form method="POST" action="addavatar" class="form" enctype="multipart/form-data">
-                    	<div class="form-group">
-                    		<label for="avatar-form">Avatar</label>
-                			<input type="file" class="form-control-file" id="avatar-form" name="image"/>
-                		</div>
+                		<!--  <input type="submit" class="btn btn-primary" name="submit" value="Modifier mon Avatar" /> -->
+            			<h4>Ajouter un nouvel avatar</h4>
+                		<div id="upl-avatar-form" class="form-row">
+                        	<div class="add-avatar-pnl col-md-6">
+                    			<input type="file" class="form-control-file" id="avatar-form" name="image"/>
+                    		</div>
+                    		<div id="avatar-preview-ctn" class="add-avatar-pnl col-md-6"></div>
+                    	</div>
                 		<input type="submit" class="btn btn-primary" name="submit" value="Modifier mon profil" />
             		</form>
                  </div>

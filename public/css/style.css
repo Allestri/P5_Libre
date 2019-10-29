@@ -7,13 +7,18 @@
 }
 
 
-[class*="col-"] {
-  background-color: #d2d2d2;
-  border: 2px solid black;
-  border-radius: 6px;
-  line-height: 20px;
-  margin-top:50px;
+[class*="col-"] 
+{
+	
+	border-radius: 6px;
+  	line-height: 20px;
+  	/*
+  	margin-top:50px;
+  	background-color: #d2d2d2;
+  	border: 2px solid black;
+  	*/
 }
+
 
 #wallpaper-test
 {
@@ -95,7 +100,7 @@
 
 #inscription-wrapper
 {
-	padding: 80px 55px 30px;
+	padding: 80px 55px 50px;
 	border-radius:10px;
 	background-color:white;
 }
@@ -248,6 +253,25 @@
 	align-items:center;
 }
 
+#upl-avatar-form
+{
+	margin: 50px 0px 50px 0px;
+}
+
+.add-avatar-pnl
+{
+	height:170px;
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+  	margin:0;
+  	
+}
+
+#avatar-preview-ctn
+{
+	background-color:#007bff;
+}
 
 
 

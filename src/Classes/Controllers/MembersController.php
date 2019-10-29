@@ -84,6 +84,9 @@ class MembersController extends Controller
             }
         }
         if($connexion){
+           // Greet message
+           $this->flash('Bonjour');
+           //$this->container->flash->addMessage('Test', 'This is a message');
            $this->displayProfile($request, $response, $member);           
         } else {
             echo 'il y a une erreur';
@@ -98,11 +101,17 @@ class MembersController extends Controller
         
         return $imgNumber;
     }
-        
-    
+               
     public function displayProfile($request, $response, $member)
     {
-        $memberModel = $this->container->get('membersModel');  
+        
+        // Add message to be used in current request
+        //$this->container->flash->addMessageNow('Test', 'This is another message');
+        
+        //var_dump($this->container->flash);
+        
+        var_dump($_SESSION);
+        $memberModel = $this->container->get('membersModel');
         
         $username = $_SESSION['username'];
         $uid = $_SESSION['uid'];
@@ -150,7 +159,6 @@ class MembersController extends Controller
             if(isset($args['request']['0'])){
                 $_SESSION['sender_id'] = $args['request']['0']['sender_id'];
             }
-            
             return $this->container->view->render($response, 'pages/account.twig', $args);
         } else {
             return $this->redirect($response, 'home');
@@ -228,53 +236,82 @@ class MembersController extends Controller
               
     }
     
-    
-    
-    public function switchAvatar($request, $response)
+    // Settings manager
+    public function changeSettings($request, $response) 
     {
-        $uid = $_SESSION['uid'];
-        $memberModel = $this->container->get('membersModel');
+        $uid = $_SESSION['uid']; 
+        $membersModel = $this->container->get('membersModel');
         
-        $datas = $request->getParsedBody();
-        $avatarId = $datas['avatarId'];
-        
-        $memberModel->unactiveAvatars($uid);
-        $memberModel->switchAvatar($avatarId, $uid);
-        
-        return $this->redirect($response, 'profile');
-    }
-    // Upload Avatar
-    
-    public function addNewAvatar($request, $response)
-    {
-                
+        $userEntries = $request->getParsedBody();
         $uploadedFile = $request->getUploadedFiles();
-        $directory = $this->container->get('uploaded_directory');
         
-        $uploadedFile = $uploadedFile['image'];
-
-        $member = $_SESSION['username'];
-                
-        $avatarDir = $directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $member;
+        var_dump($uploadedFile);
+        var_dump($userEntries);
         
-        /* Deletes the previous avatar if there is one 
-        $scan = scandir($avatarDir,1);
-        var_dump($scan);
-        if(isset($scan['0'])){
-            unlink($avatarDir . DIRECTORY_SEPARATOR . $scan['0']);
+        // If user selected an unactive avatar.
+        if(isset($userEntries['avatarId']) && ($userEntries['avatarId'] !== '1')){
+            
+            $avatarId = $userEntries['avatarId'];
+            $this->switchAvatar($uid, $avatarId);
+            
+            return $this->redirect($response, 'profile');
         }
-        */
-
-        $this->moveUploadedAvatar($directory, $uploadedFile, $member);
         
-        // for debugging purposes
-        //return $this->container->view->render($response, 'pages/account.twig');
-        return $this->redirect($response, 'profile');
+        if(!empty($uploadedFile)){
+                       
+            $directory = $this->container->get('uploaded_directory');
+            $uploadedFile = $uploadedFile['image'];
+            
+            $member = $_SESSION['username'];
+            
+            $avatarDir = $directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $member;
+            
+            /* Deletes the previous avatar if there is one
+             $scan = scandir($avatarDir,1);
+             var_dump($scan);
+             if(isset($scan['0'])){
+             unlink($avatarDir . DIRECTORY_SEPARATOR . $scan['0']);
+             }
+             */
+            
+            $this->addNewAvatar($directory, $uploadedFile, $member);
+            
+            // for debugging purposes
+            //return $this->container->view->render($response, 'pages/account.twig');
+            
+            return $this->redirect($response, 'profile');
+        }
+        
+        if(!empty($userEntries['email'])){
+            
+            $email = $userEntries['email'];
+            $membersModel->setEmail($email, $uid);
+        }
+        
     }
     
+    // Avatars
     
+    public function switchAvatar($uid, $avatarId)
+    {
+        $memberModel = $this->container->get('membersModel');
+                
+        $memberModel->unactiveAvatars($uid);
+        $memberModel->switchAvatar($avatarId, $uid);   
+    }
     
-    function moveUpLoadedAvatar($directory, $uploadedFile, $member)
+    public function deleteAvatar($request, $response)
+    {
+        $memberModel = $this->container->get('membersModel');
+        $datas = $request->getQueryParams();
+        $avatarId = $datas['id'];
+        $memberModel->deleteAvatar($avatarId);
+        
+        return $this->redirect($response, 'profile');
+    }
+                
+    
+    function addNewAvatar($directory, $uploadedFile, $member)
     {
         
         $memberModel = $this->container->get('membersModel');
@@ -289,7 +326,7 @@ class MembersController extends Controller
         $filename = $basename ."_". $author ."_". $fid . "." . $extension;
         
         // Unactive previous avatar on DB
-        $memberModel->unactiveAvatar($uid);
+        $memberModel->unactiveAvatars($uid);
         // Sends the filename to the DB,
         // Then sets has custom avatar.
         $memberModel->changeAvatarNew($uid, $filename);

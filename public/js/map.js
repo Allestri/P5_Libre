@@ -45,6 +45,7 @@ function displayMap()
                 google.maps.event.addListener(infoWindow, 'closeclick', ()=> {
                 	
                 	$('#info-toggle').removeClass('active');
+                	//$('#image-info-panel').hide();
                 	
                 });
 

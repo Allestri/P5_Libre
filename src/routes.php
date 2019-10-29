@@ -45,11 +45,20 @@ return function (App $app) {
     $app->get('/profile/myimgs', \App\Controllers\ImagesController:: class . ':getMyPhotos');
     $app->post('/profile/deleteimg', \App\Controllers\ImagesController:: class . ':deletePhoto');
     
+    // Profil Settings
+    $app->post('/addavatar', \App\Controllers\MembersController:: class . ':addNewAvatar');
+    $app->post('/switchavatar', \App\Controllers\MembersController:: class . ':switchAvatar');
+    
+    $app->post('/settings', \App\Controllers\MembersController:: class . ':changeSettings');
+    $app->get('/delete', \App\Controllers\MembersController:: class . ':deleteAvatar');
+    
     // Admin
     $app->get('/admin', \App\Controllers\AdminController:: class . ':adminPanel')->setName('admin');
     
     $app->get('/admin/debug', \App\Controllers\ContentController:: class . ':debug');
     $app->post('/admin/debug', \App\Controllers\ContentController:: class . ':debug');
+    
+    $app->get('/flash', \App\Controllers\ContentController:: class . ':testFlash');
     
     // Deconnexion
     $app->get('/deconnexion', \App\Controllers\MembersController:: class . ':logout')->setName('deconnexion');
@@ -60,9 +69,7 @@ return function (App $app) {
     $app->post('/addfriend', \App\Controllers\MembersController:: class . ':addFriendRequest')->setName('addFriend');
     $app->get('/addedfriend', \App\Controllers\MembersController:: class . ':acceptFriend');
     $app->get('/ignorefriend', \App\Controllers\MembersController:: class . ':ignoreFriendRequest');
-    $app->post('/addavatar', \App\Controllers\MembersController:: class . ':addNewAvatar');
-    $app->post('/switchavatar', \App\Controllers\MembersController:: class . ':switchAvatar');
-    
+
     // Ajouter contenus ( test )
     $app->get('/add', \App\Controllers\ContentController ::class . ':getAddForm')->setName('ajouter');
     $app->post('/addcontent', \App\Controllers\ContentController ::class . ':addContent');
