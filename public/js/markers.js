@@ -14,7 +14,7 @@ function points(data, i){
 	
 	this.displayInfos = function() {
 		
-		$("#name").replaceWith("<span id='name'> " + this.name + "</span>");
+		$("#info-title").html("<h2> " + this.name + "</h2>");
 		$("#author").replaceWith("<span id='author'> " + this.user + "</span>");
 		$("#address").replaceWith("<span id='address'> " + this.address + "</span>");
 		$("#long").replaceWith("<span id='long'> " + this.lng + "</span>");

@@ -9,13 +9,17 @@ function imagesInfos(data){
 	this.width = data.width;
 	this.height = data.height;
 	this.size = data.size;
-	this.user = data.user_name;
+	this.user = data.author;
+	this.authorAvatar = data.avatar_file;
 	
 	
 	this.displayInfos = function() {
 		
-		$("#name").replaceWith("<span id='name'> " + this.name + "</span>");
+		$("#info-title").html("<h2> " + this.name + "</h2>");
+		
 		$("#author").replaceWith("<span id='author'> " + this.user + "</span>");
+		$('#author').prepend($('<img id="author-avatar" />').attr('src', 'uploads/avatar/' + this.authorAvatar));
+		
 		$("#address").replaceWith("<span id='address'> " + this.address + "</span>");
 		$("#long").replaceWith("<span id='long'> " + this.lng + "</span>");
 		$("#lat").replaceWith("<span id='lat'> " + this.lat + "</span>");

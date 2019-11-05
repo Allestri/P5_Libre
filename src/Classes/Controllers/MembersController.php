@@ -87,7 +87,7 @@ class MembersController extends Controller
            // Greet message
            $this->flash('Bonjour');
            //$this->container->flash->addMessage('Test', 'This is a message');
-           $this->displayProfile($request, $response, $member);           
+           return $this->redirect($response, 'profile');
         } else {
             echo 'il y a une erreur';
         }
@@ -104,7 +104,6 @@ class MembersController extends Controller
                
     public function displayProfile($request, $response, $member)
     {
-        
         // Add message to be used in current request
         //$this->container->flash->addMessageNow('Test', 'This is another message');
         

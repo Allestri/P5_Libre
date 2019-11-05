@@ -7,14 +7,11 @@ Class ImagesModel extends Model
                  
     public function fetchDatasPublic()
     {
-        $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng, 
-                markers.lat, markers.altitude, images.upload_date, images.type, images.liked,
-                images.height, images.width, images.size, members.name as user_name, images.groupimg_id, images.privacy              
+        $sql = "SELECT markers.id, markers.lng, markers.lat, 
+                images.filename, images.groupimg_id, images.privacy              
                 FROM markers 
                     INNER JOIN images 
                         ON markers.image_id = images.id
-                    INNER JOIN members 
-                        ON images.user_id = members.id
                 WHERE images.privacy = 0";
         $dataImages = $this->executeQuery($sql);
         return $dataImages->fetchAll();
@@ -22,14 +19,11 @@ Class ImagesModel extends Model
     
     public function fetchDatasFriends($uid)
     {
-        $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng,
-                markers.lat, markers.altitude, images.upload_date, images.type, images.liked,
-                images.height, images.width, images.size, members.name as user_name, images.groupimg_id, images.privacy
+        $sql = "SELECT markers.id, markers.lng, markers.lat,
+                images.filename, images.groupimg_id, images.privacy
                 FROM markers
                     INNER JOIN images
                         ON markers.image_id = images.id
-                    INNER JOIN members
-                        ON images.user_id = members.id
 					INNER JOIN friendship
 						ON images.user_id = friendship.friend_b
                 WHERE friendship.friend_a = ? AND images.privacy = 1";
@@ -40,14 +34,11 @@ Class ImagesModel extends Model
     // Fetch remaining "non-public" photos posted from the connected member, used in GMap.
     public function fetchMyImgs($uid)
     {
-        $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng,
-                markers.lat, markers.altitude, images.upload_date, images.type, images.liked,
-                images.height, images.width, images.size, members.name as user_name, images.groupimg_id, images.privacy
+        $sql = "SELECT markers.id, markers.lng, markers.lat,
+                images.filename, images.groupimg_id, images.privacy
                 FROM markers
                     INNER JOIN images
                         ON markers.image_id = images.id
-                    INNER JOIN members
-                        ON images.user_id = members.id
                 WHERE images.user_id = ? 
                 AND images.privacy = 1 OR images.privacy = 2";
         $dataImages = $this->executeQuery($sql, array($uid));
@@ -72,20 +63,17 @@ Class ImagesModel extends Model
     
     public function fetchImgsInfos($markerId)
     {
-        $sql = "SELECT markers.name, markers.address, markers.lng, markers.lat, markers.altitude,
+        $sql = "SELECT markers.name, markers.address, markers.lng,markers.lat, markers.altitude,
                 images.height, images.width, images.size, images.type, images.upload_date, images.liked, 
-                members.name as user_name, members.avatar_file,
-                comments.content, comments.com_date
+                members.name as author, members.avatar_file
                 FROM markers
                     INNER JOIN images
                         ON markers.image_id = images.id
                     INNER JOIN members
                         ON images.user_id = members.id
-                    INNER JOIN comments
-                        ON images.id = comments.img_id
                 WHERE markers.id = ?";
         $infosImages = $this->executeQuery($sql, array($markerId));
-        return $infosImages->fetchAll();
+        return $infosImages->fetch();
     }
     
     public function countImgMember($userId)
@@ -138,7 +126,7 @@ Class ImagesModel extends Model
     
     public function mostLikedImgs(){
         $sql = "SELECT id, filename, liked 
-                FROM images 
+                FROM images
                 WHERE privacy = 0
 				ORDER BY liked DESC 
                 LIMIT 0,3";

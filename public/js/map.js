@@ -8,7 +8,7 @@ function displayMap()
 	var self = this;
 	var gmap = null;
 	var markers = [];
-	
+	var infoWindow = null;
 	
 	
 	this.initialization = function() {
@@ -30,12 +30,12 @@ function displayMap()
 	        	
 	           //console.log(data);
 	            // Info window
-                var infoWindow = new google.maps.InfoWindow;
+                infoWindow = new google.maps.InfoWindow;
                 
                 
                 google.maps.event.addListener(infoWindow, 'domready', ()=> {
-                	
-                	$('#thumbnail').click(()=> {
+                	$('#thumbnail-wrapper').click(()=> {
+                		console.log('image-clicked');
                 		this.getImageFullScreen();
                 	})
                 	
@@ -48,7 +48,7 @@ function displayMap()
                 	//$('#image-info-panel').hide();
                 	
                 });
-
+                
                 
                 if(refresh === true){
                 	// Unset all markers
@@ -77,55 +77,41 @@ function displayMap()
 	                	iconImg = 'images/drone-pin-min.png';
 	                }
 	                
-	                let point = new points(data, i);
-	                //let infos = new imagesInfos(data, i);
+	                //let point = new points(data, i);
+	                //let myInfos = new imagesInfos(data);
 	                
 	                let marker = new google.maps.Marker({
 	                    position: latlngset,
 	                    map: gmap,
-	                    point: point,
 	                    icon: iconImg,
 	                    title: 'Marker : ' + data[i].name
 	                });
 	                
-	                //console.log(marker.point);
+	                
+	               
 	                
 	                let markerId = data[i].id;
 
-	                var windowContent = "<div id='thumbnail-wrapper'></div>";
+	                let windowContent = "<div id='thumbnail-wrapper'></div>";
 	                let filename = data[i].filename;
 	                
 	                marker.filename = filename;
-
-
+	                
+	                //console.log(marker);	                
 	                
 	                // Event listener
 	                marker.addListener('click', ()=> {
 	                	//console.log(infoWindow);
 	                	infoWindow.setContent(windowContent);
-	                	
-	                	
+	                		                	
 	                	// info button
 	                	this.toggleInfoButton();
-	                	
 	                	// Get infos
-	                	//this.getInfos(markerId);
-	                	marker.point.displayInfos();
-	                	
-	                	// Test marker manual position ( draggable )
-	                	var position = marker.getPosition();
-	                	var latitude = position.lat();
-	                	console.log(latitude);
+	                	this.getInfos(markerId);
 	                	
 	                	infoWindow.open(map, marker);
-	                	
-
-	                	
 	                	this.getThumbnail(filename);
-	                		
-
-	                	
-	                	
+	                			                		                	
 	                });
 	                marker.setMap(gmap);
 	                markers.push(marker);
@@ -144,7 +130,14 @@ function displayMap()
 	
 	this.toggleInfoButton = function() {
 		
-		$('#info-toggle').addClass("active");
+		if ($('#info-toggle').hasClass("active")) {
+			
+			$('#info-toggle').removeClass('active');
+			
+		} else {
+			$('#info-toggle').addClass("active");
+		}
+		
 	};
 	
 	// NOTE WORK IN PROGRESS
@@ -158,7 +151,7 @@ function displayMap()
 	        dataType: "JSON",
 	        success: (data)=> {
 	        	console.log('Infos success');
-	        	console.log(data);
+	        	//console.log(data);
 	        	let infos = new imagesInfos(data);
 	        	infos.displayInfos();
 	        },
@@ -170,11 +163,7 @@ function displayMap()
 	
 	
 	this.getThumbnail = function (filename) {
-		
-		//this.getImageFullScreen(filename);
-
-		
-		//console.log(filename);
+				
 		var dir = "uploads/thumbnails";
 		var file = dir + "/" + filename;
 		
@@ -183,7 +172,6 @@ function displayMap()
 	        url: file,
 	        success: function(result) {
 	        	$('#thumbnail-wrapper').append($('<img id="thumbnail" />').attr('src', file));
-	        	//$('#thumbnail-wrapper').append('<img class="myThumbnail" src=' + file + ' />');
 	        },
 	    	error : function(result, status, error){
 	    		console.log('erreur');
@@ -214,46 +202,45 @@ function displayMap()
 	function setValues(data, status, object){
 		
 		var id = data;
-		console.log(id);
 		
 		var elements = $(".imgId");
 		elements.val(id);
-		console.log(elements);
 		
 		
 	};
 	
 	this.getImageFullScreen = function (){
-			
-			let src = $('#thumbnail').attr('src');
-			let filename = src.split("uploads/thumbnails/");
-			
-			var dir = "uploads/photos";
-			var file = dir + "/" + filename[1];
-			
-			// Requête recupérer ID image via filename
-			this.getId(filename).done(setValues);
-			
-			$.ajax({
-				type:"GET",
-				url: file,
-				success: function(result){
-					//$('#overlay').append('<div class="img-wrapper"></div>');
-					//$('.img-wrapper').append($('<img />').attr({ src: file, class: 'image-midsize' } ));
-					
-					// WIP
-					// Display / Hide ( note : refer to imageviewer.js for the hiding method - WIP )
-					//$('#img-wrapper').prepend($('<img id="image-midsize" />').attr('src', file));
-					showComments();
-					$('#image-midsize').attr('src', file);
-					$('#overlay').show();
-					
-				},
-				error: function(result, status, error){
-					console.log('erreur');
-				}
-			});
-			
+		
+		let src = $('#thumbnail').attr('src');
+		let filename = src.split("uploads/thumbnails/");
+		
+		var dir = "uploads/photos";
+		var file = dir + "/" + filename[1];
+				
+		// Requête recupérer ID image via filename
+		this.getId(filename).done(setValues);
+		
+		$.ajax({
+			type:"GET",
+			url: file,
+			success: function(result){
+				//$('#overlay').append('<div class="img-wrapper"></div>');
+				//$('.img-wrapper').append($('<img />').attr({ src: file, class: 'image-midsize' } ));
+				
+				// WIP
+				// Display / Hide ( note : refer to imageviewer.js for the hiding method - WIP )
+				//$('#img-wrapper').prepend($('<img id="image-midsize" />').attr('src', file));
+				//showComments();
+				infoWindow.close();
+				self.toggleInfoButton();
+				$('#image-midsize').attr('src', file);
+				$('#overlay').show();
+				
+			},
+			error: function(result, status, error){
+				console.log('erreur');
+			}
+		});
 		
 	};
 	
@@ -262,7 +249,108 @@ function displayMap()
 	    var brittany = {lat: 47.847963, lng: -1.465993};
 	    gmap = new google.maps.Map(document.getElementById('map'), {
 	          center: brittany,
-	          zoom: 7
+	          zoom: 7,
+	          styles: [
+	        	    {
+	        	        "featureType": "all",
+	        	        "elementType": "all",
+	        	        "stylers": [
+	        	            {
+	        	                "saturation": "32"
+	        	            },
+	        	            {
+	        	                "lightness": "-3"
+	        	            },
+	        	            {
+	        	                "visibility": "on"
+	        	            },
+	        	            {
+	        	                "weight": "1.18"
+	        	            }
+	        	        ]
+	        	    },
+	        	    {
+	        	        "featureType": "administrative",
+	        	        "elementType": "labels",
+	        	        "stylers": [
+	        	            {
+	        	                "visibility": "off"
+	        	            }
+	        	        ]
+	        	    },
+	        	    {
+	        	        "featureType": "landscape",
+	        	        "elementType": "labels",
+	        	        "stylers": [
+	        	            {
+	        	                "visibility": "off"
+	        	            }
+	        	        ]
+	        	    },
+	        	    {
+	        	        "featureType": "landscape.man_made",
+	        	        "elementType": "all",
+	        	        "stylers": [
+	        	            {
+	        	                "saturation": "-70"
+	        	            },
+	        	            {
+	        	                "lightness": "14"
+	        	            }
+	        	        ]
+	        	    },
+	        	    {
+	        	        "featureType": "poi",
+	        	        "elementType": "labels",
+	        	        "stylers": [
+	        	            {
+	        	                "visibility": "off"
+	        	            }
+	        	        ]
+	        	    },
+	        	    {
+	        	        "featureType": "road",
+	        	        "elementType": "labels",
+	        	        "stylers": [
+	        	            {
+	        	                "visibility": "off"
+	        	            }
+	        	        ]
+	        	    },
+	        	    {
+	        	        "featureType": "transit",
+	        	        "elementType": "labels",
+	        	        "stylers": [
+	        	            {
+	        	                "visibility": "off"
+	        	            }
+	        	        ]
+	        	    },
+	        	    {
+	        	        "featureType": "water",
+	        	        "elementType": "all",
+	        	        "stylers": [
+	        	            {
+	        	                "saturation": "100"
+	        	            },
+	        	            {
+	        	                "lightness": "-14"
+	        	            }
+	        	        ]
+	        	    },
+	        	    {
+	        	        "featureType": "water",
+	        	        "elementType": "labels",
+	        	        "stylers": [
+	        	            {
+	        	                "visibility": "off"
+	        	            },
+	        	            {
+	        	                "lightness": "12"
+	        	            }
+	        	        ]
+	        	    }
+	        	]
 	    });
 	    
 	    this.getPoints();

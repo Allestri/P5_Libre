@@ -112,13 +112,16 @@ class ImagesController extends ContentController
     public function getInfos($request, $response)
     {
         $imageModel = $this->container->get('imagesModel');
+        $contentModel = $this->container->get('contentModel');
         
         $datas = $request->getQueryParams();
         $markerId = $datas['id'];
         
-        $datasImgs = $imageModel->fetchImgsInfos($markerId);
+        $datas = $imageModel->fetchImgsInfos($markerId);
+        $datas['comments'] = $contentModel->getCommentsNew($markerId);
         
-        echo json_encode($datasImgs);
+                
+        echo json_encode($datas);
     }
     
     public function getComments($request, $response)

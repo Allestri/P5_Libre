@@ -36,6 +36,22 @@ Class ContentModel extends Model
         return $comments->fetchAll();
     }
     
+    public function getCommentsNew($markerId)
+    {
+        $sql = "SELECT members.name, 
+                comments.content, comments.com_date,
+                avatars.avatar_file
+                FROM comments
+                INNER JOIN members
+                    ON comments.author_id = members.id
+                INNER JOIN avatars
+                    ON comments.author_id = avatars.user_id
+                WHERE avatars.active = 1
+                AND comments.img_id = 23";
+         $comments = $this->executeQuery($sql);
+         return $comments->fetchAll();
+    }
+    
     public function addComment($uid, $comment, $imgId)
     {
         $sql = "INSERT INTO comments (author_id, content, com_date, img_id) VALUES (?, ?, NOW(), ?)";

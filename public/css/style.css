@@ -9,12 +9,14 @@
 
 [class*="col-"] 
 {
-	border: 2px solid black;
+	
 	border-radius: 6px;
-	background-color: #d2d2d2;
+
   	line-height: 20px;
   	/*
   	margin-top:50px;
+  	background-color: #d2d2d2;
+  	border: 2px solid black;
   	*/
 }
 
@@ -66,6 +68,16 @@
 #image-info-panel
 {
 	position:relative;
+	padding:0;
+	box-shadow: 0px 11px 20px 1px rgba(0,0,0,0.3);
+	background-color:#ecf3f6;
+}
+
+#info-panel
+{
+	height:90%;
+	padding-right:15px;
+	padding-left:15px;
 }
 
 #info-toggle
@@ -89,8 +101,29 @@
 
 #info-toggle.active
 {
-	background-color:#007bff;
+	background-color:#07a1ff;
 }
+
+#info-title
+{
+	height:100px;
+	width:100%;
+	background-color:#07a1ff;
+	padding:0;
+	color:white;
+	padding-left:15px;
+}
+
+#info-title h2
+{
+	line-height:100px;
+}
+
+#author-avatar
+{
+	height:35px;
+}
+
 
 
 /*
@@ -221,6 +254,12 @@
 * === Profile Page ===
 */
 
+#profile-container
+{
+	box-shadow: 0px 11px 20px 1px rgba(0,0,0,0.7);
+	background-color:#FFFFFF;
+}
+
 #profile-nav
 {
 	z-index:2;
@@ -301,7 +340,7 @@
 
 .profile-photos-card
 {
-	margin-bottom:15px;
+	margin:20px 15px;
 	box-shadow: 0px 11px 20px 1px rgba(0,0,0,0.3);
 }
 
@@ -317,8 +356,8 @@
 
 .profile-photo
 {
-	width:160px;
-	height:120px;
+	width:300px;
+	height:225px;
 	object-fit:cover;
 }
 
@@ -386,21 +425,24 @@
 
 #profile-content-wrapper
 {
+	display:flex;
+	flex-direction:column;
 	position:relative;
 	margin-top:60px;
 	width:60%;
 	padding:5px 5px 0 5px;
-	min-height:550px;
+	height:850px;
 	background-color: #d2d2d2;
 	z-index: 3;
 }
 
 
-#profile-images-wrapper
+#image-navigation
 {
-	position:relative;
-	max-height:750px;	
-	overflow:auto;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	margin-top:25px;
 }
 
 #myphoto-wrapper
@@ -440,6 +482,7 @@
 	top:0;
 	right:0;
 	font-size:30px;
+	padding:10px;
 	cursor: pointer;
 	z-index: 2;
 	transition: color .5s;
