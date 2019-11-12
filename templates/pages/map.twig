@@ -66,6 +66,11 @@
         				<p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
     				</div>
     			</div>
+    			{% if not member %}
+					<div class="alert alert-primary">
+    					<p>Veuillez vous <a href="{{ path_for('inscription') }}" class="alert-link">authentifier pour commenter</a></p>
+    				</div>
+				{% else %}
 				<form id="comment" method="POST" action="map/comment">
 					<input type="hidden" name="uid" value="{{ member }}" />
 					<textarea class="input-comment" form="comment" name="content"></textarea>
@@ -75,6 +80,7 @@
 					Commenter
 					</button>
 				</form>
+				{% endif %}
 			</div>
 		</div>
 	</div>

@@ -108,14 +108,13 @@ class MembersController extends Controller
         //$this->container->flash->addMessageNow('Test', 'This is another message');
         
         //var_dump($this->container->flash);
-        
         var_dump($_SESSION);
         $memberModel = $this->container->get('membersModel');
         
         $username = $_SESSION['username'];
         $uid = $_SESSION['uid'];
         $member['profile'] = $username;
-        $member['uid'] = $uid;        
+        $member['uid'] = $uid;
         
         //var_dump($_SESSION);
         

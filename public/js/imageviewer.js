@@ -30,6 +30,42 @@ $('#icon-exit-full').click(function() {
 });
 
 
+/* Admin page */
+
+$('.image-reported-wrapper').click(function(){
+	
+	var file = $(this).find("img").attr( "src" );
+	console.log(file);
+	$('#overlay').show();
+	displayFS(file);
+});
+
+
+//Display full screen via image viewer
+function displayFS(filepath) {
+	
+	let filename = filepath.split("uploads/photos/");
+	
+	var dir = "uploads/photos";
+	var file = dir + "/" + filename[1];
+	
+	// Get clicked photo unique ID
+	getMyPhotoId(filename).done(setValues);	
+	
+	// Check container, removes any photo before insertion
+	if($('#myphoto').length > 0) {
+		let photo = $('#admin-image-wrapper').find('img');
+		photo.remove();
+		console.log('Container cleared !');
+	}
+	
+	$('#admin-image-wrapper').prepend($('<img id="myphoto" />').attr('src', file));	
+	
+	
+};
+
+	
+
 /* Profile page */
 
 $('#showAllImages').click(function() {

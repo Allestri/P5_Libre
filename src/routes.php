@@ -55,6 +55,9 @@ return function (App $app) {
     
     // Admin
     $app->get('/admin', \App\Controllers\AdminController:: class . ':adminPanel')->setName('admin');
+    $app->post('/admin/delete', \App\Controllers\AdminController:: class . ':deletePost');
+    $app->post('/admin/getreport', \App\Controllers\AdminController:: class . ':getSelectedPost');
+    $app->post('/admin/edit', \App\Controllers\AdminController:: class . ':editPost');
     
     $app->get('/admin/debug', \App\Controllers\ContentController:: class . ':debug');
     $app->post('/admin/debug', \App\Controllers\ContentController:: class . ':debug');

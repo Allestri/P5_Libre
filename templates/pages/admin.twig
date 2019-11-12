@@ -4,7 +4,7 @@
 
 
 
-<div class="row">
+<div class="row" id="admin-panel">
     <div class="col-lg-2">
     	<div id="profile-wrapper">
     		<img src="images/avatar_default.png" class="rounded-circle" height="70px" width="70px" />
@@ -12,59 +12,96 @@
     	<nav class="navbar bg-light">
     		<ul class="nav nav-pills">
     			<li class="nav-item">
-    				<a class="nav-link active" href="#" data-toggle="pill">Dashboard</a>
+    				<a class="nav-link active" href="#reports-wrapper" data-toggle="pill">Dashboard</a>
     			</li>
     			<li class="nav-item">
-    				<a class="nav-link" href="#" data-toggle="pill">Placeholder</a>
+    				<a class="nav-link" href="#edit-tab" role="tab" data-toggle="pill">Placeholder</a>
     			</li>
     			<li class="nav-item">
-    				<a class="nav-link" href="#" data-toggle="pill">Placeholder</a>
-    			</li>
-    			<li class="nav-item">
-    				<a class="nav-link" href="#" data-toggle="pill">Placeholder</a>
+    				<a class="nav-link" href="#" data-toggle="pill">Logs</a>
     			</li>
     		</ul>
     	</nav>
     </div>
-    <div id="reports-wrapper" class="col-lg-10">
-	    {% if reportsNbr > 0 %}
-        	<div class="alert alert-danger">
-        		<i class="fas fa-exclamation-triangle"></i>
-        		<span>Il y a {{ reportsNbr }} photos qui ont été reportées par la communauté</span>
-        	</div>
-        	<div id="img-report-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
-        	{% for images in reportedImgs %}
-        		<div class="card img-single-report">
-        			<div class="image-reported-wrapper">
-        				<img class="card-img-top image-reported" src="uploads/photos/{{ images.filename }}" />
-        			</div>
-        			<div class="card-body img-info-panel">
-        				<div class="alert alert-warning">Cette image a éte reportée {{ images.reported }} fois</div>
-        				<h2 class="card-title">{{ images.name }}</h2>
-        				<p class="card-text">Bonjour</p>
-        			</div>
-        		</div>
-        	{% endfor %}
-        	</div>
-        	<div class="card-group">
-        	{% for images in reportedImgs %}
-        		<div class="card flex-wrap">
-        			<img class="card-img-top" src="uploads/photos/{{ images.filename }}" />
-        			<div class="card-body">
-        				<h5 class="card-title">{{ images.name }}</h5>
-        				<p class="card-text">Bonjour</p>
-        			</div>
-        		</div>
-        	{% endfor %}
-        	</div>
-        {% endif %}
+    <div class="col-lg-10 tab-content">
+        <div id="reports-wrapper" class="admin-tab tab-pane fade show active" role="tabpanel">
+    	    {% if reportsNbr == 1 %}
+            	<div class="alert alert-warning">
+            		<i class="fas fa-exclamation-triangle"></i>
+            		<span>Il y a {{ reportsNbr }} signalement reporté par la communauté</span>
+            	</div>
+           	{% elseif reportsNbr > 1 %}
+           		<div class="alert alert-danger">
+            		<i class="fas fa-exclamation-triangle"></i>
+            		<span>Il y a {{ reportsNbr }} signalements reportés par la communauté</span>
+            	</div>
+            {% endif %}
+            {% if reportsNbr > 0 %}
+            	<div id="img-report-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
+            	{% for images in reportedImgs %}
+            		<div class="card img-single-report">
+            			<div class="image-reported-wrapper">
+            				<img class="card-img-top image-reported" src="uploads/photos/{{ images.filename }}" />
+            			</div>
+            			<div class="card-body img-info-panel">
+            				<div class="alert alert-warning">Cette image a éte reportée {{ images.reported }} fois</div>
+            				<h2 class="card-title">{{ images.name }}</h2>
+            				<div class="admin-btn-panel">
+            					<div class="admin-btn-container">
+                					<form id="getreport" method="POST" action="admin/getreport">
+                        				<input type="hidden" id="imgId" class="imgId" name="imgId" value="{{ images.id }}" />
+                        				<button class="admin-btn edit" href="#edit-tab" role="tab" data-toggle="pill">
+                        					<i class="fas fa-edit"></i>Editer post
+                        				</button>
+                    				</form>
+                				</div>
+            					<div class="admin-btn">
+                        			<form id="deleteImg" method="POST" action="admin/delete">
+                    					<input type="hidden" id="imgId" class="imgId" name="imgId" value="{{ images.id }}" />
+                    					<button class="admin-btn delete">
+                    						<i class="fas fa-trash-alt"></i>Supprimer post
+                    					</button>
+                					</form>
+            					</div>
+            				</div>
+            			</div>
+            		</div>
+            	{% endfor %}
+            	</div>
+            {% endif %}
+    	</div>
+    	<div class="admin-tab tab-pane fade" id="edit-tab" role="tabpanel">
+			<h3>Editer un post</h3>
+    		<form id="editPost" method="POST" action="admin/edit" >
+    			<div class="form-group">
+    				<label for="name">Titre</label>
+    				<input id="name" type="text" class="form-control">
+    			</div>
+    			<div class="form-group">
+    				<label for="author">Auteur</label>
+    				<input id="author" class="form-control" type="text" placeholder="SOku" readonly>
+    			</div>
+    			<div class="form-group">
+    				<label for="content">Description</label>
+    				<input class="form-control" type="text">
+    			</div>
+    			<input type="hidden" id="edit-imgId" name="imgId" />
+    			<button type="submit" href="#edit-tab" class="btn btn-primary">Editer</button>
+    		</form>
+    	</div>
 	</div>
 </div>
 
-<form method="GET" action="admin/debug">
-	<input type="text" name="myText">
-	<button class="btn btn-primary">Submit</button>
-</form>
+<div id="overlay" class="overlay">
+	<span id="icon-exit" class="cross-admin">
+		<i class="fas fa-times"></i>
+	</span>
+	<div class="row">
+	<div id="admin-image-wrapper" class="col-lg-8 mx-auto">
+		
+	</div>
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-lg-10">

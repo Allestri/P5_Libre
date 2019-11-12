@@ -14,18 +14,54 @@ class AdminController extends Controller
     
     public function adminPanel($request, $response){
         
-        $adminModel = $this->container->get('adminModel');
-        
-        $args = $adminModel->countReports();
-        // If there are any reports, fetch those ones.
-        if($args > 1){
+        if(isset($_SESSION['admin'])){
             
-            $args['reportedImgs'] = $adminModel->getReports();
+            $adminModel = $this->container->get('adminModel');
+            var_dump($_SESSION);
+            $args = $adminModel->countReports();
+            // If there are any reports, fetch those ones.
+            if($args > 1){
+                
+                $args['reportedImgs'] = $adminModel->getReports();
+                
+            }
+            return $this->render($response, 'pages/admin.twig', $args);
             
+        } else {
+            echo 'Accès restreint';
         }
-          
-        return $this->render($response, 'pages/admin.twig', $args);
+        
     }
     
+    public function getSelectedPost($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        $imgId = $datas['imgId'];
+        
+        $adminModel = $this->container->get('adminModel');
+        $report = $adminModel->getSelectedReport($imgId);
+        
+        echo json_encode($report);
+    }
+    
+    public function editPost($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        $imgId = $datas['imgId'];
+        
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->editPost($imgId);
+        
+    }
+    
+    public function deletePost($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        $imgId = $datas['imgId'];
+        
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->deleteImage($imgId);
+        
+    }
     
 }

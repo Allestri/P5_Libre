@@ -202,6 +202,12 @@
 * === Admin Panel ===
 */
 
+#admin-panel
+{
+	margin-top:50px;
+}
+
+
 #profile-wrapper
 {
 	padding: 20px 10px 30px 10px;
@@ -210,9 +216,19 @@
 
 #reports-wrapper
 {
+	min-height:500px;
+}
+
+.admin-tab
+{
 	padding:0;
 	min-height:500px;
 	background-color:#e7e7e7;
+}
+
+#edit-tab
+{
+	padding:30px;
 }
 
 #img-report-wrapper
@@ -230,11 +246,13 @@
 .image-reported-wrapper
 {
 	overflow:hidden;
+	cursor:pointer;
 }
 
 .image-reported
 {
 	width:350px;
+	height:225px;
 	object-fit:cover;
 	transition: transform .5s; /* Animation */
 }
@@ -246,6 +264,28 @@
 
 .img-info-panel
 {
+	background-color:white;
+}
+
+.admin-btn-panel
+{
+	display:flex;
+	flex-direction:row;
+	height:50px;
+}
+
+.admin-btn-container
+{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	border: 1px solid #e7e7e7;
+	width:50%;
+}
+
+.admin-btn
+{
+	border:0;
 	background-color:white;
 }
 
@@ -488,6 +528,12 @@
 	transition: color .5s;
 }
 
+.cross-admin
+{
+	font-size:70px;
+	color:white;
+}
+
 #icon-exit-full
 {
 	position:absolute;
@@ -508,6 +554,12 @@
 {
 	width:75%;
 	position:relative;
+}
+
+#admin-image-wrapper
+{
+	background-color:white;
+	height:550px;
 }
 
 #image-midsize
