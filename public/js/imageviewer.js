@@ -18,14 +18,14 @@ $('#image-midsize').ready(function(){
 
 /* Exit image viewer */
 
-$('#icon-exit').click(function() {
+$('.icon-exit').click(function() {
 	
 	$('#overlay').hide();
 	
 });
 
 
-$('#icon-exit-full').click(function() {
+$('.icon-exit-full').click(function() {
 	$('#myphoto-wrapper').hide();
 });
 

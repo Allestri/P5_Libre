@@ -6,38 +6,36 @@ class AdminModel extends Model
 {
     
     public function countReports(){
-        $sql = "SELECT COUNT(id) as reportsNbr FROM images WHERE reported > 0";
+        $sql = "SELECT COUNT(id) as reportsNbr FROM posts WHERE reported > 0";
         $reportsNbr = $this->executeQuery($sql);
         return $reportsNbr->fetch();
     }
     
     public function getReports(){
-        $sql = "SELECT images.id, images.filename, images.liked, images.reported, markers.name
-                FROM images
-                INNER JOIN markers
-                    ON images.id = markers.image_id
-                WHERE reported > 0";
+        $sql = "SELECT posts.id, posts.name, posts.content, images.filename, posts.liked, posts.reported
+                FROM posts
+                INNER JOIN images
+                    ON posts.image_id = images.id
+                WHERE posts.reported > 0";
         $reports = $this->executeQuery($sql);
         return $reports->fetchAll();
     }
     
-    public function getSelectedReport($imgId) {
-        $sql = "SELECT images.id, members.name as author, markers.name
-                FROM images
-                INNER JOIN markers
-                    ON images.id = markers.image_id
+    public function getSelectedReport($postId) {
+        $sql = "SELECT posts.id, posts.name, members.name as author, posts.content
+                FROM posts
                 INNER JOIN members
-                    ON images.user_id = members.id
-                WHERE images.id = ?";
-        $reportedImg = $this->executeQuery($sql, array($imgId));
+                ON posts.user_id = members.id
+                WHERE posts.id = ?";
+        $reportedImg = $this->executeQuery($sql, array($postId));
         return $reportedImg->fetch();
     }
     
-    public function editPost($imgId){
-        $sql = "UPDATE images
-                SET reported = 0
+    public function editPost($name, $content, $postId){
+        $sql = "UPDATE posts
+                SET name = ?, content = ?, reported = 0
                 WHERE id= ?";
-        $this->executeQuery($sql, array($imgId));
+        $this->executeQuery($sql, array($name, $content, $postId));
     }
     
     public function clearReports($imgId) {
@@ -47,10 +45,10 @@ class AdminModel extends Model
         $this->executeQuery($sql, array($imgId));
     }
     
-    public function deleteImage($imgId){
-        $sql = "DELETE FROM images
+    public function deleteImage($postId){
+        $sql = "DELETE FROM posts
                 WHERE id = ?";
-        $this->executeQuery($sql, array($imgId));
+        $this->executeQuery($sql, array($postId));
     }   
 
 }

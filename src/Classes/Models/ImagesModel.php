@@ -89,6 +89,13 @@ Class ImagesModel extends Model
         $id = $this->executeQuery($sql);
         return $id->fetch();
     }
+    
+    public function linkMarkerId()
+    {
+        $sql = "SELECT MAX(id) AS id FROM markers";
+        $markerId = $this->executeQuery($sql);
+        return $markerId->fetch();
+    }
        
            
     public function addGeoDatas($lng, $lat, $alt, $imgId)
@@ -111,12 +118,12 @@ Class ImagesModel extends Model
         return $imgDatas->fetchAll();
     }
     
-    public function likeImage($imgId){
-        $sql = "UPDATE images
-                SET liked = liked + 1
-                WHERE id = ?";
-        $this->executeQuery($sql, array($imgId));
-    }
+    public function getFilenameId($filename)
+    {
+        $sql = "SELECT id FROM images WHERE filename = ?";
+        $id = $this->executeQuery($sql, array($filename));
+        return $id->fetch();
+    }   
     
     public function mostLikedImgs(){
         $sql = "SELECT id, filename, liked 
@@ -126,14 +133,7 @@ Class ImagesModel extends Model
                 LIMIT 0,3";
         $likedImages = $this->executeQuery($sql);
         return $likedImages->fetchAll();
-    }
-    
-    public function reportImage($imgId) {
-        $sql = "UPDATE images
-                SET reported = reported + 1
-                WHERE id = ?";
-        $this->executeQuery($sql, array($imgId));
-    }
+    }    
     
     public function deleteImage($imgId, $uid) {
         $sql = "DELETE FROM images
@@ -143,12 +143,21 @@ Class ImagesModel extends Model
     }
     
     // Deprecated
-    public function getFilenameId($filename)
-    {
-        $sql = "SELECT id FROM images WHERE filename = ?";
-        $id = $this->executeQuery($sql, array($filename));
-        return $id->fetch();
+    public function reportImage($imgId) {
+        $sql = "UPDATE images
+                SET reported = reported + 1
+                WHERE id = ?";
+        $this->executeQuery($sql, array($imgId));
     }
+    
+    public function likeImage($imgId){
+        $sql = "UPDATE images
+                SET liked = liked + 1
+                WHERE id = ?";
+        $this->executeQuery($sql, array($imgId));
+    }
+    
+
    
     
     

@@ -517,6 +517,7 @@
 	color:#dfdfdf;
 }
 
+
 #icon-exit
 {
 	position:absolute;
@@ -529,13 +530,30 @@
 	transition: color .5s;
 }
 
-.cross-admin
+.icon-exit
 {
-	font-size:70px;
-	color:white;
+	position:absolute;
+	top:-30px;
+	right:-50px;
+	font-size:40px;
+	padding:10px;
+	cursor: pointer;
+	z-index: 2;
+	transition: color .8s;
+	color:#4f4f4f;
 }
 
-#icon-exit-full
+#cross-admin
+{
+	position:absolute;
+	top:-30px;
+	right:-50px;
+	font-size:40px;
+	padding:10px;
+}
+
+
+.icon-exit-full
 {
 	position:absolute;
 	top:0;
@@ -543,12 +561,12 @@
 	font-size:30px;
 	cursor: pointer;
 	z-index: 2;
-	transition: color .5s;
+	transition: color .8s;
 }
 
-#icon-exit:hover
+.icon-exit:hover
 {
-	color:#8d8d8d;
+	color:white;
 }
 
 #image-wrapper
@@ -559,8 +577,13 @@
 
 #admin-image-wrapper
 {
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	position:relative;
+	height:770px;
+	margin-top:80px;
 	background-color:white;
-	height:550px;
 }
 
 #image-midsize

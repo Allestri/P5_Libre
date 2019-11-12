@@ -227,8 +227,10 @@ class ImagesController extends ContentController
         if($hasExif){
             $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude'], $imageId['id']);
         }
+        // Fetch the matching marker id.
+        $markerId = $imageModel->linkMarkerId();
         
-        $contentModel->addPost($name, $description, $user, $imageId['id'], $privacy);
+        $contentModel->addPost($name, $description, $user, $imageId['id'], $markerId['id'], $privacy);
          
         return $this->container->view->render($response, 'pages/upload.twig');
     }

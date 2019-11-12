@@ -17,12 +17,12 @@ class AdminController extends Controller
         if(isset($_SESSION['admin'])){
             
             $adminModel = $this->container->get('adminModel');
-            var_dump($_SESSION);
+            //var_dump($_SESSION);
             $args = $adminModel->countReports();
             // If there are any reports, fetch those ones.
             if($args > 1){
                 
-                $args['reportedImgs'] = $adminModel->getReports();
+                $args['reportedPosts'] = $adminModel->getReports();
                 
             }
             return $this->render($response, 'pages/admin.twig', $args);
@@ -36,10 +36,10 @@ class AdminController extends Controller
     public function getSelectedPost($request, $response)
     {
         $datas = $request->getParsedBody();
-        $imgId = $datas['imgId'];
+        $postId = $datas['postId'];
         
         $adminModel = $this->container->get('adminModel');
-        $report = $adminModel->getSelectedReport($imgId);
+        $report = $adminModel->getSelectedReport($postId);
         
         echo json_encode($report);
     }
@@ -47,20 +47,24 @@ class AdminController extends Controller
     public function editPost($request, $response)
     {
         $datas = $request->getParsedBody();
-        $imgId = $datas['imgId'];
+        $postId = $datas['postId'];
+        $name = $datas['name'];
+        $content = $datas['description'];
         
         $adminModel = $this->container->get('adminModel');
-        $adminModel->editPost($imgId);
+        $adminModel->editPost($name, $content, $postId);
+        
+        return $this->redirect($response, 'admin');
         
     }
     
     public function deletePost($request, $response)
     {
         $datas = $request->getParsedBody();
-        $imgId = $datas['imgId'];
+        $postId = $datas['postId'];
         
         $adminModel = $this->container->get('adminModel');
-        $adminModel->deleteImage($imgId);
+        $adminModel->deleteImage($postId);
         
     }
     

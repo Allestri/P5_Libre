@@ -63,23 +63,23 @@ $('.edit').click(function() {
 		},
 		error: function(result, status, error){
 			console.log('Error on data recovery');
-		}
+		}	
 	});
 });
 
-
+// Set values on Edit form
 function setValuesEdit(data){
 	
 	console.log(data);
 	var imgId = data.id;
 	var title = data.name;
 	var author = data.author;
-	//var description = data.content;
+	var description = data.content;
 	
 	$('#edit-imgId').val(imgId);
 	$('#name').val(title);
 	$('#author').val(author);
-	//$('#description').val(description);
+	$('#description').val(description);
 };
 
 
