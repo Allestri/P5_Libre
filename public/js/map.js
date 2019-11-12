@@ -181,7 +181,7 @@ function displayMap()
 	};
 	
 	this.getId = function(filename) {
-		
+		console.log(filename);
 		return $.ajax({
 			type:"POST",
 			url: "http://projetlibre/map/getid",
@@ -189,7 +189,7 @@ function displayMap()
 		});
 		
 		//showInfos(id);
-		showComments(id);
+		//showComments(id);
 		
 	};
 
@@ -203,10 +203,9 @@ function displayMap()
 		
 		var id = data;
 		
-		var elements = $(".imgId");
+		var elements = $(".postId");
 		elements.val(id);
-		
-		
+
 	};
 	
 	this.getImageFullScreen = function (){

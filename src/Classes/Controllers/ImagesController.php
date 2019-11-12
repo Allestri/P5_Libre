@@ -57,7 +57,7 @@ class ImagesController extends ContentController
     
     /* Social functionalities */
     
-    public function retrieveImageId($request, $response)
+    public function retrievePostId($request, $response)
     {
         $datas = $request->getParsedBody();
         
@@ -67,11 +67,11 @@ class ImagesController extends ContentController
         
         $filename = $datas['filename'];
         
-        $imageModel = $this->container->get('imagesModel');
-        $imageId = $imageModel->getFilenameId($filename);
+        $contentModel = $this->container->get('contentModel');
+        $postId = $contentModel->getPostId($filename);
         
         // Makes sure to convert value into integer.
-        $idNbr = (int)$imageId['id'];
+        $idNbr = (int)$postId['id'];
         
         echo json_encode($idNbr);
     }
@@ -83,16 +83,6 @@ class ImagesController extends ContentController
         
         $imageModel = $this->container->get('imagesModel');
         $imageModel->likeImage($imgId);
-    }
-    
-    public function reportImage($request, $response)
-    {
-        $datas = $request->getParsedBody();
-        $imgId = $datas['imgId'];
-        
-        
-        $imageModel = $this->container->get('imagesModel');
-        $imageModel->reportImage($imgId);
     }
     
     public function commentImage($request, $response)
@@ -195,10 +185,13 @@ class ImagesController extends ContentController
     {
 
         $imageModel = $this->container->get('imagesModel');
+        $contentModel = $this->container->get('contentModel');
         
         // Get form datas
         $datas = $request->getParsedBody();
         $privacy = $datas['privacy'];
+        $name = $datas['name'];
+        $description = $datas['description'];
         
         //$this->postUpload($request, $response);
         $uploadedFile = $request->getUploadedFiles();
@@ -234,6 +227,8 @@ class ImagesController extends ContentController
         if($hasExif){
             $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude'], $imageId['id']);
         }
+        
+        $contentModel->addPost($name, $description, $user, $imageId['id'], $privacy);
          
         return $this->container->view->render($response, 'pages/upload.twig');
     }
@@ -436,7 +431,19 @@ class ImagesController extends ContentController
         } else {
             echo "Pas de données";
         }
-    }    
+    }
+    
+    
+    // Deprecated
+    public function reportImage($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        $imgId = $datas['imgId'];
+        
+        
+        $imageModel = $this->container->get('imagesModel');
+        $imageModel->reportImage($imgId);
+    }
     
 }
     

@@ -17,12 +17,16 @@
     		</div>
     		{% else %}
     	<div class="upload-wrapper mx-auto">
-    		<h1>Upload image</h1>
+    		<h1>Ajouter une photo</h1>
     		<form id="myForm" method="post" action="addexif" id="form" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="titre">Nommez votre photo</label><br />
                     <input type="text" class="form-control" name="name" placeholder="Titre de la photo" id="titre" required />
                     <span class="text-info">Le nom de votre photo sera visible par les autres utilisateurs.</span>
+                </div>
+                <div class="form-group">
+                	<label for="description">Partagez votre histoire !</label>
+                	<textarea class="form-control" rows="2" name="description" id="description" required></textarea>
                 </div>
                 <div class="form-group">
                 	<label for="privacy0">Confidentialité de la photo</label><br>

@@ -25,9 +25,13 @@ return function (App $app) {
     $app->get('/map', \App\Controllers\ImagesController:: class . ':displayMap')->setName('map');
     
     $app->post('/map', \App\Controllers\ImagesController:: class . ':likeImage');
-    $app->post('/map/report', \App\Controllers\ImagesController:: class . ':reportImage');
+    $app->post('/map/report', \App\Controllers\ContentController:: class . ':reportPost');
     $app->post('/map/comment', \App\Controllers\ImagesController:: class . ':commentImage');
-    $app->post('/map/getid', \App\Controllers\ImagesController:: class . ':retrieveImageId');
+    $app->post('/map/getid', \App\Controllers\ImagesController:: class . ':retrievePostId');
+    
+    // Under construction here.
+    $app->post('/getId', \App\Controllers\ImagesController:: class . ':retrieveImageId');
+    // End WIP.
     
     $app->get('/map/showcomment', \App\Controllers\ImagesController:: class . ':getComments');
     

@@ -191,6 +191,7 @@
 
 .upload-wrapper
 {
+	border:1px solid black;
 	padding: 50px 55px 30px;
 	border-radius:10px;
 	background-color:white;

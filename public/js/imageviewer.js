@@ -75,12 +75,11 @@ $('#showAllImages').click(function() {
 	
 });
 
-
 function getMyPhotoId(filename) {
 	
 	return $.ajax({
 		type:"POST",
-		url: "http://projetlibre/map/getid",
+		url: "http://projetlibre/getid",
 		data: {filename : filename[1]}
 	});
 	
@@ -211,7 +210,7 @@ $("#reportImg").on('click', (function(e) {
 	e.preventDefault();
 	
 	var formData = $("#reportImg").serialize();
-	
+	console.log(formData);
 	$.ajax({
 			type: "POST",
 			url: "http://projetlibre/map/report",
@@ -220,7 +219,7 @@ $("#reportImg").on('click', (function(e) {
 				console.log('Success, image reported');
 			},
 			error: function(result, status, error){
-				console.log('erreur');
+				console.log('error on reporting image');
 			}
 		});
 }));

@@ -73,6 +73,18 @@ class ContentController extends Controller
          return $this->render($response, 'content.twig');
      }
      
+     /* Social */
+     
+     public function reportPost($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         $postId = $datas['postId'];
+         
+         
+         $contentModel = $this->container->get('contentModel');
+         $contentModel->reportPost($postId);
+     }
+     
      public function addContent($request, $response)
      {
          

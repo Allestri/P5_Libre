@@ -74,10 +74,12 @@ function setValuesEdit(data){
 	var imgId = data.id;
 	var title = data.name;
 	var author = data.author;
+	//var description = data.content;
 	
 	$('#edit-imgId').val(imgId);
 	$('#name').val(title);
 	$('#author').val(author);
+	//$('#description').val(description);
 };
 
 

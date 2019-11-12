@@ -89,13 +89,7 @@ Class ImagesModel extends Model
         $id = $this->executeQuery($sql);
         return $id->fetch();
     }
-    
-    public function getFilenameId($filename)
-    {
-        $sql = "SELECT id FROM images WHERE filename = ?";
-        $id = $this->executeQuery($sql, array($filename));
-        return $id->fetch();
-    }
+       
            
     public function addGeoDatas($lng, $lat, $alt, $imgId)
     {
@@ -106,8 +100,8 @@ Class ImagesModel extends Model
     }
     
     public function addInfos($filename, $height, $width, $size, $type, $user, $groupImg, $privacy){
-        $sql = "INSERT INTO images (filename, height, width, size, type, upload_date, user_id, groupimg_id, privacy, thumbnail_base64) 
-                VALUES(?, ?, ?, ?, ?, NOW(), ?, ?, ?, 'placeholder')";
+        $sql = "INSERT INTO images (filename, height, width, size, type, upload_date, user_id, groupimg_id, privacy) 
+                VALUES(?, ?, ?, ?, ?, NOW(), ?, ?, ?)";
         $this->executeQuery($sql, array($filename, $height, $width, $size, $type, $user, $groupImg, $privacy));
     }
     
@@ -147,10 +141,15 @@ Class ImagesModel extends Model
                 AND user_id = ?";
         $this->executeQuery($sql, array($imgId, $uid));
     }
-   
     
-    // Moderation
-    // Administration
+    // Deprecated
+    public function getFilenameId($filename)
+    {
+        $sql = "SELECT id FROM images WHERE filename = ?";
+        $id = $this->executeQuery($sql, array($filename));
+        return $id->fetch();
+    }
+   
     
     
 }

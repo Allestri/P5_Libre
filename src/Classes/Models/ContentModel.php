@@ -24,6 +24,11 @@ Class ContentModel extends Model
         $this->executeQuery($sql, array($_POST['name'], $_POST['content']));
     }
     
+    public function addPost($name, $description, $user, $imageId, $privacy){
+        $sql = "INSERT INTO posts(name, content, user_id, image_id, marker_id, privacy) VALUES (?, ?, ?, ?, 2, ?)";
+        $this->executeQuery($sql, array($name, $description, $user, $imageId, $privacy));
+    }
+    
     public function getComments($imgId)
     {
         $sql = "SELECT members.name, comments.content, comments.com_date
@@ -34,6 +39,17 @@ Class ContentModel extends Model
                 ORDER BY comments.id ASC";
         $comments = $this->executeQuery($sql, array($imgId));
         return $comments->fetchAll();
+    }
+    
+    public function getPostId($filename)
+    {
+        $sql = "SELECT posts.id
+                FROM posts
+                INNER JOIN images
+                    ON images.id = posts.image_id
+                WHERE images.filename = ?";
+        $postId = $this->executeQuery($sql, array($filename));
+        return $postId->fetch();
     }
     
     public function getCommentsNew($markerId)
@@ -56,6 +72,13 @@ Class ContentModel extends Model
     {
         $sql = "INSERT INTO comments (author_id, content, com_date, img_id) VALUES (?, ?, NOW(), ?)";
         $this->executeQuery($sql, array($uid, $comment, $imgId));
+    }
+    
+    public function reportPost($postId) {
+        $sql = "UPDATE posts
+                SET reported = reported + 1
+                WHERE id = ?";
+        $this->executeQuery($sql, array($postId));
     }
     
 
