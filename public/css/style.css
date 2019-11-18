@@ -58,7 +58,14 @@
 	position:fixed;
 }
 
-/* Map Page */
+/*
+* === Map Page ===
+*/
+
+#map-wrapper
+{
+	margin-top:50px;
+}
 
 #map-container
 {
@@ -92,7 +99,19 @@
 	background-color:#686868;
 	cursor: pointer;
 	z-index:1;
+	animation: glow 1s infinite alternate;
 }
+
+/*
+@keyframes glow {
+  from {
+    box-shadow: 0 0 10px -10px #07a1ff;
+  }
+  to {
+    box-shadow: 0 0 10px 10px #07a1ff;
+  }
+}
+*/
 
 #info-toggle i
 {
@@ -432,6 +451,15 @@
 {
 	cursor: pointer;
 }
+
+
+/* Content Placeholder */
+.content-wrapper
+{
+	background-color:white;
+}
+
+
 
 /*
 * === Image Viewer ===

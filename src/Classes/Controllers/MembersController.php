@@ -308,7 +308,7 @@ class MembersController extends Controller
         return $this->redirect($response, 'profile');
     }
                 
-    
+   
     function addNewAvatar($directory, $uploadedFile, $member)
     {
         

@@ -140,10 +140,9 @@ function displayMap()
 		
 	};
 	
-	// NOTE WORK IN PROGRESS
-	
+	// Get informations on a clicked marker ( marker & image datas and comments)
 	this.getInfos = function(markerId) {
-				
+		console.log(markerId);
 		$.ajax({
 			type: "GET",
 	        url: "http://projetlibre/map/infos",
@@ -151,12 +150,13 @@ function displayMap()
 	        dataType: "JSON",
 	        success: (data)=> {
 	        	console.log('Infos success');
-	        	//console.log(data);
-	        	let infos = new imagesInfos(data);
+	        	console.log(data);
+	        	let infos = new postInfos(data);
 	        	infos.displayInfos();
+	        	infos.displayComments();
 	        },
 	    	error : function(result, status, error){
-	    		console.log('erreur fetch infos');
+	    		console.log('erreur fetch infos' + error);
 	    	}
 	    });
 	};
@@ -198,7 +198,7 @@ function displayMap()
 		console.log(data);
 	};
 	
-	// Sets the unique ID value on inputs
+	// Sets the unique Post ID value on inputs
 	function setValues(data, status, object){
 		
 		var id = data;
@@ -226,7 +226,6 @@ function displayMap()
 				//$('#overlay').append('<div class="img-wrapper"></div>');
 				//$('.img-wrapper').append($('<img />').attr({ src: file, class: 'image-midsize' } ));
 				
-				// WIP
 				// Display / Hide ( note : refer to imageviewer.js for the hiding method - WIP )
 				//$('#img-wrapper').prepend($('<img id="image-midsize" />').attr('src', file));
 				//showComments();

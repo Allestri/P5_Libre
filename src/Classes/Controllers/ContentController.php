@@ -34,24 +34,56 @@ class ContentController extends Controller
         $args['images'] = $imageModel->mostLikedImgs();
         
         return $this->render($response, 'home.twig', $args);
-    }
-    
+    }    
     
     public function getContent($request, $response, $args)
-     {
-     $this->flash('Test message flash');
-     $datas = $this->container->get('contentModel');
-     
-     $args['datas'] = $datas->getContent();
-     //var_dump($datas);
-     var_dump($args);
-         
-     
-     
-     // get the template renderer and pass response and datas to the template file.
-     return $this->container->view->render($response, 'content.twig', $args);
-     }
-          
+    {
+        $this->flash('Test message flash');
+        $contentModel = $this->container->get('contentModel');
+        
+        // Pagination
+        $limit = 2;
+        $query = $request->getQueryParams();
+        // Checks if param exists, is a number, assigns default page(1) if not.
+        if(isset($query['page']) && is_numeric($query['page'])) {
+            $currentPage = $query['page'];
+        } else {
+            $currentPage = 1;
+        }
+        
+        $contentTotal = $contentModel->countContent();
+        $contentTotal = (int)$contentTotal['rows'];
+        var_dump($contentTotal);
+        $totalPages = ($contentTotal / $limit);
+        
+        // If current page is higher than total pages.
+        // Set current page to last page.
+        if($query['page'] > $totalPages){
+            $currentPage = $totalPages;
+        }
+        // If current page is lower than 1.
+        // Sets to page 1.
+        if($query['page'] < 1){
+            $currentPage = 1;
+        }
+        
+        // Sets offset based on current page(inclusive)
+        $offset = ($currentPage - 1) * $limit;        
+        var_dump($currentPage);
+        
+        $args['currentPage'] = $currentPage;
+        $args['totalPages'] = $totalPages;
+        $args['nextPage'] = $currentPage + 1;
+        $args['previousPage'] = $currentPage - 1;
+        
+ 
+        $args['datas'] = $contentModel->getContent($limit, $offset);
+        var_dump($args);
+        
+        // get the template renderer and pass response and datas to the template file.
+        return $this->container->view->render($response, 'content.twig', $args);
+    }
+    
      
      // Formulaire
      public function getForm($request, $response)
@@ -73,7 +105,52 @@ class ContentController extends Controller
          return $this->render($response, 'content.twig');
      }
      
+     
+     // Retrieve post unique Id with it's unique filename.
+     public function retrievePostId($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         
+         // debugging purposes
+         //$filename = $_POST['filename'];
+         //$filename = '291b42e7a2b5b405.JPG';
+         
+         $filename = $datas['filename'];
+         
+         $contentModel = $this->container->get('contentModel');
+         $postId = $contentModel->getPostId($filename);
+         
+         // Makes sure to convert value into integer.
+         $idNbr = (int)$postId['id'];
+         
+         echo json_encode($idNbr);
+     }
+     
      /* Social */
+     
+     public function getComments($request, $response)
+     {
+         $datas = $request->getQueryParams();
+         $postId = $datas['postId'];
+         
+         $contentModel = $this->container->get('contentModel');
+         $comments = $contentModel->getComments($postId);
+         
+         echo json_encode($comments);
+     }
+     
+     public function commentPost($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         $uid = $datas['uid'];
+         
+         $content = $datas['content'];
+         $postId = $datas['postId'];
+         
+         
+         $contentModel = $this->container->get('contentModel');
+         $contentModel->addComment($uid, $content, $postId);
+     }
      
      public function reportPost($request, $response)
      {
@@ -83,6 +160,15 @@ class ContentController extends Controller
          
          $contentModel = $this->container->get('contentModel');
          $contentModel->reportPost($postId);
+     }
+     
+     public function likePost($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         $postId = $datas['postId'];
+         
+         $contentModel = $this->container->get('contentModel');
+         $contentModel->likePost($postId);
      }
      
      public function addContent($request, $response)

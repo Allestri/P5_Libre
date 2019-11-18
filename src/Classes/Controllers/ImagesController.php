@@ -74,16 +74,7 @@ class ImagesController extends ContentController
         $idNbr = (int)$postId['id'];
         
         echo json_encode($idNbr);
-    }
-    
-    public function likeImage($request, $response) 
-    {
-        $datas = $request->getParsedBody();
-        $imgId = $datas['imgId'];
-        
-        $imageModel = $this->container->get('imagesModel');
-        $imageModel->likeImage($imgId);
-    }
+    }    
     
     public function commentImage($request, $response)
     {
@@ -107,25 +98,12 @@ class ImagesController extends ContentController
         $datas = $request->getQueryParams();
         $markerId = $datas['id'];
         
-        $datas = $imageModel->fetchImgsInfos($markerId);
+        $datas = $imageModel->fetchImgsInfosNew($markerId);
         $datas['comments'] = $contentModel->getCommentsNew($markerId);
         
-                
         echo json_encode($datas);
     }
-    
-    public function getComments($request, $response)
-    {
-        $datas = $request->getQueryParams();
-        $imgId = $datas['imgId'];
-        
-        $contentModel = $this->container->get('contentModel');
-        $comments = $contentModel->getComments($imgId);
-        
-        echo json_encode($comments);
-    }
-    
-    
+           
     // Account page - fetch member's photos.
     public function getMyPhotos()
     {
@@ -445,6 +423,15 @@ class ImagesController extends ContentController
         
         $imageModel = $this->container->get('imagesModel');
         $imageModel->reportImage($imgId);
+    }
+    
+    public function likeImage($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        $imgId = $datas['imgId'];
+        
+        $imageModel = $this->container->get('imagesModel');
+        $imageModel->likeImage($imgId);
     }
     
 }

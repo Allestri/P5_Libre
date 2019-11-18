@@ -2,7 +2,7 @@
 
 {% block content %}
 
-	<div class="row">
+	<div id="map-wrapper" class="row">
 		<div id="map-container" class="col-lg-9">
 			<div id="map" style="height:700px"></div>
 		</div>
@@ -40,7 +40,7 @@
 				<img id="image-midsize" />
 				<div id="button-panel" class="d-flex align-items-center justify-content-around">
     				<form id="likeImg" method="POST" action="map">
-    					<input type="hidden" class="imgId" name="imgId" value="23"/>
+    					<input type="hidden" class="postId" name="postId" value="23"/>
     					<button class="btn btn-secondary like">
     						<i class="fas fa-heart"></i>
     						J'aime !
@@ -57,8 +57,8 @@
 			</div>
 			<div id="imgPanel">
 				<div class="card text-white bg-info mb-3">
-    				<h2 class="card-header">Placeholder</h2>
-    				<p class="card-text">Image description</p>
+    				<h2 id="image-name" class="card-header">Placeholder</h2>
+    				<p id="image-description" class="card-text">Image description</p>
 				</div>
 				<div id="comments-wrapper">
     				<div class="card">
@@ -74,7 +74,7 @@
 				<form id="comment" method="POST" action="map/comment">
 					<input type="hidden" name="uid" value="{{ member }}" />
 					<textarea class="input-comment" form="comment" name="content"></textarea>
-					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
+					<input type="hidden" id="postId" class="postId" name="postId" value="23" />
 					<button class="btn btn-secondary comment" id="comment-btn">
 					<i class="fas fa-comments"></i>
 					Commenter

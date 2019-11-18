@@ -24,16 +24,16 @@ return function (App $app) {
     // Google Map
     $app->get('/map', \App\Controllers\ImagesController:: class . ':displayMap')->setName('map');
     
-    $app->post('/map', \App\Controllers\ImagesController:: class . ':likeImage');
+    $app->post('/map', \App\Controllers\ContentController:: class . ':likePost');
     $app->post('/map/report', \App\Controllers\ContentController:: class . ':reportPost');
-    $app->post('/map/comment', \App\Controllers\ImagesController:: class . ':commentImage');
-    $app->post('/map/getid', \App\Controllers\ImagesController:: class . ':retrievePostId');
+    $app->post('/map/comment', \App\Controllers\ContentController:: class . ':commentPost');
+    $app->post('/map/getid', \App\Controllers\ContentController:: class . ':retrievePostId');
     
     // Under construction here.
     $app->post('/getId', \App\Controllers\ImagesController:: class . ':retrieveImageId');
     // End WIP.
     
-    $app->get('/map/showcomment', \App\Controllers\ImagesController:: class . ':getComments');
+    $app->get('/map/showcomment', \App\Controllers\ContentController:: class . ':getComments');
     
     $app->get('/map/api', \App\Controllers\ImagesController:: class . ':fetchMarkersRest');
     $app->get('/map/infos', \App\Controllers\ImagesController:: class . ':getInfos');

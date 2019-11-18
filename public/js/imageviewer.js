@@ -190,6 +190,7 @@ $("#likeImg").on('click', (function(e) {
 	e.preventDefault();
 	
 	var formData = $("#likeImg").serialize();
+	console.log(formData);
 	
 	$.ajax({
 			type: "POST",
@@ -277,15 +278,16 @@ function showComments() {
 		
 	// WIP
 	//var element = $('#comment').find('input');
-	var imgId = $('#imgId').attr('value');
-	console.log(imgId);
+	var $postId = $('#postId').attr('value');
+	console.log($postId);
 
 	$.ajax({
 			type: "GET",
 			url:"http://projetlibre/map/showcomment",
-			data: "imgId=" + imgId,
+			data: "postId=" + postId,
 			dataType: "json",
 			success: function(data){
+				console.log(data);
 				displayComments(data);
 				console.log('Success, comments loaded');
 			},
@@ -297,6 +299,7 @@ function showComments() {
 
 function displayComments(data) {
 
+	console.log(data);
     var comments = "";
 
     for( var i = 0; i < data.length; i++){

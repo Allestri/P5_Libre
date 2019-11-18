@@ -48,15 +48,16 @@ Class ImagesModel extends Model
     // Fetch every photos posted from the connected member, used in Profile Page.
     public function fetchAllMyImgs($uid)
     {
-        $sql = "SELECT markers.id, markers.name, images.filename, markers.address, markers.lng,
-                markers.lat, markers.altitude, images.upload_date, images.type, images.liked,
-                images.height, images.width, images.size, members.name as user_name, images.groupimg_id, images.privacy
-                FROM markers
+        $sql = "SELECT posts.id, posts.name, posts.liked, posts.reported,
+                members.name as user_name,
+                images.upload_date, images.type, images.filename
+                FROM posts
                     INNER JOIN images
-                        ON markers.image_id = images.id
+                        ON posts.image_id = images.id
                     INNER JOIN members
-                        ON images.user_id = members.id
-                WHERE images.user_id = ?";
+                        ON posts.user_id = members.id
+                WHERE posts.user_id = ?
+                LIMIT 0,2";
         $dataImages = $this->executeQuery($sql, array($uid));
         return $dataImages->fetchAll();
     }
@@ -71,6 +72,24 @@ Class ImagesModel extends Model
                         ON markers.image_id = images.id
                     INNER JOIN members
                         ON images.user_id = members.id
+                WHERE markers.id = ?";
+        $infosImages = $this->executeQuery($sql, array($markerId));
+        return $infosImages->fetch();
+    }
+    
+    public function fetchImgsInfosNew($markerId)
+    {
+        $sql = "SELECT markers.name, markers.lng, markers.lat, markers.altitude,
+                posts.name, posts.content as description, posts.liked, posts.reported, 
+                images.height, images.width, images.size, images.type, images.upload_date,
+                members.name as author, members.avatar_file as author_avatar
+                FROM markers
+                    INNER JOIN posts
+                        ON markers.id = posts.marker_id
+                    INNER JOIN members
+                        ON posts.user_id = members.id
+                    INNER JOIN images
+                        ON markers.image_id = images.id
                 WHERE markers.id = ?";
         $infosImages = $this->executeQuery($sql, array($markerId));
         return $infosImages->fetch();
@@ -113,7 +132,7 @@ Class ImagesModel extends Model
     }
     
     public function fetchImgInfos(){
-        $sql = "SELECT * FROM images WHERE 1";
+        $sql = "SELECT * FROM images";
         $imgDatas = $this->executeQuery($sql);
         return $imgDatas->fetchAll();
     }
@@ -126,14 +145,16 @@ Class ImagesModel extends Model
     }   
     
     public function mostLikedImgs(){
-        $sql = "SELECT id, filename, liked 
+        $sql = "SELECT posts.id, images.filename, posts.liked
                 FROM images
-                WHERE privacy = 0
-				ORDER BY liked DESC 
+                INNER JOIN posts
+                    ON images.id = posts.image_id
+                WHERE posts.privacy = 0
+                ORDER BY liked DESC
                 LIMIT 0,3";
         $likedImages = $this->executeQuery($sql);
         return $likedImages->fetchAll();
-    }    
+    }
     
     public function deleteImage($imgId, $uid) {
         $sql = "DELETE FROM images
