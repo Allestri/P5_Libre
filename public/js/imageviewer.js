@@ -85,17 +85,32 @@ function getMyPhotoId(filename) {
 	
 };
 
+// Gets post and image unique ids.
+function getUniqueIds(filename) {
 
-// Sets the unique ID value on inputs
+	return $.ajax({
+		type:"POST",
+		url: "http://projetlibre/getids",
+		dataType: "JSON",
+		data: {filename : filename[1]}
+	});
+}
+
+
+// Sets post & image unique IDs values on form inputs
 function setValues(data, status, object){
 	
-	var id = data;
-	console.log(id);
+	console.log(data);
+	var imgId = data.image_id;
+	var postId = data.post_id;
+	console.log(postId);
 	
-	var elements = $(".imgId");
-	elements.val(id);
-	console.log(elements);
+	var imgIdElts = $(".imgId");
+	var postIdElts = $('.postId');
+	imgIdElts.val(imgId);
+	postIdElts.val(postId);
 	
+	console.log(postIdElts);
 	
 };
 
@@ -135,7 +150,6 @@ function displayMyPhotos(data) {
     	$('.profile-photo-wrapper').click(function(){
     		
     		// Get event content
-    		//console.log('clicked' + event.target);
     		var child = ($(this).children());
     		var filename = $(this).find("img").attr( "src" );
     		console.log(filename);
@@ -157,8 +171,8 @@ function displayFullScreen(filepath) {
 	var deleteButton = "<span><i class='fas fa-trash-alt'></i></span>";
 	var editButton = "<span><i class='fas fa-edit'></i></span>";
 	
-	// Get clicked photo unique ID
-	getMyPhotoId(filename).done(setValues);
+	// Get clicked photo unique IDs
+	getUniqueIds(filename).done(setValues);
 	
 	// Sets filename on form.
 	var filenameElt = $(".filename");

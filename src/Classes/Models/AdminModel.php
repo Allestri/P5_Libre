@@ -43,12 +43,17 @@ class AdminModel extends Model
                 SET reported = 0
                 WHERE id = ?";
         $this->executeQuery($sql, array($imgId));
+    }    
+    
+    public function deletePost($postId)
+    {
+        $sql = "DELETE images, posts 
+                FROM images
+                INNER JOIN posts
+                    ON images.id = posts.image_id
+                WHERE posts.id = ?";
+        $this->executeQuery($sql, array($postId));
     }
     
-    public function deleteImage($postId){
-        $sql = "DELETE FROM posts
-                WHERE id = ?";
-        $this->executeQuery($sql, array($postId));
-    }   
 
 }

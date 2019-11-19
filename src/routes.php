@@ -29,6 +29,8 @@ return function (App $app) {
     $app->post('/map/comment', \App\Controllers\ContentController:: class . ':commentPost');
     $app->post('/map/getid', \App\Controllers\ContentController:: class . ':retrievePostId');
     
+    $app->post('/getids', \App\Controllers\ContentController:: class . ':retrieveIds');
+    
     // Under construction here.
     $app->post('/getId', \App\Controllers\ImagesController:: class . ':retrieveImageId');
     // End WIP.
@@ -48,7 +50,7 @@ return function (App $app) {
     // Espace membre
     $app->get('/profile', \App\Controllers\MembersController:: class . ':displayProfile')->setName('profile');
     $app->get('/profile/myimgs', \App\Controllers\ImagesController:: class . ':getMyPhotos');
-    $app->post('/profile/deleteimg', \App\Controllers\ImagesController:: class . ':deletePhoto');
+    $app->post('/profile/deleteimg', \App\Controllers\ContentController:: class . ':deletePost');
     
     // Profil Settings
     $app->post('/addavatar', \App\Controllers\MembersController:: class . ':addNewAvatar');

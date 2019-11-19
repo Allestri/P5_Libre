@@ -59,6 +59,17 @@ Class ContentModel extends Model
         return $postId->fetch();
     }
     
+    public function getIds($filename)
+    {
+        $sql = "SELECT posts.id as post_id, images.id as image_id
+                FROM posts
+	            INNER JOIN images
+    	           ON posts.image_id = images.id
+                WHERE images.filename = ?";
+        $ids = $this->executeQuery($sql, array($filename));
+        return $ids->fetch();
+    }
+    
     public function getCommentsNew($markerId)
     {
         $sql = "SELECT members.name, comments.content, comments.com_date
@@ -71,6 +82,16 @@ Class ContentModel extends Model
                 ORDER BY comments.id ASC";
          $comments = $this->executeQuery($sql, array($markerId));
          return $comments->fetchAll();
+    }
+    
+    // CRUD 
+    
+    public function deletePost($postId, $uid)
+    {
+        $sql = "DELETE FROM posts
+                WHERE id = ?
+                AND user_id = ?";
+        $this->executeQuery($sql, array($postId, $uid));
     }
     
     

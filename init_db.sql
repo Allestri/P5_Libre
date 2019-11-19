@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 12 nov. 2019 à 04:45
+-- Généré le :  mar. 19 nov. 2019 à 15:52
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -35,16 +35,16 @@ CREATE TABLE IF NOT EXISTS `avatars` (
   `avatar_file` varchar(255) NOT NULL,
   `active` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `avatars`
 --
 
 INSERT INTO `avatars` (`id`, `user_id`, `avatar_file`, `active`) VALUES
-(7, 6, 'avatar_soku_20-03-13.jpg', 1),
 (2, 6, 'avatar_soku_10-15-07.jpg', 0),
-(3, 6, 'avatar_soku_10-41-11.jpg', 0);
+(3, 6, 'avatar_soku_10-41-11.jpg', 0),
+(8, 6, 'avatar_soku_06-29-59.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -60,38 +60,16 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `com_date` datetime NOT NULL,
   `reported` int(11) NOT NULL DEFAULT '0',
   `moderated` int(11) NOT NULL DEFAULT '0',
-  `img_id` int(11) NOT NULL,
+  `post_id` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `comments`
 --
 
-INSERT INTO `comments` (`id`, `author_id`, `content`, `com_date`, `reported`, `moderated`, `img_id`) VALUES
-(1, 6, 'Superbe photo !', '2019-09-23 04:44:37', 0, 0, 23),
-(2, 6, 'DeuxiÃ¨me commentaire', '2019-09-23 04:59:23', 0, 0, 23),
-(23, 6, 'Belle photo', '2019-10-08 13:56:02', 0, 0, 23),
-(22, 6, '4e commentaire', '2019-10-01 23:35:53', 0, 0, 23),
-(21, 6, '3e commentaire', '2019-10-01 22:13:35', 0, 0, 23),
-(24, 6, 'Comment !', '2019-10-08 14:10:25', 0, 0, 32),
-(25, 6, 'Superbe !', '2019-10-08 14:12:14', 0, 0, 32),
-(26, 6, 'Bonjour', '2019-10-10 03:41:02', 0, 0, 32),
-(27, 6, 'yo', '2019-10-10 07:44:36', 0, 0, 32),
-(28, 6, 'df', '2019-10-10 07:54:48', 0, 0, 32),
-(29, 6, 'Bonjour', '2019-10-10 08:40:02', 0, 0, 32),
-(30, 6, 'jioj', '2019-10-10 08:40:12', 0, 0, 32),
-(31, 6, 'Hello', '2019-10-10 08:41:17', 0, 0, 27),
-(32, 6, 'Test', '2019-10-10 09:12:42', 0, 0, 32),
-(33, 6, 'test', '2019-10-10 09:12:54', 0, 0, 27),
-(34, 6, 'Test', '2019-10-11 03:27:49', 0, 0, 32),
-(35, 6, 'Hey', '2019-10-11 03:28:03', 0, 0, 27),
-(36, 6, 'Commentaire !', '2019-10-22 21:34:27', 0, 0, 3),
-(37, 6, 'Commentaire !', '2019-10-29 05:14:55', 0, 0, 1),
-(38, 6, 'Commentaire !', '2019-10-29 05:20:01', 0, 0, 1),
-(39, 6, 'Test commentaire', '2019-10-29 18:51:34', 0, 0, 3),
-(40, 6, 'Salut', '2019-11-05 21:20:40', 0, 0, 10),
-(41, 6, 'Bonjour', '2019-11-05 21:20:44', 0, 0, 10);
+INSERT INTO `comments` (`id`, `author_id`, `content`, `com_date`, `reported`, `moderated`, `post_id`) VALUES
+(51, 6, 'Commentaire !', '2019-11-19 14:14:55', 0, 0, 81);
 
 -- --------------------------------------------------------
 
@@ -162,17 +140,17 @@ CREATE TABLE IF NOT EXISTS `images` (
   `privacy` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `group_img` (`groupimg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `images`
 --
 
 INSERT INTO `images` (`id`, `filename`, `height`, `width`, `size`, `type`, `upload_date`, `user_id`, `groupimg_id`, `privacy`) VALUES
-(7, '4d6dbdc13fb6a080.jpg', 2242, 3992, 5447704, 'image/jpeg', '2019-10-29 20:36:18', 6, 1, 0),
-(13, '1ca95b4620d5f191.JPG', 3000, 4000, 4977227, 'image/jpeg', '2019-11-12 01:24:59', 6, 1, 0),
-(14, '2ee4783a396867a1.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-11-12 01:25:09', 6, 1, 0),
-(25, '7534e9b8fae7dfb5.JPG', 3000, 4000, 4606630, 'image/jpeg', '2019-11-12 05:36:49', 6, 1, 0);
+(39, '99bed3f231eedcba.jpg', 2242, 3992, 6071612, 'image/jpeg', '2019-11-19 09:54:01', 6, 1, 0),
+(41, 'cc52352bf936eaa5.JPG', 3000, 4000, 5232616, 'image/jpeg', '2019-11-19 09:54:55', 6, 1, 0),
+(42, '97cee3ac709ca4b7.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-11-19 11:11:07', 6, 1, 0),
+(43, 'edeae28f8b4e6314.jpg', 2242, 3992, 5447704, 'image/jpeg', '2019-11-19 11:39:56', 6, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -214,17 +192,17 @@ CREATE TABLE IF NOT EXISTS `markers` (
   `image_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_image_to_markers` (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `markers`
 --
 
 INSERT INTO `markers` (`id`, `name`, `address`, `lng`, `lat`, `altitude`, `image_id`) VALUES
-(6, 'Tihany', 'placeholder', 17.8909, 46.9152, 158.645, 7),
-(12, 'Larmor', 'placeholder', -3.37521, 47.7069, 82.81, 13),
-(13, 'Guidel', 'placeholder', -3.507, 47.7474, 99.203, 14),
-(24, 'Quiberon', 'placeholder', -3.14242, 47.4902, 17.935, 25);
+(37, 'Douarnenez', 'placeholder', -4.28549, 48.108, 72.636, 39),
+(38, 'Lorient', 'placeholder', -3.37273, 47.7015, 85.81, 41),
+(39, 'Guidel-Plages', 'placeholder', -3.507, 47.7474, 99.203, 42),
+(40, 'Tihany', 'placeholder', 17.8909, 46.9152, 158.645, 43);
 
 -- --------------------------------------------------------
 
@@ -285,6 +263,35 @@ INSERT INTO `members_groups` (`id`, `label`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `placeholder`
+--
+
+DROP TABLE IF EXISTS `placeholder`;
+CREATE TABLE IF NOT EXISTS `placeholder` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `placeholder`
+--
+
+INSERT INTO `placeholder` (`id`, `content`) VALUES
+(1, 'Message 1'),
+(2, 'Message 2'),
+(3, 'Message 3'),
+(4, 'Message 4'),
+(5, 'Message 5'),
+(6, 'Message 6'),
+(7, 'Message 7'),
+(8, 'Message 8'),
+(9, 'Message 9'),
+(10, 'Message 10');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `posts`
 --
 
@@ -302,14 +309,17 @@ CREATE TABLE IF NOT EXISTS `posts` (
   PRIMARY KEY (`id`),
   KEY `fk_post_to_images` (`image_id`),
   KEY `fk_post_to_markers` (`marker_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `posts`
 --
 
 INSERT INTO `posts` (`id`, `name`, `content`, `user_id`, `image_id`, `marker_id`, `liked`, `reported`, `privacy`) VALUES
-(67, 'Quiberon', 'Une photo faite Ã  la va-vite au drone !', 6, 25, 2, 0, 1, 0);
+(81, 'Douarnenez', 'Baie de Douarnenez', 6, 39, 37, 0, 0, 0),
+(83, 'Larmor', 'Baie de Lorient', 6, 41, 38, 0, 0, 0),
+(84, 'Guidel-Plages', 'Une plage de guidel', 6, 42, 39, 0, 0, 0),
+(85, 'Tihany', 'Basilique perchÃ© au dessus du lac Balaton !', 6, 43, 40, 0, 0, 0);
 
 -- --------------------------------------------------------
 

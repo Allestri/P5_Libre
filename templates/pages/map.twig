@@ -7,8 +7,7 @@
 			<div id="map" style="height:700px"></div>
 		</div>
 		<div id="image-info-panel" class="col-lg-3">
-			<div id="info-title">
-			</div>
+			<div id="main-title" class="info-title"></div>
 			<div id="info-panel">
     			<ul class="list-group" id="infoList">
     				<li class="list-group-item"><span id="author"></span></li>
@@ -35,54 +34,69 @@
 	</div>
 
 	<div id="overlay">
-		<div id="content-wrapper" class="d-flex flex-row mx-auto">
-			<div id="image-wrapper">
-				<img id="image-midsize" />
-				<div id="button-panel" class="d-flex align-items-center justify-content-around">
-    				<form id="likeImg" method="POST" action="map">
-    					<input type="hidden" class="postId" name="postId" value="23"/>
-    					<button class="btn btn-secondary like">
-    						<i class="fas fa-heart"></i>
-    						J'aime !
-    					</button>
-    				</form>
-    				<form id="reportImg" method="POST" action="map/report">
-    					<input type="hidden" class="postId" name="postId" value="23" />
-    					<button class="btn btn-secondary report">
-    						<i class="fas fa-exclamation-circle"></i>
-    						Signaler
-    					</button>
-    				</form>
-				</div>
-			</div>
-			<div id="imgPanel">
-				<div class="card text-white bg-info mb-3">
-    				<h2 id="image-name" class="card-header">Placeholder</h2>
-    				<p id="image-description" class="card-text">Image description</p>
-				</div>
-				<div id="comments-wrapper">
-    				<div class="card">
-    					<h5 class="card-header">John Doe</h5>
-        				<p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		<div class="row"> 
+    		<div id="content-wrapper" class="col-lg-9 d-flex flex-row mx-auto">
+    			<span class="icon-exit">
+        			<i class="fas fa-times"></i>
+        		</span>
+    			<div id="image-wrapper">
+    				<img id="image-midsize" />
+    				<div id="button-panel" class="d-flex align-items-center justify-content-around">
+        				<form id="likeImg" method="POST" action="map">
+        					<input type="hidden" class="postId" name="postId" value="23"/>
+        					<button class="btn btn-secondary like">
+        						<i class="fas fa-heart"></i>
+        						J'aime !
+        					</button>
+        				</form>
+        				<form id="reportImg" method="POST" action="map/report">
+        					<input type="hidden" class="postId" name="postId" value="23" />
+        					<button class="btn btn-secondary report">
+        						<i class="fas fa-exclamation-circle"></i>
+        						Signaler
+        					</button>
+        				</form>
     				</div>
     			</div>
-    			{% if not member %}
-					<div class="alert alert-primary">
-    					<p>Veuillez vous <a href="{{ path_for('inscription') }}" class="alert-link">authentifier pour commenter</a></p>
+    			<div id="imgPanel">
+    				<div class="card mb-3 photo-infocard">
+        				<h2 id="image-name" class="card-header">Placeholder</h2>
+        				<p id="image-description" class="card-header">Image description</p>
     				</div>
-				{% else %}
-				<form id="comment" method="POST" action="map/comment">
-					<input type="hidden" name="uid" value="{{ member }}" />
-					<textarea class="input-comment" form="comment" name="content"></textarea>
-					<input type="hidden" id="postId" class="postId" name="postId" value="23" />
-					<button class="btn btn-secondary comment" id="comment-btn">
-					<i class="fas fa-comments"></i>
-					Commenter
-					</button>
-				</form>
-				{% endif %}
-			</div>
-		</div>
+    				<div id="social-wrapper">
+    					<span class="social-card">
+    						<i class="fas fa-heart"></i>
+    					</span>
+    					<span class="social-card">
+    						<i class="fas fa-comments"></i>
+    					</span>
+    				</div>
+    				<div id="comments-wrapper">
+        				<div class="card comment">
+        					<img src="uploads/avatar/avatar_default.png" class="rounded-circle" alt="avatar" height="35">
+        					<h5 class="card-header">John Doe</h5>
+            				<p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+        				</div>
+        			</div>
+        			{% if not member %}
+    					<div class="alert alert-primary">
+        					<p>Veuillez vous <a href="{{ path_for('inscription') }}" class="alert-link">authentifier pour commenter</a></p>
+        				</div>
+    				{% else %}
+    				<div class="comment-form-wrapper">
+        				<form id="comment" method="POST" action="map/comment">
+        					<input type="hidden" name="uid" value="{{ member }}" />
+        					<textarea class="input-comment form-control" form="comment" name="content"></textarea>
+        					<input type="hidden" id="postId" class="postId" name="postId" value="23" />
+        				</form>
+        				<button class="btn btn-secondary comment" id="comment-btn" form="comment">
+        						<i class="fas fa-comment"></i>
+        				</button>
+    				</div>
+    				{% endif %}
+    			</div>
+    		</div>
+    	</div>
 	</div>
 	
 {% endblock %}

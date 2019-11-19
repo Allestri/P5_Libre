@@ -18,7 +18,7 @@ function postInfos(data){
 	this.displayInfos = function() {
 		
 		// Info sidepanel
-		$("#info-title").html("<h2> " + this.name + "</h2>");
+		$("#main-title").html("<h2> " + this.name + "</h2>");
 		
 		$("#author").replaceWith("<span id='author'> " + this.user + "</span>");
 		$('#author').prepend($('<img id="author-avatar" />').attr('src', 'uploads/avatar/' + this.authorAvatar));

@@ -64,7 +64,7 @@ class AdminController extends Controller
         $postId = $datas['postId'];
         
         $adminModel = $this->container->get('adminModel');
-        $adminModel->deleteImage($postId);
+        $adminModel->deletePost($postId);
         
     }
     

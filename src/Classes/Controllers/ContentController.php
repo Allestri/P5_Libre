@@ -58,12 +58,12 @@ class ContentController extends Controller
         
         // If current page is higher than total pages.
         // Set current page to last page.
-        if($query['page'] > $totalPages){
+        if(isset($query['page']) && ($query['page'] > $totalPages)){
             $currentPage = $totalPages;
         }
         // If current page is lower than 1.
         // Sets to page 1.
-        if($query['page'] < 1){
+        if(isset($query['page']) && ($query['page'] < 1)){
             $currentPage = 1;
         }
         
@@ -126,6 +126,27 @@ class ContentController extends Controller
          echo json_encode($idNbr);
      }
      
+     // Retrieve post & image unique Ids with unique filename.
+     public function retrieveIds($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         
+         // debugging purposes
+         //$filename = $_POST['filename'];
+         //$filename = '291b42e7a2b5b405.JPG';
+         
+         $filename = $datas['filename'];
+         
+         $contentModel = $this->container->get('contentModel');
+         $ids = $contentModel->getIds($filename);
+         
+         // Makes sure to convert value into integer.
+         //$postId = (int)$ids['post_id'];
+         //$imgId = (int)$ids['image_id'];
+         
+         echo json_encode($ids);
+     }
+     
      /* Social */
      
      public function getComments($request, $response)
@@ -169,6 +190,42 @@ class ContentController extends Controller
          
          $contentModel = $this->container->get('contentModel');
          $contentModel->likePost($postId);
+     }
+     
+     // CRUD
+     
+     public function deletePost($request, $response)
+     {
+         // Mieux vaut en faire trop que pas assez.
+         if(isset($_SESSION['uid'])) {
+             
+             $uid = $_SESSION['uid'];
+             
+             $datas = $request->getParsedBody();
+             $imgId = $datas['imgId'];
+             $postId = $datas['postId'];
+             $filename = $datas['filename'];
+             
+             $imageModel = $this->container->get('imagesModel');
+             $imageModel->deleteImage($imgId, $uid);
+             
+             $contentModel = $this->container->get('contentModel');
+             $contentModel->deletePost($postId, $uid);
+             
+             $directory = $this->container->get('uploaded_directory');
+             var_dump($filename);
+             
+             $photoPath = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename;
+             $thumbPath = $directory . DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $filename;
+             
+             unlink($thumbPath);
+             unlink($photoPath);
+             
+         } else {
+             
+             echo 'Erreur';
+         }
+             
      }
      
      public function addContent($request, $response)

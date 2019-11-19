@@ -57,7 +57,7 @@ class ImagesController extends ContentController
     
     /* Social functionalities */
     
-    public function retrievePostId($request, $response)
+    public function retrieveImageId($request, $response)
     {
         $datas = $request->getParsedBody();
         
@@ -113,41 +113,7 @@ class ImagesController extends ContentController
         $myPhotos = $imageModel->fetchAllMyImgs($uid);
         
         echo json_encode($myPhotos);
-    }
-    
-    
-    /* CRUD Image profile */
-    public function deletePhoto($request, $response)
-    {
-        // Mieux vaut en faire trop que pas assez.
-        if(isset($_SESSION['uid'])) {
-            
-            $uid = $_SESSION['uid'];
-            
-            $datas = $request->getParsedBody();
-            $imgId = $datas['imgId'];
-            $filename = $datas['filename'];
-            
-            $imageModel = $this->container->get('imagesModel');
-            $imageModel->deleteImage($imgId, $uid);
-            
-            
-            $directory = $this->container->get('uploaded_directory');
-            var_dump($filename);
-            
-            $photoPath = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename;
-            $thumbPath = $directory . DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $filename;
-            
-            unlink($thumbPath);
-            unlink($photoPath);
-            
-        } else { 
-            
-            echo 'Erreur';
-        }       
-        
-    }
-    
+    }            
     
     /* 
      * Gets the user who uploaded the content 

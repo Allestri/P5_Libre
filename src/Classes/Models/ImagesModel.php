@@ -50,14 +50,14 @@ Class ImagesModel extends Model
     {
         $sql = "SELECT posts.id, posts.name, posts.liked, posts.reported,
                 members.name as user_name,
-                images.upload_date, images.type, images.filename
+                images.filename, images.upload_date, images.type
                 FROM posts
                     INNER JOIN images
                         ON posts.image_id = images.id
                     INNER JOIN members
                         ON posts.user_id = members.id
                 WHERE posts.user_id = ?
-                LIMIT 0,2";
+                LIMIT 0,4";
         $dataImages = $this->executeQuery($sql, array($uid));
         return $dataImages->fetchAll();
     }

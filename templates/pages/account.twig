@@ -11,11 +11,10 @@
     		<a class ="btn btn-danger" href="/ignorefriend">Refuser</a>
     	</div>
 	{% endif %}
-	{{ dump (flash) }}
 	{{ messages }}
     <div class="col-xl-9 col-md-9 col-sm-10 mx-auto">
 
-        <div id="profile-container" class="bg-white shadow rounded overflow-hidden">
+        <div id="profile-container" class="bg-white rounded overflow-hidden">
             <div class="px-4 pt-0 pb-4 bg-dark">
                 <div class="media align-items-end profile-header">
                     <div class="profile mr-3">
@@ -81,10 +80,9 @@
                         	<p>Vous n'avez pas encore publié de photos !</p>
                         {% else %}
                         <div class="row">
-                            <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.0.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
-                            <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.1.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
-                            <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.2.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
-                            <div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ recentimg.3.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
+                        	{% for images in recentimg %}
+                            	<div class="col-lg-6 mb-2 pr-lg-1"><img src="uploads/photos/{{ images.filename }}" alt="" class="img-fluid rounded shadow-sm"></div>
+                            {% endfor %}
                         </div>
                        {% endif %}
                     </div>
@@ -145,8 +143,11 @@
 <!-- Image Overlay -->
 <div id="overlay" class="overlay-profile">
 	<div id="profile-content-wrapper" class="mx-auto">
-		<div id="profile-content-title">
-			<h2>Mes Photos</h2>
+		<div id="profile-content-header">
+			<span class="myimgs-icon">
+				<i class="fas fa-images"></i>
+			</span>
+			<h2 class="myimages-title">Mes Photos</h2>
 			<span class="icon-exit">
 				<i class="fas fa-times"></i>
 			</span>
@@ -154,7 +155,7 @@
 		<div id="profile-images-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
 		</div>
 		<div id="image-navigation">
-			<nav aria-label="Page navigation example">
+			<nav aria-label="navigation images">
               <ul class="pagination">
                 <li class="page-item">
                   <a class="page-link" href="#" aria-label="Previous">
@@ -172,15 +173,14 @@
               </ul>
            </nav>
 		</div>
-		<!--   <div id="test-design"> -->
 		<div id="myphoto-wrapper">
-			<!--   <img id="myphoto" src="uploads/photos/ba5a170e7ba993d9.jpg" /> -->
 			<span class="icon-exit-full">
 				<i class="fas fa-times"></i>
 			</span>
 			<div id="myphoto-panel" class="d-flex align-items-center justify-content-around">
 				<form id="delete" method="POST" action="profile/deleteimg">
 					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
+					<input type="hidden" class="postId" name="postId" value="1" />
 					<input type="hidden" id="filename" class="filename" name="filename" value="placeholder" />
 					<button class="btn btn-secondary comment" id="delete-btn">
 					<i class='fas fa-trash-alt'></i>
@@ -189,6 +189,7 @@
 				</form>
 				<form id="editImg" method="POST" action="profile/editimg">
 					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
+					<input type="hidden" id="postId" class="postId" name="postId" value="1" />
 					<button class="btn btn-secondary comment" id="delete-btn">
 					<i class='fas fa-edit'></i>
 					Editer la photo
