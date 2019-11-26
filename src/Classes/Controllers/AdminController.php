@@ -17,14 +17,20 @@ class AdminController extends Controller
         if(isset($_SESSION['admin'])){
             
             $adminModel = $this->container->get('adminModel');
+            $membersModel = $this->container->get('membersModel');
+            
             //var_dump($_SESSION);
             $args = $adminModel->countReports();
+            
             // If there are any reports, fetch those ones.
             if($args > 1){
                 
                 $args['reportedPosts'] = $adminModel->getReports();
                 
             }
+            // Fetch memberlist
+            $args['membersList'] = $membersModel->getFullMembersList();
+            var_dump($args);
             return $this->render($response, 'pages/admin.twig', $args);
             
         } else {

@@ -13,7 +13,16 @@ function postInfos(data){
 	this.size = data.size;
 	this.user = data.author;
 	this.authorAvatar = data.author_avatar;
+	this.likes = data.liked;
 		
+	
+	this.togglePanel = function() {
+		
+		$('#info-toggle').click(function() {
+			$('#image-info-panel').toggleClass('show');
+			$('#map-wrapper').toggleClass('contract');
+		});
+	};
 	
 	this.displayInfos = function() {
 		
@@ -28,6 +37,7 @@ function postInfos(data){
 		$("#lat").replaceWith("<span id='lat'> " + this.lat + "</span>");
 		$("#alt").replaceWith("<span id='alt'> " + this.alt + " m</span>");
 
+		
 		$("#width").replaceWith("<span id='width'> " + this.width + " px</span>");
 		$("#height").replaceWith("<span id='height'> " + this.height + " px</span>");
 		$("#type").replaceWith("<span id='type'> " + this.type + "</span>");
@@ -35,6 +45,9 @@ function postInfos(data){
 		//Overlay
 		$('#image-name').text(this.name);
 		$('#image-description').text(this.description);
+		$('.likes-count').text(this.likes);
+		$('.comments-count').text(data.comments.length);
+		
 	};
 	
 	this.displayComments = function() {
@@ -44,10 +57,12 @@ function postInfos(data){
 
 	    for( var i = 0; i < data.comments.length; i++){
 
-	        comments += "<div class='card'><div class='card-body'><h5 class='card-title'>" + data.comments[i].name + "</h5><p class='card-text'>" + data.comments[i].content + "</p></div></div>";
+	        comments += "<div class='card comment'><div class='comment-avatar'><img src='uploads/avatar/avatar_default.png' width='50' alt='avatar'></div><div class='card-body'><h5 class='card-title'>" + data.comments[i].name + "</h5><p class='card-text'>" + data.comments[i].content + "</p></div>" +
+	        		"<div class='comment-options'><i class='fa fa-cog'></i><ul class='options-menu'><li><form class='deleteComment' method='POST' action='map/deletecomment' ><input type='hidden' name='commentId' value='" + data.comments[i].id + "'/><input type='hidden' name='uid' value='6' /><button class='delete-comment-btn'>Supprimer</button></form></li></ul></div></div>";
 
 	    }
 	    $('#comments-wrapper').html(comments);
+	    //deleteComment();
 	};
 	
 }

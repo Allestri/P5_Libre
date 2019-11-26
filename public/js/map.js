@@ -154,6 +154,7 @@ function displayMap()
 	        	let infos = new postInfos(data);
 	        	infos.displayInfos();
 	        	infos.displayComments();
+	        	infos.togglePanel();
 	        },
 	    	error : function(result, status, error){
 	    		console.log('erreur fetch infos' + error);
@@ -233,6 +234,9 @@ function displayMap()
 				self.toggleInfoButton();
 				$('#image-midsize').attr('src', file);
 				$('#overlay').show();
+				// Init delete button listener.
+				let social = new Social();
+				social.initialization();
 				
 			},
 			error: function(result, status, error){
@@ -349,7 +353,19 @@ function displayMap()
 	        	        ]
 	        	    }
 	        	]
+	    
 	    });
+	    // Legend
+	    var legend = document.getElementById('legend');
+        for (var i = 0; i < 3; i++) {
+          var type = 'type';
+          var name = 'nom';
+          //var icon = type.icon;
+          var div = document.createElement('div');
+          div.innerHTML = name;
+          legend.appendChild(div);
+        }
+        gmap.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 	    
 	    this.getPoints();
 	

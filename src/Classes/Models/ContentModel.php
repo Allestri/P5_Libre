@@ -36,9 +36,35 @@ Class ContentModel extends Model
         $this->executeQuery($sql, array($name, $description, $user, $imageId, $markerId, $privacy));
     }
     
+    // Get informations for a single post
+    public function getSelectedPost($postId)
+    {
+        $sql = "SELECT name, content, privacy
+                FROM posts
+                WHERE id = ?";
+        $post = $this->executeQuery($sql, array($postId));
+        return $post->fetch();
+    }
+    
+    // Get comments from a marker from Map
+    public function getCommentsNew($markerId)
+    {
+        $sql = "SELECT comments.id, members.name, members.avatar_file, comments.content, comments.com_date
+                FROM comments
+                INNER JOIN members
+                    ON comments.author_id = members.id
+                INNER JOIN posts
+                	ON comments.post_id = posts.id
+                WHERE posts.marker_id = ?
+                ORDER BY comments.id ASC";
+        $comments = $this->executeQuery($sql, array($markerId));
+        return $comments->fetchAll();
+    }
+    
+    // Get comments refreshed
     public function getComments($postId)
     {
-        $sql = "SELECT members.name, comments.content, comments.com_date
+        $sql = "SELECT comments.id, members.name, members.avatar_file, comments.content, comments.com_date
                 FROM comments 
                 INNER JOIN members
 	               ON comments.author_id = members.id
@@ -46,6 +72,15 @@ Class ContentModel extends Model
                 ORDER BY comments.id ASC";
         $comments = $this->executeQuery($sql, array($postId));
         return $comments->fetchAll();
+    }
+    
+    // Gets my comments - used in Profile Page.
+    public function getMyComments($uid)
+    {
+        $sql = "SELECT * FROM comments
+                WHERE author_id = ?";
+        $myComments = $this->executeQuery($sql, array($uid));
+        return $myComments->fetchAll();
     }
     
     public function getPostId($filename)
@@ -70,19 +105,7 @@ Class ContentModel extends Model
         return $ids->fetch();
     }
     
-    public function getCommentsNew($markerId)
-    {
-        $sql = "SELECT members.name, comments.content, comments.com_date
-                FROM comments
-                INNER JOIN members
-                    ON comments.author_id = members.id
-                INNER JOIN posts
-                	ON comments.post_id = posts.id
-                WHERE posts.marker_id = ?
-                ORDER BY comments.id ASC";
-         $comments = $this->executeQuery($sql, array($markerId));
-         return $comments->fetchAll();
-    }
+
     
     // CRUD 
     
@@ -94,6 +117,14 @@ Class ContentModel extends Model
         $this->executeQuery($sql, array($postId, $uid));
     }
     
+    public function editPost($name, $content, $privacy, $postId)
+    {
+        $sql =  "UPDATE posts
+                SET name = ?, content = ?, privacy = ?
+                WHERE id= ?";
+        $this->executeQuery($sql, array($name, $content, $privacy, $postId));
+    }
+    
     
     // Social 
     
@@ -101,6 +132,13 @@ Class ContentModel extends Model
     {
         $sql = "INSERT INTO comments (author_id, content, com_date, post_id) VALUES (?, ?, NOW(), ?)";
         $this->executeQuery($sql, array($uid, $comment, $postId));
+    }
+    
+    public function deleteComment($uid, $commentId)
+    {
+        $sql = "DELETE FROM comments
+                WHERE author_id = ? AND id = ?";
+        $this->executeQuery($sql, array($uid, $commentId));
     }
     
     public function reportPost($postId) {

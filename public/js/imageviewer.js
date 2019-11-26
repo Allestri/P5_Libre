@@ -163,6 +163,9 @@ function displayMyPhotos(data) {
 //Display full screen via image viewer
 function displayFullScreen(filepath) {
 	
+	let profile = new profileComponents();
+	profile.initialization();
+	
 	let filename = filepath.split("uploads/thumbnails/");
 	
 	var dir = "uploads/photos";
@@ -241,10 +244,10 @@ $("#reportImg").on('click', (function(e) {
 
 /* Comment an image */
 
-$("#comment-btn").on('click', (function(e) {
+$("#comment-form").on('submit', (function(e) {
 	e.preventDefault();
 	
-	var formData = $("#comment").serialize();
+	var formData = $("#comment-form").serialize();
 	console.log(formData);
 	$.ajax({
 			type: "POST",
@@ -253,7 +256,7 @@ $("#comment-btn").on('click', (function(e) {
 			success: function(data){
 				console.log('Success, image commented');
 				showComments();
-				$("#comment")[0].reset();
+				$("#comment-form")[0].reset();
 				
 			},
 			error: function(result, status, error){
@@ -262,6 +265,9 @@ $("#comment-btn").on('click', (function(e) {
 		});
 	
 }));
+
+
+
 
 // Show photo informations such as comments.
 // WIP
@@ -286,14 +292,13 @@ function showInfos(filename){
 };
 
 
-// Deprecated.
-
 function showComments() {
 		
 	// WIP
 	//var element = $('#comment').find('input');
-	var $postId = $('#postId').attr('value');
-	console.log($postId);
+	//var $postId = $('#postId').attr('value');
+	var postId = $('#postId').attr('value');
+	console.log(postId);
 
 	$.ajax({
 			type: "GET",
@@ -314,16 +319,23 @@ function showComments() {
 function displayComments(data) {
 
 	console.log(data);
+	var commentOption = "<div class='comment-options'><i class='fa fa-cog'></i></div>";
     var comments = "";
 
     for( var i = 0; i < data.length; i++){
 
-        comments += "<div class='card'><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><p class='card-text'>" + data[i].content + "</p></div></div>";
+        comments += "<div class='card comment'><div class='comment-avatar'><img src='uploads/avatar/avatar_default.png' width='50' alt='avatar'></div><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><p class='card-text'>" + data[i].content + "</p></div>" +
+        		"<div class='comment-options'><i class='fa fa-cog'></i><ul class='options-menu'><li><form class='deleteComment' method='POST' action='map/deletecomment' ><input type='hidden' name='commentId' value='" + data[i].id + "'/><input type='hidden' name='uid' value='6' /><button class='delete-comment-btn'>Supprimer</button></form></li></ul></div></div>";
 
     }
     $('#comments-wrapper').html(comments);
+    // Refresh comment count
+    $('.comments-count').text(data.length);
+   
+    // Init delete button listener.
+    let social = new Social();
+    social.initialization();
 };
-
 
 
 // CRUD

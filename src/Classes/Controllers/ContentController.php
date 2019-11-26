@@ -173,6 +173,16 @@ class ContentController extends Controller
          $contentModel->addComment($uid, $content, $postId);
      }
      
+     public function deleteComment($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         $uid = $datas['uid'];
+         $commentId = $datas['commentId'];
+         
+         $contentModel = $this->container->get('contentModel');
+         $contentModel->deleteComment($uid, $commentId);
+     }
+     
      public function reportPost($request, $response)
      {
          $datas = $request->getParsedBody();
@@ -221,11 +231,41 @@ class ContentController extends Controller
              unlink($thumbPath);
              unlink($photoPath);
              
+             $this->flash('Post supprimé avec succès');
+             
          } else {
              
-             echo 'Erreur';
+             echo 'Erreur, vous devez vous authentifier';
          }
              
+     }
+     
+     public function getSelectedPost($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         $postId = $datas['postId'];
+         
+         $contentModel = $this->container->get('contentModel');
+         $post = $contentModel->getSelectedPost($postId);
+         
+         echo json_encode($post);
+     }
+     
+     
+     public function editPost($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         $contentModel = $this->container->get('contentModel');
+         
+         $postId = $datas['postId'];
+         $name = $datas['name'];
+         $content = $datas['description'];
+         $privacy = $datas['privacy'];
+         
+         $contentModel->editPost($name, $content, $privacy, $postId);
+         $this->flash('Post edité avec succès');
+         
+         return $this->redirect($response, 'newprofile');
      }
      
      public function addContent($request, $response)
@@ -277,6 +317,31 @@ class ContentController extends Controller
          // for debugging purposes
          return $this->container->view->render($response, 'pages/upload.twig');
          //return $this->redirect($response, 'upload');
+     }
+     
+     
+     // Upload file to test it's data for the app.
+     public function postTestUpload($request, $response)
+     {
+         $uploadedFile = $request->getUploadedFile();
+         $directory = $this->container->get('uploaded_directory');
+         
+         $uploadedFile = $uploadedFile['myfile'];
+         if($uploadedFile->getError() === UPLOAD_ERR_OK){
+             $this->moveTestFile($directory, $uploadedFile);
+         }
+         return $this->container->view->render($response, 'pages/exif.twig');
+     }
+     
+     function moveTestFile($directory, UploadedFile $uploadedFile)
+     {
+         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+         $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
+         $filename = sprintf('%s.%0.8s', $basename, $extension);
+         
+         $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename);
+         
+         return $filename;
      }
      
      

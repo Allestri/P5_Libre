@@ -9,14 +9,7 @@ $('#edit-profile-btn').on('click', function(){
 });
 */
 
-
-// Map info
-
-
-// Profile Settings //
-
 // Admin Panel //
-
 $('.delete').click(function(e) {
 	
 	if(confirm("Voulez vous supprimer ce post ?")){
@@ -48,6 +41,8 @@ $('.delete').click(function(e) {
 	
 });
 
+
+// Get values from a report to edit form
 $('.edit').click(function() {
 	
 	var imgId = $(this).parent().serialize();
@@ -67,7 +62,56 @@ $('.edit').click(function() {
 	});
 });
 
-// Set values on Edit form
+
+
+
+
+
+// Test Exif upload
+$('#test-form-btn').click(function() {
+	console.log('fired');
+	displayTestResults();
+});
+
+
+function displayTestResults(){
+	// If there is any flash success
+	if($('.alert-success').length > 0) {
+		  
+		$('.test-wrapper').addClass('valid');
+	} else {
+		$('.test-wrapper').addClass('invalid');
+	}
+};
+
+
+
+
+/* 
+$("#testForm").on('submit', (function(e) {
+	e.preventDefault();
+	$.ajax({
+			type: "POST",
+			url: "http://projetlibre/testexif",
+			data:  new FormData(this),
+			contentType: false,
+			cache: false,
+			processData:false,
+			success: function(data){
+				console.log(data);
+				$("#preview").html(data).fadeIn();
+			    $("#testForm")[0].reset(); 
+			},
+			error: function(result, status, error){
+				$(".container").append("<p>Erreur</p>");
+			}
+		});
+}));
+*/
+
+
+
+// Set values on Edit form - Admin Panel
 function setValuesEdit(data){
 	
 	console.log(data);
@@ -83,7 +127,7 @@ function setValuesEdit(data){
 };
 
 
-// Preview avatar before submitting.
+// Preview avatar before submitting - Profile Page
 $("#avatar-form").change(function(){
 
 	var file = this.files[0];

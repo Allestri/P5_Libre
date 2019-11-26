@@ -163,6 +163,68 @@ class MembersController extends Controller
         }
         
     }
+    
+    public function displayNewProfile($request, $response, $member)
+    {
+        // Add message to be used in current request
+        //$this->container->flash->addMessageNow('Test', 'This is another message');
+        
+        //var_dump($this->container->flash);
+        //var_dump($_SESSION);
+        $memberModel = $this->container->get('membersModel');
+        $contentModel = $this->container->get('contentModel');
+        
+        $username = $_SESSION['username'];
+        $uid = $_SESSION['uid'];
+        $member['profile'] = $username;
+        $member['uid'] = $uid;
+        
+        //var_dump($_SESSION);
+        
+        if(isset($_SESSION['username'])){
+            
+            
+            // Gets images number this user uploaded.
+            $imgNbr = $this->countImgMember($uid);
+            $args = array_merge($member, $imgNbr);
+            
+            $hasAvatars = $memberModel->getAvatars($uid);
+            //var_dump($avatars['0']);
+            
+            $avatarDir = "uploads/avatar";
+            
+            // Checks has custom avatar, gets it, return default avatar otherwise.
+            // Gets inactive avatars in a separate array.
+            if($hasAvatars){
+                
+                $avatar['avatar'] = $avatarDir . DIRECTORY_SEPARATOR . $username . DIRECTORY_SEPARATOR . $hasAvatars['0']['avatar_file'];
+                $avatar['inactive_avatars'] = array_slice($hasAvatars,1);
+                
+            } else {
+                $avatar['avatar'] = $avatarDir . DIRECTORY_SEPARATOR . "avatar_default.png";
+            }
+            $args = array_merge($args, $avatar);
+            
+            // Get friends
+            $args['friends'] = $memberModel->getFriends($uid);
+            
+            $args['recentimg'] = $memberModel->getRecentPhotos($uid);
+            
+            // Friend Request notifications
+            $args['request'] = $memberModel->getFriendRequests($uid);
+            
+            $args['commentslist'] = $contentModel->getMyComments($uid);
+            
+            
+            if(isset($args['request']['0'])){
+                $_SESSION['sender_id'] = $args['request']['0']['sender_id'];
+            }
+            return $this->container->view->render($response, 'pages/profile.twig', $args);
+        } else {
+            return $this->redirect($response, 'home');
+        }
+        
+    }
        
     
     public function logout($request, $response)

@@ -2,9 +2,13 @@
 
 {% block content %}
 
-	<div id="map-wrapper" class="row">
-		<div id="map-container" class="col-lg-9">
+	<div id="app-container" class="row">
+		<div id="map-wrapper" class="col-lg-12">
 			<div id="map" style="height:700px"></div>
+			<div id="legend"><h3>Légende</h3></div>
+			<span id="info-toggle">
+				<i class="fas fa-info"></i>
+			</span>
 		</div>
 		<div id="image-info-panel" class="col-lg-3">
 			<div id="main-title" class="info-title"></div>
@@ -19,12 +23,8 @@
     				<li class="list-group-item"><span class="titleInfo">Largeur :</span><span id="width"></span></li>
     				<li class="list-group-item"><span class="titleInfo">Hauteur :</span><span id="height"></span></li>
     				<li class="list-group-item"><span class="titleInfo">Type :</span><span id="type"></span></li>
-    				<li class="list-group-item"><span class="titleInfo">Thumbnail :</span><span id="thumbnail"></span></li>
     			</ul>
 			</div>
-			<span id="info-toggle">
-				<i class="fas fa-info"></i>
-			</span>
 		</div>
 	</div>
 	<div class="row">
@@ -35,65 +35,70 @@
 
 	<div id="overlay">
 		<div class="row"> 
-    		<div id="content-wrapper" class="col-lg-9 d-flex flex-row mx-auto">
+    		<div id="content-wrapper" class="col-lg-10 d-flex flex-row mx-auto">
     			<span class="icon-exit">
         			<i class="fas fa-times"></i>
         		</span>
-    			<div id="image-wrapper">
-    				<img id="image-midsize" />
-    				<div id="button-panel" class="d-flex align-items-center justify-content-around">
-        				<form id="likeImg" method="POST" action="map">
-        					<input type="hidden" class="postId" name="postId" value="23"/>
-        					<button class="btn btn-secondary like">
-        						<i class="fas fa-heart"></i>
-        						J'aime !
-        					</button>
-        				</form>
-        				<form id="reportImg" method="POST" action="map/report">
-        					<input type="hidden" class="postId" name="postId" value="23" />
-        					<button class="btn btn-secondary report">
-        						<i class="fas fa-exclamation-circle"></i>
-        						Signaler
-        					</button>
-        				</form>
-    				</div>
-    			</div>
-    			<div id="imgPanel">
-    				<div class="card mb-3 photo-infocard">
-        				<h2 id="image-name" class="card-header">Placeholder</h2>
-        				<p id="image-description" class="card-header">Image description</p>
-    				</div>
-    				<div id="social-wrapper">
-    					<span class="social-card">
-    						<i class="fas fa-heart"></i>
-    					</span>
-    					<span class="social-card">
-    						<i class="fas fa-comments"></i>
-    					</span>
-    				</div>
-    				<div id="comments-wrapper">
-        				<div class="card comment">
-        					<img src="uploads/avatar/avatar_default.png" class="rounded-circle" alt="avatar" height="35">
-        					<h5 class="card-header">John Doe</h5>
-            				<p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+        		<div class="row">
+        			<div id="image-wrapper" class="col-lg-9">
+        				<img id="image-midsize" />
+        				<div id="button-panel" class="d-flex align-items-center justify-content-around">
+            				<form id="likeImg" method="POST" action="map">
+            					<input type="hidden" class="postId" name="postId" value="23"/>
+            					<button class="btn btn-light like">
+            						<i class="fas fa-heart"></i>
+            					</button>
+            				</form>
+            				<form id="reportImg" method="POST" action="map/report">
+            					<input type="hidden" class="postId" name="postId" value="23" />
+            					<button class="btn btn-secondary report">
+            						<i class="fas fa-exclamation-circle"></i>
+            						Signaler
+            					</button>
+            				</form>
         				</div>
         			</div>
-        			{% if not member %}
-    					<div class="alert alert-primary">
-        					<p>Veuillez vous <a href="{{ path_for('inscription') }}" class="alert-link">authentifier pour commenter</a></p>
+        			<div id="imgPanel" class="col-lg-3">
+        				<div class="card mb-3 photo-infocard">
+            				<h2 id="image-name" class="card-header">Placeholder</h2>
+            				<p id="image-description" class="card-header">Image description</p>
         				</div>
-    				{% else %}
-    				<div class="comment-form-wrapper">
-        				<form id="comment" method="POST" action="map/comment">
-        					<input type="hidden" name="uid" value="{{ member }}" />
-        					<textarea class="input-comment form-control" form="comment" name="content"></textarea>
-        					<input type="hidden" id="postId" class="postId" name="postId" value="23" />
-        				</form>
-        				<button class="btn btn-secondary comment" id="comment-btn" form="comment">
-        						<i class="fas fa-comment"></i>
-        				</button>
-    				</div>
-    				{% endif %}
+        				<div id="social-wrapper">
+        					<span class="social-card">
+        						<i class="fas fa-heart"></i>
+        						<span class="likes-count"></span>
+        					</span>
+        					<span class="social-card">
+        						<i class="fas fa-comments"></i>
+        						<span class="comments-count"></span>
+        					</span>
+        				</div>
+        				{% if not member %}
+        					<div class="alert alert-primary">
+            					<p>Veuillez vous <a href="{{ path_for('inscription') }}" class="alert-link">authentifier pour commenter</a></p>
+            				</div>
+        				{% else %}
+        				<div class="comment-form-wrapper">
+            				<form id="comment-form" method="POST" action="map/comment">
+            					<input type="hidden" name="uid" value="{{ member }}" />
+            					<textarea class="input-comment form-control" rows="1" form="comment-form" name="content" required></textarea>
+            					<input type="hidden" id="postId" class="postId" name="postId" value="23" />
+            				</form>
+            				<div id="comment-btn-wrapper">
+                				<button type="submit" class="btn btn-secondary" id="comment-btn" form="comment-form">
+                						<i class="fas fa-comment"></i>
+                				</button>
+            				</div>
+        				</div>
+        				{% endif %}
+        				<div id="comments-wrapper">
+            				<div class="card comment">
+            					<img src="uploads/avatar/avatar_default.png" class="rounded-circle" alt="avatar" height="35">
+            					<h5 class="card-header">John Doe</h5>
+                				<p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            				</div>
+            			</div>
+        			</div>
     			</div>
     		</div>
     	</div>

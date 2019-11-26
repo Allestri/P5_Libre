@@ -12,10 +12,13 @@
     	<nav class="navbar bg-light">
     		<ul class="nav nav-pills">
     			<li class="nav-item">
-    				<a class="nav-link active" href="#reports-wrapper" data-toggle="pill">Dashboard</a>
+    				<a class="nav-link active" href="#reports-wrapper" data-toggle="pill">Signalements</a>
     			</li>
     			<li class="nav-item">
     				<a class="nav-link" href="#edit-tab" role="tab" data-toggle="pill">Placeholder</a>
+    			</li>
+    			<li class="nav-item">
+    				<a class="nav-link" href="#members-tab" data-toggle="pill">Membres</a>
     			</li>
     			<li class="nav-item">
     				<a class="nav-link" href="#" data-toggle="pill">Logs</a>
@@ -88,6 +91,15 @@
     			<input type="hidden" id="edit-imgId" name="postId" />
     			<button type="submit" href="#edit-tab" class="btn btn-primary">Editer</button>
     		</form>
+    	</div>
+    	<div id="members-tab" class="admin-tab tab-pane fade" role="tabpanel">
+    		<h3><i class="fas fa-users"></i><span id="member-count"></span> Membres</h3>
+    		{% for members in membersList %}
+    		<div class="member-card">
+    			<img src="uploads/avatar/{{ members.avatar_file }}" class="rounded-circle" alt="{{ friendship.name }} avatar" height="50">
+    			<h4>{{ members.name }}</h4>
+    		</div>
+    		{% endfor %}
     	</div>
 	</div>
 </div>

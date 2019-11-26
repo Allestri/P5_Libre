@@ -14,9 +14,17 @@ class MembersModel extends Model
     // Get the list of without the connected member
     public function getMembersList($username)
     {
-        $sql = "SELECT id, name FROM members
+        $sql = "SELECT id, name, avatar_file
+                FROM members
                 WHERE NOT name = ?";
         $members = $this->executeQuery($sql, array($username));
+        return $members->fetchAll();
+    }
+    public function getFullMembersList()
+    {
+        $sql = "SELECT id, name, avatar_file
+                FROM members";
+        $members = $this->executeQuery($sql);
         return $members->fetchAll();
     }
     

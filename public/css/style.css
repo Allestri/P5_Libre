@@ -34,6 +34,10 @@ Fonts
 	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(21,111,170,.25);
 }
 
+.container
+{
+	padding:0;
+}
 
 [class*="col-"] 
 {
@@ -95,22 +99,49 @@ Map Page
 ==========================
 */
 
-#map-wrapper
+#app-container
 {
 	margin-top:50px;
 }
 
-#map-container
+#map-wrapper
+{
+	z-index:2;
+	position:relative;
+	flex: 0 0 100%;
+	max-width: 100%;
+	transition: all 1s ease-out;
+}
+
+#map-wrapper.contract
+{
+	flex: 0 0 75%;
+	max-width: 75%;
+}
+
+#map
 {
 	z-index:2;
 }
 
+#legend
+{
+	border-radius:10px;
+	background-color:white;
+}
+
 #image-info-panel
 {
-	position:relative;
 	padding:0;
 	box-shadow: 0px 11px 20px 1px rgba(0,0,0,0.3);
 	background-color:#ecf3f6;
+	display:none;
+	transition: all 0.3s linear 1s;
+}
+
+#image-info-panel.show 
+{
+	display:block;
 }
 
 #info-panel
@@ -123,7 +154,7 @@ Map Page
 #info-toggle
 {
 	position:absolute;
-	left:-17px;
+	right:-17px;
 	top:50%;
 	padding:12px;
 	border-radius:20%;
@@ -251,6 +282,50 @@ Forms
 	background-color:white;
 }
 
+#test-exif-form
+{
+	min-height:500px;
+	margin-top:100px;
+	border: 1px solid black;
+}
+
+.exif-form-wrapper
+{
+	margin-top:50px;
+	margin-bottom:50px;
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+}
+
+.test-wrapper
+{
+	height:150px;
+	width:150px;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:center;
+	background-color:#cacaca;
+	transition: background-color 2s ease-in;
+	border-radius:10px;
+}
+
+.test-wrapper i
+{
+	font-size:3em;
+}
+
+.valid
+{
+	background-color:#a1db80;
+}
+
+.invalid
+{
+	background-color:#dd6a6a;
+}
+
 
 
 /* 
@@ -346,6 +421,33 @@ Admin Panel
 	background-color:white;
 }
 
+#members-tab
+{
+	padding:10px;
+}
+
+.member-card
+{
+	height:80px;
+	margin-top:20px;
+	margin-bottom:10px;
+	padding-left:15px;
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+	background-color: #fff;
+	border-radius: .25rem;
+	border: 1px solid rgba(0,0,0,.125);
+	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(97,108,121,.13);
+	transition: box-shadow .3s ease;
+}
+
+.member-card:hover
+{
+	background-color: #eeeeee;
+	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(21,111,170,.3);
+}
+
 
 /* 
 ==========================
@@ -357,6 +459,7 @@ Profile Page
 {
 	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 11px 20px 1px rgba(21,111,170,.3);
 	background-color:#FFFFFF;
+	margin-bottom:60px;
 }
 
 #profile-nav
@@ -364,6 +467,8 @@ Profile Page
 	z-index:2;
 	position:absolute;
 	right:30px;
+	top:70px;
+	line-height:20px;
 }
 
 .profile-btn
@@ -407,7 +512,7 @@ Profile Page
 
 #avatar-preview-ctn
 {
-	background-color:#007bff;
+	border: 1px solid rgba(0,0,0,.125);
 }
 
 
@@ -543,6 +648,115 @@ Profile Page
 	background-color:white;
 }
 
+.my-photos
+{
+	height:100%;
+	width:100%;
+	object-fit: cover;
+}
+
+/* New Profile */
+
+#np-container
+{
+	background-color:grey;
+}
+
+#np-header
+{
+	position:relative;
+	background-image: linear-gradient(to bottom, #7db9e8, #6aade4, #56a1e0, #4195dc, #2989d8);
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	line-height:20px;
+	border-radius: 10px;
+}
+
+#np-header h1
+{
+	font-family:westhouse;
+	font-size:4.5em;
+	color:white;
+}
+
+#np-infos
+{
+	background-color:white;
+	border:1px solid black;
+}
+
+#profile-avatar
+{
+	width: 160px;
+	height: 160px;
+	object-fit: cover;
+	position: absolute;
+	transform: translate3d(-50%, -50%, 0);
+	left:50%;
+	background:#fff;
+	box-shadow: 0 5px 7px rgba(0,0,0,0.1);
+	border-radius:50%;
+}
+
+#np-tab
+{
+	height:400px;
+}
+
+#np-body
+{
+	background-color:white;
+	border:1px solid black;
+}
+
+#np-navigation
+{
+	padding-top:25px;
+	padding-bottom:25px;
+	display:flex;
+	flex-direction:row;
+	justify-content:center;
+	align-items:center;
+}
+
+#np-tab-panel
+{
+	display:flex;
+	flex-direction:row;
+	justify-content:space-around;
+	width:50%;
+}
+
+.profile-pills
+{
+	padding:15px;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+}
+
+#tab-edit-img
+{
+	display:none;
+}
+
+#tab-edit-img.show-edit
+{
+	display:flex;
+	flex-direction:row;
+}
+
+#showAllImages
+{
+	padding:5px;
+	border-radius:50%;
+	background-color: #007bff;
+	color:white;
+	line-height:10px;
+}
+
 
 
 /* 
@@ -552,7 +766,7 @@ Image Viewer
 */
 
 #overlay {
-  position: absolute;
+  position: fixed;
   display: none;
   width: 100%;
   height: 100%;
@@ -562,6 +776,7 @@ Image Viewer
   bottom: 0;
   background-color: rgba(0,0,0,0.5);
   z-index: 2;
+  overflow:hidden;
 }
 
 .overlay-profile 
@@ -587,12 +802,27 @@ Image Viewer
 	justify-content:space-around;
 }
 
+.social-card
+{
+	padding:10px;
+	background-color: #fff;
+	border-radius: .25rem;
+	border: 1px solid rgba(0,0,0,.125);
+	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(97,108,121,.13);
+	transition: box-shadow .3s ease;
+}
+
+.social-card:hover
+{
+	background-color: #eeeeee;
+	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(21,111,170,.3);
+}
+
 #content-wrapper
 {
 	position:relative;
-	margin-top:5%;
-	width:70%;
-	min-height:750px;
+	margin-top:4%;
+	max-height:800px;
 	background-color: #d2d2d2;
 	z-index: 3;
 }
@@ -610,7 +840,6 @@ Image Viewer
 	position:absolute;
 	display:none;
 	/* height:550px; */
-	width:100%;
 	z-index:4;
 }
 
@@ -690,8 +919,18 @@ Image Viewer
 
 #image-wrapper
 {
-	width:75%;
 	position:relative;
+	/* width:75%; */
+	display:flex;
+	align-items:center;
+	padding:0;
+	background-color:black;
+}
+
+#image-wrapper:hover #button-panel
+{
+	opacity:1;
+	visibility:1;
 }
 
 #admin-image-wrapper
@@ -717,18 +956,98 @@ Image Viewer
 	bottom:0;
 	height:50px;
 	width:100%;
-	background-color: rgba(191,191,191, 0.3);
+	opacity:0;
+	visibility:0;
+	background: rgb(61,61,61);
+	background: linear-gradient(0deg, rgba(61,61,61,0.7539216370141807) 29%, rgba(255,255,255,0) 100%);
+	transition: opacity .60s;
 }
 
 
 #comments-wrapper
 {
-	margin-top:20px;
+	margin-top:10px;
+	overflow:auto;
+	height:450px;
 }
+
+.comment
+{
+	position:relative;
+	margin-bottom: 10px;
+	display:flex;
+	flex-direction:row;
+}
+
+.comment:hover
+{
+	background-color:#eeeeee;
+}
+
+.comment:hover .comment-options
+{
+	opacity:1;
+}
+
+.comment-options
+{
+	position:absolute;
+	top:20px;
+	right:10px;
+	cursor:pointer;
+	opacity:0;
+	transition: opacity .20s;
+}
+
+.comment-options i
+{
+	color: #ccc;
+}
+
+
+.comment-options i:hover
+{
+	color: #1caad9;
+}
+
+.comment-options:hover .options-menu
+{
+	opacity:1;
+	visibility:visible;
+}
+
+.delete-comment-btn
+{
+	border:0;
+	background-color:white;
+}
+
+.comment-avatar
+{
+	padding:20px 0px 20px 20px;
+}
+
+.options-menu
+{	
+	padding:10px;
+	position:absolute;
+	top:15px;
+	right:10px;
+	z-index:2;
+	list-style:none;
+	opacity:0;
+	visibility:hidden;
+	box-shadow: 0 1px 1px rgba(0,0,0,.25);
+	background-color:white;
+	color:black;
+}
+
+
 .comment-form-wrapper
 {
 	margin-top:30px;
 	display:flex;
+	height:50px;
 	flex-direction:row;
 	justify-content:space-around;
 	align-items:center;
@@ -738,6 +1057,14 @@ Image Viewer
 {
 	background-color:#07a1ff;
 	border-radius:50%;
+	margin:0;
+}
+
+#comment-btn-wrapper
+{
+	height:100%;
+	display:flex;
+	align-items:center;
 }
 
 .like i
@@ -753,11 +1080,9 @@ Image Viewer
 
 #imgPanel
 {
-	padding:10px 10px;
-	height:550px;
-	width:25%;
+	height:100%;
 	background-color: #d2d2d2;
-	overflow:auto;
+	padding-right:0px;
 }
 
 .input-comment

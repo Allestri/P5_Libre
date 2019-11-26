@@ -27,16 +27,13 @@ return function (App $app) {
     $app->post('/map', \App\Controllers\ContentController:: class . ':likePost');
     $app->post('/map/report', \App\Controllers\ContentController:: class . ':reportPost');
     $app->post('/map/comment', \App\Controllers\ContentController:: class . ':commentPost');
-    $app->post('/map/getid', \App\Controllers\ContentController:: class . ':retrievePostId');
-    
-    $app->post('/getids', \App\Controllers\ContentController:: class . ':retrieveIds');
-    
-    // Under construction here.
-    $app->post('/getId', \App\Controllers\ImagesController:: class . ':retrieveImageId');
-    // End WIP.
-    
     $app->get('/map/showcomment', \App\Controllers\ContentController:: class . ':getComments');
+    $app->post('/map/deletecomment', \App\Controllers\ContentController:: class . ':deleteComment');
     
+    $app->post('/map/getid', \App\Controllers\ContentController:: class . ':retrievePostId');
+    $app->post('/getids', \App\Controllers\ContentController:: class . ':retrieveIds');
+    $app->post('/getId', \App\Controllers\ImagesController:: class . ':retrieveImageId');
+      
     $app->get('/map/api', \App\Controllers\ImagesController:: class . ':fetchMarkersRest');
     $app->get('/map/infos', \App\Controllers\ImagesController:: class . ':getInfos');
     
@@ -51,6 +48,10 @@ return function (App $app) {
     $app->get('/profile', \App\Controllers\MembersController:: class . ':displayProfile')->setName('profile');
     $app->get('/profile/myimgs', \App\Controllers\ImagesController:: class . ':getMyPhotos');
     $app->post('/profile/deleteimg', \App\Controllers\ContentController:: class . ':deletePost');
+    
+    $app->get('/newprofile', \App\Controllers\MembersController:: class . ':displayNewProfile')->setName('newprofile');
+    $app->post('/newprofile/editpost', \App\Controllers\ContentController:: class . ':editPost');
+    $app->post('/newprofile/getpost', \App\Controllers\ContentController:: class . ':getSelectedPost');
     
     // Profil Settings
     $app->post('/addavatar', \App\Controllers\MembersController:: class . ':addNewAvatar');
@@ -87,5 +88,7 @@ return function (App $app) {
     // Upload de photos
     $app->get('/upload', \App\Controllers\ImagesController::class . ':getForm')->setName('upload');
     $app->post('/addexif', \App\Controllers\ImagesController:: class . ':manageExif');
+    $app->get('/testupload', \App\Controllers\ImagesController:: class . ':getTestForm')->setName('testForm');
+    $app->post('/testexif', \App\Controllers\ImagesController:: class . ':testExif');
     
 };

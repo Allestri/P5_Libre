@@ -15,7 +15,7 @@ class ImagesController extends ContentController
     // Personal notes - image model construct
     // NOT FINISHED
     
-    // Formulaire
+    // Form
     public function getForm($request, $response)
     {
         if(isset($_SESSION['username'])){
@@ -24,6 +24,17 @@ class ImagesController extends ContentController
             return $this->render($response, 'pages/upload.twig', $member);
         } else {
             return $this->render($response, 'pages/upload.twig');
+        }
+    }
+    
+    public function getTestForm($request, $response)
+    {
+        if(isset($_SESSION['username'])){
+            $username = $_SESSION['username'];
+            $member['profile'] = $username;
+            return $this->render($response, 'pages/exif.twig', $member);
+        } else {
+            return $this->render($response, 'pages/exif.twig');
         }
     }
     
@@ -90,6 +101,7 @@ class ImagesController extends ContentController
     }
     
     // Gets info from a given marker
+    // Then gets any comments attached on it.
     public function getInfos($request, $response)
     {
         $imageModel = $this->container->get('imagesModel');
@@ -123,7 +135,52 @@ class ImagesController extends ContentController
     {   
         $userId = $_SESSION['uid'];
         return $userId;
-    }    
+    }
+    
+    // Tests if the uploaded file contains exif and datas needed on the app.
+    public function testExif($request, $response)
+    {
+        $directory = $this->container->get('uploaded_directory');
+        $uploadedFile = $request->getUploadedFiles();
+        //var_dump($_POST);
+        // Single file upload /*
+        $uploadedFile = $uploadedFile['myimage'];
+        if($uploadedFile->getError() === UPLOAD_ERR_OK){
+            $filename = $this->moveTestFile($directory, $uploadedFile);
+        }
+        $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename, 0, true);
+        //var_dump($exif);
+        $hasGeoExif = null;
+        // Checks Geo data
+        if(isset($exif['GPS']['GPSLatitudeRef'], $exif['GPS']['GPSLongitudeRef'])){
+            $hasGeoExif = true;
+        } else {
+            $hasGeoExif = false;
+        }
+        // Checks thumbnail
+        if(isset($exif['THUMBNAIL'])){
+            $hasThumbnail = true;
+        } else {
+            $hasThumbnail = false;
+        }
+        // Checks image datas
+        if(isset($exif['COMPUTED']) || ($exif)){
+            $hasInfos = true;
+        } else {
+            $hasInfos = false;
+        }
+        if($hasGeoExif && $hasThumbnail && $hasInfos) {
+            $args['exifready'] = true;
+            $this->flash('Votre image est compatible avec cette application');
+        }
+        /*
+        $args['geodata'] = $hasGeoExif;
+        $args['thumbnail'] = $hasThumbnail;
+        $args['info'] = $hasInfos;
+        */
+        return $this->redirect($response, 'testForm');
+        
+    }
          
     public function manageExif($request, $response)
     {
@@ -301,7 +358,6 @@ class ImagesController extends ContentController
             echo "Thumbnail available</br>";
             echo "<img width='$width' height='$height' src='data:image/gif;base64,".base64_encode($image)."'>";
             // return base64 content
-            //return $baseEncode;    
         }
         else {
             // handling error:
