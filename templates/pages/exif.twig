@@ -1,0 +1,99 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+	{{ include ('flash.twig') }}
+	<div class="col-lg-8 mx-auto">
+    	
+    	
+    	{% if not member %}
+    		<div class="alert alert-primary">
+    			<p>Veuillez vous <a href="{{ path_for('inscription') }}" class="alert-link">authentifier</a></p>
+    		</div>
+    		{% else %}
+    		<div class="row">
+        		<div id="test-exif-form" class="col-lg-10 upload-wrapper mx-auto">
+            		<div class="tab-content">
+            			<!-- Tab Upload image & test exifs -->
+            			<div class="tab-pane fade show active" role="tabpanel" id="tab-upload-form">
+                			<h1>Test Exif</h1>
+                			<form id="test-form" method="POST" action="testexif" enctype="multipart/form-data">
+                				<div class="form-group">
+                            		<label for="myfile">Fichier</label><br />
+                            		<input type="hidden" name="MAX_FILE_SIZE" value="10048576" />
+                            		<input type="file" class="form-control-file" name="myimage" id="myfile" /><br />
+                        		</div>
+                        		<div id="button-wrapper">
+                        			<input type="submit" class="btn btn-primary" name="submit" value="Envoyer" />
+                        		</div>
+                			</form>
+                			<button id="test-form-btn" class="btn btn-primary">Test fire Function</button>
+                			
+                			<div class="exif-form-wrapper">
+                				<div class="test-wrapper">
+                					<i class="fas fa-map-marked-alt"></i>
+                					<h4>Geo Datas*</h4>
+                				</div>
+                				<div class="test-wrapper">
+                					<i class="fas fa-database"></i>
+                					<h4>Photo</h4>
+                				</div>
+                				<div class="test-wrapper">
+                					<i class="fas fa-file-image"></i>
+                					<h4>Miniature</h4>
+                				</div>
+                			</div>
+                			<div id="button-wrapper">
+                                <button class="btn btn-primary" data-toggle="tab" href="#tab-post-form" role="tab">Continuer ...</button>
+                            </div>
+                		</div>
+                		
+                		<!-- Tab Post a Post ! -->
+                		<div class="tab-pane fade show" role="tabpanel" id="tab-post-form">
+                			<a class="post-form-backward" data-toggle="tab" href="#tab-upload-form" role="tab">
+                				<i class="fas fa-step-backward"></i>
+                				Retour
+                			</a>
+                    		<h1>Votre Post</h1>
+                    		<form id="myForm" method="post" action="addexif" id="form" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="titre">Nommez votre photo</label><br />
+                                    <input type="text" class="form-control" name="name" placeholder="Titre de la photo" id="titre" required />
+                                    <span class="text-info">Le nom de votre photo sera visible par les autres utilisateurs.</span>
+                                </div>
+                                <div class="form-group">
+                                	<label for="description">Partagez votre histoire !</label>
+                                	<textarea class="form-control" rows="2" name="description" id="description" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                	<label for="privacy0">Confidentialité de la photo</label><br>
+                                    <div class="form-check form-check-inline">
+                                    	<input class="form-check-input" type="radio" name="privacy" id="privacy0"value="0" checked>
+                                    	<label class="form-check-label" for="privacy0">Publique</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                    	<input class="form-check-input" type="radio" name="privacy" id="privacy1"value="1">
+                                    	<label class="form-check-label" for="privacy1">Mes amis</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                    	<input class="form-check-input" type="radio" name="privacy" id="privacy2"value="2">
+                                    	<label class="form-check-label" for="privacy2">Privée</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="button-wrapper">
+                                	<input type="submit" class="btn btn-primary" name="submit" value="Envoyer mon post" />
+                                </div>
+                                <!-- <button id="refresh" type="button" class="btn btn-primary">Rafraîchir</button> -->
+                                <div id="preview"></div>
+                        	</form>
+                    	</div>
+                		
+            		</div>
+        		</div>
+        		<div id="preview"></div>
+    		</div>
+    	{% endif %}
+
+    </div>
+
+{% endblock %}
