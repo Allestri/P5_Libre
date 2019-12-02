@@ -24,7 +24,8 @@ return function (App $app) {
     // Google Map
     $app->get('/map', \App\Controllers\ImagesController:: class . ':displayMap')->setName('map');
     
-    $app->post('/map', \App\Controllers\ContentController:: class . ':likePost');
+    $app->post('/map/like', \App\Controllers\ContentController:: class . ':likePost');
+    $app->post('/map/unlike', \App\Controllers\ContentController:: class . ':unlikePost');
     $app->post('/map/report', \App\Controllers\ContentController:: class . ':reportPost');
     $app->post('/map/comment', \App\Controllers\ContentController:: class . ':commentPost');
     $app->get('/map/showcomment', \App\Controllers\ContentController:: class . ':getComments');
@@ -36,6 +37,7 @@ return function (App $app) {
       
     $app->get('/map/api', \App\Controllers\ImagesController:: class . ':fetchMarkersRest');
     $app->get('/map/infos', \App\Controllers\ImagesController:: class . ':getInfos');
+    $app->get('/map/getlikes', \App\Controllers\ContentController:: class . ':getLikes');
     
     // Inscription
     $app->get('/signup', \App\Controllers\MembersController::class . ':getFormInscripton')->setName('inscription');

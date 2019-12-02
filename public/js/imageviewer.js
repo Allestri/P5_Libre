@@ -200,49 +200,28 @@ function displayFullScreen(filepath) {
 
 
 
-/* Social functionalities */
-/* Like an image */
+// Show photo informations such as comments.
+// WIP
 
-$("#likeImg").on('click', (function(e) {
-	e.preventDefault();
+function showInfos(filename){
 	
-	var formData = $("#likeImg").serialize();
-	console.log(formData);
+	console.log(filename);
 	
 	$.ajax({
-			type: "POST",
-			url: "http://projetlibre/map",
-			data: formData,
-			success: function(data){
-				console.log('Success, image liked');
-			},
-			error: function(result, status, error){
-				console.log('erreur');
-			}
-		});
-}));
+		type: "GET",
+		url:"http://projetlibre/map/showinfo",
+		data: id,
+		dataType: "JSON",
+		success: function(data){
+			displayComments(data);
+			console.log('Success, informations loaded');
+		},
+		error: function(result, status, error){
+			console.log('error on displaying informations');
+		}
+	});
+};
 
-/* Report an image */
-
-$("#reportImg").on('click', (function(e) {
-	e.preventDefault();
-	
-	var formData = $("#reportImg").serialize();
-	console.log(formData);
-	$.ajax({
-			type: "POST",
-			url: "http://projetlibre/map/report",
-			data: formData,
-			success: function(data){
-				console.log('Success, image reported');
-			},
-			error: function(result, status, error){
-				console.log('error on reporting image');
-			}
-		});
-}));
-
-/* Comment an image */
 
 $("#comment-form").on('submit', (function(e) {
 	e.preventDefault();
@@ -266,30 +245,6 @@ $("#comment-form").on('submit', (function(e) {
 	
 }));
 
-
-
-
-// Show photo informations such as comments.
-// WIP
-
-function showInfos(filename){
-	
-	console.log(filename);
-	
-	$.ajax({
-		type: "GET",
-		url:"http://projetlibre/map/showinfo",
-		data: id,
-		dataType: "JSON",
-		success: function(data){
-			displayComments(data);
-			console.log('Success, informations loaded');
-		},
-		error: function(result, status, error){
-			console.log('error on displaying informations');
-		}
-	});
-};
 
 
 function showComments() {
@@ -409,11 +364,3 @@ $("#delete").on('click', function(e) {
 			e.preventDefault();
 		}
 });
-
-
-
-// Home page carousel
-
-$('.carousel').carousel({
-	  interval: 7000
-	})

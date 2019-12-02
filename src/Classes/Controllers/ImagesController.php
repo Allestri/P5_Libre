@@ -111,6 +111,8 @@ class ImagesController extends ContentController
         $markerId = $datas['id'];
         
         $datas = $imageModel->fetchImgsInfosNew($markerId);
+        $likes = $contentModel->getLikes($markerId);
+        $datas = array_merge($datas, $likes);
         $datas['comments'] = $contentModel->getCommentsNew($markerId);
         
         echo json_encode($datas);

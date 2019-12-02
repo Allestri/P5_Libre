@@ -84,13 +84,32 @@ Home Page
 ==========================
 */
 
+#home-banner
+{
+	background-image: linear-gradient(to right bottom, #7db9e8, #6aade4, #56a1e0, #4195dc, #2989d8);
+	min-height:400px;
+	color:white;
+}
+
 #carouselExampleControls
 {
 	width:100%;
 	height:100%;
 	top:0;
 	left:0;
-	position:fixed;
+}
+
+.carousel-photo
+{
+	width:1400px;
+	height:500px;
+	object-fit:cover;
+}
+
+#footer
+{
+	min-height:300px;
+	background-image: linear-gradient(to left top, #7db9e8, #6aade4, #56a1e0, #4195dc, #2989d8);
 }
 
 /* 
@@ -101,6 +120,7 @@ Map Page
 
 #app-container
 {
+	position:relative;
 	margin-top:50px;
 }
 
@@ -133,15 +153,20 @@ Map Page
 #image-info-panel
 {
 	padding:0;
+	position:absolute;
+	top:0;
+	bottom:0;
+	right:0;
 	box-shadow: 0px 11px 20px 1px rgba(0,0,0,0.3);
 	background-color:#ecf3f6;
-	display:none;
-	transition: all 0.3s linear 1s;
+	opacity:0;
+	width:25%;
+	transition: all 1s linear;
 }
 
 #image-info-panel.show 
 {
-	display:block;
+	opacity:1;
 }
 
 #info-panel
@@ -154,7 +179,7 @@ Map Page
 #info-toggle
 {
 	position:absolute;
-	right:-17px;
+	right:-30px;
 	top:50%;
 	padding:12px;
 	border-radius:20%;
@@ -657,9 +682,9 @@ Profile Page
 
 /* New Profile */
 
-#np-container
+#profile-container
 {
-	background-color:grey;
+	border-radius:10px;
 }
 
 #np-header
@@ -670,7 +695,7 @@ Profile Page
 	align-items:center;
 	justify-content:center;
 	line-height:20px;
-	border-radius: 10px;
+	border-radius: 0px;
 }
 
 #np-header h1
@@ -684,6 +709,7 @@ Profile Page
 {
 	background-color:white;
 	border:1px solid black;
+	border-radius:0px;
 }
 
 #profile-avatar
@@ -708,6 +734,7 @@ Profile Page
 {
 	background-color:white;
 	border:1px solid black;
+	border-radius:0px;
 }
 
 #np-navigation
@@ -735,6 +762,16 @@ Profile Page
 	flex-direction:column;
 	justify-content:center;
 	align-items:center;
+}
+
+.profile-pills.active
+{
+	box-shadow: 0 5px 20px 0 rgba(0,0,0,.2), 0 13px 24px -11px rgba(0,123,255,.6);
+}
+
+.profile-pills:hover
+{
+	background-color: #f2f2f2;
 }
 
 #tab-edit-img
@@ -1067,16 +1104,31 @@ Image Viewer
 	align-items:center;
 }
 
-.like i
+.social-button
 {
-	color:#f90d0d;
+	border-radius:50%;
+	border:0;
+	padding: .375rem .75rem;
+	color: #aaa;
+	line-height:1.5;
+	transition: color .4s;
 }
 
-.report i
-
-{
-	color:#ffe912;
+.social-button:hover
+{	
+	color: #666;
 }
+
+.like.active
+{
+	color:#e23b3b;
+}
+
+.report.disabled
+{
+	color:#e23b3b;
+}
+
 
 #imgPanel
 {

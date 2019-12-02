@@ -13,14 +13,14 @@ function postInfos(data){
 	this.size = data.size;
 	this.user = data.author;
 	this.authorAvatar = data.author_avatar;
-	this.likes = data.liked;
+	this.likes = data.likes;
 		
 	
 	this.togglePanel = function() {
 		
 		$('#info-toggle').click(function() {
-			$('#image-info-panel').toggleClass('show');
 			$('#map-wrapper').toggleClass('contract');
+			$('#image-info-panel').toggleClass('show');
 		});
 	};
 	

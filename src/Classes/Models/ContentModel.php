@@ -141,12 +141,45 @@ Class ContentModel extends Model
         $this->executeQuery($sql, array($uid, $commentId));
     }
     
-    public function reportPost($postId) {
-        $sql = "UPDATE posts 
-                SET reported = reported + 1
-                WHERE id = ?";
-        $this->executeQuery($sql, array($postId));
+    public function reportPost($userId, $postId) {
+        $sql = "INSERT INTO post_reports (user_id, post_id) VALUES(?, ?)";
+        $this->executeQuery($sql, array($userId, $postId));
     }
+    
+    public function likePostNew($userId, $postId)
+    {
+        $sql = "INSERT INTO likes (user_id, post_id) VALUES (?, ?)";
+        $this->executeQuery($sql, array($userId, $postId));
+    }
+    
+    public function unlikePost($userId, $postId)
+    {
+        $sql = "DELETE FROM likes
+                WHERE user_id = ? AND post_id = ?";
+        $this->executeQuery($sql, array($userId, $postId));
+    }
+    
+    public function getLikesNew($postId)
+    {
+        $sql = "SELECT count(likes.id) as likes
+                FROM likes
+                WHERE post_id = ?";
+        $likes = $this->executeQuery($sql, array($postId));
+        return $likes->fetch();
+    }
+    
+    public function getLikes($markerId)
+    {
+        $sql = "SELECT count(likes.id) as likes
+                FROM likes
+                INNER JOIN posts
+	               ON likes.post_id = posts.id
+                WHERE posts.marker_id = ?";
+        $likes = $this->executeQuery($sql, array($markerId));
+        return $likes->fetch();
+    }
+    
+    // Deprecated
     
     public function likePost($postId){
         $sql = "UPDATE posts
@@ -154,6 +187,7 @@ Class ContentModel extends Model
                 WHERE id = ?";
         $this->executeQuery($sql, array($postId));
     }
+    
     
 
 }

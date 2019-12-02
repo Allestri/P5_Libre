@@ -9,7 +9,22 @@ $('#edit-profile-btn').on('click', function(){
 });
 */
 
-// Admin Panel //
+
+
+// Navbar
+$('#navbar > ul.nav li a').click(function(e) {
+    var $this = $(this);
+    $this.parent().siblings().removeClass('active').end().addClass('active');
+    e.preventDefault();
+});
+
+//Home page carousel
+
+$('.carousel').carousel({
+	  interval: 7000
+	})
+
+//Admin Panel //
 $('.delete').click(function(e) {
 	
 	if(confirm("Voulez vous supprimer ce post ?")){

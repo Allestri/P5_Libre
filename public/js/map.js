@@ -234,7 +234,7 @@ function displayMap()
 				self.toggleInfoButton();
 				$('#image-midsize').attr('src', file);
 				$('#overlay').show();
-				// Init delete button listener.
+				// Init social functionalities.
 				let social = new Social();
 				social.initialization();
 				

@@ -160,6 +160,18 @@ class ContentController extends Controller
          echo json_encode($comments);
      }
      
+     public function getLikes($request, $response)
+     {
+         $datas = $request->getQueryParams();
+         $postId = 81;
+         
+         $contentModel = $this->container->get('contentModel');
+         $likesNbr = $contentModel->getLikesNew($postId);
+         
+         echo json_encode($likesNbr);
+         
+     }
+     
      public function commentPost($request, $response)
      {
          $datas = $request->getParsedBody();
@@ -187,19 +199,30 @@ class ContentController extends Controller
      {
          $datas = $request->getParsedBody();
          $postId = $datas['postId'];
-         
+         $userId = $datas['userId'];
          
          $contentModel = $this->container->get('contentModel');
-         $contentModel->reportPost($postId);
+         $contentModel->reportPost($userId, $postId);
      }
      
      public function likePost($request, $response)
      {
          $datas = $request->getParsedBody();
          $postId = $datas['postId'];
+         $userId = $datas['userId'];
+                 
+         $contentModel = $this->container->get('contentModel');
+         $contentModel->likePostNew($userId, $postId);
+     }
+     
+     public function unlikePost($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         $postId = $datas['postId'];
+         $userId = $datas['userId'];
          
          $contentModel = $this->container->get('contentModel');
-         $contentModel->likePost($postId);
+         $contentModel->unlikePost($userId, $postId);
      }
      
      // CRUD

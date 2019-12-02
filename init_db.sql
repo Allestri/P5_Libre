@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 19 nov. 2019 à 15:52
+-- Généré le :  lun. 02 déc. 2019 à 02:00
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -42,9 +42,9 @@ CREATE TABLE IF NOT EXISTS `avatars` (
 --
 
 INSERT INTO `avatars` (`id`, `user_id`, `avatar_file`, `active`) VALUES
-(2, 6, 'avatar_soku_10-15-07.jpg', 0),
+(2, 6, 'avatar_soku_10-15-07.jpg', 1),
 (3, 6, 'avatar_soku_10-41-11.jpg', 0),
-(8, 6, 'avatar_soku_06-29-59.jpg', 1);
+(8, 6, 'avatar_soku_06-29-59.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -62,14 +62,17 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `moderated` int(11) NOT NULL DEFAULT '0',
   `post_id` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=245 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `comments`
 --
 
 INSERT INTO `comments` (`id`, `author_id`, `content`, `com_date`, `reported`, `moderated`, `post_id`) VALUES
-(51, 6, 'Commentaire !', '2019-11-19 14:14:55', 0, 0, 81);
+(61, 6, 'Premier commentaire', '2019-11-19 22:02:54', 0, 0, 84),
+(123, 6, 'dqd', '2019-11-25 14:49:06', 0, 0, 86),
+(130, 6, '<b>Bonjour</b>', '2019-11-26 20:47:07', 0, 0, 86),
+(243, 6, 'sdfsf', '2019-11-30 19:57:11', 0, 0, 81);
 
 -- --------------------------------------------------------
 
@@ -86,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `friendship` (
   PRIMARY KEY (`id`),
   KEY `fk_friendship_to_members` (`friend_b`),
   KEY `fk_friendship_to_members2` (`friend_a`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `friendship`
@@ -94,7 +97,8 @@ CREATE TABLE IF NOT EXISTS `friendship` (
 
 INSERT INTO `friendship` (`id`, `friend_a`, `friend_b`, `friend_date`) VALUES
 (6, 6, 18, '2019-09-06'),
-(8, 6, 19, '2019-09-06');
+(8, 6, 19, '2019-09-06'),
+(9, 6, 22, '2019-11-26');
 
 -- --------------------------------------------------------
 
@@ -140,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `images` (
   `privacy` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `group_img` (`groupimg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `images`
@@ -148,9 +152,9 @@ CREATE TABLE IF NOT EXISTS `images` (
 
 INSERT INTO `images` (`id`, `filename`, `height`, `width`, `size`, `type`, `upload_date`, `user_id`, `groupimg_id`, `privacy`) VALUES
 (39, '99bed3f231eedcba.jpg', 2242, 3992, 6071612, 'image/jpeg', '2019-11-19 09:54:01', 6, 1, 0),
-(41, 'cc52352bf936eaa5.JPG', 3000, 4000, 5232616, 'image/jpeg', '2019-11-19 09:54:55', 6, 1, 0),
-(42, '97cee3ac709ca4b7.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-11-19 11:11:07', 6, 1, 0),
-(43, 'edeae28f8b4e6314.jpg', 2242, 3992, 5447704, 'image/jpeg', '2019-11-19 11:39:56', 6, 1, 0);
+(44, 'a002c4d2a573998a.JPG', 3000, 4000, 4606630, 'image/jpeg', '2019-11-23 08:33:02', 6, 1, 0),
+(46, '401601625eea000d.jpg', 2242, 3992, 5252806, 'image/jpeg', '2019-11-26 18:56:06', 6, 1, 0),
+(48, '17f647abbb29969d.JPG', 3000, 4000, 5232616, 'image/jpeg', '2019-11-26 18:58:02', 6, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -178,6 +182,40 @@ INSERT INTO `images_groups` (`id`, `label`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `likes`
+--
+
+DROP TABLE IF EXISTS `likes`;
+CREATE TABLE IF NOT EXISTS `likes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=272 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `likes`
+--
+
+INSERT INTO `likes` (`id`, `user_id`, `post_id`) VALUES
+(43, 6, 88),
+(271, 6, 81);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `logs`
+--
+
+DROP TABLE IF EXISTS `logs`;
+CREATE TABLE IF NOT EXISTS `logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `markers`
 --
 
@@ -192,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `markers` (
   `image_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_image_to_markers` (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `markers`
@@ -200,9 +238,9 @@ CREATE TABLE IF NOT EXISTS `markers` (
 
 INSERT INTO `markers` (`id`, `name`, `address`, `lng`, `lat`, `altitude`, `image_id`) VALUES
 (37, 'Douarnenez', 'placeholder', -4.28549, 48.108, 72.636, 39),
-(38, 'Lorient', 'placeholder', -3.37273, 47.7015, 85.81, 41),
-(39, 'Guidel-Plages', 'placeholder', -3.507, 47.7474, 99.203, 42),
-(40, 'Tihany', 'placeholder', 17.8909, 46.9152, 158.645, 43);
+(41, 'Quiberon', 'placeholder', -3.14242, 47.4902, 17.935, 44),
+(43, 'Guidel', 'placeholder', -3.507, 47.7474, 99.203, 46),
+(44, 'Larmor', 'placeholder', -3.37273, 47.7015, 85.81, 48);
 
 -- --------------------------------------------------------
 
@@ -307,19 +345,47 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `reported` int(11) NOT NULL DEFAULT '0',
   `privacy` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_post_to_images` (`image_id`),
-  KEY `fk_post_to_markers` (`marker_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4;
+  KEY `image_id` (`image_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `posts`
 --
 
 INSERT INTO `posts` (`id`, `name`, `content`, `user_id`, `image_id`, `marker_id`, `liked`, `reported`, `privacy`) VALUES
-(81, 'Douarnenez', 'Baie de Douarnenez', 6, 39, 37, 0, 0, 0),
-(83, 'Larmor', 'Baie de Lorient', 6, 41, 38, 0, 0, 0),
-(84, 'Guidel-Plages', 'Une plage de guidel', 6, 42, 39, 0, 0, 0),
-(85, 'Tihany', 'Basilique perchÃ© au dessus du lac Balaton !', 6, 43, 40, 0, 0, 0);
+(81, 'Guidel', 'ModifiÃ©', 6, 39, 37, 50, 7, 0),
+(86, 'Quiberon', 'sfsf', 6, 44, 41, 1, 2, 0),
+(88, 'Guidel', 'Vue sur le MaÃ«va', 6, 46, 43, 0, 0, 0),
+(90, 'Larmor', 'Vue sur la baie de Lorient', 6, 48, 44, 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `post_reports`
+--
+
+DROP TABLE IF EXISTS `post_reports`;
+CREATE TABLE IF NOT EXISTS `post_reports` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `post_reports`
+--
+
+INSERT INTO `post_reports` (`id`, `user_id`, `post_id`) VALUES
+(1, 6, 81),
+(2, 6, 86),
+(3, 6, 23),
+(4, 6, 81),
+(5, 6, 81),
+(6, 6, 81),
+(7, 6, 81),
+(8, 6, 81),
+(9, 6, 81);
 
 -- --------------------------------------------------------
 
@@ -378,6 +444,12 @@ ALTER TABLE `markers`
 --
 ALTER TABLE `members`
   ADD CONSTRAINT `fk_members_to_members_groups` FOREIGN KEY (`group_id`) REFERENCES `members_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `posts`
+--
+ALTER TABLE `posts`
+  ADD CONSTRAINT `fk_post_to_images` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
