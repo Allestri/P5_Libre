@@ -89,8 +89,9 @@ return function (App $app) {
         
     // Upload de photos
     $app->get('/upload', \App\Controllers\ImagesController::class . ':getForm')->setName('upload');
+    $app->post('/testresults', \App\Controllers\ImagesController:: class . ':getTestResults');
     $app->post('/addexif', \App\Controllers\ImagesController:: class . ':manageExif');
-    $app->get('/testupload', \App\Controllers\ImagesController:: class . ':getTestForm')->setName('testForm');
+    $app->get('/testupload', \App\Controllers\ImagesController:: class . ':getTestForm')->setName('test');
     $app->post('/testexif', \App\Controllers\ImagesController:: class . ':testExif');
     
 };

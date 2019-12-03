@@ -24,22 +24,13 @@
         				<a class="nav-link" href="{{ path_for('home') }}">Home <span class="sr-only">(current)</span></a>
         			</li>
         			<li class="nav-item">
-        				<a class="nav-link" href="{{ path_for('content') }}">Contenus</a>
+        				<a class="nav-link" href="{{ path_for('map') }}">Carte</a>
         			</li>
         			<li class="nav-item">
-        				<a class="nav-link" href="{{ path_for('inscription') }}">Inscription</a>
-        			</li>
-        			<li class="nav-item">
-        				<a class="nav-link" href="{{ path_for('ajouter') }}">Ajouter</a>
-        			</li>
-        			<li class="nav-item">
-        				<a class="nav-link" href="{{ path_for('map') }}">Map</a>
+        				<a class="nav-link" href="{{ path_for('test') }}">Test Upload</a>
         			</li>
         			<li class="nav-item">
         				<a class="nav-link" href="{{ path_for('upload') }}">Upload</a>
-        			</li>
-        			<li class="nav-item">
-        				<a class="nav-link" href="{{ path_for('newprofile') }}">Nouveau Profil</a>
         			</li>
         	{% if member %}
         			<li class="nav-item">
@@ -60,7 +51,7 @@
         	    	<li class="nav-item dropdown ml-auto">
     	    			<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mon Profil</a>
     	    		    <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ path_for('profile') }}">Mon profil</a>
+                            <a class="dropdown-item" href="{{ path_for('newprofile') }}">Mon profil</a>
                             {% if admin %}
                             <a class="dropdown-item" href="{{ path_for('admin') }}">Administration</a>
                             {% endif %}

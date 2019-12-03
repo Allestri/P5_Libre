@@ -82,21 +82,87 @@ $('.edit').click(function() {
 
 
 
-// Test Exif upload
-$('#test-form-btn').click(function() {
-	console.log('fired');
-	displayTestResults();
+// Test Exif Upload
+
+$('#test-form').submit(function(e){ 
+	
+	// Reset testdiv classes
+	$('.test-wrapper').removeClass('invalid');
+	$('.test-wrapper').removeClass('valid');
+	
+	e.preventDefault();
+	$.ajax({
+		type: "POST",
+		url: "http://projetlibre/testexif",
+		data:  new FormData(this),
+		dataType: "JSON",
+		contentType: false,
+		cache: false,
+		processData:false,
+		success: function(data){
+			console.log('Success, test data recovered');
+			displayFlash(data);
+			console.log(data);
+		},
+		error: function(result, status, error){
+			console.log('Error on data recovery');
+		}	
+	});
 });
 
 
-function displayTestResults(){
-	// If there is any flash success
-	if($('.alert-success').length > 0) {
-		  
-		$('.test-wrapper').addClass('valid');
-	} else {
+// Awaiting a better solution to handle multiple conditions for now.
+function displayFlash(data) {
+
+	var flash = '';
+		
+	if(data.geodata === false && data.thumbnail === false && data.info === false){
+		flash = "<div class='alert alert-danger'>Votre image est totalement incompatible avec cette application'</div>";
 		$('.test-wrapper').addClass('invalid');
+		$("#continue-button").prop("disabled", true);
+		
+	} else if (data.geodata === false || data.thumbnail === false || data.info === false){
+		flash = "<div class='alert alert-warning'>Certaines infos manquent pour une compatiblité complète</div>";
+		$("#continue-button").prop("disabled", true);
+		
+		// 6 different possibilites
+		if(data.thumbnail === true){
+			if(data.info === true){
+				$('#test-geo').addClass('invalid');
+				$('#test-photo').addClass('valid');
+				$('#test-thumbnail').addClass('valid');
+			} else if (data.geodata === true) {
+				$('#test-geo').addClass('valid');
+				$('#test-photo').addClass('invalid');
+				$('#test-thumbnail').addClass('valid');
+			} else {
+				$('#test-geo').addClass('invalid');
+				$('#test-photo').addClass('invalid');                      
+				$('#test-thumbnail').addClass('valid');
+			}
+		} else if (data.geodata === true){
+			if(data.info === true){
+				$('#test-geo').addClass('valid');
+				$('#test-photo').addClass('valid');
+				$('#test-thumbnail').addClass('invalid');
+				// Doesn't check for thumbnail here as it has been already checked.
+			} else {
+				$('#test-geo').addClass('valid');
+				$('#test-photo').addClass('invalid');
+				$('#test-thumbnail').addClass('invalid');
+			}
+		} else {
+			$('#test-geo').addClass('invalid');
+			$('#test-photo').addClass('valid');
+			$('#test-thumbnail').addClass('invalid');
+		}
+	} else {
+		flash = "<div class='alert alert-success'>Votre image est entièrement compatible avec cette application</div>";
+		$('.test-wrapper').addClass('valid');
+		$("#continue-button").prop("disabled", false);
 	}
+	$('#flash-wrapper').html(flash);
+
 };
 
 

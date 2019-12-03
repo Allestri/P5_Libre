@@ -314,7 +314,8 @@ class MembersController extends Controller
             $avatarId = $userEntries['avatarId'];
             $this->switchAvatar($uid, $avatarId);
             
-            return $this->redirect($response, 'profile');
+            $this->flash('Votre profil a bien été mis à jour');
+            return $this->redirect($response, 'newprofile');
         }
         
         if(!empty($uploadedFile)){
@@ -338,8 +339,8 @@ class MembersController extends Controller
             
             // for debugging purposes
             //return $this->container->view->render($response, 'pages/account.twig');
-            
-            return $this->redirect($response, 'profile');
+            $this->flash('Votre profil a bien été mis à jour');
+            return $this->redirect($response, 'newprofile');
         }
         
         if(!empty($userEntries['email'])){
@@ -367,7 +368,8 @@ class MembersController extends Controller
         $avatarId = $datas['id'];
         $memberModel->deleteAvatar($avatarId);
         
-        return $this->redirect($response, 'profile');
+        $this->flash('Votre profil a bien été mis à jour');
+        return $this->redirect($response, 'newprofile');
     }
                 
    

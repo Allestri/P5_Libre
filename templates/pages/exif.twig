@@ -12,6 +12,8 @@
     		{% else %}
     		<div class="row">
         		<div id="test-exif-form" class="col-lg-10 upload-wrapper mx-auto">
+        			<div id="flash-wrapper">
+        			</div>
             		<div class="tab-content">
             			<!-- Tab Upload image & test exifs -->
             			<div class="tab-pane fade show active" role="tabpanel" id="tab-upload-form">
@@ -26,24 +28,23 @@
                         			<input type="submit" class="btn btn-primary" name="submit" value="Envoyer" />
                         		</div>
                 			</form>
-                			<button id="test-form-btn" class="btn btn-primary">Test fire Function</button>
                 			
                 			<div class="exif-form-wrapper">
-                				<div class="test-wrapper">
+                				<div id="test-geo" class="test-wrapper">
                 					<i class="fas fa-map-marked-alt"></i>
                 					<h4>Geo Datas*</h4>
                 				</div>
-                				<div class="test-wrapper">
+                				<div id="test-photo" class="test-wrapper">
                 					<i class="fas fa-database"></i>
                 					<h4>Photo</h4>
                 				</div>
-                				<div class="test-wrapper">
+                				<div id="test-thumbnail" class="test-wrapper">
                 					<i class="fas fa-file-image"></i>
                 					<h4>Miniature</h4>
                 				</div>
                 			</div>
                 			<div id="button-wrapper">
-                                <button class="btn btn-primary" data-toggle="tab" href="#tab-post-form" role="tab">Continuer ...</button>
+                                <button class="btn btn-primary" id="continue-button" data-toggle="tab" href="#tab-post-form" role="tab">Continuer ...</button>
                             </div>
                 		</div>
                 		

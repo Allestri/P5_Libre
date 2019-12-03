@@ -12,9 +12,6 @@ class ImagesController extends ContentController
         $this->container = $container;
     }
     
-    // Personal notes - image model construct
-    // NOT FINISHED
-    
     // Form
     public function getForm($request, $response)
     {
@@ -138,21 +135,21 @@ class ImagesController extends ContentController
         $userId = $_SESSION['uid'];
         return $userId;
     }
-    
+       
+      
     // Tests if the uploaded file contains exif and datas needed on the app.
     public function testExif($request, $response)
     {
         $directory = $this->container->get('uploaded_directory');
         $uploadedFile = $request->getUploadedFiles();
-        //var_dump($_POST);
+
         // Single file upload /*
         $uploadedFile = $uploadedFile['myimage'];
         if($uploadedFile->getError() === UPLOAD_ERR_OK){
             $filename = $this->moveTestFile($directory, $uploadedFile);
         }
         $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename, 0, true);
-        //var_dump($exif);
-        $hasGeoExif = null;
+        
         // Checks Geo data
         if(isset($exif['GPS']['GPSLatitudeRef'], $exif['GPS']['GPSLongitudeRef'])){
             $hasGeoExif = true;
@@ -171,19 +168,34 @@ class ImagesController extends ContentController
         } else {
             $hasInfos = false;
         }
-        if($hasGeoExif && $hasThumbnail && $hasInfos) {
-            $args['exifready'] = true;
-            $this->flash('Votre image est compatible avec cette application');
-        }
+        
+        // Checks hasexif variables then display a flash status message.
         /*
+        if(!$hasGeoExif && !$hasThumbnail && !$hasInfos) {
+            $this->flash('Votre image est totalement incompatible avec cette application', 'error');
+        } elseif (!$hasGeoExif || !$hasThumbnail || !$hasInfos) {
+            $this->flash('Certaines infos manquent pour une compatiblité complète', 'warning');
+        } else {
+            $this->flash('Votre image est entièrement compatible avec cette application');
+        }
+        */
+        
+        $photoPath = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename;
+        // If one is false, deletes the files from the server.
+        // If not, moves it to the final directory.
+        
+        if(!$hasGeoExif || !$hasInfos || !$hasThumbnail){
+            unlink($photoPath);
+        }
+        
+        // Variables for test exif indicators
         $args['geodata'] = $hasGeoExif;
         $args['thumbnail'] = $hasThumbnail;
         $args['info'] = $hasInfos;
-        */
-        return $this->redirect($response, 'testForm');
         
+        echo json_encode($args);
     }
-         
+             
     public function manageExif($request, $response)
     {
 
@@ -196,28 +208,28 @@ class ImagesController extends ContentController
         $name = $datas['name'];
         $description = $datas['description'];
         
-        //$this->postUpload($request, $response);
-        $uploadedFile = $request->getUploadedFiles();
-        $uploadedFile = $uploadedFile['image'];
-        $directory = $this->container->get('uploaded_directory');
+        
+        //$filename = $this->getFilename();
+
+        $exif = $this->seekExif($filename, $directory, "quarantine");
                 
-        $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
+        
                
         // Gets the user id who uploaded the photo
         $user = $this->getUser();
         
         // Picture infos ( size, height, width)
-        $picInfos = $this->getPictureInfos($filename, $directory);
+        $picInfos = $this->getPictureInfos($exif);
         
-        $groupImg = $this->manageDevice($filename, $directory);
+        $groupImg = $this->manageDevice($exif);
         
         // Thumbnail
-        $thumbnail = $this->getThumbnail($filename, $directory);
+        $thumbnail = $this->getThumbnail($filename, $directory, $exif);
         //var_dump($thumbnail);
         
         // EXIF
-        $coordinates = $this->putExif($filename, $directory);
-        $hasExif = $this->exifReady($filename, $directory);
+        $coordinates = $this->putExif($exif);
+        //$hasExif = $this->exifReady($filename, $directory);
         //var_dump($hasExif);
         
         // Insert info data ( height, width, privacy .. )
@@ -227,15 +239,13 @@ class ImagesController extends ContentController
         $imageId = $imageModel->linkId();
         
         // Insert exif Datas if there is exif available.
-        if($hasExif){
-            $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude'], $imageId['id']);
-        }
+        $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude'], $imageId['id']);
         // Fetch the matching marker id.
         $markerId = $imageModel->linkMarkerId();
         
         $contentModel->addPost($name, $description, $user, $imageId['id'], $markerId['id'], $privacy);
-         
-        return $this->container->view->render($response, 'pages/upload.twig');
+        
+        return $this->container->view->render($response, 'pages/exif.twig');
     }
         
     // Test if Exif or not.
@@ -252,9 +262,8 @@ class ImagesController extends ContentController
     }
     
     // Fetch the device the photo is taken from.
-    public function getDevice($file, $directory)
+    public function getDevice($exif)
     {
-        $exif = $this->seekExif($file, $directory);
         $deviceBrand = null;
         if(isset($exif['IFD0'])){
             $deviceBrand = $exif['IFD0']['Make'];            
@@ -265,9 +274,9 @@ class ImagesController extends ContentController
     // Assigns a group depending on the device found.
     // Assigns 1 it's a DJI.
     // If null, assigns 4 ( Others )
-    public function manageDevice($file, $directory)
+    public function manageDevice($exif)
     {
-        $device = $this->getDevice($file, $directory);
+        $device = $this->getDevice($exif);
         
         if(!empty($device)){
             if($device == "DJI"){
@@ -290,15 +299,14 @@ class ImagesController extends ContentController
         return $coords[0] / $coords[1];
     }
     
-    public function seekExif($file, $directory){
+    public function seekExif($file, $directory, $path){
         
-        $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file, 0, true);
+        $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $file, 0, true);
         return $exif;
     }
     
-    public function putExif($file, $directory){
-
-        $exif = $this->seekExif($file, $directory);
+    
+    public function putExif($exif){
 
         // Checks geo coordinates
         if(isset($exif['GPS']['GPSLatitudeRef'], $exif['GPS']['GPSLongitudeRef'])) {
@@ -340,7 +348,6 @@ class ImagesController extends ContentController
             $result['longitude'] = $Longitude;
             $result['altitude'] = $Altitude;
             
-            //var_dump($result);
             return $result;
         } else {
             // Message flash erreur !
@@ -348,9 +355,8 @@ class ImagesController extends ContentController
         }
     }
     
-    public function getThumbnail($file, $directory){
+    public function getThumbnail($file, $directory, $exif){
         
-        $exif = $this->seekExif($file, $directory);
                         
         $image = exif_thumbnail($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file, $width, $height, $type);
         file_put_contents($directory. DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $file, $image);
@@ -368,11 +374,31 @@ class ImagesController extends ContentController
         
     }
     
-    public function getImageRatio($width, $height)
-    {
-        $imageRatio = round($width / $height, 2);
-        return $imageRatio;
+    public function getPictureInfos($exif){
+               
+        if(isset($exif)){
+            
+            $pictureSize = $exif['FILE']['FileSize'];
+            $pictureHeight = $exif['COMPUTED']['Height'];
+            $pictureWidth = $exif['COMPUTED']['Width'];
+            $pictureType = $exif['FILE']['MimeType'];
+            var_dump($pictureType);           
+            // Assigns infos
+            $result['size'] = $pictureSize;
+            $result['height'] = $pictureHeight;
+            $result['width'] = $pictureWidth;
+            $result['type'] = $pictureType;
+            
+            //$thumbnail = $this->createThumbnail($file, $directory, $pictureType, $pictureWidth, $pictureHeight);
+            
+            //var_dump($result);
+            return $result;
+        } else {
+            echo "Pas de données";
+        }
     }
+    
+    // ! Not using !
     
     public function createThumbnail($file, $directory, $ext, $fileWidth, $fileHeight)
     {
@@ -389,10 +415,10 @@ class ImagesController extends ContentController
         switch($ext){
             case 'image/jpg' || 'image/jpeg':
                 $img = imageCreateFromJpeg($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file);
-            break;
+                break;
             case 'image/png':
                 $img = imageCreateFromPng($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file);
-            break;
+                break;
         }
         imagecopyresized($thumbnail, $img, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $fileWidth, $fileHeight);
         switch($ext){
@@ -405,58 +431,15 @@ class ImagesController extends ContentController
             default:
                 imagejpeg($thumbnail, $path, 100);
         }
-        
-    
-        
+          
     }
     
-    public function getPictureInfos($file, $directory){
-        
-        // Fetch and return Exif datas
-        $exif = $this->seekExif($file, $directory);
-        
-        if(isset($exif)){
-            
-            $pictureSize = $exif['FILE']['FileSize'];
-            $pictureHeight = $exif['COMPUTED']['Height'];
-            $pictureWidth = $exif['COMPUTED']['Width'];
-            $pictureType = $exif['FILE']['MimeType'];
-            var_dump($pictureType);           
-            // Assigns infos
-            $result['size'] = $pictureSize;
-            $result['height'] = $pictureHeight;
-            $result['width'] = $pictureWidth;
-            $result['type'] = $pictureType;
-            
-            $thumbnail = $this->createThumbnail($file, $directory, $pictureType, $pictureWidth, $pictureHeight);
-            
-            //var_dump($result);
-            return $result;
-        } else {
-            echo "Pas de données";
-        }
-    }
-    
-    
-    // Deprecated
-    public function reportImage($request, $response)
+    public function getImageRatio($width, $height)
     {
-        $datas = $request->getParsedBody();
-        $imgId = $datas['imgId'];
-        
-        
-        $imageModel = $this->container->get('imagesModel');
-        $imageModel->reportImage($imgId);
+        $imageRatio = round($width / $height, 2);
+        return $imageRatio;
     }
     
-    public function likeImage($request, $response)
-    {
-        $datas = $request->getParsedBody();
-        $imgId = $datas['imgId'];
-        
-        $imageModel = $this->container->get('imagesModel');
-        $imageModel->likeImage($imgId);
-    }
     
 }
     
