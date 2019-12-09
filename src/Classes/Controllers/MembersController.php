@@ -192,7 +192,7 @@ class MembersController extends Controller
             //var_dump($avatars['0']);
             
             $avatarDir = "uploads/avatar";
-            
+            var_dump($_SESSION);
             // Checks has custom avatar, gets it, return default avatar otherwise.
             // Gets inactive avatars in a separate array.
             if($hasAvatars){
@@ -236,15 +236,25 @@ class MembersController extends Controller
     }
     
     public function displayMembersList($request, $response)
-    {
+    {        
         
         $memberModel = $this->container->get('membersModel');
         $username = $_SESSION['username'];
-        $membersList['datas'] = $memberModel->getMembersList($username);
+
+        $totalMembers = $memberModel->countAllMembers();
+        $totalMembers = (int)$totalMembers['totalmembers'];
+        var_dump($totalMembers);
         
+        $limit = 4;
+        $args = $this->pagination($request, $totalMembers, $limit);
         
-        return $this->container->view->render($response, 'pages/members.twig', $membersList);
+        $args['memberslist'] = $memberModel->getAllMembersLimit($limit, $args['offset']);
+              
+        var_dump($args);
+        
+        return $this->container->view->render($response, 'pages/members.twig', $args);
     }
+    
     
     // Friendship System
     
@@ -266,8 +276,9 @@ class MembersController extends Controller
         $memberModel = $this->container->get('membersModel');
         $memberModel->addFriendRequest($myId, $memberId);
         //$this->getIds($myId, $memberId);
+        $this->flash('Votre demande d\'ami a bien été envoyée');
         
-        return $this->container->view->render($response, 'pages/members.twig');
+        return $this->redirect($response, 'memberList');
     }
        
     public function ignoreFriendRequest($request, $response)
@@ -304,30 +315,26 @@ class MembersController extends Controller
         
         $userEntries = $request->getParsedBody();
         $uploadedFile = $request->getUploadedFiles();
-        
-        var_dump($uploadedFile);
-        var_dump($userEntries);
-        
+        $uploadedFile = $uploadedFile['myavatar'];
+               
         // If user selected an unactive avatar.
         if(isset($userEntries['avatarId']) && ($userEntries['avatarId'] !== '1')){
             
             $avatarId = $userEntries['avatarId'];
             $this->switchAvatar($uid, $avatarId);
             
-            $this->flash('Votre profil a bien été mis à jour');
+            $this->flash('Votre avatar a bien été mis à jour');
             return $this->redirect($response, 'newprofile');
         }
         
-        if(!empty($uploadedFile)){
-                       
+        if(!empty($uploadedFile) && ($uploadedFile->getError() === UPLOAD_ERR_OK)){
+                                 
             $directory = $this->container->get('uploaded_directory');
-            $uploadedFile = $uploadedFile['image'];
-            
             $member = $_SESSION['username'];
             
+            /* 
             $avatarDir = $directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $member;
-            
-            /* Deletes the previous avatar if there is one
+            Deletes the previous avatar if there is one
              $scan = scandir($avatarDir,1);
              var_dump($scan);
              if(isset($scan['0'])){
@@ -339,7 +346,7 @@ class MembersController extends Controller
             
             // for debugging purposes
             //return $this->container->view->render($response, 'pages/account.twig');
-            $this->flash('Votre profil a bien été mis à jour');
+            $this->flash('Votre avatar a bien été mis à jour');
             return $this->redirect($response, 'newprofile');
         }
         
@@ -347,7 +354,14 @@ class MembersController extends Controller
             
             $email = $userEntries['email'];
             $membersModel->setEmail($email, $uid);
+            
+            $this->flash('Votre email a bien été mise à jour');
+            return $this->redirect($response, 'newprofile');
         }
+        
+        // If the user didn't change anything, returns a redirect + flash message.
+        $this->flash('Vous n\'avez pas fait de modifications sur votre profil');
+        return $this->redirect($response, 'newprofile');
         
     }
     
@@ -363,10 +377,19 @@ class MembersController extends Controller
     
     public function deleteAvatar($request, $response)
     {
-        $memberModel = $this->container->get('membersModel');
         $datas = $request->getQueryParams();
         $avatarId = $datas['id'];
+        $filename = $datas['filename'];
+        
+        $member = $_SESSION['username'];
+        
+        $memberModel = $this->container->get('membersModel');
+        $directory = $this->container->get('uploaded_directory');
+        $avatarDir = $directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $member;
+        
         $memberModel->deleteAvatar($avatarId);
+        
+        unlink($avatarDir . DIRECTORY_SEPARATOR . $filename);
         
         $this->flash('Votre profil a bien été mis à jour');
         return $this->redirect($response, 'newprofile');

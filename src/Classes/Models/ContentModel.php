@@ -14,7 +14,7 @@ Class ContentModel extends Model
     public function getContent($limit, $offset)
     {
         $sql = 'SELECT * FROM placeholder LIMIT :limit OFFSET :offset';
-        $posts = $this->executeLimitQuery($sql, $limit, $offset);
+        $posts = $this->executeQueryNew($sql, null, $limit, $offset);
         return $posts->fetchAll();
     }
     
@@ -49,10 +49,13 @@ Class ContentModel extends Model
     // Get comments from a marker from Map
     public function getCommentsNew($markerId)
     {
-        $sql = "SELECT comments.id, members.name, members.avatar_file, comments.content, comments.com_date
+        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, comments.com_date
                 FROM comments
                 INNER JOIN members
                     ON comments.author_id = members.id
+                LEFT OUTER JOIN avatars
+                    ON comments.author_id = avatars.user_id
+                    AND avatars.active = 1
                 INNER JOIN posts
                 	ON comments.post_id = posts.id
                 WHERE posts.marker_id = ?
@@ -64,10 +67,13 @@ Class ContentModel extends Model
     // Get comments refreshed
     public function getComments($postId)
     {
-        $sql = "SELECT comments.id, members.name, members.avatar_file, comments.content, comments.com_date
+        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, DATE_FORMAT(comments.com_date, '%M %d %Y' ) as date_fr
                 FROM comments 
                 INNER JOIN members
 	               ON comments.author_id = members.id
+                LEFT OUTER JOIN avatars
+                    ON comments.author_id = avatars.user_id
+                    AND avatars.active = 1
                 WHERE post_id = ?
                 ORDER BY comments.id ASC";
         $comments = $this->executeQuery($sql, array($postId));
@@ -166,6 +172,17 @@ Class ContentModel extends Model
                 WHERE post_id = ?";
         $likes = $this->executeQuery($sql, array($postId));
         return $likes->fetch();
+    }
+    
+    public function getMyLikes($markerId, $userId)
+    {
+        $sql = "SELECT count(likes.id) as uliked
+                FROM likes
+                INNER JOIN posts
+                    ON likes.post_id = posts.id
+                WHERE posts.marker_id = ? AND likes.user_id = ?";
+        $liked = $this->executeQuery($sql, array($markerId, $userId));
+        return $liked->fetch();
     }
     
     public function getLikes($markerId)

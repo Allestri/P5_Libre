@@ -4,7 +4,7 @@
 {{ include ('flash.twig') }}
 
 <div class="row">
-    <div id="profile-container" class="col-lg-11 mx-auto mt-5">
+    <div id="profile-container" class="col-lg-10 mx-auto mt-5">
         <div id="np-header" class="row">
         	<div class="col-lg-5 mx-auto">
         		<h1 class="profile-name">{{ profile }}</h1>
@@ -201,7 +201,7 @@
                             			<input class="form-check-input" type="radio" name="avatarId" value="{{ custom_avatar.id }}">
                                 		<label class="form-check-label" for="activeAvatar">Avatar {{ key }}</label>
                                 		<img src="uploads/avatar/{{ profile }}/{{ custom_avatar.avatar_file }}" width="50" alt="inactive-avatar">
-                                		<a href="delete?id={{ custom_avatar.id }}">Supprimer</a>
+                                		<a href="delete?id={{ custom_avatar.id }}&filename={{ custom_avatar.avatar_file }}">Supprimer</a>
                             		</div>
                             		{% endfor %}
                         		</div>
@@ -212,7 +212,7 @@
                 			<h4>Ajouter un nouvel avatar</h4>
                     		<div id="upl-avatar-form" class="form-row">
                             	<div class="add-avatar-pnl col-md-6">
-                        			<input type="file" class="form-control-file" id="avatar-form" name="image"/>
+                        			<input type="file" class="form-control-file" id="avatar-form" name="myavatar"/>
                         		</div>
                         		<div id="avatar-preview-ctn" class="add-avatar-pnl col-md-6"></div>
                         	</div>

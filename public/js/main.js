@@ -23,6 +23,10 @@ $('#navbar > ul.nav li a').click(function(e) {
 $('.carousel').carousel({
 	  interval: 7000
 	})
+	
+// Flash messages
+	
+$( '.alert-dismissible' ).delay( 1500 ).fadeOut( 400 );
 
 //Admin Panel //
 $('.delete').click(function(e) {
@@ -125,7 +129,11 @@ function displayFlash(data) {
 		flash = "<div class='alert alert-warning'>Certaines infos manquent pour une compatiblité complète</div>";
 		$("#continue-button").prop("disabled", true);
 		
+		display(data.thumbnail, "#test-thumbnail");
+		display(data.info, "#test-photo");
+		display(data.geodata, "#test-geo");
 		// 6 different possibilites
+		/*
 		if(data.thumbnail === true){
 			if(data.info === true){
 				$('#test-geo').addClass('invalid');
@@ -156,6 +164,7 @@ function displayFlash(data) {
 			$('#test-photo').addClass('valid');
 			$('#test-thumbnail').addClass('invalid');
 		}
+		*/
 	} else {
 		flash = "<div class='alert alert-success'>Votre image est entièrement compatible avec cette application</div>";
 		$('.test-wrapper').addClass('valid');
@@ -164,6 +173,14 @@ function displayFlash(data) {
 	$('#flash-wrapper').html(flash);
 
 };
+
+function display(data, selector){
+	if(data){
+		$(selector).addClass('valid');
+	}else {
+		$(selector).addClass('invalid');
+	}
+}
 
 
 

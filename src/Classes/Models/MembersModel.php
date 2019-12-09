@@ -11,7 +11,7 @@ class MembersModel extends Model
         return $member->fetch();
     }
     
-    // Get the list of without the connected member
+    // Get the list of users without the connected member
     public function getMembersList($username)
     {
         $sql = "SELECT id, name, avatar_file
@@ -20,12 +20,43 @@ class MembersModel extends Model
         $members = $this->executeQuery($sql, array($username));
         return $members->fetchAll();
     }
+    
     public function getFullMembersList()
     {
-        $sql = "SELECT id, name, avatar_file
+        $sql = "SELECT id, name, avatar_file, DATE_FORMAT(date, '%d/%m/%Y à %Hh%imin%ss') as date_fr
                 FROM members";
         $members = $this->executeQuery($sql);
         return $members->fetchAll();
+    }
+    
+    // Used in memberlist page with pagination
+    public function getAllMembersLimit($limit, $offset)
+    {
+        $sql = "SELECT members.id, members.name, avatars.avatar_file, DATEDIFF(CURDATE(), members.date) as days_timestamp
+                FROM members
+                LEFT OUTER JOIN avatars
+                    ON members.id = avatars.user_id
+                    AND avatars.active = 1
+                LIMIT :limit OFFSET :offset";
+        $members = $this->executeLimitQuery($sql, $limit, $offset);
+        return $members->fetchAll();
+    }
+    
+    // Count members without connected user
+    public function countMembers($username)
+    {
+        $sql ="SELECT count(*) FROM members WHERE name = ?";
+        $members = $this->executeQuery($sql, array($username));
+        return $members->fetch();
+    }
+    
+    
+    // Count every members registered
+    public function countAllMembers()
+    {
+        $sql = "SELECT count(*) as totalmembers FROM members";
+        $members = $this->executeQuery($sql);
+        return $members->fetch();
     }
     
     public function checkMemberUnique($username)
@@ -36,14 +67,7 @@ class MembersModel extends Model
         }
         return true;
     }
-    
-    public function countMembers($username)
-    {
-        $sql ="SELECT count(*) FROM members WHERE name = ?";
-        $members = $this->executeQuery($sql, array($username));
-        return $members->fetch();
-    }
-    
+       
     public function signup($username, $rdp, $ip)
     {
         $sql = "INSERT INTO members (name, password, avatar_file, ip_address, group_id, date) VALUES (?, ?, 'avatar_default.png', ?, 3, NOW())";
@@ -175,4 +199,5 @@ class MembersModel extends Model
         $recentImgs = $this->executeQuery($sql, array($uid));
         return $recentImgs->fetchAll();
     }
+    
 }

@@ -6,17 +6,18 @@ class AdminModel extends Model
 {
     
     public function countReports(){
-        $sql = "SELECT COUNT(id) as reportsNbr FROM posts WHERE reported > 0";
+        $sql = "SELECT COUNT(id) as reportsNbr FROM post_reports";
         $reportsNbr = $this->executeQuery($sql);
         return $reportsNbr->fetch();
     }
     
     public function getReports(){
-        $sql = "SELECT posts.id, posts.name, posts.content, images.filename, posts.liked, posts.reported
+        $sql = "SELECT posts.id, posts.name, posts.content, images.filename
                 FROM posts
                 INNER JOIN images
                     ON posts.image_id = images.id
-                WHERE posts.reported > 0";
+                INNER JOIN post_reports
+                    ON post_reports.post_id = posts.id";
         $reports = $this->executeQuery($sql);
         return $reports->fetchAll();
     }
@@ -25,7 +26,7 @@ class AdminModel extends Model
         $sql = "SELECT posts.id, posts.name, members.name as author, posts.content
                 FROM posts
                 INNER JOIN members
-                ON posts.user_id = members.id
+                    ON posts.user_id = members.id
                 WHERE posts.id = ?";
         $reportedImg = $this->executeQuery($sql, array($postId));
         return $reportedImg->fetch();
@@ -37,6 +38,12 @@ class AdminModel extends Model
                 WHERE id= ?";
         $this->executeQuery($sql, array($name, $content, $postId));
     }
+    
+    
+    public function clearAllReports() {
+        $sql = "DELETE FROM post_reports";
+        $this->executeQuery($sql);
+    }    
     
     public function clearReports($imgId) {
         $sql = "UPDATE images 
@@ -52,6 +59,29 @@ class AdminModel extends Model
                 INNER JOIN posts
                     ON images.id = posts.image_id
                 WHERE posts.id = ?";
+        $this->executeQuery($sql, array($postId));
+    }
+    
+    // Logs
+    
+    public function getLogs()
+    {
+        $sql = "SELECT logs.post_name as old_name, posts.name as new_name, posts.user_id as author, logs.post_content as old_content, posts.content as new_content
+		        FROM logs 
+                INNER JOIN posts 
+                    ON logs.post_id = posts.id
+                WHERE logs.mod_type = 'edited'
+                ORDER BY logs.id DESC";
+        $logs = $this->executeQuery($sql);
+        return $logs->fetchAll();
+    }
+    
+    
+    public function insertPostLogs($postId){
+        $sql ="INSERT INTO logs(posts.id, posts.name, posts.content)
+			   SELECT posts.id, posts.name, posts.content, posts.user_id 
+               FROM posts 
+               WHERE post_id = ?";
         $this->executeQuery($sql, array($postId));
     }
     

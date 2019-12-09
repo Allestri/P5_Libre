@@ -19,7 +19,6 @@ class AdminController extends Controller
             $adminModel = $this->container->get('adminModel');
             $membersModel = $this->container->get('membersModel');
             
-            //var_dump($_SESSION);
             $args = $adminModel->countReports();
             
             // If there are any reports, fetch those ones.
@@ -28,8 +27,22 @@ class AdminController extends Controller
                 $args['reportedPosts'] = $adminModel->getReports();
                 
             }
+            
+            
+            // Count quarantine files
+            $directory = $this->container->get('uploaded_directory');
+            $quarantineDir = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR;
+            $files = glob($quarantineDir . '*');
+            var_dump($quarantineDir);
+            if($files != false)
+            {
+                $args['fileQuarantine'] = count($files);
+            }
+            
             // Fetch memberlist
             $args['membersList'] = $membersModel->getFullMembersList();
+            // Logs
+            $args['logs'] = $adminModel->getLogs();
             var_dump($args);
             return $this->render($response, 'pages/admin.twig', $args);
             
@@ -37,6 +50,26 @@ class AdminController extends Controller
             echo 'Accès restreint';
         }
         
+    }
+    
+    public function clearReports($request, $response)
+    {
+        
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->clearAllReports();
+        
+        return $this->redirect($response, 'admin');
+    }
+    
+    public function clearQuarantineDir($request, $response)
+    {
+        $directory = $this->container->get('uploaded_directory');
+        $quarantineDir = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR;
+        
+        array_map('unlink', glob($quarantineDir . '*'));
+        
+        $this->flash('La quarantaine a été vidée de ses photos');
+        return $this->redirect($response, 'admin');
     }
     
     public function getSelectedPost($request, $response)

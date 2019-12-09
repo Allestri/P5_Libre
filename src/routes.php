@@ -68,6 +68,9 @@ return function (App $app) {
     $app->post('/admin/getreport', \App\Controllers\AdminController:: class . ':getSelectedPost');
     $app->post('/admin/edit', \App\Controllers\AdminController:: class . ':editPost');
     
+    $app->get('/admin/clear', \App\Controllers\AdminController:: class . ':clearReports');
+    $app->get('/admin/clearquar', \App\Controllers\AdminController:: class . ':clearQuarantineDir');
+    
     $app->get('/admin/debug', \App\Controllers\ContentController:: class . ':debug');
     $app->post('/admin/debug', \App\Controllers\ContentController:: class . ':debug');
     

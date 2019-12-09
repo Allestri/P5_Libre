@@ -48,6 +48,13 @@ function postInfos(data){
 		$('.likes-count').text(this.likes);
 		$('.comments-count').text(data.comments.length);
 		
+		// Button !
+		if(data.uliked > 0){
+			$('.like').addClass('active');
+		} else {
+			$('.like').removeClass('active');
+		}
+		
 	};
 	
 	this.displayComments = function() {

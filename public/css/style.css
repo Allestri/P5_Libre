@@ -7,6 +7,11 @@ Fonts
 ==========================
 */
 
+body
+{
+	background-color:#e9ecef;
+}
+
 @font-face
 {
 	font-family:'titania';
@@ -76,13 +81,33 @@ Fonts
 #wallpaper-test > * {
     z-index: 3;
 }
-	
+
+/*
+==========================
+Main Components
+==========================
+*/
+
+.pagination-wrapper
+{
+	margin-top:40px;
+	display:flex;
+	flex-direction:row;
+	justify-content:center;
+	width:100%;
+}
 
 /* 
 ==========================
 Home Page
 ==========================
 */
+
+
+.navbar
+{
+	z-index:5;
+}
 
 #home-banner
 {
@@ -130,6 +155,9 @@ Map Page
 	position:relative;
 	flex: 0 0 100%;
 	max-width: 100%;
+	-webkit-box-shadow: 4px 11px 21px -9px rgba(0,0,0,0.75);
+	-moz-box-shadow: 4px 11px 21px -9px rgba(0,0,0,0.75);
+	box-shadow: 4px 11px 21px -9px rgba(0,0,0,0.75);
 	transition: all 1s ease-out;
 }
 
@@ -301,17 +329,16 @@ Forms
 
 .upload-wrapper
 {
-	border:1px solid black;
 	padding: 50px 55px 30px;
 	border-radius:10px;
+	min-height:600px;
 	background-color:white;
+	box-shadow: 4px 7px 21px -9px rgba(0,0,0,0.75);
 }
 
 #test-exif-form
 {
-	min-height:500px;
 	margin-top:100px;
-	border: 1px solid black;
 }
 
 .exif-form-wrapper
@@ -334,6 +361,11 @@ Forms
 	background-color:#cacaca;
 	transition: background-color 2s ease-in;
 	border-radius:10px;
+}
+
+#flash-wrapper
+{
+	height:50px;
 }
 
 .test-wrapper i
@@ -364,6 +396,27 @@ Admin Panel
 	margin-top:50px;
 }
 
+.admin-pill
+{
+	padding:5px;
+	border:2px solid blue;
+	color:white;
+}
+
+#clear-btn
+{
+	position:absolute;
+	top:0;
+	right:0;
+	padding: 5px 20px;
+	border-radius:50%;
+	background-color:white;
+	color: #aaa;
+	cursor:pointer;
+	font-size:2.5rem;
+	line-height:1.5;
+}
+
 
 #profile-wrapper
 {
@@ -380,7 +433,7 @@ Admin Panel
 {
 	padding:0;
 	min-height:500px;
-	background-color:#e7e7e7;
+	background-color: #dfdfdf;
 }
 
 #edit-tab
@@ -390,7 +443,8 @@ Admin Panel
 
 #img-report-wrapper
 {
-	padding: 0 30px 0 30px;
+	position:relative;
+	padding: 30px;
 }
 
 .img-single-report
@@ -446,14 +500,29 @@ Admin Panel
 	background-color:white;
 }
 
+/* Member tab */
+
 #members-tab
 {
-	padding:10px;
+	padding:25px;
+}
+
+#members-tab-header
+{
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+}
+
+#members-card-wrapper
+{
+	display:flex;
+	flex-direction:column;
 }
 
 .member-card
 {
-	height:80px;
+	height:100px;
 	margin-top:20px;
 	margin-bottom:10px;
 	padding-left:15px;
@@ -471,6 +540,93 @@ Admin Panel
 {
 	background-color: #eeeeee;
 	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(21,111,170,.3);
+}
+
+#logs-tab
+{
+	padding:20px;
+	display:flex;
+	flex-direction:column;
+}
+
+.logs-card
+{
+	height:100px;
+	padding-left:15px;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	background-color: #fff;
+	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(97,108,121,.13);
+}
+
+
+
+/* 
+==========================
+Members Page
+==========================
+*/
+
+#memberlist-container
+{
+	margin-top:60px;
+	padding: 40px 55px 30px;
+	border-radius:10px;
+	min-height:640px;
+	background-color:white;
+	box-shadow: 4px 7px 21px -9px rgba(0,0,0,0.75);
+	display:flex;
+	flex-direction:column;
+}
+
+#memberlist
+{
+	flex:1;
+}
+
+.memberlist-card
+{
+	height:80px;
+	margin-top:20px;
+	margin-bottom:10px;
+	padding-left:15px;
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+	justify-content:space-between;
+	background-color: #fff;
+	border-radius: .25rem;
+	border: 1px solid rgba(0,0,0,.125);
+	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(97,108,121,.13);
+	transition: box-shadow .3s ease;
+}
+
+.memberlist-card:hover
+{
+	background-color: #eeeeee;
+	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(21,111,170,.3);
+}
+
+.memberlist-card:hover .addfriend-btn
+{
+	background-color:#55a2f4;
+}
+
+.addfriend-btn-wrapper
+{
+	padding-right:15px;
+}
+
+.addfriend-btn
+{
+	border-radius:50%;
+	border:0;
+	padding: .45rem .55rem;
+	color: white;
+	background-color:#c9c9c9;
+	line-height:1.5;
+	transition: all .4s;
 }
 
 
@@ -708,7 +864,6 @@ Profile Page
 #np-infos
 {
 	background-color:white;
-	border:1px solid black;
 	border-radius:0px;
 }
 
@@ -733,8 +888,8 @@ Profile Page
 #np-body
 {
 	background-color:white;
-	border:1px solid black;
 	border-radius:0px;
+	min-height:600px;
 }
 
 #np-navigation
@@ -875,15 +1030,15 @@ Image Viewer
 #myphoto-wrapper
 {
 	position:absolute;
-	display:none;
-	/* height:550px; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	z-index:4;
 }
 
 #myphoto
 {
 	margin:auto;
-	width:100%;
 	position:relative;
 }
 
@@ -972,12 +1127,13 @@ Image Viewer
 
 #admin-image-wrapper
 {
+	padding:10px 10px;
 	display:flex;
 	align-items:center;
 	justify-content:center;
 	position:relative;
-	height:770px;
-	margin-top:80px;
+	height:100%;
+	margin-top:70px;
 	background-color:white;
 }
 

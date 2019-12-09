@@ -43,41 +43,15 @@ class ContentController extends Controller
         
         // Pagination
         $limit = 2;
-        $query = $request->getQueryParams();
-        // Checks if param exists, is a number, assigns default page(1) if not.
-        if(isset($query['page']) && is_numeric($query['page'])) {
-            $currentPage = $query['page'];
-        } else {
-            $currentPage = 1;
-        }
         
         $contentTotal = $contentModel->countContent();
         $contentTotal = (int)$contentTotal['rows'];
+        
         var_dump($contentTotal);
-        $totalPages = ($contentTotal / $limit);
-        
-        // If current page is higher than total pages.
-        // Set current page to last page.
-        if(isset($query['page']) && ($query['page'] > $totalPages)){
-            $currentPage = $totalPages;
-        }
-        // If current page is lower than 1.
-        // Sets to page 1.
-        if(isset($query['page']) && ($query['page'] < 1)){
-            $currentPage = 1;
-        }
-        
-        // Sets offset based on current page(inclusive)
-        $offset = ($currentPage - 1) * $limit;        
-        var_dump($currentPage);
-        
-        $args['currentPage'] = $currentPage;
-        $args['totalPages'] = $totalPages;
-        $args['nextPage'] = $currentPage + 1;
-        $args['previousPage'] = $currentPage - 1;
-        
- 
-        $args['datas'] = $contentModel->getContent($limit, $offset);
+
+        $args = $this->pagination($request, $contentTotal, $limit);
+        //$args['datas'] = $contentModel->getContent($limit, $args['offset']);
+        $args['datas'] = $contentModel->getContent($limit, $args['offset']);
         var_dump($args);
         
         // get the template renderer and pass response and datas to the template file.
@@ -163,7 +137,7 @@ class ContentController extends Controller
      public function getLikes($request, $response)
      {
          $datas = $request->getQueryParams();
-         $postId = 81;
+         $postId = $datas['postId'];
          
          $contentModel = $this->container->get('contentModel');
          $likesNbr = $contentModel->getLikesNew($postId);

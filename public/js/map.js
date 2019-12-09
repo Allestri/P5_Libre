@@ -153,10 +153,11 @@ function displayMap()
 	        	console.log(data);
 	        	let infos = new postInfos(data);
 	        	infos.displayInfos();
-	        	infos.displayComments();
 	        	infos.togglePanel();
+	        	infos.displayComments();	
+	        	
 	        },
-	    	error : function(result, status, error){
+	    	error : function(result, status, error){	
 	    		console.log('erreur fetch infos' + error);
 	    	}
 	    });
@@ -354,19 +355,7 @@ function displayMap()
 	        	    }
 	        	]
 	    
-	    });
-	    // Legend
-	    var legend = document.getElementById('legend');
-        for (var i = 0; i < 3; i++) {
-          var type = 'type';
-          var name = 'nom';
-          //var icon = type.icon;
-          var div = document.createElement('div');
-          div.innerHTML = name;
-          legend.appendChild(div);
-        }
-        gmap.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
-	    
+	    });	    
 	    this.getPoints();
 	
 	};	

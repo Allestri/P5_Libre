@@ -23,7 +23,7 @@ class ImagesController extends ContentController
             return $this->render($response, 'pages/upload.twig');
         }
     }
-    
+        
     public function getTestForm($request, $response)
     {
         if(isset($_SESSION['username'])){
@@ -106,11 +106,14 @@ class ImagesController extends ContentController
         
         $datas = $request->getQueryParams();
         $markerId = $datas['id'];
+        $userId = $_SESSION['uid'];
         
         $datas = $imageModel->fetchImgsInfosNew($markerId);
         $likes = $contentModel->getLikes($markerId);
         $datas = array_merge($datas, $likes);
         $datas['comments'] = $contentModel->getCommentsNew($markerId);
+        $mylikes = $contentModel->getMyLikes($markerId, $userId);
+        $datas = array_merge($datas, $mylikes);
         
         echo json_encode($datas);
     }
@@ -180,13 +183,16 @@ class ImagesController extends ContentController
         }
         */
         
-        $photoPath = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename;
+
+        $_SESSION['filename'] = $filename;
         // If one is false, deletes the files from the server.
         // If not, moves it to the final directory.
-        
+        /*
+        $photoPath = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename;
         if(!$hasGeoExif || !$hasInfos || !$hasThumbnail){
             unlink($photoPath);
         }
+        */
         
         // Variables for test exif indicators
         $args['geodata'] = $hasGeoExif;
@@ -194,6 +200,8 @@ class ImagesController extends ContentController
         $args['info'] = $hasInfos;
         
         echo json_encode($args);
+        
+        //return $this->container->view->render($response, 'pages/exif.twig');
     }
              
     public function manageExif($request, $response)
@@ -208,12 +216,16 @@ class ImagesController extends ContentController
         $name = $datas['name'];
         $description = $datas['description'];
         
+        $directory = $this->container->get('uploaded_directory');
+        $filename = $_SESSION['filename'];
         
-        //$filename = $this->getFilename();
+        $oldPath = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename;
+        $newPath = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename;
+        var_dump($filename);
+        
+        rename($oldPath, $newPath);
 
-        $exif = $this->seekExif($filename, $directory, "quarantine");
-                
-        
+        $exif = $this->seekExif($filename, $directory, "photos");                
                
         // Gets the user id who uploaded the photo
         $user = $this->getUser();
@@ -245,6 +257,7 @@ class ImagesController extends ContentController
         
         $contentModel->addPost($name, $description, $user, $imageId['id'], $markerId['id'], $privacy);
         
+        $this->flash('Votre image a bien été mise en ligne');
         return $this->container->view->render($response, 'pages/exif.twig');
     }
         
@@ -382,7 +395,7 @@ class ImagesController extends ContentController
             $pictureHeight = $exif['COMPUTED']['Height'];
             $pictureWidth = $exif['COMPUTED']['Width'];
             $pictureType = $exif['FILE']['MimeType'];
-            var_dump($pictureType);           
+            
             // Assigns infos
             $result['size'] = $pictureSize;
             $result['height'] = $pictureHeight;

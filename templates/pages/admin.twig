@@ -15,19 +15,25 @@
     				<a class="nav-link active" href="#reports-wrapper" data-toggle="pill">Signalements</a>
     			</li>
     			<li class="nav-item">
-    				<a class="nav-link" href="#edit-tab" role="tab" data-toggle="pill">Placeholder</a>
+    				<a class="nav-link" href="#edit-tab" role="tab" data-toggle="pill">Moderation</a>
     			</li>
     			<li class="nav-item">
     				<a class="nav-link" href="#members-tab" data-toggle="pill">Membres</a>
     			</li>
     			<li class="nav-item">
-    				<a class="nav-link" href="#" data-toggle="pill">Logs</a>
+    				<a class="nav-link" href="#quarantine-tab" data-toggle="pill">Quarantaine</a>
+    			</li>
+    			<li class="nav-item">
+    				<a class="nav-link" href="#logs-tab" data-toggle="pill">Logs</a>
     			</li>
     		</ul>
     	</nav>
     </div>
     <div class="col-lg-10 tab-content">
         <div id="reports-wrapper" class="admin-tab tab-pane fade show active" role="tabpanel">
+        	{% if not reportsNbr %}
+        		<p>Il n'y a pas de signalements !</p>
+        	{% endif %}
     	    {% if reportsNbr == 1 %}
             	<div class="alert alert-warning">
             		<i class="fas fa-exclamation-triangle"></i>
@@ -41,6 +47,9 @@
             {% endif %}
             {% if reportsNbr > 0 %}
             	<div id="img-report-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
+            	<span id="clear-btn">
+            		<a href="admin/clear"><i class="fas fa-times"></i></a>
+            	</span>
             	{% for posts in reportedPosts %}
             		<div class="card img-single-report">
             			<div class="image-reported-wrapper">
@@ -93,13 +102,40 @@
     		</form>
     	</div>
     	<div id="members-tab" class="admin-tab tab-pane fade" role="tabpanel">
-    		<h3><i class="fas fa-users"></i><span id="member-count"></span> Membres</h3>
-    		{% for members in membersList %}
-    		<div class="member-card">
-    			<img src="uploads/avatar/{{ members.avatar_file }}" class="rounded-circle" alt="{{ friendship.name }} avatar" height="50">
-    			<h4>{{ members.name }}</h4>
+    		<div id="members-tab-header">
+    			<h3><i class="fas fa-users"></i><span id="member-count"></span> Membres</h3>
+    			<span id="members-sort" class="admin-pill">
+    				Plus récent
+    				<i class="fas fa-chevron-down"></i>
+    			</span>
     		</div>
-    		{% endfor %}
+    		<div id="members-card-wrapper">
+        		{% for members in membersList %}
+        		<div class="member-card">
+        			<img src="uploads/avatar/{{ members.avatar_file }}" class="rounded-circle" alt="{{ friendship.name }} avatar" height="100">
+        			<h4>{{ members.name }}</h4>
+        			<p>Inscrit le : {{ members.date_fr }}</p>
+        		</div>
+    		    {% endfor %}
+    		</div>
+    	</div>
+    	<div id="quarantine-tab" class="admin-tab tab-pane fade" role="tabpanel">
+    		<h3><i class="fas fa-radiation-alt"></i>Zone de Quarantaine</h3>
+    		{% if not fileQuarantine %}
+    		<p>Il n'y a aucunes images placées en quarantaine</p>
+    		{% else %}
+			<p>Il y a {{ fileQuarantine }} images placées en quarantaine</p>
+			<a href="admin/clearquar" class="btn btn-primary">Vider ?</a>
+			{% endif %}
+    	</div>
+    	<div id="logs-tab" class="admin-tab tab-pane fade" role="tabpanel">
+			<h3><i class="fas fa-clipboard-list"></i>Logs modération</h3>
+		    {% for logs in logs %}
+			<div class="logs-card">
+				<h4>{{ logs.old_name }}</h4>
+				<p>{{ logs.old_content }}</p>
+			</div>
+		    {% endfor %}
     	</div>
 	</div>
 </div>
