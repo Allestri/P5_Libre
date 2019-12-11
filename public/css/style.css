@@ -106,7 +106,7 @@ Home Page
 
 .navbar
 {
-	z-index:5;
+	z-index:4;
 }
 
 #home-banner
@@ -274,6 +274,7 @@ Forms
 	background-color:white;
 	margin:auto;
 }
+
 #button-wrapper .btn
 {
 	border-radius: 25px;
@@ -327,18 +328,36 @@ Forms
 }
 
 
+/*  Upload Form */
+
+.upload-form-header
+{
+	height:130px;
+	color:#fff;
+	padding:0px 55px;
+	display:flex;
+	align-items:center;
+	border-top-right-radius:10px;
+	border-top-left-radius:10px;
+	background: linear-gradient(79deg, rgba(58,132,221,1) 24%, rgba(105,191,226,1) 90%); 
+}
+
+
 .upload-wrapper
 {
-	padding: 50px 55px 30px;
+	padding: 0px 55px 30px;
 	border-radius:10px;
-	min-height:600px;
-	background-color:white;
-	box-shadow: 4px 7px 21px -9px rgba(0,0,0,0.75);
 }
+
 
 #test-exif-form
 {
-	margin-top:100px;
+	padding:0;
+	border-radius:10px;
+	margin-top:70px;
+	background-color:white;
+	box-shadow: 4px 7px 21px -9px rgba(0,0,0,0.75);
+	min-height:600px;
 }
 
 .exif-form-wrapper
@@ -391,9 +410,37 @@ Admin Panel
 ==========================
 */
 
+#admin-sidebar
+{
+	background-color:#fff;
+	border-top-left-radius:0px;
+	border-top-right-radius:0px;
+	border-bottom-left-radius: 25px;
+}
+
+#admin-title
+{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	color:#fff;
+	background: linear-gradient(79deg, rgba(58,132,221,1) 24%, rgba(105,191,226,1) 90%);  
+	border-top-left-radius:25px;
+	border-top-right-radius:25px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+#admin-nav
+{
+	padding:5px;
+}
+
 #admin-panel
 {
 	margin-top:50px;
+	border-radius:30px;
+	
 }
 
 .admin-pill
@@ -403,18 +450,103 @@ Admin Panel
 	color:white;
 }
 
+.dashboard-card
+{
+	height: 300px;
+	border-radius:10px;
+	background-color:white;
+	margin:20px;
+	padding:15px;
+	display:flex;
+	flex-direction:column;
+  	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.card-stats
+{
+	height: 120px;
+	color:white;
+	font-size:2.5rem;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card-stats p
+{
+	font-size:1.5rem;
+}
+
+.card-stats:hover
+{
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+/* Dashboard */
+
+.dashboard-title
+{
+	display:flex;
+	flex-direction:row;
+	font-size:2.5rem;
+	color:#8a8a8a;
+}
+
+.admin-hr
+{
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+}
+
+#stats-photos
+{
+	background: linear-gradient(162deg, rgba(4,186,244,1) 33%, rgba(30,128,244,1) 100%); 
+}
+#stats-comments
+{
+	background: linear-gradient(162deg, rgba(90,203,238,1) 33%, rgba(80,154,244,1) 100%); 
+}
+
+#stats-likes
+{
+	background: linear-gradient(162deg, rgba(66,149,250,1) 28%, rgba(89,86,250,1) 92%); 
+}
+
+.dashboard-card-title
+{
+	padding-bottom:10px;
+}
+
+.dashboard-card-body
+{
+	flex:1;
+}
+
+.button-wrapper
+{
+
+	display:flex;
+	justify-content:center;
+	width:100%;
+}
+
+
+
 #clear-btn
 {
 	position:absolute;
 	top:0;
 	right:0;
-	padding: 5px 20px;
-	border-radius:50%;
+	padding: 10px 10px;
+	border-radius:10px;
 	background-color:white;
 	color: #aaa;
 	cursor:pointer;
-	font-size:2.5rem;
-	line-height:1.5;
+	font-size:1.5rem;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
 
@@ -431,7 +563,6 @@ Admin Panel
 
 .admin-tab
 {
-	padding:0;
 	min-height:500px;
 	background-color: #dfdfdf;
 }
@@ -500,6 +631,17 @@ Admin Panel
 	background-color:white;
 }
 
+.empty-div
+{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:center;
+	width:100%;
+	height:500px;
+	font-size:2.2rem;
+}
+
 /* Member tab */
 
 #members-tab
@@ -542,11 +684,21 @@ Admin Panel
 	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(21,111,170,.3);
 }
 
+.avatar-wrapper
+{
+	height:60px;
+	width:60px;
+	border:1px solid black;
+}
+
+.avatar-mini
+{
+	object-fit:cover;
+}
+
 #logs-tab
 {
 	padding:20px;
-	display:flex;
-	flex-direction:column;
 }
 
 .logs-card
@@ -558,6 +710,19 @@ Admin Panel
 	align-items:center;
 	background-color: #fff;
 	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(97,108,121,.13);
+}
+/* Edit Tab */
+
+#edit-preview
+{
+	
+}
+
+
+#image-preview
+{
+	width:100%;
+	height:auto;
 }
 
 
@@ -712,25 +877,18 @@ Profile Page
 /* Overlay */
 
 
-#profile-content-wrapper
-{
-	display:flex;
-	flex-direction:column;
-	position:relative;
-	margin-top:60px;
-	width:60%;
-	padding:5px 5px 0 5px;
-	height:850px;
-	background-color: #ececec;
-	z-index: 3;
-	border-radius: 15px;
-}
 #profile-content-header
 {
 	position:relative;
+	height:80px;
 	display:flex;
 	flex-direction:row;
 	justify-content:center;
+	align-items:center;
+	color:#fff;
+	border-top-right-radius:15px;
+	border-top-left-radius:15px;
+	background: linear-gradient(79deg, rgba(58,132,221,1) 24%, rgba(105,191,226,1) 90%); 
 }
 
 #profile-content-header h2
@@ -738,7 +896,6 @@ Profile Page
 	line-height:50px;
 	font-family:westhouse;
 	font-size:3.6em;
-	color: black;
 	/* text-align:center; 
 	-webkit-text-stroke: 1px black;
    	text-shadow:
@@ -750,7 +907,19 @@ Profile Page
     */
 }
 
-
+#profile-content-wrapper
+{
+	display:flex;
+	flex-direction:column;
+	position:relative;
+	margin-top:60px;
+	width:60%;
+	height:850px;
+	padding:0;
+	background-color: #ececec;
+	z-index: 3;
+	border-radius: 15px;
+}
 
 .myimgs-icon i
 {
@@ -953,7 +1122,7 @@ Profile Page
 
 /* 
 ==========================
-Image Viewer
+ Profile Image Viewer
 ==========================
 */
 
@@ -967,7 +1136,7 @@ Image Viewer
   right: 0;
   bottom: 0;
   background-color: rgba(0,0,0,0.5);
-  z-index: 2;
+  z-index: 5;
   overflow:hidden;
 }
 
@@ -1013,9 +1182,9 @@ Image Viewer
 #content-wrapper
 {
 	position:relative;
-	margin-top:4%;
 	max-height:800px;
 	background-color: #d2d2d2;
+	margin-top:5rem;
 	z-index: 3;
 }
 
@@ -1030,7 +1199,8 @@ Image Viewer
 #myphoto-wrapper
 {
 	position:absolute;
-	display: flex;
+	display: none;
+	padding:0;
 	align-items: center;
 	justify-content: center;
 	z-index:4;
@@ -1038,6 +1208,8 @@ Image Viewer
 
 #myphoto
 {
+	width:100%;
+	height:auto;
 	margin:auto;
 	position:relative;
 }
@@ -1082,6 +1254,8 @@ Image Viewer
 	transition: color .8s;
 	color:#ececec;
 }
+
+
 
 #cross-admin
 {

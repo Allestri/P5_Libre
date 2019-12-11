@@ -152,7 +152,7 @@ class ImagesController extends ContentController
             $filename = $this->moveTestFile($directory, $uploadedFile);
         }
         $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename, 0, true);
-        
+        var_dump($exif);    
         // Checks Geo data
         if(isset($exif['GPS']['GPSLatitudeRef'], $exif['GPS']['GPSLongitudeRef'])){
             $hasGeoExif = true;

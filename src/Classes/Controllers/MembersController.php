@@ -243,7 +243,6 @@ class MembersController extends Controller
 
         $totalMembers = $memberModel->countAllMembers();
         $totalMembers = (int)$totalMembers['totalmembers'];
-        var_dump($totalMembers);
         
         $limit = 4;
         $args = $this->pagination($request, $totalMembers, $limit);

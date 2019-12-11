@@ -11,13 +11,15 @@
     		</div>
     		{% else %}
     		<div class="row">
-        		<div id="test-exif-form" class="col-lg-10 upload-wrapper mx-auto">
-        			<div id="flash-wrapper">
+        		<div id="test-exif-form" class="col-lg-10 mx-auto">
+        			<div class="upload-form-header">
+        				<h1>Test Exif</h1>
         			</div>
-            		<div class="tab-content">
+            		<div class="upload-wrapper tab-content">
+            			<div id="flash-wrapper">
+        				</div>
             			<!-- Tab Upload image & test exifs -->
             			<div class="tab-pane fade show active" role="tabpanel" id="tab-upload-form">
-                			<h1>Test Exif</h1>
                 			<form id="test-form" method="POST" action="testexif" enctype="multipart/form-data">
                 				<div class="form-group">
                             		<label for="myfile">Fichier</label><br />

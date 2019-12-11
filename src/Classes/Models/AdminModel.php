@@ -23,10 +23,12 @@ class AdminModel extends Model
     }
     
     public function getSelectedReport($postId) {
-        $sql = "SELECT posts.id, posts.name, members.name as author, posts.content
+        $sql = "SELECT posts.id, posts.name,  members.name as author, posts.content, images.filename
                 FROM posts
                 INNER JOIN members
                     ON posts.user_id = members.id
+                INNER JOIN images
+                    ON posts.image_id = images.id
                 WHERE posts.id = ?";
         $reportedImg = $this->executeQuery($sql, array($postId));
         return $reportedImg->fetch();
@@ -61,6 +63,23 @@ class AdminModel extends Model
                 WHERE posts.id = ?";
         $this->executeQuery($sql, array($postId));
     }
+    
+    // Stats
+    
+    public function getLikesNbr()
+    {
+        $sql = "SELECT COUNT(id) as likesNbr FROM likes";
+        $likesNbr = $this->executeQuery($sql);
+        return $likesNbr->fetch();
+    }
+    
+    public function getCommentsNbr()
+    {
+        $sql = "SELECT COUNT(id) as commentsNbr FROM comments";
+        $commentsNbr = $this->executeQuery($sql);
+        return $commentsNbr->fetch();
+    }
+    
     
     // Logs
     

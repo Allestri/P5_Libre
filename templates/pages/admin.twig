@@ -5,14 +5,19 @@
 
 
 <div class="row" id="admin-panel">
-    <div class="col-lg-2">
+	<div id="admin-title" class="col-lg-12">
+    	<h1>Administration</h1>
+    </div>
+    <div id="admin-sidebar" class="col-lg-2">
     	<div id="profile-wrapper">
-    		<img src="images/avatar_default.png" class="rounded-circle" height="70px" width="70px" />
+    		<img src="uploads/avatar/SOku/avatar_soku_01-55-31.jpg" class="rounded-circle" height="100" width="auto" />
     	</div>
-    	<nav class="navbar bg-light">
+    	<nav id="admin-nav" class="navbar bg-light">
     		<ul class="nav nav-pills">
     			<li class="nav-item">
-    				<a class="nav-link active" href="#reports-wrapper" data-toggle="pill">Signalements</a>
+    				<a class="nav-link active" href="#dashboard-admin-tab" data-toggle="pill">Tableau de bord</a>
+    			<li class="nav-item">
+    				<a class="nav-link" href="#reports-wrapper" data-toggle="pill">Signalements</a>
     			</li>
     			<li class="nav-item">
     				<a class="nav-link" href="#edit-tab" role="tab" data-toggle="pill">Moderation</a>
@@ -21,18 +26,78 @@
     				<a class="nav-link" href="#members-tab" data-toggle="pill">Membres</a>
     			</li>
     			<li class="nav-item">
-    				<a class="nav-link" href="#quarantine-tab" data-toggle="pill">Quarantaine</a>
-    			</li>
-    			<li class="nav-item">
     				<a class="nav-link" href="#logs-tab" data-toggle="pill">Logs</a>
     			</li>
     		</ul>
     	</nav>
     </div>
-    <div class="col-lg-10 tab-content">
-        <div id="reports-wrapper" class="admin-tab tab-pane fade show active" role="tabpanel">
+    <div class="col-lg-10 tab-content admin-tab">
+    	<div id="dashboard-admin-tab" class="tab-pane fade show active" role="tabpanel">
+    		<div class="row">
+    			<div class="col-lg-12">
+    				<div class="dashboard-title">
+        				<i class="fas fa-chart-area"></i>
+        				<h2>Statistiques</h2>
+    				</div>
+    				<div class="admin-hr"></div>
+    			</div>
+    		</div>
+    		<div class="row d-flex justify-content-between">
+    			<div class="border-top my-3"></div>
+    			<div id="stats-photos" class="col-lg-3 dashboard-card card-stats">
+    				<span class="photos-count">
+    					<i class="fas fa-images"></i>
+    					{{ totalPhoto }}
+    				</span>
+    				<p>photos</p>
+    			</div>
+    			<div id="stats-comments" class="col-lg-3 dashboard-card card-stats">
+    				<span class="comments-count">
+    					<i class="fas fa-comments"></i>
+    					{{ commentsNbr }}
+    				</span>
+    				<p>commentaires</p>
+    			</div>
+    			<div id="stats-likes" class="col-lg-3 dashboard-card card-stats">
+    				<span class="likes-count">
+    					<i class="fas fa-heart"></i>
+    					{{ likesNbr }}
+    				</span>
+    				<p>mention j'aime</p>
+    			</div>
+    		</div>
+    		<div class="row">
+    			<div class="col-lg-12">
+    				<div class="dashboard-title">
+        				<i class="fas fa-tools"></i>
+        				<h2>Outils</h2>
+    				</div>
+    				<div class="admin-hr"></div>
+    			</div>
+    		</div>
+    		<div class="row">
+    			<div class="col-lg-8 dashboard-card">
+    				<p>Signalements</p>
+    			</div>
+    			<div class="col-lg-3 dashboard-card">
+    				<div class="dashboard-card-title">
+    					<h4>Zone de Quarantaine</h4>
+    				</div>
+        			<div class="dashboard-card-body">
+            			<p>Il y a 15 images placées en quarantaine</p>
+        			</div>
+        			<div class="button-wrapper">
+        				<a href="admin/clearquar" class="btn btn-primary">Vider ?</a>
+        			</div>
+    			</div>
+    		</div>
+    	</div>
+        <div id="reports-wrapper" class="tab-pane fade show" role="tabpanel">
         	{% if not reportsNbr %}
-        		<p>Il n'y a pas de signalements !</p>
+        		<div class="empty-div">
+        			<img src="images/question_mark.png" alt="empty-content">
+        			<p>Il n'y a pas de signalements !</p>
+        		</div>
         	{% endif %}
     	    {% if reportsNbr == 1 %}
             	<div class="alert alert-warning">
@@ -48,7 +113,7 @@
             {% if reportsNbr > 0 %}
             	<div id="img-report-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
             	<span id="clear-btn">
-            		<a href="admin/clear"><i class="fas fa-times"></i></a>
+            		<a href="admin/clear">Vider<i class="fas fa-times"></i></a>
             	</span>
             	{% for posts in reportedPosts %}
             		<div class="card img-single-report">
@@ -82,26 +147,37 @@
             	</div>
             {% endif %}
     	</div>
-    	<div class="admin-tab tab-pane fade" id="edit-tab" role="tabpanel">
-			<h3>Editer un post</h3>
-    		<form id="editPost" method="POST" action="admin/edit" >
-    			<div class="form-group">
-    				<label for="name">Titre</label>
-    				<input id="name" type="text" class="form-control" name="name">
+    	<div class="tab-pane fade" id="edit-tab" role="tabpanel">
+    		<div class="row">
+    			<div class="col-lg-12">
+    				<h3>Editer un post</h3>
     			</div>
-    			<div class="form-group">
-    				<label for="author">Auteur</label>
-    				<input id="author" class="form-control" type="text" name="author" readonly>
-    			</div>
-    			<div class="form-group">
-    				<label for="content">Description</label>
-    				<textarea class="form-control" id="description" name="description" rows="2"></textarea>
-    			</div>
-    			<input type="hidden" id="edit-imgId" name="postId" />
-    			<button type="submit" href="#edit-tab" class="btn btn-primary">Editer</button>
-    		</form>
+    		</div>
+    		<div class="row">
+    			<div class="col-lg-6">
+        			<div id="admin-edit-wrapper">
+                		<form id="editPost" method="POST" action="admin/edit" >
+                			<div class="form-group">
+                				<label for="name">Titre</label>
+                				<input id="name" type="text" class="form-control" name="name">
+                			</div>
+                			<div class="form-group">
+                				<label for="author">Auteur</label>
+                				<input id="author" class="form-control" type="text" name="author" readonly>
+                			</div>
+                			<div class="form-group">
+                				<label for="content">Description</label>
+                				<textarea class="form-control" id="description" name="description" rows="2"></textarea>
+                			</div>
+                			<input type="hidden" id="edit-imgId" name="postId" />
+                			<button type="submit" href="#edit-tab" class="btn btn-primary">Editer le Post</button>
+                		</form>
+            		</div>
+            	</div>
+        		<div class="col-lg-6" id="edit-preview"></div>
+    		</div>
     	</div>
-    	<div id="members-tab" class="admin-tab tab-pane fade" role="tabpanel">
+    	<div id="members-tab" class="tab-pane fade" role="tabpanel">
     		<div id="members-tab-header">
     			<h3><i class="fas fa-users"></i><span id="member-count"></span> Membres</h3>
     			<span id="members-sort" class="admin-pill">
@@ -112,23 +188,33 @@
     		<div id="members-card-wrapper">
         		{% for members in membersList %}
         		<div class="member-card">
-        			<img src="uploads/avatar/{{ members.avatar_file }}" class="rounded-circle" alt="{{ friendship.name }} avatar" height="100">
+        			{% if members.avatar_file == NULL %}
+        			<div class="avatar-wrapper">
+                		<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ members.name }} avatar" height="60" width="auto">
+                	</div>
+                	{% else %}
+                	<div class="avatar-wrapper">
+                		<img src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" alt="{{ members.name }} avatar" height="60" width="auto">
+                	</div>
+                	{% endif %}
         			<h4>{{ members.name }}</h4>
         			<p>Inscrit le : {{ members.date_fr }}</p>
         		</div>
     		    {% endfor %}
+    		    <div class="pagination-wrapper">
+			    <nav aria-label="Page navigation example">
+              		<ul class="pagination">
+                		<li class="page-item {% if currentPage == 1 %}disabled{% endif %}"><a class="page-link" href="admin?page={{ previousPage }}">Précédent</a></li>
+                            {% for i in range(1, totalPages) %}
+                			<li class="page-item {% if currentPage == i %}active{% endif %}"><a class="page-link" href="admin?page={{ i }}">{{ i }}</a></li>
+                            {% endfor %}
+                		<li class="page-item {% if currentPage == totalPages %}disabled{% endif %}"><a class="page-link" href="admin?page={{ nextPage }}">Suivant</a></li>
+              		</ul>
+        		</nav>
+    			</div>
     		</div>
     	</div>
-    	<div id="quarantine-tab" class="admin-tab tab-pane fade" role="tabpanel">
-    		<h3><i class="fas fa-radiation-alt"></i>Zone de Quarantaine</h3>
-    		{% if not fileQuarantine %}
-    		<p>Il n'y a aucunes images placées en quarantaine</p>
-    		{% else %}
-			<p>Il y a {{ fileQuarantine }} images placées en quarantaine</p>
-			<a href="admin/clearquar" class="btn btn-primary">Vider ?</a>
-			{% endif %}
-    	</div>
-    	<div id="logs-tab" class="admin-tab tab-pane fade" role="tabpanel">
+    	<div id="logs-tab" class="tab-pane fade" role="tabpanel">
 			<h3><i class="fas fa-clipboard-list"></i>Logs modération</h3>
 		    {% for logs in logs %}
 			<div class="logs-card">
@@ -147,12 +233,6 @@
         		<i class="fas fa-times"></i>
         	</span>
 		</div>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-lg-10">
-	    {{ dump(reportedPosts) }}
 	</div>
 </div>
 

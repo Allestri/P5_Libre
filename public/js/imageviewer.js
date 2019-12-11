@@ -5,24 +5,17 @@ var self = this;
 
 
 // Hiding overlay
-$('#image-midsize').ready(function(){
-	console.log('Image ready');
-	
-	$('#image-midsize').click(function(){
-		
-		$('#overlay').hide();
-				
-	});
-});
+
 
 
 /* Exit image viewer */
-
+/*
 $('.icon-exit').click(function() {
 	
 	$('#overlay').hide();
 	
 });
+*/
 
 
 $('.icon-exit-full').click(function() {
@@ -140,7 +133,7 @@ function displayMyPhotos(data) {
 	
 	for( var i = 0; i < data.length; i++){
 		// use template
-		photos += "<div class='profile-photos-card card'><div class='profile-photo-wrapper'><img class='profile-photo card-img-top' src='uploads/thumbnails/" + data[i].filename + "' /><div class='card-overlay'>Cliquez pour aggrandir</div></div><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><div class='card-social'><i class='fas fa-heart'></i>" + data[i].liked + "</div></div></div>";
+		photos += "<div class='profile-photos-card card'><div class='profile-photo-wrapper'><img class='profile-photo card-img-top' src='uploads/photos/" + data[i].filename + "' /><div class='card-overlay'>Cliquez pour aggrandir</div></div><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><div class='card-social'><i class='fas fa-heart'></i>" + data[i].liked + "</div></div></div>";
     }
     $('#profile-images-wrapper').html(photos); // use template
     
@@ -166,7 +159,7 @@ function displayFullScreen(filepath) {
 	let profile = new profileComponents();
 	profile.initialization();
 	
-	let filename = filepath.split("uploads/thumbnails/");
+	let filename = filepath.split("uploads/photos/");
 	
 	var dir = "uploads/photos";
 	var file = dir + "/" + filename[1];

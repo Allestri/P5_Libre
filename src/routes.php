@@ -47,11 +47,10 @@ return function (App $app) {
     $app->post('/login', \App\Controllers\MembersController:: class . ':login')->setName('login');
     
     // Espace membre
-    $app->get('/profile', \App\Controllers\MembersController:: class . ':displayProfile')->setName('profile');
+    $app->get('/newprofile', \App\Controllers\MembersController:: class . ':displayNewProfile')->setName('profile');
     $app->get('/profile/myimgs', \App\Controllers\ImagesController:: class . ':getMyPhotos');
     $app->post('/profile/deleteimg', \App\Controllers\ContentController:: class . ':deletePost');
     
-    $app->get('/newprofile', \App\Controllers\MembersController:: class . ':displayNewProfile')->setName('newprofile');
     $app->post('/newprofile/editpost', \App\Controllers\ContentController:: class . ':editPost');
     $app->post('/newprofile/getpost', \App\Controllers\ContentController:: class . ':getSelectedPost');
     
@@ -73,9 +72,7 @@ return function (App $app) {
     
     $app->get('/admin/debug', \App\Controllers\ContentController:: class . ':debug');
     $app->post('/admin/debug', \App\Controllers\ContentController:: class . ':debug');
-    
-    $app->get('/flash', \App\Controllers\ContentController:: class . ':testFlash');
-    
+        
     // Deconnexion
     $app->get('/deconnexion', \App\Controllers\MembersController:: class . ':logout')->setName('deconnexion');
     

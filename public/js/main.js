@@ -115,6 +115,7 @@ $('#test-form').submit(function(e){
 });
 
 
+
 // Awaiting a better solution to handle multiple conditions for now.
 function displayFlash(data) {
 
@@ -217,11 +218,15 @@ function setValuesEdit(data){
 	var title = data.name;
 	var author = data.author;
 	var description = data.content;
+	var filename = data.filename;
+	
+	var image = "uploads/photos/" + filename;
 	
 	$('#edit-imgId').val(imgId);
 	$('#name').val(title);
 	$('#author').val(author);
 	$('#description').val(description);
+	$('#edit-preview').append($('<img id="image-preview" />').attr('src', image));
 };
 
 

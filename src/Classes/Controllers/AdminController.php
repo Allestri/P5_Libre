@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Exception;
+
 class AdminController extends Controller
 {
     
@@ -12,44 +14,72 @@ class AdminController extends Controller
         $this->container = $container;
     }
     
-    public function adminPanel($request, $response){
+    public function adminPanel($request, $response)
+    {
         
-        if(isset($_SESSION['admin'])){
-            
-            $adminModel = $this->container->get('adminModel');
-            $membersModel = $this->container->get('membersModel');
-            
-            $args = $adminModel->countReports();
-            
-            // If there are any reports, fetch those ones.
-            if($args > 1){
-                
-                $args['reportedPosts'] = $adminModel->getReports();
-                
-            }
-            
-            
-            // Count quarantine files
-            $directory = $this->container->get('uploaded_directory');
-            $quarantineDir = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR;
-            $files = glob($quarantineDir . '*');
-            var_dump($quarantineDir);
-            if($files != false)
+        if(!isset($_SESSION['admin'])) 
             {
-                $args['fileQuarantine'] = count($files);
+                throw new Exception('L\'accès de cette partie du site est restreint.');
             }
             
-            // Fetch memberlist
-            $args['membersList'] = $membersModel->getFullMembersList();
-            // Logs
-            $args['logs'] = $adminModel->getLogs();
-            var_dump($args);
-            return $this->render($response, 'pages/admin.twig', $args);
+            try 
+            {
+                $adminModel = $this->container->get('adminModel');
+                $membersModel = $this->container->get('membersModel');
+                $directory = $this->container->get('uploaded_directory');
+                
+                // Stats
+                $likesNbr = $adminModel->getLikesNbr();
+                $commentsNbr = $adminModel->getCommentsNbr();
+                $args = array_merge($likesNbr, $commentsNbr);
+    
+                // Photos total number
+                $photosDir  = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR;
+                $photosNbr = glob($photosDir . '*');
+    
+                $args['totalPhoto'] = count($photosNbr);
+                
+                
+                
+                // Reports
+                $reportsNbr = $adminModel->countReports();
+                $args = array_merge($args, $reportsNbr);
+                // If there are any reports, fetch those ones.
+                if($args['reportsNbr'] > 1){
+                    
+                    $args['reportedPosts'] = $adminModel->getReports();
+                    
+                }
+                          
+                // Quarantine files
+                $quarantineDir = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR;
+                $quarFiles = glob($quarantineDir . '*');
+                if($quarFiles != false)
+                {
+                    $args['fileQuarantine'] = count($quarFiles);
+                }
+                
+                // Memberlist
+                $totalMembers = $membersModel->countAllMembers();
+                $totalMembers = (int)$totalMembers['totalmembers'];
+    
+                $limit = 4;
+                $args['pagination'] = $this->pagination($request, $totalMembers, $limit);
+                $args['membersList'] = $membersModel->getAllMembersLimit($limit, $args['pagination']['offset']);
+                
+                
+                // Logs
+                $args['logs'] = $adminModel->getLogs();
+                var_dump($args);
+    
+                return $this->render($response, 'pages/admin.twig', $args);
+            }
             
-        } else {
-            echo 'Accès restreint';
-        }
-        
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+            }
+
     }
     
     public function clearReports($request, $response)

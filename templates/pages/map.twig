@@ -36,6 +36,7 @@
         		<div class="row">
         			<div id="image-wrapper" class="col-lg-9">
         				<img id="image-midsize" />
+        				{% if member %}
         				<div id="button-panel" class="d-flex align-items-center justify-content-around">
             				<form id="likeImg" method="POST" action="map/like">
             					<input type="hidden" class="postId" name="postId" value="23"/>
@@ -52,6 +53,7 @@
             					</button>
             				</form>
         				</div>
+        				{% endif %}
         			</div>
         			<div id="imgPanel" class="col-lg-3">
         				<div class="card mb-3 photo-infocard">
@@ -87,11 +89,6 @@
         				</div>
         				{% endif %}
         				<div id="comments-wrapper">
-            				<div class="card comment">
-            					<img src="uploads/avatar/avatar_default.png" class="rounded-circle" alt="avatar" height="35">
-            					<h5 class="card-header">John Doe</h5>
-                				<p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            				</div>
             			</div>
         			</div>
     			</div>

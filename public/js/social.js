@@ -13,12 +13,35 @@ function Social () {
 	
 	this.initialization = function() {
 		
-
+		this.closeOverlay();
 		this.toggleLikeButton();
 		this.toggleReportButton();
 		this.commentPost();
 		this.deleteComment();
 	}
+	
+	
+	this.closeOverlay = function() {
+		
+		$('#image-midsize').ready(function(){
+			console.log('Image ready');
+			
+			$('#image-midsize').click(function(){
+				
+				$('#overlay').hide();
+				console.log(this);
+				self.removeListeners();
+			});
+		});
+	};
+	
+	this.removeListeners = function() {
+		
+		$("#comment-form").off('submit');
+		$('#image-midsize').unbind('click');
+		$('.like').unbind('click');
+		$('.report').unbind('click');
+	};
 	
 	
 	this.deleteComment = function() {
@@ -227,6 +250,7 @@ function Social () {
 				}
 			});
 	};
+	
 	
 
 	
