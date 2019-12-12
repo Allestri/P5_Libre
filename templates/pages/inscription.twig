@@ -2,33 +2,37 @@
 
 {% block content %}
 
-<div id="wallpaper-test" class="col-lg-12">
-	<div id="inscription-wrapper" class="col-lg-5 mx-auto">
-        <form method="post" action="signup">
-            <div class="form-title">Inscription</div>
-            <div class="form-group wrap-input">
-            	<input type="text" class="form-control input-inscription" name="uid" placeholder="Pseudonyme" id="uid" required />
-            	<span class="icon-input">
-            		<i class="fa fa-user" aria-hidden="true"></i>
-            	</span>
-            </div>
-            <div class="form-group wrap-input">
-            	<input type="password" class="form-control input-inscription" name="pwd" placeholder="Mot de passe" required />
-            	<span class="icon-input">
-            		<i class="fa fa-lock" aria-hidden="true"></i>
-            	</span>
-            </div>
-            <div class="form-group wrap-input">
-            	<input type="password" class="form-control input-inscription" name="pwdRpt" placeholder="Répeter mot de passe" required />
-            	<span class="icon-input">
-            		<i class="fa fa-lock" aria-hidden="true"></i>
-            	</span>
-            </div>
-            <div id="button-wrapper">
-            	<input type="submit" class="btn btn-primary" name="submit" value="S'inscrire" />
-            </div>
-        </form>
-    </div>
+<div class="row">
+	<div id="inscription-container" class="col-lg-5 mx-auto mt-5">
+    	<div id="inscription-header">
+    		<h1>Inscription</h1>
+    	</div>
+    	<div id="inscription-form-wrapper">
+            <form method="post" action="signup">
+                <div class="form-group wrap-input">
+                	<input type="text" class="form-control input-inscription" name="uid" placeholder="Pseudonyme" id="uid" required />
+                	<span class="icon-input">
+                		<i class="fa fa-user" aria-hidden="true"></i>
+                	</span>
+                </div>
+                <div class="form-group wrap-input">
+                	<input type="password" class="form-control input-inscription" name="pwd" placeholder="Mot de passe" required />
+                	<span class="icon-input">
+                		<i class="fa fa-lock" aria-hidden="true"></i>
+                	</span>
+                </div>
+                <div class="form-group wrap-input">
+                	<input type="password" class="form-control input-inscription" name="pwdRpt" placeholder="Répeter mot de passe" required />
+                	<span class="icon-input">
+                		<i class="fa fa-lock" aria-hidden="true"></i>
+                	</span>
+                </div>
+                <div id="button-wrapper">
+                	<input type="submit" class="btn btn-primary" name="submit" value="S'inscrire" />
+                </div>
+            </form>
+        </div>
+	</div>
 </div>
 
 {% endblock %}

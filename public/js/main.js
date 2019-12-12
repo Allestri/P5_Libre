@@ -24,9 +24,6 @@ $('.carousel').carousel({
 	  interval: 7000
 	})
 	
-// Flash messages
-	
-$( '.alert-dismissible' ).delay( 1500 ).fadeOut( 400 );
 
 //Admin Panel //
 $('.delete').click(function(e) {
@@ -82,10 +79,6 @@ $('.edit').click(function() {
 });
 
 
-
-
-
-
 // Test Exif Upload
 
 $('#test-form').submit(function(e){ 
@@ -109,14 +102,14 @@ $('#test-form').submit(function(e){
 			console.log(data);
 		},
 		error: function(result, status, error){
-			console.log('Error on data recovery');
+			console.log('Error on data recovery' + error);
 		}	
 	});
 });
 
 
 
-// Awaiting a better solution to handle multiple conditions for now.
+// Display test exif components before upload
 function displayFlash(data) {
 
 	var flash = '';
@@ -133,39 +126,7 @@ function displayFlash(data) {
 		display(data.thumbnail, "#test-thumbnail");
 		display(data.info, "#test-photo");
 		display(data.geodata, "#test-geo");
-		// 6 different possibilites
-		/*
-		if(data.thumbnail === true){
-			if(data.info === true){
-				$('#test-geo').addClass('invalid');
-				$('#test-photo').addClass('valid');
-				$('#test-thumbnail').addClass('valid');
-			} else if (data.geodata === true) {
-				$('#test-geo').addClass('valid');
-				$('#test-photo').addClass('invalid');
-				$('#test-thumbnail').addClass('valid');
-			} else {
-				$('#test-geo').addClass('invalid');
-				$('#test-photo').addClass('invalid');                      
-				$('#test-thumbnail').addClass('valid');
-			}
-		} else if (data.geodata === true){
-			if(data.info === true){
-				$('#test-geo').addClass('valid');
-				$('#test-photo').addClass('valid');
-				$('#test-thumbnail').addClass('invalid');
-				// Doesn't check for thumbnail here as it has been already checked.
-			} else {
-				$('#test-geo').addClass('valid');
-				$('#test-photo').addClass('invalid');
-				$('#test-thumbnail').addClass('invalid');
-			}
-		} else {
-			$('#test-geo').addClass('invalid');
-			$('#test-photo').addClass('valid');
-			$('#test-thumbnail').addClass('invalid');
-		}
-		*/
+
 	} else {
 		flash = "<div class='alert alert-success'>Votre image est entièrement compatible avec cette application</div>";
 		$('.test-wrapper').addClass('valid');

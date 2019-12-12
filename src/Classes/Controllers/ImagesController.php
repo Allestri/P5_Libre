@@ -12,18 +12,7 @@ class ImagesController extends ContentController
         $this->container = $container;
     }
     
-    // Form
-    public function getForm($request, $response)
-    {
-        if(isset($_SESSION['username'])){
-            $username = $_SESSION['username'];
-            $member['profile'] = $username;
-            return $this->render($response, 'pages/upload.twig', $member);
-        } else {
-            return $this->render($response, 'pages/upload.twig');
-        }
-    }
-        
+    // Upload Form       
     public function getTestForm($request, $response)
     {
         if(isset($_SESSION['username'])){
@@ -104,16 +93,24 @@ class ImagesController extends ContentController
         $imageModel = $this->container->get('imagesModel');
         $contentModel = $this->container->get('contentModel');
         
-        $datas = $request->getQueryParams();
-        $markerId = $datas['id'];
-        $userId = $_SESSION['uid'];
+        //$datas = $request->getQueryParams();
+        //$markerId = $datas['id'];
+        $markerId = 51;
         
         $datas = $imageModel->fetchImgsInfosNew($markerId);
         $likes = $contentModel->getLikes($markerId);
         $datas = array_merge($datas, $likes);
         $datas['comments'] = $contentModel->getCommentsNew($markerId);
-        $mylikes = $contentModel->getMyLikes($markerId, $userId);
-        $datas = array_merge($datas, $mylikes);
+        
+        // If a member is connected, gets his likes.
+        if(isset($_SESSION['uid'])){
+            
+            $userId = $_SESSION['uid'];
+            $mylikes = $contentModel->getMyLikes($markerId, $userId);
+            $datas = array_merge($datas, $mylikes);
+        }
+        
+        array_walk_recursive($datas, array($this, 'sanitizeDatas'));
         
         echo json_encode($datas);
     }
@@ -152,7 +149,7 @@ class ImagesController extends ContentController
             $filename = $this->moveTestFile($directory, $uploadedFile);
         }
         $exif = @exif_read_data($directory. DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename, 0, true);
-        var_dump($exif);    
+ 
         // Checks Geo data
         if(isset($exif['GPS']['GPSLatitudeRef'], $exif['GPS']['GPSLongitudeRef'])){
             $hasGeoExif = true;
@@ -221,7 +218,6 @@ class ImagesController extends ContentController
         
         $oldPath = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename;
         $newPath = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename;
-        var_dump($filename);
         
         rename($oldPath, $newPath);
 
@@ -258,7 +254,7 @@ class ImagesController extends ContentController
         $contentModel->addPost($name, $description, $user, $imageId['id'], $markerId['id'], $privacy);
         
         $this->flash('Votre image a bien été mise en ligne');
-        return $this->container->view->render($response, 'pages/exif.twig');
+        return $this->redirect($response, 'upload');
     }
         
     // Test if Exif or not.
@@ -369,21 +365,9 @@ class ImagesController extends ContentController
     }
     
     public function getThumbnail($file, $directory, $exif){
-        
-                        
+                          
         $image = exif_thumbnail($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file, $width, $height, $type);
-        file_put_contents($directory. DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $file, $image);
-        
-        if ($image) {
-            // send image data to the browser:
-            echo "Thumbnail available</br>";
-            echo "<img width='$width' height='$height' src='data:image/gif;base64,".base64_encode($image)."'>";
-            // return base64 content
-        }
-        else {
-            // handling error:
-            print 'No thumbnail available';
-        }
+        file_put_contents($directory. DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $file, $image);       
         
     }
     

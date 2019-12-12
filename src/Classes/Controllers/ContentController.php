@@ -34,51 +34,14 @@ class ContentController extends Controller
         $args['images'] = $imageModel->mostLikedImgs();
         
         return $this->render($response, 'home.twig', $args);
-    }    
-    
-    public function getContent($request, $response, $args)
-    {
-        $this->flash('Test message flash');
-        $contentModel = $this->container->get('contentModel');
-        
-        // Pagination
-        $limit = 2;
-        
-        $contentTotal = $contentModel->countContent();
-        $contentTotal = (int)$contentTotal['rows'];
-        
-        var_dump($contentTotal);
-
-        $args = $this->pagination($request, $contentTotal, $limit);
-        //$args['datas'] = $contentModel->getContent($limit, $args['offset']);
-        $args['datas'] = $contentModel->getContent($limit, $args['offset']);
-        var_dump($args);
-        
-        // get the template renderer and pass response and datas to the template file.
-        return $this->container->view->render($response, 'content.twig', $args);
     }
     
-     
-     // Formulaire
-     public function getForm($request, $response)
-     {
-         //$flash = isset($_SESSION['flash']) ? $_SESSION['flash'] : [];
-         //$_SESSION['flash'] = [];
-         return $this->render($response, 'pages/upload.twig');
-     }
-     
-     public function getAddForm($request, $response)
-     {
-         return $this->container->view->render($response, 'pages/addForm.twig');
-     }
-     
-     public function testFlash($request, $response)
-     {
-         $this->flash('Test message flash');
-         
-         return $this->render($response, 'content.twig');
-     }
-     
+    // Clean & escape form data
+    public function sanitizeDatas(&$data)
+    {
+        $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+    }
+               
      
      // Retrieve post unique Id with it's unique filename.
      public function retrievePostId($request, $response)
@@ -120,7 +83,7 @@ class ContentController extends Controller
          
          echo json_encode($ids);
      }
-     
+              
      /* Social */
      
      public function getComments($request, $response)
@@ -130,6 +93,8 @@ class ContentController extends Controller
          
          $contentModel = $this->container->get('contentModel');
          $comments = $contentModel->getComments($postId);
+
+         array_walk_recursive($comments, array($this, 'sanitizeDatas'));
          
          echo json_encode($comments);
      }

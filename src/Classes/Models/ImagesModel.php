@@ -82,7 +82,7 @@ Class ImagesModel extends Model
         $sql = "SELECT markers.name, markers.lng, markers.lat, markers.altitude,
                 posts.name, posts.content as description, posts.liked, posts.reported, 
                 images.height, images.width, images.size, images.type, images.upload_date,
-                members.name as author, members.avatar_file as author_avatar
+                members.name as author, avatars.avatar_file as author_avatar
                 FROM markers
                     INNER JOIN posts
                         ON markers.id = posts.marker_id
@@ -90,6 +90,8 @@ Class ImagesModel extends Model
                         ON posts.user_id = members.id
                     INNER JOIN images
                         ON markers.image_id = images.id
+                    LEFT OUTER JOIN avatars
+                        ON members.id = avatars.user_id
                 WHERE markers.id = ?";
         $infosImages = $this->executeQuery($sql, array($markerId));
         return $infosImages->fetch();

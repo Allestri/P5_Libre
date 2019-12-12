@@ -12,6 +12,11 @@ body
 	background-color:#e9ecef;
 }
 
+body.noscroll
+{
+	overflow:hidden;
+}
+
 @font-face
 {
 	font-family:'titania';
@@ -155,6 +160,7 @@ Map Page
 	position:relative;
 	flex: 0 0 100%;
 	max-width: 100%;
+	padding:0;
 	-webkit-box-shadow: 4px 11px 21px -9px rgba(0,0,0,0.75);
 	-moz-box-shadow: 4px 11px 21px -9px rgba(0,0,0,0.75);
 	box-shadow: 4px 11px 21px -9px rgba(0,0,0,0.75);
@@ -170,12 +176,6 @@ Map Page
 #map
 {
 	z-index:2;
-}
-
-#legend
-{
-	border-radius:10px;
-	background-color:white;
 }
 
 #image-info-panel
@@ -204,19 +204,43 @@ Map Page
 	padding-left:15px;
 }
 
-#info-toggle
+.info-toggle
 {
 	position:absolute;
-	right:-30px;
-	top:50%;
-	padding:12px;
 	border-radius:20%;
 	color:white;
 	font-size:1.4em;
 	background-color:#686868;
 	cursor: pointer;
 	z-index:1;
-	animation: glow 1s infinite alternate;
+}
+
+/* Button while viewport > 1200px */
+#info-btn-ext
+{
+	right:-30px;
+	top:50%;
+	padding:12px;
+}
+
+/* Button for smaller devices */
+#info-btn-min
+{
+	bottom:-35px;
+	right:0;
+	padding:10px;
+	box-shadow: 0px 10px 9px -10px rgba(0,0,0,0.52);
+	display:none;
+}
+
+.info-toggle i
+{
+	padding:0 7px 0 7px;
+}
+
+.info-toggle.active
+{
+	background-color:#07a1ff;
 }
 
 /*
@@ -229,16 +253,6 @@ Map Page
   }
 }
 */
-
-#info-toggle i
-{
-	padding:0 7px 0 7px;
-}
-
-#info-toggle.active
-{
-	background-color:#07a1ff;
-}
 
 .info-title
 {
@@ -267,10 +281,28 @@ Forms
 ==========================
 */
 
-#inscription-wrapper
+#inscription-container
 {
-	padding: 80px 55px 50px;
 	border-radius:10px;
+	padding:0;
+  	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+#inscription-header
+{
+	height:130px;
+	color:#fff;
+	padding:0px 55px;
+	display:flex;
+	align-items:center;
+	border-top-right-radius:10px;
+	border-top-left-radius:10px;
+	background: linear-gradient(79deg, rgba(58,132,221,1) 24%, rgba(105,191,226,1) 90%);
+}
+
+#inscription-form-wrapper
+{
+	padding: 30px 55px 50px;
 	background-color:white;
 	margin:auto;
 }
@@ -424,6 +456,7 @@ Admin Panel
 	justify-content:center;
 	align-items:center;
 	color:#fff;
+	height:100px;
 	background: linear-gradient(79deg, rgba(58,132,221,1) 24%, rgba(105,191,226,1) 90%);  
 	border-top-left-radius:25px;
 	border-top-right-radius:25px;
@@ -448,6 +481,20 @@ Admin Panel
 	padding:5px;
 	border:2px solid blue;
 	color:white;
+}
+
+
+#admin-avatar
+{
+	width: 160px;
+	height: 160px;
+	object-fit: cover;
+	position: absolute;
+	transform: translate3d(-50%, -80%, 0);
+	left:50%;
+	background:#fff;
+	box-shadow: 0 5px 7px rgba(0,0,0,0.1);
+	border-radius:50%;
 }
 
 .dashboard-card
@@ -736,14 +783,32 @@ Members Page
 #memberlist-container
 {
 	margin-top:60px;
-	padding: 40px 55px 30px;
 	border-radius:10px;
+	padding:0;
 	min-height:640px;
 	background-color:white;
 	box-shadow: 4px 7px 21px -9px rgba(0,0,0,0.75);
 	display:flex;
 	flex-direction:column;
 }
+
+#memberlist-wrapper
+{
+	padding: 0px 55px 30px;
+}
+
+#memberlist-header
+{
+	height:100px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	color:#fff;
+	border-top-right-radius:10px;
+	border-top-left-radius:10px;
+	background: linear-gradient(79deg, rgba(58,132,221,1) 24%, rgba(105,191,226,1) 90%); 
+}
+
 
 #memberlist
 {
@@ -1147,7 +1212,8 @@ Profile Page
 
 .photo-infocard
 {
-	background-color:#07a1ff;
+	/*background-color:#07a1ff;*/
+	background-image: linear-gradient(to bottom, #7db9e8, #6aade4, #56a1e0, #4195dc, #2989d8);
 	color:white;
 }
 
@@ -1182,9 +1248,8 @@ Profile Page
 #content-wrapper
 {
 	position:relative;
-	max-height:800px;
+	margin-top: 4rem;
 	background-color: #d2d2d2;
-	margin-top:5rem;
 	z-index: 3;
 }
 
@@ -1242,11 +1307,10 @@ Profile Page
 	transition: color .5s;
 }
 
+/* Exit Map page */
 .icon-exit
 {
 	position:absolute;
-	top:-30px;
-	right:-50px;
 	font-size:40px;
 	padding:10px;
 	cursor: pointer;
@@ -1255,6 +1319,18 @@ Profile Page
 	color:#ececec;
 }
 
+#exit-large-vw
+{
+	top:-30px;
+	right:-50px;
+}
+
+#exit-small-vw
+{
+	right:10px;
+	top:0;
+	display:none;
+}
 
 
 #cross-admin
@@ -1289,6 +1365,7 @@ Profile Page
 	/* width:75%; */
 	display:flex;
 	align-items:center;
+	justify-content: center;
 	padding:0;
 	background-color:black;
 }
@@ -1313,8 +1390,9 @@ Profile Page
 
 #image-midsize
 {
-	width:100%;
+	max-width:100%;
 	cursor: pointer;
+	max-height:770px;
 }
 
 #button-panel
@@ -1335,7 +1413,10 @@ Profile Page
 {
 	margin-top:10px;
 	overflow:auto;
-	height:450px;
+	padding:10px;
+	/*height:450px;*/
+	max-height:900px;
+	flex:1;
 }
 
 .comment
@@ -1462,9 +1543,12 @@ Profile Page
 
 #imgPanel
 {
-	height:100%;
-	background-color: #d2d2d2;
-	padding-right:0px;
+	display:flex;
+	padding:0;
+	flex-direction:column;
+	background-color:#e8e7e7;
+	padding-bottom:20px;
+	max-height:770px;
 }
 
 .input-comment
@@ -1472,3 +1556,57 @@ Profile Page
 	border-radius: 15px;
 	box-shadow: 0 5px 30px 0px rgba(0, 0, 0, 0.1);
 }
+
+
+
+/* Media Queries */
+@media screen and (max-width: 1200px)
+{
+	#exit-large-vw
+	{
+		display:none;
+	}
+	
+	#exit-small-vw
+	{
+		display:block;
+	}
+	
+}
+
+@media screen and (max-width: 992px)
+{
+	#image-info-panel
+	{
+		position:static;
+		width:100%;
+	}
+	
+	#info-btn-ext
+	{
+		display:none;
+	}
+	
+	#info-btn-min
+	{
+		display:block;
+	}
+	
+	#content-wrapper
+	{
+		margin:0;
+		overflow-y:scroll;
+	}
+	
+}
+
+/* Workaround large screen ovrlay */
+@media screen screen and (min-width: 1920px)
+{
+	#image-midsize
+	{
+		max-height:900px;
+	}
+}
+
+

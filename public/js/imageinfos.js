@@ -4,6 +4,7 @@ function postInfos(data){
 	this.name = data.name;
 	this.address = data.address;
 	this.description = data.description;
+	this.date = data.upload_date;
 	this.lng = data.lng;
 	this.lat = data.lat;
 	this.alt = data.altitude;
@@ -18,10 +19,25 @@ function postInfos(data){
 	
 	this.togglePanel = function() {
 		
-		$('#info-toggle').click(function() {
+		$('#info-btn-ext').click(function() {
 			$('#map-wrapper').toggleClass('contract');
 			$('#image-info-panel').toggleClass('show');
 		});
+
+		$('#info-btn-min').click(function() {
+			$('#image-info-panel').toggleClass('show');
+		});
+	};
+	
+	// Checks if a custom avatar is set, returns default avatar file if null.
+	this.getAvatar = function(avatarFile) {
+		
+		let avatar;
+		if(avatarFile == null){
+    		avatar = 'uploads/avatar/avatar_default.png';
+    		return avatar;
+    	}
+    	return avatar = 'uploads/avatar/' + this.user + '/' + this.authorAvatar;
 	};
 	
 	this.displayInfos = function() {
@@ -30,9 +46,11 @@ function postInfos(data){
 		$("#main-title").html("<h2> " + this.name + "</h2>");
 		
 		$("#author").replaceWith("<span id='author'> " + this.user + "</span>");
-		$('#author').prepend($('<img id="author-avatar" />').attr('src', 'uploads/avatar/' + this.authorAvatar));
 		
-		$("#address").replaceWith("<span id='address'> " + this.address + "</span>");
+		var avatar = this.getAvatar(this.authorAvatar);
+		$('#author').prepend($('<img id="author-avatar" />').attr('src', avatar));
+		
+		$('#date').replaceWith("<span id='date'>" + this.date + "</span>");
 		$("#long").replaceWith("<span id='long'> " + this.lng + "</span>");
 		$("#lat").replaceWith("<span id='lat'> " + this.lat + "</span>");
 		$("#alt").replaceWith("<span id='alt'> " + this.alt + " m</span>");
@@ -46,14 +64,7 @@ function postInfos(data){
 		$('#image-name').text(this.name);
 		$('#image-description').text(this.description);
 		$('.likes-count').text(this.likes);
-		$('.comments-count').text(data.comments.length);
-		
-		// Button !
-		if(data.uliked > 0){
-			$('.like').addClass('active');
-		} else {
-			$('.like').removeClass('active');
-		}
+		$('.comments-count').text(data.comments.length);		
 		
 	};
 	
@@ -63,9 +74,12 @@ function postInfos(data){
 	    var comments = "";
 
 	    for( var i = 0; i < data.comments.length; i++){
+	    	
+	    	let avatar = this.getAvatar(data.comments[i].avatar_file);
 
-	        comments += "<div class='card comment'><div class='comment-avatar'><img src='uploads/avatar/avatar_default.png' width='50' alt='avatar'></div><div class='card-body'><h5 class='card-title'>" + data.comments[i].name + "</h5><p class='card-text'>" + data.comments[i].content + "</p></div>" +
-	        		"<div class='comment-options'><i class='fa fa-cog'></i><ul class='options-menu'><li><form class='deleteComment' method='POST' action='map/deletecomment' ><input type='hidden' name='commentId' value='" + data.comments[i].id + "'/><input type='hidden' name='uid' value='6' /><button class='delete-comment-btn'>Supprimer</button></form></li></ul></div></div>";
+	    	
+	        comments += "<div class='card comment'><div class='comment-avatar'><img src='" + avatar + "' width='50' alt='avatar'></div><div class='card-body'><h5 class='card-title'>" + data.comments[i].name + "</h5>" +
+	        		"<p class='card-text'>" + data.comments[i].content + "</p><p class='comment-date'>" + data.comments[i].com_date + "</p></div></div>";
 
 	    }
 	    $('#comments-wrapper').html(comments);

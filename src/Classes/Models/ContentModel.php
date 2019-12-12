@@ -67,7 +67,7 @@ Class ContentModel extends Model
     // Get comments refreshed
     public function getComments($postId)
     {
-        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, DATE_FORMAT(comments.com_date, '%M %d %Y' ) as date_fr
+        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, DATE_FORMAT(comments.com_date, '%M %d %Y' ) as com_date
                 FROM comments 
                 INNER JOIN members
 	               ON comments.author_id = members.id

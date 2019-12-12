@@ -115,7 +115,7 @@ function Social () {
 					console.log('Success, comments loaded');
 				},
 				error: function(result, status, error){
-					console.log('error on displaying comments');
+					console.log('error on displaying comments : ' + error);
 				}
 		});
 	};
@@ -143,6 +143,16 @@ function Social () {
 	
 	
 	// Toggle like unlike button then fire the right method.
+	
+	
+	// Button !
+	/*
+	if(data.uliked > 0){
+		$('.like').addClass('active');
+	} else {
+		$('.like').removeClass('active');
+	}
+	*/
 	
 	this.toggleLikeButton = function() {
 		
@@ -223,7 +233,7 @@ function Social () {
 			});	
 	};
 	
-// Toggle report unreport button then fire the right method.
+	// Toggle report unreport button then fire the right method.
 	
 	this.toggleReportButton = function() {
 		

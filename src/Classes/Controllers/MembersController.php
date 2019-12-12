@@ -102,69 +102,8 @@ class MembersController extends Controller
         return $imgNumber;
     }
                
-    public function displayProfile($request, $response, $member)
-    {
-        // Add message to be used in current request
-        //$this->container->flash->addMessageNow('Test', 'This is another message');
-        
-        //var_dump($this->container->flash);
-        var_dump($_SESSION);
-        $memberModel = $this->container->get('membersModel');
-        
-        $username = $_SESSION['username'];
-        $uid = $_SESSION['uid'];
-        $member['profile'] = $username;
-        $member['uid'] = $uid;
-        
-        //var_dump($_SESSION);
-        
-        if(isset($_SESSION['username'])){
-            
-                       
-            // Gets images number this user uploaded.
-            $imgNbr = $this->countImgMember($uid);
-            $args = array_merge($member, $imgNbr);
-            
-            $hasAvatars = $memberModel->getAvatars($uid);
-            //var_dump($avatars['0']);
-            var_dump($hasAvatars);
-            
-            $avatarDir = "uploads/avatar";
-            
-            // Checks has custom avatar, gets it, return default avatar otherwise.
-            // Gets inactive avatars in a separate array.
-            if($hasAvatars){
-                
-                $avatar['avatar'] = $avatarDir . DIRECTORY_SEPARATOR . $username . DIRECTORY_SEPARATOR . $hasAvatars['0']['avatar_file'];
-                $avatar['inactive_avatars'] = array_slice($hasAvatars,1);
-                var_dump($avatar);
-                
-            } else {
-                $avatar['avatar'] = $avatarDir . DIRECTORY_SEPARATOR . "avatar_default.png";
-            }
-            $args = array_merge($args, $avatar);
-            
-            // Get friends
-            $args['friends'] = $memberModel->getFriends($uid);
-            
-            $args['recentimg'] = $memberModel->getRecentPhotos($uid);
-            
-            // Friend Request notifications
-            $args['request'] = $memberModel->getFriendRequests($uid);
-            var_dump($args);
-            
-            
-            if(isset($args['request']['0'])){
-                $_SESSION['sender_id'] = $args['request']['0']['sender_id'];
-            }
-            return $this->container->view->render($response, 'pages/account.twig', $args);
-        } else {
-            return $this->redirect($response, 'home');
-        }
-        
-    }
     
-    public function displayNewProfile($request, $response, $member)
+    public function displayProfile($request, $response, $member)
     {
         // Add message to be used in current request
         //$this->container->flash->addMessageNow('Test', 'This is another message');
@@ -249,7 +188,6 @@ class MembersController extends Controller
         
         $args['memberslist'] = $memberModel->getAllMembersLimit($limit, $args['offset']);
               
-        var_dump($args);
         
         return $this->container->view->render($response, 'pages/members.twig', $args);
     }
@@ -323,7 +261,7 @@ class MembersController extends Controller
             $this->switchAvatar($uid, $avatarId);
             
             $this->flash('Votre avatar a bien été mis à jour');
-            return $this->redirect($response, 'newprofile');
+            return $this->redirect($response, 'profile');
         }
         
         if(!empty($uploadedFile) && ($uploadedFile->getError() === UPLOAD_ERR_OK)){
@@ -346,7 +284,7 @@ class MembersController extends Controller
             // for debugging purposes
             //return $this->container->view->render($response, 'pages/account.twig');
             $this->flash('Votre avatar a bien été mis à jour');
-            return $this->redirect($response, 'newprofile');
+            return $this->redirect($response, 'profile');
         }
         
         if(!empty($userEntries['email'])){
@@ -355,12 +293,12 @@ class MembersController extends Controller
             $membersModel->setEmail($email, $uid);
             
             $this->flash('Votre email a bien été mise à jour');
-            return $this->redirect($response, 'newprofile');
+            return $this->redirect($response, 'profile');
         }
         
         // If the user didn't change anything, returns a redirect + flash message.
         $this->flash('Vous n\'avez pas fait de modifications sur votre profil');
-        return $this->redirect($response, 'newprofile');
+        return $this->redirect($response, 'profile');
         
     }
     
@@ -391,7 +329,7 @@ class MembersController extends Controller
         unlink($avatarDir . DIRECTORY_SEPARATOR . $filename);
         
         $this->flash('Votre profil a bien été mis à jour');
-        return $this->redirect($response, 'newprofile');
+        return $this->redirect($response, 'profile');
     }
                 
    

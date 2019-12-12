@@ -1,7 +1,4 @@
-// ------ Google Map ------ //
-// Test function refresh & fetch ajax.
-
-// Test info Windows - not finished.
+// JS related to Google map and App overlay //
 
 function displayMap()
 {
@@ -13,7 +10,6 @@ function displayMap()
 	
 	this.initialization = function() {
 		this.initMap();
-		this.refreshMap();
 		this.markerCluster = new MarkerClusterer(gmap, markers,{
 			imagePath: 'images/assets/m'
 		});
@@ -44,7 +40,7 @@ function displayMap()
                 // Info button style toggle.
                 google.maps.event.addListener(infoWindow, 'closeclick', ()=> {
                 	
-                	$('#info-toggle').removeClass('active');
+                	$('.info-toggle').removeClass('active');
                 	//$('#image-info-panel').hide();
                 	
                 });
@@ -74,7 +70,7 @@ function displayMap()
 	                if( (data[i].groupimg_id) > 1){
 	                	iconImg = 'images/camera-pin-min.png';
 	                } else {
-	                	iconImg = 'images/drone-pin-min.png';
+	                	iconImg = 'images/marker-pastel.png';
 	                }
 	                
 	                //let point = new points(data, i);
@@ -84,7 +80,7 @@ function displayMap()
 	                    position: latlngset,
 	                    map: gmap,
 	                    icon: iconImg,
-	                    title: 'Marker : ' + data[i].name
+	                    title: 'Marker : '
 	                });
 	                
 	                
@@ -130,12 +126,12 @@ function displayMap()
 	
 	this.toggleInfoButton = function() {
 		
-		if ($('#info-toggle').hasClass("active")) {
+		if ($('.info-toggle').hasClass("active")) {
 			
-			$('#info-toggle').removeClass('active');
+			$('.info-toggle').removeClass('active');
 			
 		} else {
-			$('#info-toggle').addClass("active");
+			$('.info-toggle').addClass("active");
 		}
 		
 	};
@@ -225,16 +221,11 @@ function displayMap()
 			type:"GET",
 			url: file,
 			success: function(result){
-				//$('#overlay').append('<div class="img-wrapper"></div>');
-				//$('.img-wrapper').append($('<img />').attr({ src: file, class: 'image-midsize' } ));
-				
-				// Display / Hide ( note : refer to imageviewer.js for the hiding method - WIP )
-				//$('#img-wrapper').prepend($('<img id="image-midsize" />').attr('src', file));
-				//showComments();
 				infoWindow.close();
 				self.toggleInfoButton();
 				$('#image-midsize').attr('src', file);
-				$('#overlay').show();
+				//$('#overlay').show();
+				self.setMapOverlay();
 				// Init social functionalities.
 				let social = new Social();
 				social.initialization();
@@ -245,6 +236,25 @@ function displayMap()
 			}
 		});
 		
+	};
+	
+	this.setMapOverlay = function() {
+		
+		$('#overlay').show();
+		var bodyElt = document.body;
+		$(bodyElt).addClass('noscroll');
+		
+		this.unsetMapOverlay(bodyElt);
+	};
+	
+	this.unsetMapOverlay = function(bodyElt) {
+		
+		$('.icon-exit').click(function() {
+			
+			$(bodyElt).removeClass('noscroll');
+			$('#overlay').hide();
+			
+		});
 	};
 	
 	// Init Google Map
@@ -359,15 +369,7 @@ function displayMap()
 	    this.getPoints();
 	
 	};	
-	
-	// Refreshes the map.
-	this.refreshMap = function () {
-		$("#refresh").click(function () {
-			self.getPoints(true);
-			console.log("Map Refreshed !");
-		});
-	};	
-	
+		
 }
 
 function initApp(){

@@ -3,6 +3,14 @@
 {% block content %}
 {{ include ('flash.twig') }}
 
+{% if request %}
+    	<div class="col-lg-7 mx-auto">
+    		<p>Vous avez une demande d'ami de {{ request.0.name }}</p>
+    		<a class ="btn btn-primary" href="/addedfriend">Accepter</a>
+    		<a class ="btn btn-danger" href="/ignorefriend">Refuser</a>
+    	</div>
+{% endif %}
+
 <div class="row">
     <div id="profile-container" class="col-lg-10 mx-auto mt-5">
         <div id="np-header" class="row">
@@ -26,7 +34,7 @@
         </div>
         <div class="row">
         	<div id="np-infos" class="col-lg-3">
-        		<img id="profile-avatar" src="{{ avatar }}" alt="..." width="200" class="mb-2 img-thumbnail">
+        		<img id="profile-avatar" src="{{ avatar }}" alt="my-avatar" width="200" class="mb-2 img-thumbnail">
 
                 <div class="bg-light mt-5 p-4 d-flex justify-content-end text-center">
                     <ul class="list-inline mb-0">
@@ -41,15 +49,20 @@
                 <!-- Friends -->
                 <div class="py-4 px-4"">
                 	<div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mb-0">Amis</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                        <h5 class="mb-0">Amis</h5>
                     </div>
                     {% if not friends %}
                     	<p>Vous n'avez pas encore d'amis !</p>
                     {% endif %}
                     <div class="row">
     					{% for friendship in friends %}
-    						<span>
-    							<img src="uploads/avatar/{{ friendship.avatar_file }}" class="rounded-circle" alt="{{ friendship.name }} avatar" height="35">{{ friendship.name }}
+    					<span>
+    					{% if friendship.avatar_file == NULL %}
+                    	<img src="uploads/avatar/avatar_default.png" alt="{{ friendship.name }} avatar" height="35">
+                    	{% else %}
+                    	<img src="uploads/avatar/{{ friendship.name }}/{{ friendship.avatar_file }}" alt="{{ friendship.name }} avatar" height="35">
+                    	{% endif %}
+                                {{ friendship.name }}
     						</span>
     					{% endfor %}
                     </div>
@@ -283,40 +296,5 @@
     	</div>
     </div>
 </div>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
 
 {% endblock %}

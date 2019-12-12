@@ -47,12 +47,12 @@ return function (App $app) {
     $app->post('/login', \App\Controllers\MembersController:: class . ':login')->setName('login');
     
     // Espace membre
-    $app->get('/newprofile', \App\Controllers\MembersController:: class . ':displayNewProfile')->setName('profile');
+    $app->get('/profile', \App\Controllers\MembersController:: class . ':displayProfile')->setName('profile');
     $app->get('/profile/myimgs', \App\Controllers\ImagesController:: class . ':getMyPhotos');
     $app->post('/profile/deleteimg', \App\Controllers\ContentController:: class . ':deletePost');
     
-    $app->post('/newprofile/editpost', \App\Controllers\ContentController:: class . ':editPost');
-    $app->post('/newprofile/getpost', \App\Controllers\ContentController:: class . ':getSelectedPost');
+    $app->post('/profile/editpost', \App\Controllers\ContentController:: class . ':editPost');
+    $app->post('/profile/getpost', \App\Controllers\ContentController:: class . ':getSelectedPost');
     
     // Profil Settings
     $app->post('/addavatar', \App\Controllers\MembersController:: class . ':addNewAvatar');
@@ -69,10 +69,7 @@ return function (App $app) {
     
     $app->get('/admin/clear', \App\Controllers\AdminController:: class . ':clearReports');
     $app->get('/admin/clearquar', \App\Controllers\AdminController:: class . ':clearQuarantineDir');
-    
-    $app->get('/admin/debug', \App\Controllers\ContentController:: class . ':debug');
-    $app->post('/admin/debug', \App\Controllers\ContentController:: class . ':debug');
-        
+           
     // Deconnexion
     $app->get('/deconnexion', \App\Controllers\MembersController:: class . ':logout')->setName('deconnexion');
     
@@ -82,16 +79,12 @@ return function (App $app) {
     $app->post('/addfriend', \App\Controllers\MembersController:: class . ':addFriendRequest')->setName('addFriend');
     $app->get('/addedfriend', \App\Controllers\MembersController:: class . ':acceptFriend');
     $app->get('/ignorefriend', \App\Controllers\MembersController:: class . ':ignoreFriendRequest');
-
-    // Ajouter contenus ( test )
-    $app->get('/add', \App\Controllers\ContentController ::class . ':getAddForm')->setName('ajouter');
-    $app->post('/addcontent', \App\Controllers\ContentController ::class . ':addContent');
         
     // Upload de photos
-    $app->get('/upload', \App\Controllers\ImagesController::class . ':getForm')->setName('upload');
+    $app->get('/upload', \App\Controllers\ImagesController:: class . ':getTestForm')->setName('upload');
     $app->post('/testresults', \App\Controllers\ImagesController:: class . ':getTestResults');
     $app->post('/addexif', \App\Controllers\ImagesController:: class . ':manageExif');
-    $app->get('/testupload', \App\Controllers\ImagesController:: class . ':getTestForm')->setName('test');
+    
     $app->post('/testexif', \App\Controllers\ImagesController:: class . ':testExif');
     
 };

@@ -37,6 +37,7 @@ class MembersModel extends Model
                 LEFT OUTER JOIN avatars
                     ON members.id = avatars.user_id
                     AND avatars.active = 1
+                ORDER BY members.date ASC
                 LIMIT :limit OFFSET :offset";
         $members = $this->executeLimitQuery($sql, $limit, $offset);
         return $members->fetchAll();
@@ -70,7 +71,7 @@ class MembersModel extends Model
        
     public function signup($username, $rdp, $ip)
     {
-        $sql = "INSERT INTO members (name, password, avatar_file, ip_address, group_id, date) VALUES (?, ?, 'avatar_default.png', ?, 3, NOW())";
+        $sql = "INSERT INTO members (name, password, ip_address, group_id, date) VALUES (?, ?, ?, 3, NOW())";
         $this->executeQuery($sql, array($username, $rdp, $ip));
     }
     
@@ -108,10 +109,13 @@ class MembersModel extends Model
     
     public function getFriends($uid)
     {
-        $sql = "SELECT members.id, members.name, members.avatar_file
+        $sql = "SELECT members.id, members.name, avatars.avatar_file
                 FROM members
                 INNER JOIN friendship
                     ON members.id = friendship.friend_b
+                LEFT OUTER JOIN avatars
+                    ON members.id = avatars.user_id
+                    AND avatars.active = 1
                 WHERE friendship.friend_a = ?";
         $friends = $this->executeQuery($sql, array($uid));
         return $friends->fetchAll();

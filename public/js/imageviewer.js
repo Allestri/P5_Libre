@@ -9,13 +9,13 @@ var self = this;
 
 
 /* Exit image viewer */
-/*
+
 $('.icon-exit').click(function() {
 	
 	$('#overlay').hide();
 	
 });
-*/
+
 
 
 $('.icon-exit-full').click(function() {
