@@ -23,12 +23,15 @@ class Model
         return $result;
     }    
     
-    protected function executeLimitQuery($sql, $limit, $offset = null, $params = null) {
+    protected function executeLimitQuery($sql, $limit, $offset = null, $param = null) {
         
         $result = $this->container->get('db')->prepare($sql);
         $result->bindValue(':limit', $limit, PDO::PARAM_INT);
         $result->bindValue(':offset', $offset, $this->container->get('db')::PARAM_INT);
-        $result->execute($params);
+        if(isset($param)){
+            $result->bindValue(':param', $param);
+        }
+        $result->execute();
         
         return $result;
     }

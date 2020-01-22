@@ -3,6 +3,7 @@
 
 namespace App\Controllers;
 
+use Exception;
 
 class MembersController extends Controller 
 {
@@ -39,7 +40,7 @@ class MembersController extends Controller
             
             if(!$isUnique)
             {
-                echo 'Ce pseudo n\'est pas disponible';
+                $this->flash('Ce pseudonyme n\'est pas disponible', 'warning');
             }
             elseif ($password == $passwordRpt){
                 $rdp = password_hash($password, PASSWORD_DEFAULT);
@@ -47,9 +48,10 @@ class MembersController extends Controller
                 // Avatar(personal) folder creation
                 $directory = $this->container->get('uploaded_directory');
                 mkdir($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $username);
-                echo 'Bienvenue';
+                
+                $this->flash('Inscription effectuée ! Bienvenue, cliquez ici pour rejoindre votre profil');
             } else {
-                echo 'Mauvaise combinaison de mot de passe';
+                $this->flash('Mauvaise combinaison de mot de passe', 'warning');
             }
         }
         
@@ -73,8 +75,11 @@ class MembersController extends Controller
             $isPwdCorrect = password_verify($userEntries['pwd'], $member['password']);
             
             if($isPwdCorrect){
+                
                 $_SESSION['username'] = $username;
                 $_SESSION['uid'] = $member['id'];
+                $_SESSION['avatar'] = $member['avatar_file'];
+                
                 if($member['group_id'] == 1){
                     $_SESSION['admin'] = $member['group_id'];
                 }
@@ -83,14 +88,29 @@ class MembersController extends Controller
                 $connexion = false;
             }
         }
-        if($connexion){
-           // Greet message
-           $this->flash('Bonjour');
-           //$this->container->flash->addMessage('Test', 'This is a message');
-           return $this->redirect($response, 'profile');
-        } else {
-            echo 'il y a une erreur';
+        
+        if(!$connexion)
+        {
+            throw new Exception('La connexion a echouée');
         }
+        try 
+        {
+           
+           // Greet message
+           //$flash = $this->flash('Bienvenue sur votre profil');
+           
+           $flash2 = $this->flashAjax('Connexion effectuee');
+           
+           return $flash2;
+           //$this->container->flash->addMessage('Test', 'This is a message');
+           //return $this->redirect($response, 'profile');
+        }
+         
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+        
     }
     
     
@@ -108,16 +128,20 @@ class MembersController extends Controller
         // Add message to be used in current request
         //$this->container->flash->addMessageNow('Test', 'This is another message');
         
-        //var_dump($this->container->flash);
-        //var_dump($_SESSION);
         $memberModel = $this->container->get('membersModel');
         $contentModel = $this->container->get('contentModel');
+        $imagesModel = $this->container->get('imagesModel');
         
         $username = $_SESSION['username'];
         $uid = $_SESSION['uid'];
         $member['profile'] = $username;
         $member['uid'] = $uid;
         
+        
+        //$timestamp = $contentModel->getDate();
+        //$date = $this->relativeDate($timestamp);
+        //var_dump($date);
+        //var_dump($date);
         //var_dump($_SESSION);
         
         if(isset($_SESSION['username'])){
@@ -131,7 +155,6 @@ class MembersController extends Controller
             //var_dump($avatars['0']);
             
             $avatarDir = "uploads/avatar";
-            var_dump($_SESSION);
             // Checks has custom avatar, gets it, return default avatar otherwise.
             // Gets inactive avatars in a separate array.
             if($hasAvatars){
@@ -147,13 +170,13 @@ class MembersController extends Controller
             // Get friends
             $args['friends'] = $memberModel->getFriends($uid);
             
-            $args['recentimg'] = $memberModel->getRecentPhotos($uid);
+            $args['myimages'] = $imagesModel->fetchAllMyImgs($uid);
             
             // Friend Request notifications
             $args['request'] = $memberModel->getFriendRequests($uid);
             
             $args['commentslist'] = $contentModel->getMyComments($uid);
-            
+            $args['commentsNbr'] = count($args['commentslist']);
             
             if(isset($args['request']['0'])){
                 $_SESSION['sender_id'] = $args['request']['0']['sender_id'];
@@ -179,22 +202,74 @@ class MembersController extends Controller
         
         $memberModel = $this->container->get('membersModel');
         $username = $_SESSION['username'];
-
+        $userId = $_SESSION['uid'];              
+        
+        
         $totalMembers = $memberModel->countAllMembers();
         $totalMembers = (int)$totalMembers['totalmembers'];
+      
+        //var_dump($totalMembers);
         
         $limit = 4;
         $args = $this->pagination($request, $totalMembers, $limit);
         
-        $args['memberslist'] = $memberModel->getAllMembersLimit($limit, $args['offset']);
-              
+        
+        if(isset($_GET['sort'])){
+            
+            $datas = $request->getQueryParams();
+            $_SESSION['sort'] = $datas['sort'];
+            var_dump($datas);
+            
+            if($datas['sort'] == "name"){
+                $args['memberslist'] = $memberModel->getMembersSortName($limit, $args['offset'], $userId);
+            }
+        } else {
+            $args['memberslist'] = $memberModel->getAllMembersLimit($limit, $args['offset'], $userId);
+        }
+        
+        $relationships = $memberModel->getFriendships($userId);
+        
+                
+        
+        foreach($args['memberslist'] as $key1=>$value1)
+        {
+            foreach($relationships as $key2=>$value2)
+            {
+                // true : from user to others / false = from others to user.
+
+                $direction = $value2['friend_a'] == $userId;
+
+                if($direction){
+                    $fid = $value2['friend_b'];
+                } else {
+                    $fid = $value2['friend_a'];
+                }
+                
+                
+                if($value1['id'] == $fid)
+                {
+                    // P = Outgoing friend request from user to others
+                    // PP = Incoming friend request from others
+                    if($value2['status'] == "pending")
+                    {
+                        $args['memberslist'][$key1]['status'] = $direction ? "P" : "PP" ;
+                    }
+                    $args['memberslist'][$key1]['status'] = $value2['status'];
+                }
+                    
+                
+            }
+            
+            //$args['memberslist'][$userId]['status'] = $relations['status'];
+        }
+        //unset($users); // unset the reference
+                
         
         return $this->container->view->render($response, 'pages/members.twig', $args);
     }
     
     
     // Friendship System
-    
     public function getIds($uid, $fid)
     {
         $ids = array("userId" => $uid, "friendId" => $fid);
@@ -217,6 +292,21 @@ class MembersController extends Controller
         
         return $this->redirect($response, 'memberList');
     }
+    
+    public function cancelFriendRequest($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        var_dump($datas);
+        $uid = $datas['myId'];
+        $fid = $datas['memberId'];
+        
+        $memberModel = $this->container->get('membersModel');
+        $memberModel->cancelFriendRequest($uid, $fid);
+        
+        $this->flash('Goodbye my old friend');
+        
+        return $this->redirect($response, 'memberList');
+    }
        
     public function ignoreFriendRequest($request, $response)
     {
@@ -227,7 +317,7 @@ class MembersController extends Controller
         
         $membersModel->clearFriendRequest($fid, $uid);
         
-        return $this->container->view->render($response, 'pages/account.twig');
+        return $this->container->view->render($response, 'pages/profile.twig');
     }
     
     public function acceptFriend($request, $response)
@@ -240,14 +330,30 @@ class MembersController extends Controller
         $memberModel->addFriendAccept($fid, $uid);
         $memberModel->clearFriendRequest($fid, $uid);
         
-        return $this->container->view->render($response, 'pages/account.twig');
+        return $this->container->view->render($response, 'pages/profile.twig');
               
+    }
+    
+    public function removeFriend($request, $response)
+    {
+        $memberModel = $this->container->get('membersModel');
+        $datas = $request->getParsedBody();
+        
+        $uid = $_SESSION['uid'];
+        $fid = $datas['memberId'];
+        
+        $memberModel->removeFriend($uid, $fid);
+        
+        $this->flash('Goodbye my old friend');
+        
+        return $this->redirect($response, 'memberList');
     }
     
     // Settings manager
     public function changeSettings($request, $response) 
     {
-        $uid = $_SESSION['uid']; 
+        $uid = $_SESSION['uid'];
+        $member = $_SESSION['username'];
         $membersModel = $this->container->get('membersModel');
         
         $userEntries = $request->getParsedBody();
@@ -267,7 +373,7 @@ class MembersController extends Controller
         if(!empty($uploadedFile) && ($uploadedFile->getError() === UPLOAD_ERR_OK)){
                                  
             $directory = $this->container->get('uploaded_directory');
-            $member = $_SESSION['username'];
+            
             
             /* 
             $avatarDir = $directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $member;
@@ -287,6 +393,24 @@ class MembersController extends Controller
             return $this->redirect($response, 'profile');
         }
         
+        if(!empty($userEntries['password']) && ($userEntries['passwordRpt'])){
+            
+            $password = $userEntries['password'];
+            $passwordRpt = $userEntries['passwordRpt'];
+            var_dump($userEntries);
+            
+            if ($password == $passwordRpt){
+                $pass = password_hash($password, PASSWORD_DEFAULT);
+                $membersModel->changePassword($pass, $uid);
+                $this->flash('Votre mot de passe a été correctement modifié');
+                return $this->redirect($response, 'profile');
+            } else {
+                $this->flash('Les mots de passes doivent être identiques', 'error');
+                return $this->redirect($response, 'profile');
+            }
+            
+        }
+        
         if(!empty($userEntries['email'])){
             
             $email = $userEntries['email'];
@@ -301,7 +425,7 @@ class MembersController extends Controller
         return $this->redirect($response, 'profile');
         
     }
-    
+        
     // Avatars
     
     public function switchAvatar($uid, $avatarId)

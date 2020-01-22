@@ -7,84 +7,123 @@
     	<!-- Font Awesome CDN -->
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     	<!-- Bootstrap CSS -->
+    	<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light">
-        	<!-- <a class="navbar-brand" href="#">P5</a> !-->
-        	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-        		<span class="navbar-toggler-icon"></span>
-        	</button>
+        <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light">
+        	<div class="container">
+            	<!-- <a class="navbar-brand" href="#">P5</a> !-->
+            	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            		<span class="navbar-toggler-icon"></span>
+            	</button>
+            
+            	<div id="navbar" class="collapse navbar-collapse main-navbar-real">
+            		<ul class="navbar-nav">
+            			<a class="navbar-brand" href="#">Blue</a>
+            			<li class="nav-item">
+            				<a class="nav-link" href="{{ path_for('home') }}">Accueil <span class="sr-only">(current)</span></a>
+            			</li>
+            			<li class="nav-item">
+            				<a class="nav-link" href="{{ path_for('map') }}">Carte</a>
+            			</li>
+            			<li class="nav-item">
+            				<a class="nav-link" href="{{ path_for('upload') }}">Ajouter une photo</a>
+            			</li>
+            			<li class="nav-item">
+            				<a class="nav-link" href="{{ path_for('testflex') }}">TestFlex</a>
+            			</li>
+            	{% if member %}
+            			<li class="nav-item">
+            				<a class="nav-link" href="{{ path_for('memberList') }}">Membres</a>
+            			</li>
+            	{% else %}
+            			<li class="nav-item">
+            				<a class="nav-link" href="{{ path_for('inscription') }}">S'inscrire</a>
+            			</li>
+            	{% endif %}
+            		</ul>
+            	{% if not member %}
+            		<button type="button" class="btn login-pill" data-toggle="modal" title="Se connecter" data-target="#login-modal"><i class="fas fa-sign-in-alt"></i></button>
+            	    {% else %}
         
-        	<div class="collapse navbar-collapse" id="navbar">
-        		<ul class="navbar-nav mx-auto">
-        			<a class="navbar-brand" href="#">Blue</a>
-        			<li class="nav-item">
-        				<a class="nav-link" href="{{ path_for('home') }}">Accueil <span class="sr-only">(current)</span></a>
-        			</li>
-        			<li class="nav-item">
-        				<a class="nav-link" href="{{ path_for('map') }}">Carte</a>
-        			</li>
-        			<li class="nav-item">
-        				<a class="nav-link" href="{{ path_for('upload') }}">Ajouter une photo</a>
-        			</li>
-        	{% if member %}
-        			<li class="nav-item">
-        				<a class="nav-link" href="{{ path_for('memberList') }}">Membres</a>
-        			</li>
-        	{% else %}
-        			<li class="nav-item">
-        				<a class="nav-link" href="{{ path_for('inscription') }}">S'inscrire</a>
-        			</li>
-        	{% endif %}
-        		</ul>
-        	{% if not member %}
-        		<form method="POST" action="login" class="form-inline my-2 my-lg-0">
-        			<input class="form-control mr-sm-2" type="text" name="uname" placeholder="Pseudonyme" aria-label="Pseudonyme">
-        			<input class="form-control mr-sm-2" type="password" name="pwd" placeholder="Mot de passe" aria-label="Mot de passe">
-        			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Se connecter</button>
-        		</form>
-        	    {% else %}
     
-
-        	    <ul class="navbar-nav mr-auto">
-        	    	<li class="nav-item dropdown ml-auto">
-    	    			<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mon Profil</a>
-    	    		    <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ path_for('profile') }}">Mon profil</a>
-                            {% if admin %}
-                            <a class="dropdown-item" href="{{ path_for('admin') }}">Administration</a>
-                            {% endif %}
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ path_for('deconnexion') }}">Se deconnecter</a>
-                        </div>
-    				</li>
-    			</ul>
-            {% endif %}
-        	</div>
+            	    <ul class="navbar-nav">
+            	    	<li class="nav-item dropdown ml-auto">
+        	    			<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="uploads/avatar/SOku/{{ session_avatar }}" class="rounded-circle" height="40px" width="40px" alt="avatar image"></a>
+        	    		    <div class="main-nav-dropdown dropdown-menu">
+                                <a class="dropdown-item" href="{{ path_for('profile') }}"><i class="fas fa-user"></i>Mon profil</a>
+                                {% if admin %}
+                                <a class="dropdown-item" href="{{ path_for('admin') }}"><i class="fas fa-user-cog"></i>Administration</a>
+                                {% endif %}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ path_for('deconnexion') }}"><i class="fas fa-sign-out-alt"></i>Se deconnecter</a>
+                            </div>
+        				</li>
+        			</ul>
+                {% endif %}
+            	</div>
+        	</div>    	       	
         </nav>
-    	<div class="container">
+        
+        
+        <div id="login-modal" class="modal fade" tabindex="-1" role="dialog">
+        	<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            	<div id="login-wrapper" class="modal-content">
+                	<div id="login-header" class="modal-header">
+                    	<h2 class="modal-title">Se connecter</h2>
+                    	<button type="button" class="close cross-login" data-dismiss="modal" aria-label="Close">
+                    		<i class="fas fa-times"></i>
+                    	</button>
+                	</div>
+                	<div class="modal-body">
+                		<form id="login-overlay" method="POST" action="login">
+                			<div class="form-group wrap-input">
+                				<input class="form-control input-login" type="text" name="uname" placeholder="Pseudonyme" aria-label="Pseudonyme" required>
+                				<span class="icon-input">
+                					<i class="fa fa-user" aria-hidden="true"></i>
+                				</span>
+                			</div>
+							<div class="form-group wrap-input">
+								<input class="form-control input-login" type="password" name="pwd" placeholder="Mot de passe" aria-label="mot de passe" required>
+								<span class="icon-input">
+                					<i class="fa fa-lock" aria-hidden="true"></i>
+                				</span>
+							</div>
+                		</form>
+                	</div>
+            		<div class="modal-footer d-flex justify-content-center">
+            			<button id="login-btn" class="btn form-button" type="submit" form="login-overlay">Se connecter</button>
+            		</div>
+            	</div>
+        	</div>
+        </div>
+                 
+    	<div id="main-container" class="container">
             {% block content %}{% endblock %}
             
     	</div>
+    	<div id="footer">
+    		<h1>Titre</h1>
+    	</div>
         <!-- jQuery, Popper.js, Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <!-- JS -->
 		<script src="js/ext_script/markerclusterer.js"></script>
+		<script src="https://unpkg.com/aos@next/dist/aos.js"></script> 
+		<script src="js/ext_script/notify.js"></script>
 		<script src="js/imageinfos.js"></script>
         <script src="js/map.js"></script>
         
         <script src="js/profile.js"></script>     
         <script src="js/imageviewer.js"></script>
         
+        <script src="js/admin.js"></script>
         <script src="js/social.js"></script>
         <script src="js/main.js"></script>
-        <!-- Captcha -->
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-        <!--  <script src="js/upload_ajax.js"></script>-->
         <script async defer
     	src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initApp">
    		</script>

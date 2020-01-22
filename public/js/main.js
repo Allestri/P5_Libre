@@ -1,5 +1,6 @@
 // General JS code not related to GMaps or Images viewers.
 
+
 /*
 $('#edit-profile-btn').on('click', function(){
 	
@@ -18,64 +19,22 @@ $('#navbar > ul.nav li a').click(function(e) {
     e.preventDefault();
 });
 
+AOS.init();
+
+
 //Home page carousel
 
 $('.carousel').carousel({
 	  interval: 7000
 	})
 	
+// Flash messages
+$( '.alert-dismissible' ).delay( 1500 ).fadeOut( 400 );
 
-//Admin Panel //
-$('.delete').click(function(e) {
-	
-	if(confirm("Voulez vous supprimer ce post ?")){
-		console.log("Confirmation suppression");
-		e.preventDefault();
-		
-		//console.log(filename);
-		var datas = $("#deleteImg").serialize();
+// Popovers
 
-		console.log(datas);	
-		$.ajax({
-			type: "POST",
-			url:"http://projetlibre/admin/delete",
-			data: datas,
-			success: function(data){
-				console.log('Success, photo deleted');
-			},
-			error: function(result, status, error){
-				console.log('Error on photo deletion');
-			}
-		});
-		
-		// Confirmation
-		// clear window
-		
-	} else {
-		e.preventDefault();
-	}
-	
-});
-
-
-// Get values from a report to edit form
-$('.edit').click(function() {
-	
-	var imgId = $(this).parent().serialize();
-	
-	$.ajax({
-		type: "POST",
-		url: "http://projetlibre/admin/getreport",
-		data: imgId,
-		dataType: "JSON",
-		success: function(data){
-			console.log('Success, data recovered');
-			setValuesEdit(data);
-		},
-		error: function(result, status, error){
-			console.log('Error on data recovery');
-		}	
-	});
+$(document).ready(function() {
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 });
 
 
@@ -107,6 +66,14 @@ $('#test-form').submit(function(e){
 	});
 });
 
+
+
+$('#dummy').click(function(){
+	
+	var selector = $("#dummy-text");
+	console.log(selector);
+	selector.fadeOut(1000);
+});
 
 
 // Display test exif components before upload
@@ -145,6 +112,59 @@ function display(data, selector){
 }
 
 
+$('#triggerTest').click(function(e){
+	
+	e.preventDefault();
+	$("#dynamic-test").load("http://projetlibre/map/test #dynamic-test>*", function(response, statusTxt, xhr) {
+		if(statusTxt == "success")
+			console.log(response);
+		if(statusTxt == "error")
+		    console.log("Error: " + xhr.status + ": " + xhr.statusText);
+	});
+	
+});
+
+$('#login-btn').click(function(e){
+	
+	e.preventDefault();
+	var formData = $("#login-overlay").serialize();
+	
+	$.ajax({
+			type: "POST",
+			url: "http://projetlibre/login",
+			data: formData,
+			dataType: "JSON",
+			success: function(data){
+				console.log('Success, member successfully connected:' + status);
+				console.log(data);
+				//self.refreshLikes();
+				
+				//$(".modal-footer").append("<p>" + data['message'] + "</p>");
+				$('#login-modal').modal('hide');
+
+				
+				$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*", function(response, statusTxt, xhr) {
+					if(statusTxt == "success")
+						console.log(response);
+					if(statusTxt == "error")
+					    console.log("Error: " + xhr.status + ": " + xhr.statusText);
+				});
+				
+				//$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*");
+
+
+				//$( "#dynamic-layout" ).load( "http://projetlibre/map #dynamic-layout" );
+			},
+			complete: function(data){
+				console.log('Callback: ' + data);
+				
+			},
+			error: function(result, status, error){
+				console.log('erreur : ' + error + ' status: ' + status);
+			}
+		});	
+	
+});
 
 
 /* 
@@ -170,26 +190,24 @@ $("#testForm").on('submit', (function(e) {
 */
 
 
-
-// Set values on Edit form - Admin Panel
-function setValuesEdit(data){
+// Memberlist
+/*
+$('.memberlist-btn').click(function (e) {
 	
-	console.log(data);
-	var imgId = data.id;
-	var title = data.name;
-	var author = data.author;
-	var description = data.content;
-	var filename = data.filename;
+	e.preventDefault();
 	
-	var image = "uploads/photos/" + filename;
+	var eltBtn = this;
+	var attr = $(eltBtn).attr('form');
+	console.log(eltBtn);
+	console.log(attr);
 	
-	$('#edit-imgId').val(imgId);
-	$('#name').val(title);
-	$('#author').val(author);
-	$('#description').val(description);
-	$('#edit-preview').append($('<img id="image-preview" />').attr('src', image));
-};
-
+	var userId = attr.split("removefriend");
+	console.log(userId[1]);
+	
+	var formData = $("#comment-form").serialize();
+	
+});
+*/
 
 // Preview avatar before submitting - Profile Page
 $("#avatar-form").change(function(){

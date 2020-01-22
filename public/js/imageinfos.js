@@ -66,20 +66,33 @@ function postInfos(data){
 		$('.likes-count').text(this.likes);
 		$('.comments-count').text(data.comments.length);		
 		
+		// Like Button !
+		if(data.uliked > 0){
+			$('.like').addClass('active');
+		} else {
+			$('.like').removeClass('active');
+		}
 	};
 	
 	this.displayComments = function() {
 
 		console.log(data);
+		
+		// Comment template components.
 	    var comments = "";
+	    
+	    var optionsStart = "<div class='comment-options'><i class='fas fa-cog'></i><ul class='options-menu'><li><form class='reportCom-form' method='POST' action='map/report-comment' >";
+	    var optionsEnd = "<button class='report-comment-btn' type='submit'>Signaler</button></form></li></ul></div>";
+	    
 
 	    for( var i = 0; i < data.comments.length; i++){
 	    	
 	    	let avatar = this.getAvatar(data.comments[i].avatar_file);
 
 	    	
-	        comments += "<div class='card comment'><div class='comment-avatar'><img src='" + avatar + "' width='50' alt='avatar'></div><div class='card-body'><h5 class='card-title'>" + data.comments[i].name + "</h5>" +
-	        		"<p class='card-text'>" + data.comments[i].content + "</p><p class='comment-date'>" + data.comments[i].com_date + "</p></div></div>";
+	        comments += "<div class='card comment'><div class='comment-avatar'><img src='" + avatar + "' width='50' alt='avatar'></div><div class='comment-body'><h5 class='comment-title'>" + data.comments[i].name + "</h5>" 
+	        		+ optionsStart + "<input type='hidden' name='commentId' value='" + data.comments[i].id + "'/>" + optionsEnd +
+	        		"<span class='comment-date' data-toggle='tooltip' data-placement='bottom' title='" + data.comments[i].com_date.absolute + "'>" + data.comments[i].com_date.relative +	"</span><p class='comment-text'>" + data.comments[i].content + "</p></div></div>";
 
 	    }
 	    $('#comments-wrapper').html(comments);

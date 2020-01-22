@@ -45,11 +45,14 @@ class AdminController extends Controller
                 $reportsNbr = $adminModel->countReports();
                 $args = array_merge($args, $reportsNbr);
                 // If there are any reports, fetch those ones.
-                if($args['reportsNbr'] > 1){
+                //var_dump($args['reportsNbr']);
+                if($args['reportsNbr'] >= 1){
                     
                     $args['reportedPosts'] = $adminModel->getReports();
                     
                 }
+                
+                $args['reportedComments'] = $adminModel->getReportsComments();
                           
                 // Quarantine files
                 $quarantineDir = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR;
@@ -62,15 +65,13 @@ class AdminController extends Controller
                 // Memberlist
                 $totalMembers = $membersModel->countAllMembers();
                 $totalMembers = (int)$totalMembers['totalmembers'];
-    
+                   
                 $limit = 4;
                 $args['pagination'] = $this->pagination($request, $totalMembers, $limit);
-                $args['membersList'] = $membersModel->getAllMembersLimit($limit, $args['pagination']['offset']);
-                
-                
+                $args['membersList'] = $adminModel->getMembers($limit, $args['pagination']['offset']);
+                                
                 // Logs
                 $args['logs'] = $adminModel->getLogs();
-                var_dump($args);
     
                 return $this->render($response, 'pages/admin.twig', $args);
             }
@@ -82,11 +83,34 @@ class AdminController extends Controller
 
     }
     
+    public function paginateMembers($request, $response)
+    {
+        $limit = 4;
+        $membersModel = $this->container->get('membersModel');
+        $totalMembers = $membersModel->countAllMembers();
+        
+        $adminModel = $this->container->get('adminModel');
+        $totalMembers = (int)$totalMembers['totalmembers'];
+        
+        $args['pagination'] = $this->pagination($request, $totalMembers, $limit);
+        $args['membersList'] = $adminModel->getMembers($limit, $args['pagination']['offset']);
+        
+        return $this->render($response, 'pages/admin.twig', $args);       
+    }
+    
     public function clearReports($request, $response)
     {
         
         $adminModel = $this->container->get('adminModel');
         $adminModel->clearAllReports();
+        
+        return $this->redirect($response, 'admin');
+    }
+    
+    public function clearCommentsReports($request, $response)
+    {
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->clearCommentsReports();
         
         return $this->redirect($response, 'admin');
     }
@@ -122,7 +146,9 @@ class AdminController extends Controller
         
         $adminModel = $this->container->get('adminModel');
         $adminModel->editPost($name, $content, $postId);
+        $adminModel->clearReport($postId);
         
+        $this->flash('Post supprimé avec succès');
         return $this->redirect($response, 'admin');
         
     }
@@ -134,7 +160,10 @@ class AdminController extends Controller
         
         $adminModel = $this->container->get('adminModel');
         $adminModel->deletePost($postId);
+        $adminModel->clearReport($postId);
         
+        $this->flash('Post edité avec succès');
+        return $this->redirect($response, 'admin');
     }
     
 }

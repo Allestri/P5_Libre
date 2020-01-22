@@ -32,9 +32,50 @@ class Controller
         return $_SESSION['flash'][$type] = $message;
     }
     
+    public function flashAjax($message, $type ='success')
+    {
+        $response = [
+            "message" => $message,
+            "type" => $type,
+        ];
+        
+        echo json_encode($response);
+    }
+    
+    public function relativeDate($time)
+    {
+        $timeAgo = '';
+        $now = time();
+
+        $time2 = intval($time);
+        $diff = $now - $time2;
+                
+        // Relative time / date
+        // var
+                
+        if($diff < 60){ // x seconds ago
+            return 'a l\'instant';
+        } 
+        elseif($diff < 3600){ // x minutes ago
+            $nbr = round($diff / 60);
+            return $nbr == 1 ? ('il y a ' . $nbr . ' minute') : ('il y a ' . $nbr . ' minutes');
+        }
+        elseif($diff < 3600 * 24){ // x hours ago
+            $nbr = round($diff / 3600);
+            return $nbr == 1 ? ('il y a ' . $nbr . ' heure') : ('il y a ' . $nbr . ' heures');
+        }
+        elseif($diff < 3600 * 24 * 2){ // yesterday
+            return 'hier';
+        }
+        else {
+            return 'une eternité ...';
+        }
+    }
+    
     public function pagination($request, $contentTotal, $limit)
     {
         $query = $request->getQueryParams();
+
         // Checks if param exists, is a number, assigns default page(1) if not.
         if(isset($query['page']) && is_numeric($query['page'])) {
             $currentPage = $query['page'];

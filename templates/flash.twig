@@ -2,27 +2,29 @@
 
 {% block flash %}	
 	
-	{% if flash.success %}
-	<div class="alert alert-success alert-dismissible fade show">
-		{{ flash.success }}
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    		<span aria-hidden="true">&times;</span>
-  		</button>
-	</div>
-	{% elseif flash.warning %}
-	<div class="alert alert-warning alert-dismissible fade show">
-		{{ flash.warning }}
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    		<span aria-hidden="true">&times;</span>
-  		</button>
-	</div>
-	{% elseif flash.error %}
-	<div class="alert alert-danger alert-dismissible fade show">
-		{{ flash.error }}
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    		<span aria-hidden="true">&times;</span>
-  		</button>
-	</div>
-	{% endif %}
+	<div id="flash-container">
+    	{% if flash.success %}
+    	<div class="alert alert-success alert-dismissible fade show">
+    		{{ flash.success }}
+    		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        		<span aria-hidden="true">&times;</span>
+      		</button>
+    	</div>
+    	{% elseif flash.warning %}
+    	<div class="alert alert-warning alert-dismissible fade show">
+    		{{ flash.warning }}
+    		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        		<span aria-hidden="true">&times;</span>
+      		</button>
+    	</div>
+    	{% elseif flash.error %}
+    	<div class="alert alert-danger alert-dismissible fade show">
+    		{{ flash.error }}
+    		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        		<span aria-hidden="true">&times;</span>
+      		</button>
+    	</div>
+    	{% endif %}
+    </div>    
 	
 {% endblock %}

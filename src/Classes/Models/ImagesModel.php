@@ -8,11 +8,13 @@ Class ImagesModel extends Model
     public function fetchDatasPublic()
     {
         $sql = "SELECT markers.id, markers.lng, markers.lat, 
-                images.filename, images.groupimg_id, images.privacy              
+                images.filename, images.groupimg_id, posts.privacy              
                 FROM markers 
                     INNER JOIN images 
                         ON markers.image_id = images.id
-                WHERE images.privacy = 0";
+                    INNER JOIN posts
+                    	ON markers.image_id = posts.image_id
+                WHERE posts.privacy = 0";
         $dataImages = $this->executeQuery($sql);
         return $dataImages->fetchAll();
     }
@@ -20,13 +22,15 @@ Class ImagesModel extends Model
     public function fetchDatasFriends($uid)
     {
         $sql = "SELECT markers.id, markers.lng, markers.lat,
-                images.filename, images.groupimg_id, images.privacy
+                images.filename, images.groupimg_id, posts.privacy
                 FROM markers
                     INNER JOIN images
                         ON markers.image_id = images.id
+					INNER JOIN posts
+                    	ON markers.image_id = posts.image_id
 					INNER JOIN friendship
 						ON images.user_id = friendship.friend_b
-                WHERE friendship.friend_a = ? AND images.privacy = 1";
+                WHERE friendship.friend_a = ? AND posts.privacy = 1";
         $dataImages = $this->executeQuery($sql, array($uid));
         return $dataImages->fetchAll();
     }
@@ -35,12 +39,14 @@ Class ImagesModel extends Model
     public function fetchMyImgs($uid)
     {
         $sql = "SELECT markers.id, markers.lng, markers.lat,
-                images.filename, images.groupimg_id, images.privacy
+                images.filename, images.groupimg_id, posts.privacy
                 FROM markers
                     INNER JOIN images
                         ON markers.image_id = images.id
+                    INNER JOIN posts
+                    	ON markers.image_id = posts.image_id
                 WHERE images.user_id = ? 
-                AND images.privacy = 1 OR images.privacy = 2";
+                AND (posts.privacy = 1 OR posts.privacy = 2)";
         $dataImages = $this->executeQuery($sql, array($uid));
         return $dataImages->fetchAll();
     }
@@ -56,8 +62,7 @@ Class ImagesModel extends Model
                         ON posts.image_id = images.id
                     INNER JOIN members
                         ON posts.user_id = members.id
-                WHERE posts.user_id = ?
-                LIMIT 0,4";
+                WHERE posts.user_id = ?";
         $dataImages = $this->executeQuery($sql, array($uid));
         return $dataImages->fetchAll();
     }

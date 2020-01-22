@@ -3,232 +3,396 @@
 {% block content %}
 
 
-
-<div class="row" id="admin-panel">
-	<div id="admin-title" class="col-lg-12">
-    	<h1>Administration</h1>
-    </div>
-    <div id="admin-sidebar" class="col-lg-2">
-    	<div id="profile-wrapper">
-    		<img id="admin-avatar" src="uploads/avatar/SOku/avatar_soku_01-55-31.jpg" alt="my-avatar" class="img-thumbnail" width="200" />
-    	</div>
-    	<nav id="admin-nav" class="navbar bg-light">
-    		<ul class="nav nav-pills">
-    			<li class="nav-item">
-    				<a class="nav-link active" href="#dashboard-admin-tab" data-toggle="pill">Tableau de bord</a>
-    			<li class="nav-item">
-    				<a class="nav-link" href="#reports-wrapper" data-toggle="pill">Signalements</a>
-    			</li>
-    			<li class="nav-item">
-    				<a class="nav-link" href="#edit-tab" role="tab" data-toggle="pill">Moderation</a>
-    			</li>
-    			<li class="nav-item">
-    				<a class="nav-link" href="#members-tab" data-toggle="pill">Membres</a>
-    			</li>
-    			<li class="nav-item">
-    				<a class="nav-link" href="#logs-tab" data-toggle="pill">Logs</a>
-    			</li>
-    		</ul>
-    	</nav>
-    </div>
-    <div class="col-lg-10 tab-content admin-tab">
-    	<div id="dashboard-admin-tab" class="tab-pane fade show active" role="tabpanel">
-    		<div class="row">
-    			<div class="col-lg-12">
-    				<div class="dashboard-title">
-        				<i class="fas fa-chart-area"></i>
-        				<h2>Statistiques</h2>
-    				</div>
-    				<div class="admin-hr"></div>
-    			</div>
-    		</div>
-    		<div class="row d-flex justify-content-between">
-    			<div class="border-top my-3"></div>
-    			<div id="stats-photos" class="col-lg-3 dashboard-card card-stats">
-    				<span class="photos-count">
-    					<i class="fas fa-images"></i>
-    					{{ totalPhoto }}
-    				</span>
-    				<p>photos</p>
-    			</div>
-    			<div id="stats-comments" class="col-lg-3 dashboard-card card-stats">
-    				<span class="comments-count">
-    					<i class="fas fa-comments"></i>
-    					{{ commentsNbr }}
-    				</span>
-    				<p>commentaires</p>
-    			</div>
-    			<div id="stats-likes" class="col-lg-3 dashboard-card card-stats">
-    				<span class="likes-count">
-    					<i class="fas fa-heart"></i>
-    					{{ likesNbr }}
-    				</span>
-    				<p>mention j'aime</p>
-    			</div>
-    		</div>
-    		<div class="row">
-    			<div class="col-lg-12">
-    				<div class="dashboard-title">
-        				<i class="fas fa-tools"></i>
-        				<h2>Outils</h2>
-    				</div>
-    				<div class="admin-hr"></div>
-    			</div>
-    		</div>
-    		<div class="row">
-    			<div class="col-lg-8 dashboard-card">
-    				<p>Signalements</p>
-    			</div>
-    			<div class="col-lg-3 dashboard-card">
-    				<div class="dashboard-card-title">
-    					<h4>Zone de Quarantaine</h4>
-    				</div>
-        			<div class="dashboard-card-body">
-            			<p>Il y a 15 images placées en quarantaine</p>
+<div class="row">
+	<div id="admin-panel" class="col-lg-12 mt-5" >
+    	<div class="row" id="admin-header">
+    		<div id="admin-title" class="col-lg-5 mx-auto">
+        		<h1>Administration</h1>
+        	</div>
+        </div>
+        <div class="row">
+        	<div id="admin-sidebar" class="col-lg-2">
+            	<div id="profile-wrapper">
+            		<img id="admin-avatar" src="uploads/avatar/SOku/{{ session_avatar }}" alt="my-avatar" class="img-thumbnail" width="200" />
+            	</div>
+            	<nav id="admin-nav" class="navbar bg-light">
+            		<ul class="nav nav-pills">
+            			<li class="nav-item">
+            				<a class="nav-link active" href="#dashboard-admin-tab" data-toggle="pill">Tableau de bord</a>
+            			<li class="nav-item">
+            				<a class="nav-link" href="#reports-wrapper" data-toggle="pill">Signalements</a>
+            			</li>
+            			<li class="nav-item">
+            				<a class="nav-link" href="#reports-comments-wrapper" data-toggle="pill">Commentaires</a>
+            			</li>
+            			<li class="nav-item">
+            				<a class="nav-link" href="#edit-tab" role="tab" data-toggle="pill">Moderation</a>
+            			</li>
+            			<li class="nav-item">
+            				<a class="nav-link" href="#members-tab" data-toggle="pill">Membres</a>
+            			</li>
+            			<li class="nav-item">
+            				<a class="nav-link" href="#responsive-tab" data-toggle="pill">Logs</a>
+            			</li>
+            			<li class="nav-item">
+            				<a class="nav-link" href="#debug-tab" data-toggle="pill">Debug</a>
+            			</li>
+            		</ul>
+            	</nav>
+            </div>
+            <div class="col-lg-10 tab-content admin-tab">
+        		<div id="dashboard-admin-tab" class="tab-pane fade show active" role="tabpanel">
+        		<div class="row">
+        			<div class="col-lg-12">
+        				<div class="dashboard-title">
+            				<i class="fas fa-chart-area"></i>
+            				<h2>Statistiques</h2>
+        				</div>
+        				<div class="admin-hr"></div>
         			</div>
-        			<div class="button-wrapper">
-        				<a href="admin/clearquar" class="btn btn-primary">Vider ?</a>
-        			</div>
-    			</div>
-    		</div>
-    	</div>
-        <div id="reports-wrapper" class="tab-pane fade show" role="tabpanel">
-        	{% if not reportsNbr %}
-        		<div class="empty-div">
-        			<img src="images/question_mark.png" alt="empty-content">
-        			<p>Il n'y a pas de signalements !</p>
         		</div>
-        	{% endif %}
-    	    {% if reportsNbr == 1 %}
-            	<div class="alert alert-warning">
-            		<i class="fas fa-exclamation-triangle"></i>
-            		<span>Il y a {{ reportsNbr }} signalement reporté par la communauté</span>
-            	</div>
-           	{% elseif reportsNbr > 1 %}
-           		<div class="alert alert-danger">
-            		<i class="fas fa-exclamation-triangle"></i>
-            		<span>Il y a {{ reportsNbr }} signalements reportés par la communauté</span>
-            	</div>
-            {% endif %}
-            {% if reportsNbr > 0 %}
-            	<div id="img-report-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
-            	<span id="clear-btn">
-            		<a href="admin/clear">Vider<i class="fas fa-times"></i></a>
-            	</span>
-            	{% for posts in reportedPosts %}
-            		<div class="card img-single-report">
-            			<div class="image-reported-wrapper">
-            				<img class="card-img-top image-reported" src="uploads/photos/{{ posts.filename }}" />
+        		<div class="row d-flex justify-content-between">
+        			<div class="border-top my-3"></div>
+        			<div id="stats-photos" class="col-lg-3 dashboard-card card-stats">
+        				<span class="photos-count">
+        					<i class="fas fa-images"></i>
+        					{{ totalPhoto }}
+        				</span>
+        				<p>photos</p>
+        			</div>
+        			<div id="stats-comments" class="col-lg-3 dashboard-card card-stats">
+        				<span class="comments-count">
+        					<i class="fas fa-comments"></i>
+        					{{ commentsNbr }}
+        				</span>
+        				<p>commentaires</p>
+        			</div>
+        			<div id="stats-likes" class="col-lg-3 dashboard-card card-stats">
+        				<span class="likes-count">
+        					<i class="fas fa-heart"></i>
+        					{{ likesNbr }}
+        				</span>
+        				<p>mention j'aime</p>
+        			</div>
+        		</div>
+        		<div class="row">
+        			<div class="col-lg-12">
+        				<div class="dashboard-title">
+            				<i class="fas fa-tools"></i>
+            				<h2>Outils</h2>
+        				</div>
+        				<div class="admin-hr"></div>
+        			</div>
+        		</div>
+        		<div class="row">
+        			<div class="col-lg-8 dashboard-card">
+        				<h3>Signalements</h3>
+        				{% if not reportsNbr %}
+        				<div class="alert alert-success">
+                    		<span>Bonne nouvelle ! Il n'y a aucun signalements</span>
+                    	</div>
+        				{% elseif reportsNbr == 1 %}
+                    	<div class="alert alert-warning">
+                    		<i class="fas fa-exclamation-triangle"></i>
+                    		<span>Il y a {{ reportsNbr }} signalement reporté par la communauté</span>
+                    	</div>
+                   	    {% elseif reportsNbr > 1 %}
+                   		<div class="alert alert-danger">
+                    		<i class="fas fa-exclamation-triangle"></i>
+                    		<span>Il y a {{ reportsNbr }} signalements reportés par la communauté</span>
+                    	</div>
+                        {% endif %}
+        			</div>
+        			<div class="col-lg-4 dashboard-card">
+        				<div class="dashboard-card-title">
+        					<h4>Zone de Quarantaine</h4>
+        				</div>
+            			<div class="dashboard-card-body">
+            			{% if fileQuarantine %}
+                			<p>Il y a {{ fileQuarantine }} photos placées en quarantaine</p>
+                		{% else %}
+                			<p>Il n'y a aucune photos placées en quarantaine</p>
+                		{% endif %}
             			</div>
-            			<div class="card-body img-info-panel">
-            				<div class="alert alert-warning">Cette image a éte reportée {{ posts.reported }} fois</div>
-            				<h2 class="card-title">{{ posts.name }}</h2>
-            				<div class="admin-btn-panel">
-            					<div class="admin-btn-container">
-                					<form id="getreport" method="POST" action="admin/getreport">
-                        				<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
-                        				<button class="admin-btn edit" href="#edit-tab" role="tab" data-toggle="pill">
-                        					<i class="fas fa-edit"></i>Editer post
-                        				</button>
-                    				</form>
+            			<div class="button-wrapper">
+            				<a href="admin/clearquar" class="btn btn-primary">Vider ?</a>
+            			</div>
+        			</div>
+        		</div>
+        		<div class="row">
+        			<div class="col-lg-12">
+        				<div class="dashboard-title">
+            				<i class="fas fa-flag"></i>
+            				<h2>Modération commentaires</h2>
+        				</div>
+        				<div class="admin-hr"></div>
+        			</div>
+        		</div>
+        		<div class="row">
+        			<div class="col-lg-12 dashboard-card">
+        				<h3>Commentaires signalés</h3>
+        				<div class="alert alert-danger">
+                    		<i class="fas fa-exclamation-triangle"></i>
+                    		<span>Il y a {{ reportsNbr }} signalements reportés par la communauté</span>
+                    	</div>
+        			</div>
+        		</div>
+        	</div>
+        	<!-- End Dashboard -->
+            <div id="reports-wrapper" class="tab-pane fade show" role="tabpanel">
+            	{% if not reportsNbr %}
+            		<div class="empty-div">
+            			<img src="images/question_mark.png" alt="empty-content">
+            			<p>Il n'y a pas de signalements !</p>
+            		</div>
+            	{% endif %}
+        	    {% if reportsNbr == 1 %}
+                	<div class="alert alert-warning">
+                		<i class="fas fa-exclamation-triangle"></i>
+                		<span>Il y a {{ reportsNbr }} signalement reporté par la communauté</span>
+                	</div>
+               	{% elseif reportsNbr > 1 %}
+               		<div class="alert alert-danger">
+                		<i class="fas fa-exclamation-triangle"></i>
+                		<span>Il y a {{ reportsNbr }} signalements reportés par la communauté</span>
+                	</div>
+                {% endif %}
+                {% if reportsNbr > 0 %}
+                	<div id="img-report-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
+                	<span id="clear-btn">
+                		<a href="admin/clear">Vider<i class="fas fa-times"></i></a>
+                	</span>
+                	{% for posts in reportedPosts %}
+                		<div class="card img-single-report">
+                			<div class="image-reported-wrapper">
+                				<img class="card-img-top image-reported" src="uploads/photos/{{ posts.filename }}" />
+                			</div>
+                			<div class="card-body img-info-panel">
+                				<div class="alert alert-warning">Cette image a éte reportée {{ posts.reported }} fois</div>
+                				<h2 class="card-title">{{ posts.name }}</h2>
+                				<div class="admin-btn-panel">
+                					<div class="admin-btn-container">
+                    					<form id="getreport" method="POST" action="admin/getreport">
+                            				<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
+                            				<button class="admin-btn edit" href="#edit-tab" role="tab" data-toggle="pill">
+                            					<i class="fas fa-edit"></i>Editer post
+                            				</button>
+                        				</form>
+                    				</div>
+                					<div class="admin-btn-container">
+                            			<form id="deleteImg" method="POST" action="admin/delete">
+                        					<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
+                        					<button class="admin-btn delete">
+                        						<i class="fas fa-trash-alt"></i>Supprimer post
+                        					</button>
+                    					</form>
+                					</div>
                 				</div>
-            					<div class="admin-btn-container">
-                        			<form id="deleteImg" method="POST" action="admin/delete">
-                    					<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
-                    					<button class="admin-btn delete">
-                    						<i class="fas fa-trash-alt"></i>Supprimer post
-                    					</button>
-                					</form>
-            					</div>
-            				</div>
+                			</div>
+                		</div>
+                	{% endfor %}
+                	</div>
+                {% endif %}
+        	</div>
+        	<!-- End Report tab -->
+        	<div id="reports-comments-wrapper" class="tab-pane fade show" role="tabpanel">
+        		<div id="reports-comments-header">
+        			<h3><i class="fas fa-comment-slash"></i>Modération commentaires</h3>
+        			<a href="/admin/clear-reports/comments" class="btn btn-primary">Vider signalements</a>
+        		</div>
+            	{% for comment in reportedComments %}
+            		<div class="card reported-comment">
+            			<div class="card-header">
+            				{% if members.avatar_file == NULL %}
+                    		<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ author.id }} avatar" height="60" width="auto">
+                    	    {% else %}
+                    		<img src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" alt="{{ author.id }} avatar" height="60" width="auto">
+                    	    {% endif %}
             			</div>
+            			            			
+                    	<div class='card-body'>
+                    		<p class="card-text">{{ comment.name }} - posté le {{ comment.com_date }}</p>
+                        	<p class='card-text'>{{ comment.content }}</p>
+                    	</div>
+                    	<div class="card-footer">
+                	        <form id="admin-edit-comment">
+                	        	<input type="hidden" name="commentId" value="{{ comment.id }}" />
+                	        	<button class="btn btn-primary" type="submit"><i class="fas fa-edit"></i></button>
+                	        </form>
+                	        <form id="admin-delete-comment">
+                	        	<input type="hidden" name="commentId" value="{{ comment.id }}" />
+                	        	<button class="btn btn-primary" type="submit" ><i class="fas fa-trash"></i></button>
+                	        </form>
+            	        </div>
             		</div>
             	{% endfor %}
-            	</div>
-            {% endif %}
-    	</div>
-    	<div class="tab-pane fade" id="edit-tab" role="tabpanel">
-    		<div class="row">
-    			<div class="col-lg-12">
-    				<h3>Editer un post</h3>
-    			</div>
-    		</div>
-    		<div class="row">
-    			<div class="col-lg-6">
-        			<div id="admin-edit-wrapper">
-                		<form id="editPost" method="POST" action="admin/edit" >
-                			<div class="form-group">
-                				<label for="name">Titre</label>
-                				<input id="name" type="text" class="form-control" name="name">
+        	</div>
+        	<!-- End Comments Reports tab -->
+        	<div class="tab-pane fade" id="edit-tab" role="tabpanel">
+        		<div class="row">
+        			<div class="col-lg-12">
+        				<h3>Editer un post</h3>
+        			</div>
+        		</div>
+        		<div class="row">
+        			<div class="col-lg-6">
+            			<div id="admin-edit-wrapper">
+                    		<form id="editPost" method="POST" action="admin/edit" >
+                    			<div class="form-group">
+                    				<label for="name">Titre</label>
+                    				<input id="name" type="text" class="form-control" name="name">
+                    			</div>
+                    			<div class="form-group">
+                    				<label for="author">Auteur</label>
+                    				<input id="author" class="form-control" type="text" name="author" readonly>
+                    			</div>
+                    			<div class="form-group">
+                    				<label for="content">Description</label>
+                    				<textarea class="form-control" id="description" name="description" rows="2"></textarea>
+                    			</div>
+                    			<input type="hidden" id="edit-imgId" name="postId" />
+                    			<button type="submit" href="#edit-tab" class="btn btn-primary">Editer le Post</button>
+                    		</form>
+                		</div>
+                	</div>
+            		<div class="col-lg-6" id="edit-preview"></div>
+        		</div>
+        	</div>
+        	<div id="members-tab" class="tab-pane fade" role="tabpanel">
+        		<div id="members-tab-container">
+            		<div id="members-tab-header">
+            			<h3><i class="fas fa-users"></i><span id="member-count"></span> Membres</h3>
+            		</div>
+            		<div id="members-card-wrapper">
+                		{% for members in membersList %}
+                		<div class="member-card">
+                			{% if members.avatar_file == NULL %}
+                			<div class="avatar-wrapper">
+                        		<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ members.name }} avatar" height="60" width="auto">
+                        	</div>
+                        	{% else %}
+                        	<div class="avatar-wrapper">
+                        		<img src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" alt="{{ members.name }} avatar" height="60" width="auto">
+                        	</div>
+                        	{% endif %}
+                        	<div class="adm-member-item">
+                        		<h4>{{ members.name }}</h4>
+                        	</div>
+                        	<div class="adm-member-item">
+                				<p>Membre depuis {{ members.date_fr }} jours</p>
                 			</div>
-                			<div class="form-group">
-                				<label for="author">Auteur</label>
-                				<input id="author" class="form-control" type="text" name="author" readonly>
-                			</div>
-                			<div class="form-group">
-                				<label for="content">Description</label>
-                				<textarea class="form-control" id="description" name="description" rows="2"></textarea>
-                			</div>
-                			<input type="hidden" id="edit-imgId" name="postId" />
-                			<button type="submit" href="#edit-tab" class="btn btn-primary">Editer le Post</button>
-                		</form>
+                		</div>
+            		    {% endfor %}
+            		</div>
+            		<div class="pagination-wrapper">
+        			    <nav aria-label="Page navigation">
+                      		<ul id="admin-pagination" class="pagination">
+                        		<li class="page-item {% if pagination.currentPage == 1 %}disabled{% endif %}"><a class="page-link" data-page='{{ pagination.previousPage }}' href="#">Précédent</a></li>
+                                    {% for i in range(1, pagination.totalPages) %}
+                        			<li class="page-item {% if pagination.currentPage == i %}active{% endif %}"><a class="page-link" data-page='{{ i }}' href="#">{{ i }}</a></li>
+                                    {% endfor %}
+                        		<li class="page-item {% if pagination.currentPage == pagination.totalPages %}disabled{% endif %}"><a class="page-link" data-page='{{ pagination.nextPage }}' href="#">Suivant</a></li>
+                      		</ul>
+                		</nav>
             		</div>
             	</div>
-        		<div class="col-lg-6" id="edit-preview"></div>
-    		</div>
-    	</div>
-    	<div id="members-tab" class="tab-pane fade" role="tabpanel">
-    		<div id="members-tab-header">
-    			<h3><i class="fas fa-users"></i><span id="member-count"></span> Membres</h3>
-    			<span id="members-sort" class="admin-pill">
-    				Plus récent
-    				<i class="fas fa-chevron-down"></i>
-    			</span>
-    		</div>
-    		<div id="members-card-wrapper">
-        		{% for members in membersList %}
-        		<div class="member-card">
-        			{% if members.avatar_file == NULL %}
-        			<div class="avatar-wrapper">
-                		<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ members.name }} avatar" height="60" width="auto">
-                	</div>
-                	{% else %}
-                	<div class="avatar-wrapper">
-                		<img src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" alt="{{ members.name }} avatar" height="60" width="auto">
-                	</div>
-                	{% endif %}
-        			<h4>{{ members.name }}</h4>
-        			<p>Inscrit le : {{ members.date_fr }}</p>
-        		</div>
-    		    {% endfor %}
-    		    <div class="pagination-wrapper">
-			    <nav aria-label="Page navigation example">
-              		<ul class="pagination">
-                		<li class="page-item {% if currentPage == 1 %}disabled{% endif %}"><a class="page-link" href="admin?page={{ previousPage }}">Précédent</a></li>
-                            {% for i in range(1, totalPages) %}
-                			<li class="page-item {% if currentPage == i %}active{% endif %}"><a class="page-link" href="admin?page={{ i }}">{{ i }}</a></li>
-                            {% endfor %}
-                		<li class="page-item {% if currentPage == totalPages %}disabled{% endif %}"><a class="page-link" href="admin?page={{ nextPage }}">Suivant</a></li>
-              		</ul>
-        		</nav>
+        	</div>
+        	<!-- End Members tab -->
+        	<div id="logs-tab" class="tab-pane fade" role="tabpanel">
+    			<h3><i class="fas fa-clipboard-list"></i>Logs modération</h3>
+    		    {% for logs in logs %}
+    			<div class="logs-card">
+    				<h4>{{ logs.old_name }}</h4>
+    				<p>{{ logs.old_content }}</p>
     			</div>
-    		</div>
-    	</div>
-    	<div id="logs-tab" class="tab-pane fade" role="tabpanel">
-			<h3><i class="fas fa-clipboard-list"></i>Logs modération</h3>
-		    {% for logs in logs %}
-			<div class="logs-card">
-				<h4>{{ logs.old_name }}</h4>
-				<p>{{ logs.old_content }}</p>
-			</div>
-		    {% endfor %}
-    	</div>
-	</div>
+    		    {% endfor %}
+        	</div>
+        	<div id="responsive-tab" class="tab-pane fade" role="tabpanel">
+            	<div class="row">
+                	<div class="col-lg-6 mb-2 pr-lg-1">
+                    	<div class="image-profile-wrapper">
+                    		<img src="uploads/photos/d69cf28d8ab8aa0a.JPG" alt="" class="img-fluid image-profile rounded shadow-sm">
+                    	</div>
+                	</div>
+                	<div class="col-lg-6 mb-2 pr-lg-1">
+                    	<div class="image-profile-wrapper">
+                    		<img src="uploads/photos/{{ images.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
+                    	</div>
+                	</div>
+                	<div class="col-lg-6 mb-2 pr-lg-1">
+                    	<div class="image-profile-wrapper">
+                    		<img src="uploads/photos/{{ images.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
+                    	</div>
+                	</div>
+                	<div class="col-lg-6 mb-2 pr-lg-1">
+                    	<div class="image-profile-wrapper">
+                    		<img src="uploads/photos/{{ images.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
+                    	</div>
+                	</div>
+            	</div>
+        	</div>
+        	<div id="debug-tab" class="tab-pane fade" role="tabpanel">
+            	<div class="row">
+                	<div class="col-lg-7">
+                		<h2>Mise en ligne</h2>
+                		<form id="admin-upload-form" method="post" action="/admin/debugupload" id="form" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="titre">Nom</label><br />
+                                <input type="text" class="form-control" name="name" placeholder="Titre de la photo" id="titre" required />
+                            </div>
+                            <div class="form-group">
+                            	<label for="description">Description post</label>
+                            	<textarea class="form-control" rows="2" name="description" id="description" required>Test administration</textarea>
+                            </div>
+                            <div class="form-group">
+                            	<label for="privacy0">Confidentialité de la photo</label><br>
+                                <div class="form-check form-check-inline">
+                                	<input class="form-check-input" type="radio" name="privacy" id="privacy0"value="0" checked>
+                                	<label class="form-check-label" for="privacy0">Publique</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                	<input class="form-check-input" type="radio" name="privacy" id="privacy1"value="1">
+                                	<label class="form-check-label" for="privacy1">Mes amis</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                	<input class="form-check-input" type="radio" name="privacy" id="privacy2"value="2">
+                                	<label class="form-check-label" for="privacy2">Privée</label>
+                                </div>
+                                <div class="form-group">
+                            		<label for="myfile">Fichier</label><br />
+                            		<input type="hidden" name="MAX_FILE_SIZE" value="10048576" />
+                            		<input type="file" class="form-control-file" name="myimage" id="myfile" /><br />
+                    			</div>
+                            </div>
+                            <div id="button-wrapper">
+                            	<input type="submit" class="btn btn-primary" name="submit" value="Envoyer mon post" />
+                            </div>
+
+                    	</form>
+                    	
+                    </div>
+                    <div id="preview-upload" class="col-lg-5">
+                    </div>
+            	</div>
+        	</div>
+        </div>
+        <!-- End main admin tab -->
+    </div>
 </div>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <p>Bonjour</p>
+    </div>
+  </div>
+</div>
+
+
 
 <div id="overlay" class="overlay">
 	<div class="row">
-		<div id="admin-image-wrapper" class="col-lg-8 mx-auto">
+		<div id="admin-image-wrapper" class="col-lg-6 mx-auto">
     		<span class="icon-exit" id="cross-admin">
         		<i class="fas fa-times"></i>
         	</span>

@@ -36,6 +36,13 @@ class ContentController extends Controller
         return $this->render($response, 'home.twig', $args);
     }
     
+    public function testDummy($request, $response)
+    {
+        
+        return $this->render($response, 'pages/dummy.twig');
+        
+    }
+    
     // Clean & escape form data
     public function sanitizeDatas(&$data)
     {
@@ -96,8 +103,23 @@ class ContentController extends Controller
 
          array_walk_recursive($comments, array($this, 'sanitizeDatas'));
          
+         array_walk($comments, array($this, 'addRelativeDate'));
+         //$comments['relative_date'] = $this->relativeDate($comments['com_date']);
+
          echo json_encode($comments);
      }
+     
+     public function addRelativeDate(&$data)
+     {
+         
+         $data['com_date'] = [
+             "absolute" => strftime('%e %b %Y à %T', $data['com_date']),
+             "relative" => $this->relativeDate($data['com_date']),
+         ];
+         
+         
+         //$this->relativeDate($data['com_date']);        
+     }  
      
      public function getLikes($request, $response)
      {
@@ -124,14 +146,38 @@ class ContentController extends Controller
          $contentModel->addComment($uid, $content, $postId);
      }
      
+     public function reportComment($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         $commentId = $datas['commentId'];
+         
+         $contentModel = $this->container->get('contentModel');
+         $contentModel->reportComment($commentId);
+         
+     }
+     
      public function deleteComment($request, $response)
      {
          $datas = $request->getParsedBody();
          $uid = $datas['uid'];
          $commentId = $datas['commentId'];
-         
+                  
          $contentModel = $this->container->get('contentModel');
          $contentModel->deleteComment($uid, $commentId);
+         
+         echo json_encode($commentId);
+     }
+     
+     // get user comments refreshed.
+     public function getMyComments($request, $response)
+     {
+         $datas = $request->getParsedBody();
+         $uid = $_SESSION['uid'];
+         
+         $contentModel = $this->container->get('contentModel');
+         $comments = $contentModel->getMyComments($uid);
+         
+         echo json_encode($comments);
      }
      
      public function reportPost($request, $response)
@@ -194,7 +240,7 @@ class ContentController extends Controller
              unlink($photoPath);
              
              $this->flash('Post supprimé avec succès');
-             
+             return $this->redirect($response, 'profile');
          } else {
              
              echo 'Erreur, vous devez vous authentifier';
@@ -227,7 +273,7 @@ class ContentController extends Controller
          $contentModel->editPost($name, $content, $privacy, $postId);
          $this->flash('Post edité avec succès');
          
-         return $this->redirect($response, 'newprofile');
+         return $this->redirect($response, 'profile');
      }
      
      public function addContent($request, $response)

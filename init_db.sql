@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 12 déc. 2019 à 04:57
+-- Généré le :  mer. 22 jan. 2020 à 04:34
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS `friendship` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `friend_a` tinyint(4) NOT NULL,
   `friend_b` tinyint(4) NOT NULL,
+  `status` varchar(10) NOT NULL DEFAULT 'friend',
   `friend_date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_friendship_to_members` (`friend_b`),

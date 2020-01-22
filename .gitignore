@@ -8,6 +8,7 @@
 /public/images/favicon3.png
 .buildpath
 .project
+.vscode
 composer.lock
 .settings
 docker-compose.yml

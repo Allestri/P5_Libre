@@ -4,11 +4,24 @@
 {{ include ('flash.twig') }}
 
     <div class="row">
-    	<div id="memberlist-container" class="col-lg-6 mx-auto">
+    	<div id="memberlist-container" class="col-lg-6 mx-auto mt-3">
     		<div id="memberlist-header">
     			<h1><i class="fas fa-users"></i>Liste des membres</h1>
     		</div>
     		<div id="memberlist-wrapper">
+    			<div id="memberlist-nav">
+    				<div class="membernav-item">Nom</div>
+    				<div class="membernav-item">Membre depuis</div>
+    				<div class="membernav-item sort-select">
+    					<label for="sort">Trier par :</label>
+    					<form action="sortmembers" method="GET">
+                            <select name="sort" id="sort" onchange="this.form.submit()">
+                                <option value="date">Ancienneté</option>
+                                <option value="name">Pseudonyme</option>
+                            </select>
+                    	</form>
+    				</div>
+    			</div>
                 <div id="memberlist">
                     {% for members in memberslist %}
                     <div class="memberlist-card">
@@ -17,15 +30,48 @@
                     	{% else %}
                     	<img src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" alt="{{ members.name }} avatar" height="60" width="60">
                     	{% endif %}
-            			<h4>{{ members.name }}</h4>
-            			<p>Membre depuis {{ members.days_timestamp }} jours</p>
-                      	<form id="addfriend{{ members.id }}"method="POST" action="addfriend">
+                    	<div class="item-test">
+                        	<div class="memberlist-item main-items">
+                				<h4>{{ members.name }}</h4>
+                			</div>
+                			<div class="memberlist-item main-items">
+                			    {{ members.days_timestamp }} jours
+                			</div>
+                			<div class="memberlist-item item-status">
+                                {% if members.status == 'friend' %}
+    							<span class="badge badge-pill badge-success">Amis</span>
+    						    {% elseif members.status == 'pending' %}
+    							<span class="badge badge-pill badge-secondary">En attente</span>
+							    {% else %}
+								<span class="badge badge-pill badge-light">-</span>
+							    {% endif %}
+                			</div>
+            			</div>
+                      	{% if members.status == 'friend' %}
+                      	<form id="removefriend{{ members.id }}"method="POST" action="removefriend">
                           	<input type="hidden" name="myId" value="{{ member }}" />
                           	<input type="hidden" name="memberId" value="{{ members.id }}"/>
                       	</form>
-                      	<div class="addfriend-btn-wrapper">
-                      		<button class="addfriend-btn" form="addfriend{{ members.id }}"><i class="fas fa-user-plus"></i></button>
+                      	<div class="memberlist-item addfriend-btn-wrapper">
+                      		<button class="memberlist-btn removefriend-btn" form="removefriend{{ members.id }}"><i class="fas fa-user-times"></i></button>
                       	</div>
+                      	{% elseif members.status == 'pending' %}
+                      	<form id="cancelreq{{ members.id }}"method="POST" action="cancelrequest">
+                          	<input type="hidden" name="myId" value="{{ member }}" />
+                          	<input type="hidden" name="memberId" value="{{ members.id }}"/>
+                      	</form>
+                      	<div class="memberlist-item addfriend-btn-wrapper">
+            				<button class="memberlist-btn cancel-btn" form="cancelreq{{ members.id }}"><i class="fas fa-times"></i></button>
+            			</div>
+                      	{% else %}
+                     	<form id="addfriend{{ members.id }}"method="POST" action="addfriend">
+                          	<input type="hidden" name="myId" value="{{ member }}" />
+                          	<input type="hidden" name="memberId" value="{{ members.id }}"/>
+                      	</form>
+                      	<div class="memberlist-item addfriend-btn-wrapper">
+            				<button class="memberlist-btn addfriend-btn" form="addfriend{{ members.id }}"><i class="fas fa-user-plus"></i></button>
+            			</div>
+                      	{% endif %}
                     </div>
     			    {% endfor %}
                 </div>
@@ -43,5 +89,6 @@
             </div>
         </div>
     </div>
+    
 
 {% endblock %}

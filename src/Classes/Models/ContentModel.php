@@ -46,10 +46,17 @@ Class ContentModel extends Model
         return $post->fetch();
     }
     
+    public function getDate()
+    {
+        $sql = "SELECT UNIX_TIMESTAMP(com_date) as timestamp FROM comments WHERE content ='Jolie vue !'";
+        $dateTime = $this->executeQuery($sql);
+        return $dateTime->fetch();
+    }
+    
     // Get comments from a marker from Map
     public function getCommentsNew($markerId)
     {
-        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, comments.com_date
+        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, UNIX_TIMESTAMP(comments.com_date) as com_date
                 FROM comments
                 INNER JOIN members
                     ON comments.author_id = members.id
@@ -67,7 +74,7 @@ Class ContentModel extends Model
     // Get comments refreshed
     public function getComments($postId)
     {
-        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, DATE_FORMAT(comments.com_date, '%M %d %Y' ) as com_date
+        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, UNIX_TIMESTAMP(comments.com_date) as com_date
                 FROM comments 
                 INNER JOIN members
 	               ON comments.author_id = members.id
@@ -150,6 +157,12 @@ Class ContentModel extends Model
     public function reportPost($userId, $postId) {
         $sql = "INSERT INTO post_reports (user_id, post_id) VALUES(?, ?)";
         $this->executeQuery($sql, array($userId, $postId));
+    }
+    
+    public function reportComment($commentId)
+    {
+        $sql ="UPDATE comments SET reported = reported + 1 WHERE id = ?";
+        $this->executeQuery($sql,array($commentId));
     }
     
     public function likePostNew($userId, $postId)

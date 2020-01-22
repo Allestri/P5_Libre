@@ -6,7 +6,12 @@ class MembersModel extends Model
 {   
     public function getAccountInfo($username)
     {        
-        $sql = "SELECT * FROM members WHERE name = ?";
+        $sql = "SELECT members.id, members.password, members.group_id, avatars.avatar_file  
+                FROM members
+                INNER JOIN avatars
+                	ON members.id = avatars.user_id
+                    AND avatars.active = 1
+                WHERE members.name = ?";
         $member = $this->executeQuery($sql, array($username));
         return $member->fetch();
     }
@@ -30,17 +35,58 @@ class MembersModel extends Model
     }
     
     // Used in memberlist page with pagination
-    public function getAllMembersLimit($limit, $offset)
+    public function getAllMembersLimit($limit, $offset, $userId)
     {
         $sql = "SELECT members.id, members.name, avatars.avatar_file, DATEDIFF(CURDATE(), members.date) as days_timestamp
                 FROM members
                 LEFT OUTER JOIN avatars
                     ON members.id = avatars.user_id
                     AND avatars.active = 1
+                WHERE members.id != :param
                 ORDER BY members.date ASC
                 LIMIT :limit OFFSET :offset";
-        $members = $this->executeLimitQuery($sql, $limit, $offset);
+        $members = $this->executeLimitQuery($sql, $limit, $offset, $userId);
         return $members->fetchAll();
+    }
+    
+    // Used in memberlist page with pagination
+    public function getMembersSortName($limit, $offset, $userId)
+    {
+        $sql = "SELECT members.id, members.name, avatars.avatar_file, DATEDIFF(CURDATE(), members.date) as days_timestamp
+                FROM members
+                LEFT OUTER JOIN avatars
+                    ON members.id = avatars.user_id
+                    AND avatars.active = 1
+                WHERE members.id != :param
+                ORDER BY members.name ASC
+                LIMIT :limit OFFSET :offset";
+        $members = $this->executeLimitQuery($sql, $limit, $offset, $userId);
+        return $members->fetchAll();
+    }
+    
+    // Not using.
+    public function getMembersOrderFriends($limit, $offset, $userId)
+    {
+        $sql = "SELECT members.id, members.name, avatars.avatar_file, DATEDIFF(CURDATE(), members.date) as days_timestamp
+                FROM members
+                LEFT OUTER JOIN avatars
+                    ON members.id = avatars.user_id
+                    AND avatars.active = 1
+                RIGHT JOIN friendship
+					ON friend_a = members.id
+                    OR friend_b = members.id
+                WHERE members.id != 6
+                LIMIT :limit OFFSET :offset";
+        $members = $this->executeLimitQuery($sql, $limit, $offset, $userId);
+        return $members->fetchAll();
+    }
+    
+    
+    public function getFriendships($uid)
+    {
+        $sql = "SELECT * FROM friendship WHERE friend_a = :uid OR friend_b = :uid";
+        $friendships = $this->executeQuery($sql, array(':uid' => $uid));
+        return $friendships->fetchAll();
     }
     
     // Count members without connected user
@@ -76,10 +122,19 @@ class MembersModel extends Model
     }
     
     // Friendship System
+    // @param : $uid : connected user unique id
+    //          $fid : receiver/friend unique id
     
     public function addFriendRequest($uid, $fid)
     {
-        $sql = "INSERT INTO friend_requests (sender_id, receiver_id, created_at) VALUES (?, ?, NOW())";
+        $sql = "INSERT INTO friendship (friend_a, friend_b, status, friend_date) VALUES (?, ?, 'pending', NOW())";
+        $this->executeQuery($sql, array($uid, $fid));
+    }
+    
+    public function cancelFriendRequest($uid, $fid)
+    {
+        $sql = "DELETE FROM friendship 
+                WHERE friend_a = ? AND friend_b = ?";
         $this->executeQuery($sql, array($uid, $fid));
     }
     
@@ -94,6 +149,13 @@ class MembersModel extends Model
     {
         $sql ="INSERT INTO friendship (friend_a, friend_b, friend_date) VALUES (?, ?, NOW())";
         $this->executeQuery($sql, array($fid, $uid));
+    }
+    
+    public function removeFriend($fid, $uid)
+    {
+        $sql = "DELETE FROM friendship
+                WHERE (friend_a = :from AND friend_b = :to) OR (friend_a = :to AND friend_b = :from)";
+        $this->executeQuery($sql, array(':from' => $uid, ':to' => $fid));
     }
     
     public function getFriendRequests($uid)
@@ -116,10 +178,12 @@ class MembersModel extends Model
                 LEFT OUTER JOIN avatars
                     ON members.id = avatars.user_id
                     AND avatars.active = 1
-                WHERE friendship.friend_a = ?";
-        $friends = $this->executeQuery($sql, array($uid));
+                WHERE friendship.friend_a = :uid OR friendship.friend_b = :uid";
+        $friends = $this->executeQuery($sql, array(':uid' => $uid));
         return $friends->fetchAll();
     }
+    
+    // Avatars
     
     public function getAvatar($uid)
     {
@@ -195,6 +259,13 @@ class MembersModel extends Model
         $sql = "UPDATE members SET email = ?
                 WHERE id = ?";
         $this->executeQuery($sql, array($email, $uid));
+    }
+    
+    public function changePassword($password, $uid)
+    {
+        $sql = "UPDATE members SET password = ?
+                WHERE id = ?";
+        $this->executeQuery($sql, array($password, $uid));
     }
     
     public function getRecentPhotos($uid)

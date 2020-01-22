@@ -13,11 +13,12 @@ function Social () {
 	
 	this.initialization = function() {
 		
-		this.closeOverlay();
+		//this.closeOverlay();
 		this.toggleLikeButton();
 		this.toggleReportButton();
 		this.commentPost();
 		this.deleteComment();
+		this.reportComment();
 	}
 	
 	
@@ -83,6 +84,7 @@ function Social () {
 					data: formData,
 					success: function(data){
 						console.log('Success, image commented');
+						self.removeListeners();
 						self.showComments();
 						$("#comment-form")[0].reset();
 						
@@ -96,13 +98,38 @@ function Social () {
 		
 	};
 	
+	this.reportComment = function() {
+		
+		$(".report-comment-btn").on('click', (function(e){
+			e.preventDefault();
+			
+			var formData = $(this).parent().serialize();
+			
+			$.ajax({
+				type: "POST",
+				url: "http://projetlibre/map/report-comment",
+				data: formData,
+				success: function(data){
+					console.log('Success, comment reported');
+					self.removeListeners();
+					// Update report form.
+					
+				},
+				error: function(result, status, error){
+					console.log('error ' . status);
+				}
+			});
+			
+		}));
+	};
+	
 	this.showComments = function () {
 		
 		// WIP
 		//var element = $('#comment').find('input');
 		//var $postId = $('#postId').attr('value');
 		var postId = $('#postId').attr('value');
-		console.log(postId);
+		console.log('Post ID: ' + postId);
 
 		$.ajax({
 				type: "GET",
@@ -120,16 +147,31 @@ function Social () {
 		});
 	};
 	
+	// Checks if a custom avatar is set, returns default avatar file if null.
+	this.getAvatar = function(username, avatarFile) {
+		
+		let avatar;
+		if(avatarFile == null){
+    		avatar = 'uploads/avatar/avatar_default.png';
+    		return avatar;
+    	}
+    	return avatar = 'uploads/avatar/' + username + '/' + avatarFile;
+	};
+	
 	this.displayComments = function(data) {
 
 		console.log(data);
-		var commentOption = "<div class='comment-options'><i class='fa fa-cog'></i></div>";
-	    var comments = "";
-
+		var comments = "";
+		
+		var optionsStart = "<div class='comment-options'><i class='fas fa-cog'></i><ul class='options-menu'><li><form class='reportCom-form' method='POST' action='map/report-comment' >";
+	    var optionsEnd = "<button class='report-comment-btn' type='submit'>Signaler</button></form></li></ul></div>";
+	    
 	    for( var i = 0; i < data.length; i++){
 	    	
-	        comments += "<div class='card comment'><div class='comment-avatar'><img src='uploads/avatar/SOku/" + data[i].avatar_file + "' width='50' alt='avatar'></div><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><p class='card-text'>" + data[i].content + "</p></div>" +
-	        		"<div class='comment-options'><i class='fa fa-cog'></i><ul class='options-menu'><li><form class='deleteComment' method='POST' action='map/deletecomment' ><input type='hidden' name='commentId' value='" + data[i].id + "'/><input type='hidden' name='uid' value='6' /><button class='delete-comment-btn'>Supprimer</button></form></li></ul></div></div>";
+	    	let avatar = this.getAvatar(data[i].name, data[i].avatar_file);
+	    	
+	    	comments += "<div class='card comment'><div class='comment-avatar'><img src='" + avatar + "' width='50' alt='avatar'></div><div class='comment-body'><h5 class='comment-title'>" + data[i].name + "</h5>" +
+    		"<span class='comment-date' data-toggle='tooltip' data-placement='bottom' title='" + data[i].com_date.absolute + "'>" + data[i].com_date.relative +	"</span><p class='comment-text'>" + data[i].content + "</p></div></div>";
 
 	    }
 	    $('#comments-wrapper').html(comments);
@@ -142,28 +184,14 @@ function Social () {
 	
 	
 	
-	// Toggle like unlike button then fire the right method.
-	
-	
-	// Button !
-	/*
-	if(data.uliked > 0){
-		$('.like').addClass('active');
-	} else {
-		$('.like').removeClass('active');
-	}
-	*/
-	
+	// Toggle like unlike button then fire the right method.	
 	this.toggleLikeButton = function() {
 		
 		$('.like').click(function(e){
 			e.preventDefault();
 			$('.like').toggleClass('active', 1000);
-			// Fire like or unlike.
 			
-			var child = $(this).children('.like');
-			console.log(child);
-			
+			// Fire like or unlike.						
 			if($('.like').hasClass('active')) {
 				console.log('liked');
 				self.likePost();

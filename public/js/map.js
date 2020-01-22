@@ -22,6 +22,7 @@ function displayMap()
 	        url: "http://projetlibre/map/api",
 	        dataType: "json",
 	        success: (data)=> {
+	        	console.log(data);
 	           //console.log(data[0].lng, data[0].lat);
 	        	
 	           //console.log(data);
@@ -146,7 +147,6 @@ function displayMap()
 	        dataType: "JSON",
 	        success: (data)=> {
 	        	console.log('Infos success');
-	        	console.log(data);
 	        	let infos = new postInfos(data);
 	        	infos.displayInfos();
 	        	infos.togglePanel();
@@ -223,9 +223,10 @@ function displayMap()
 			success: function(result){
 				infoWindow.close();
 				self.toggleInfoButton();
-				$('#image-midsize').attr('src', file);
-				//$('#overlay').show();
-				self.setMapOverlay();
+				$('#image-midsizenew').attr('src', file);
+				
+				//self.setMapOverlay();
+				self.setNewOverlay();
 				// Init social functionalities.
 				let social = new Social();
 				social.initialization();
@@ -237,6 +238,28 @@ function displayMap()
 		});
 		
 	};
+	
+	// New overlay
+	
+	this.setNewOverlay = function() {
+		
+		$('#modal-grid').modal('toggle');
+		
+		this.unsetNewOverlay();
+	};
+	
+	this.unsetNewOverlay = function() {
+		
+		$('.icon-exit').click(function() {
+			
+			$('#modal-grid').modal('toggle');
+			self.removeListeners();
+		});
+		
+	};
+	
+	
+	// Old overlay
 	
 	this.setMapOverlay = function() {
 		
@@ -253,8 +276,18 @@ function displayMap()
 			
 			$(bodyElt).removeClass('noscroll');
 			$('#overlay').hide();
-			
+			self.removeListeners();
 		});
+	};
+	
+	this.removeListeners = function() {
+		
+			
+		$("#comment-form").off('submit');
+		//$('#image-midsize').unbind('click');
+		$('.like').unbind('click');
+		$('.report').unbind('click');
+		
 	};
 	
 	// Init Google Map

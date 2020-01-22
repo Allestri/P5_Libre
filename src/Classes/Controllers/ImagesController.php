@@ -29,6 +29,13 @@ class ImagesController extends ContentController
     {
         return $this->container->view->render($response, 'pages/map.twig');
     }
+    
+    public function helloTest($request, $response)
+    {
+        $args['test'] = "Hello world";
+        var_dump($args);
+        return $this->container->view->render($response, 'pages/map.twig', $args);
+    }
         
     public function fetchMarkersRest()
     {
@@ -93,22 +100,26 @@ class ImagesController extends ContentController
         $imageModel = $this->container->get('imagesModel');
         $contentModel = $this->container->get('contentModel');
         
-        //$datas = $request->getQueryParams();
-        //$markerId = $datas['id'];
-        $markerId = 51;
+        $datas = $request->getQueryParams();
+        $markerId = $datas['id'];
         
         $datas = $imageModel->fetchImgsInfosNew($markerId);
         $likes = $contentModel->getLikes($markerId);
         $datas = array_merge($datas, $likes);
         $datas['comments'] = $contentModel->getCommentsNew($markerId);
         
+        // Set up dates
+        array_walk($datas['comments'], array($this, 'addRelativeDate'));
+
         // If a member is connected, gets his likes.
+        /*
         if(isset($_SESSION['uid'])){
             
             $userId = $_SESSION['uid'];
             $mylikes = $contentModel->getMyLikes($markerId, $userId);
             $datas = array_merge($datas, $mylikes);
         }
+        */
         
         array_walk_recursive($datas, array($this, 'sanitizeDatas'));
         
@@ -168,28 +179,8 @@ class ImagesController extends ContentController
         } else {
             $hasInfos = false;
         }
-        
-        // Checks hasexif variables then display a flash status message.
-        /*
-        if(!$hasGeoExif && !$hasThumbnail && !$hasInfos) {
-            $this->flash('Votre image est totalement incompatible avec cette application', 'error');
-        } elseif (!$hasGeoExif || !$hasThumbnail || !$hasInfos) {
-            $this->flash('Certaines infos manquent pour une compatiblité complète', 'warning');
-        } else {
-            $this->flash('Votre image est entièrement compatible avec cette application');
-        }
-        */
-        
-
-        $_SESSION['filename'] = $filename;
-        // If one is false, deletes the files from the server.
-        // If not, moves it to the final directory.
-        /*
-        $photoPath = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename;
-        if(!$hasGeoExif || !$hasInfos || !$hasThumbnail){
-            unlink($photoPath);
-        }
-        */
+                
+        $_SESSION['filename'] = $filename;        
         
         // Variables for test exif indicators
         $args['geodata'] = $hasGeoExif;
@@ -219,7 +210,7 @@ class ImagesController extends ContentController
         $oldPath = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename;
         $newPath = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename;
         
-        rename($oldPath, $newPath);
+        rename($oldPath, $newPath);        
 
         $exif = $this->seekExif($filename, $directory, "photos");                
                
@@ -393,6 +384,71 @@ class ImagesController extends ContentController
         } else {
             echo "Pas de données";
         }
+    }
+    
+    // used to debug on admin page
+    public function debugUpload($request, $response)
+    {
+        
+        $directory = $this->container->get('uploaded_directory');
+        $uploadedFile = $request->getUploadedFiles();
+        
+        // Single file upload /*
+        $uploadedFile = $uploadedFile['myimage'];
+        $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
+        
+        $path = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename;
+
+        $exif = @exif_read_data($path, 0, true);
+            
+        $imageModel = $this->container->get('imagesModel');
+        $contentModel = $this->container->get('contentModel');
+        
+        // Get form datas
+        $datas = $request->getParsedBody();
+        $privacy = $datas['privacy'];
+        $name = $datas['name'];
+        $description = $datas['description'];
+        
+        //$filename = $_SESSION['filename'];        
+        //$exif = $this->seekExif($filename, $directory, "photos");
+        
+        // Gets the user id who uploaded the photo
+        $user = $this->getUser();
+        
+        // Picture infos ( size, height, width)
+        $picInfos = $this->getPictureInfos($exif);
+        
+        $groupImg = $this->manageDevice($exif);
+        
+        // Thumbnail
+        $thumbnail = $this->getThumbnail($filename, $directory, $exif);
+        //var_dump($thumbnail);
+        
+        // EXIF
+        $coordinates = $this->putExif($exif);
+        //$hasExif = $this->exifReady($filename, $directory);
+        //var_dump($hasExif);
+        
+        // Insert info data ( height, width, privacy .. )
+        $imageModel->addInfos($filename, $picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user, $groupImg, $privacy);
+        
+        // Fetch the file's unique ID
+        $imageId = $imageModel->linkId();
+        
+        // Insert exif Datas if there is exif available.
+        $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude'], $imageId['id']);
+        // Fetch the matching marker id.
+        $markerId = $imageModel->linkMarkerId();
+        
+        $contentModel->addPost($name, $description, $user, $imageId['id'], $markerId['id'], $privacy);
+        
+        
+        
+        
+        $this->flash('Votre image a bien été mise en ligne');
+        return $this->redirect($response, 'admin');
+        
     }
     
     // ! Not using !

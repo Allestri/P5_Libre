@@ -6,10 +6,16 @@
 Fonts
 ==========================
 */
-
+html, body
+{
+	/*height:100%;*/
+}
 body
 {
+	min-height: 100vh;
 	background-color:#e9ecef;
+	display: flex;
+  	flex-direction: column;
 }
 
 body.noscroll
@@ -35,18 +41,40 @@ body.noscroll
 	src:url('../fonts/westhouse/roboto-regular.ttf') format('truetype');
 }
 
+@font-face
+{
+	font-family:'capsuula';
+	src:url('../fonts/capsuula/capsuula.ttf') format('truetype');
+}
+
+@font-face
+{
+	font-family:'subscribe';
+	src:url('../fonts/subscribe/subscribe.ttf') format('truetype');
+}
+
+#main-navbar
+{
+	float:none;
+	background-color:white;
+	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 5px 10px 0 rgba(21,111,170,.25);
+}
+
+.main-navbar-real
+{
+	display:flex;
+	justify-content:space-between;
+}
 
 .navbar
 {
-	float:none;
 	z-index:1;
-	background-color:white;
-	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(21,111,170,.25);
 }
 
-.container
+#main-container
 {
 	padding:0;
+	flex:1 0 auto;
 }
 
 [class*="col-"] 
@@ -93,6 +121,25 @@ Main Components
 ==========================
 */
 
+#footer
+{
+	height:100px;
+	margin-top:4rem;
+	box-shadow: 0 -1px 1px rgba(97,108,121,.1),0 -2px 5px 0 rgba(21,111,170,.25);
+	background-color:white;
+}
+
+#footer-brand
+{
+	background-color:#D3F0FC;
+}
+
+#flash-container
+{
+	margin-top:10px;
+	height:50px;
+}
+
 .pagination-wrapper
 {
 	margin-top:40px;
@@ -101,6 +148,50 @@ Main Components
 	justify-content:center;
 	width:100%;
 }
+
+.hoverable:hover
+{
+	-webkit-box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+	box-shadow: 0 8px 17px 0
+	rgba(0,0,0,0.2),0 6px 20px 0
+	rgba(0,0,0,0.19);
+	-webkit-transition: all 0.45s ease-in-out;
+	transition: all 0.45s ease-in-out;
+}
+
+.hoverable
+{
+	-webkit-transition: all 0.45s ease-in-out;
+	transition: all 0.45s ease-in-out;
+}
+
+
+.login-pill:hover
+{
+	background-color: #f2f2f2;
+}
+
+#login-modal
+{
+	z-index:1500;
+}
+
+.main-nav-dropdown
+{
+	padding:0;
+}
+
+.main-nav-dropdown .dropdown-item
+{
+	padding-bottom: 0.5rem;
+	padding-top: 0.5rem;
+}
+
+.dropdown-item:hover
+{
+	background-color:#ECECEC;
+}
+
 
 /* 
 ==========================
@@ -116,9 +207,82 @@ Home Page
 
 #home-banner
 {
-	background-image: linear-gradient(to right bottom, #7db9e8, #6aade4, #56a1e0, #4195dc, #2989d8);
-	min-height:400px;
+	display:flex;
+	flex-direction:column;
+	padding:15px;
 	color:white;
+	margin-bottom:2.5rem;
+}
+#welcome-card
+{
+	margin-top:-40px;
+	color: #717171;
+	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18),0 4px 15px 0 rgba(0,0,0,0.15);
+	height:120px;
+	padding:1.25rem;
+	z-index:50;
+}
+.home-card
+{
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+	width:30%;
+}
+
+.home-image-item
+{
+}
+
+.card-img-top
+{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	padding-top:10px;
+}
+
+#home-wrapper
+{
+	display:flex;
+	flex-direction:column;
+}
+
+#test-fade
+{
+	height:150px;
+	background-color:grey;
+}
+
+.home-item
+{
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+	margin-top:4.5rem;	
+}
+
+.home-description
+{
+	height:300px;
+	width:40%;
+	border-radius:10px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	border:2px solid black;
+}
+
+.home-b
+{
+	background-image: linear-gradient(to left top, #7db9e8, #6aade4, #56a1e0, #4195dc, #2989d8);
+}
+
+.home-b-example
+{
+	background-color:white;
+	height:60%;
+	border-radius:15px;
+	width:70%;
+	color:black;
 }
 
 #carouselExampleControls
@@ -131,15 +295,29 @@ Home Page
 
 .carousel-photo
 {
-	width:1400px;
+	padding:0;
+	width:100%;
 	height:500px;
 	object-fit:cover;
 }
 
-#footer
+#footer2
 {
-	min-height:300px;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+	min-height:150px;
 	background-image: linear-gradient(to left top, #7db9e8, #6aade4, #56a1e0, #4195dc, #2989d8);
+}
+
+.home-inscription
+{
+	font-size:2.5rem;
+	font-weight:500;
+	font-family:westhouse;
+	/* border:2px solid white; */
+	box-shadow: 0px 0px 4px 1px white;
 }
 
 /* 
@@ -151,7 +329,7 @@ Map Page
 #app-container
 {
 	position:relative;
-	margin-top:50px;
+	margin-top:3rem;
 }
 
 #map-wrapper
@@ -335,6 +513,62 @@ Forms
 	box-shadow: 0 5px 30px 0px rgba(0, 0, 0, 0.1);
 }
 
+
+#login-wrapper
+{
+	border-top-left-radius:0.6rem;
+	border-top-right-radius:0.6rem;
+}
+
+#login-header
+{
+	height:80px;
+	color:#fff;
+	background: linear-gradient(79deg, rgba(58,132,221,1) 24%,rgba(105,191,226,1) 90%);
+	border-top-left-radius:0.5rem;
+	border-top-right-radius:0.5rem;
+}
+
+#login-header h2
+{
+	font-family: capsuula;
+	font-weight: 800;
+	font-size: 2rem;
+}
+
+.cross-login
+{
+	color:#d0d0d0;
+	opacity:1;
+	text-shadow: 0 1px 3px #115b9d;
+}
+
+.cross-login:hover
+{
+	color: #fff;
+	text-shadow: 0 1px 2px #3e3d3d;
+}
+
+.form-button
+{
+	color:#fff;
+	background-color:#2f8ef4;;
+	border-color: #007bff;
+	border-radius: 2rem;
+}
+
+#form-button:hover
+{
+	background-color: #0069d9;
+}
+
+.input-login
+{
+	padding:0 30px 0 40px;
+	border-radius: 25px;
+	box-shadow: 0 5px 30px 0px rgba(0, 0, 0, 0.1);
+}
+
 #button-wrapper
 {
 	display:flex;
@@ -386,10 +620,10 @@ Forms
 {
 	padding:0;
 	border-radius:10px;
-	margin-top:70px;
 	background-color:white;
 	box-shadow: 4px 7px 21px -9px rgba(0,0,0,0.75);
 	min-height:600px;
+	/*height:500px;*/
 }
 
 .exif-form-wrapper
@@ -452,16 +686,26 @@ Admin Panel
 
 #admin-title
 {
+	height:100px;
+}
+
+#admin-header
+{
 	display:flex;
 	justify-content:center;
 	align-items:center;
-	color:#fff;
-	height:100px;
-	background: linear-gradient(79deg, rgba(58,132,221,1) 24%, rgba(105,191,226,1) 90%);  
+	background: linear-gradient(79deg, rgba(58,132,221,1) 24%, rgba(105,191,226,1) 90%); 
 	border-top-left-radius:25px;
 	border-top-right-radius:25px;
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
+}
+
+#admin-title h1
+{
+	font-family:westhouse;
+	font-size:4.5em;
+	color:#fff;
 }
 
 #admin-nav
@@ -471,9 +715,11 @@ Admin Panel
 
 #admin-panel
 {
-	margin-top:50px;
-	border-radius:30px;
-	
+	border-radius:15px;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	background-color: #fffafa;
+	padding-bottom: 25px;
+	min-height:850px;
 }
 
 .admin-pill
@@ -499,10 +745,11 @@ Admin Panel
 
 .dashboard-card
 {
-	height: 300px;
+	height: 200px;
 	border-radius:10px;
 	background-color:white;
-	margin:20px;
+	margin-top:20px;
+	margin-bottom:20px;
 	padding:15px;
 	display:flex;
 	flex-direction:column;
@@ -610,8 +857,9 @@ Admin Panel
 
 .admin-tab
 {
-	min-height:500px;
-	background-color: #dfdfdf;
+	margin-top:3rem;
+	min-height:800px;
+	background-color: #fffafa;
 }
 
 #edit-tab
@@ -689,11 +937,41 @@ Admin Panel
 	font-size:2.2rem;
 }
 
-/* Member tab */
+/* Reported Comments tab */
+
+#reports-comments-header
+{
+	display:flex;
+	flex-direction:row;
+}
+
+.reported-comment
+{
+	display:flex;
+	flex-direction:row;
+}
+
+/* 
+
+*** Member tab ***
+* adm-member-(item)
+
+*/
+.adm-member-item
+{
+	width:35%;
+}
 
 #members-tab
 {
+	height:100%;
+}
+#members-tab-container
+{
 	padding:25px;
+	height:100%;
+	display:flex;
+	flex-direction:column;
 }
 
 #members-tab-header
@@ -707,6 +985,7 @@ Admin Panel
 {
 	display:flex;
 	flex-direction:column;
+	flex:1;
 }
 
 .member-card
@@ -714,10 +993,11 @@ Admin Panel
 	height:100px;
 	margin-top:20px;
 	margin-bottom:10px;
-	padding-left:15px;
+	padding:15px;
 	display:flex;
 	flex-direction:row;
 	align-items:center;
+	justify-content:space-between;
 	background-color: #fff;
 	border-radius: .25rem;
 	border: 1px solid rgba(0,0,0,.125);
@@ -735,7 +1015,6 @@ Admin Panel
 {
 	height:60px;
 	width:60px;
-	border:1px solid black;
 }
 
 .avatar-mini
@@ -758,6 +1037,15 @@ Admin Panel
 	background-color: #fff;
 	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(97,108,121,.13);
 }
+
+
+/* Reports tab */
+
+.card-title
+{
+	word-break:break-all;
+}
+
 /* Edit Tab */
 
 #edit-preview
@@ -782,10 +1070,9 @@ Members Page
 
 #memberlist-container
 {
-	margin-top:60px;
 	border-radius:10px;
 	padding:0;
-	min-height:640px;
+	height:680px;
 	background-color:white;
 	box-shadow: 4px 7px 21px -9px rgba(0,0,0,0.75);
 	display:flex;
@@ -794,7 +1081,10 @@ Members Page
 
 #memberlist-wrapper
 {
-	padding: 0px 55px 30px;
+	padding: 0px 40px 30px;
+	height:100%;
+	display:flex;
+	flex-direction:column;
 }
 
 #memberlist-header
@@ -807,6 +1097,16 @@ Members Page
 	border-top-right-radius:10px;
 	border-top-left-radius:10px;
 	background: linear-gradient(79deg, rgba(58,132,221,1) 24%, rgba(105,191,226,1) 90%); 
+}
+
+#memberlist-nav
+{
+	height:50px;
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	margin-top:15px;
+	margin-bottom:15px;
 }
 
 
@@ -832,10 +1132,72 @@ Members Page
 	transition: box-shadow .3s ease;
 }
 
+.memberlist-card h4
+{
+	margin:0;
+}
+
 .memberlist-card:hover
 {
 	background-color: #eeeeee;
 	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(21,111,170,.3);
+}
+
+.item-test
+{
+	flex:1;
+	display:flex;
+	flex-direction:row;
+}
+
+.main-items
+{
+	width:40%;
+}
+
+.item-status
+{
+	width:20%;
+}
+
+.memberlist-item
+{
+	height:100%;
+	display:flex;
+	flex-direction:row;
+	justify-content:center;
+	align-items:center;
+}
+
+#sort-select
+{
+	width:150px;
+}
+
+
+
+.memberlist-btn
+{
+	border-radius:50%;
+	border:0;
+	height:2.45rem;
+	width:2.45rem;
+	color: white;
+	background-color:#c9c9c9;
+	line-height:1.5;
+	text-align:center;
+	transition: all .4s;
+}
+
+.addfriend-btn-wrapper
+{
+	padding-left:25px;
+	padding-right:15px;
+}
+
+.cancel-btn
+{
+	font-size:1.4rem;
 }
 
 .memberlist-card:hover .addfriend-btn
@@ -843,21 +1205,16 @@ Members Page
 	background-color:#55a2f4;
 }
 
-.addfriend-btn-wrapper
+.memberlist-card:hover .removefriend-btn
 {
-	padding-right:15px;
+	background-color:#cc7272;
 }
 
-.addfriend-btn
+.memberlist-card:hover .cancel-btn
 {
-	border-radius:50%;
-	border:0;
-	padding: .45rem .55rem;
-	color: white;
-	background-color:#c9c9c9;
-	line-height:1.5;
-	transition: all .4s;
+	background-color:#cc7272;
 }
+
 
 
 /* 
@@ -871,6 +1228,37 @@ Profile Page
 	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 11px 20px 1px rgba(21,111,170,.3);
 	background-color:#FFFFFF;
 	margin-bottom:60px;
+}
+
+#loading
+{
+	position:absolute;
+	height:100%;
+	z-index:100;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	background-color:white;
+}
+
+.spinner-profile
+{
+	display: inline-block;
+	width: 4.5rem;
+	height: 4.5rem;
+	vertical-align: text-bottom;
+	background-color: #4999DD;
+	border-radius: 50%;
+	opacity: 0;
+	-webkit-animation: spinner-grow 1s linear infinite;
+	animation: spinner-grow 1s linear infinite;
+}
+
+#loading.loaded 
+{
+  opacity: 0;
+  visibility:hidden;
+  transition: .3s ease-in 1s;
 }
 
 #profile-nav
@@ -938,6 +1326,14 @@ Profile Page
 {
 	/*display:none;*/
 }
+
+/* Comments tab */
+
+#profile-comments-wrapper
+{
+	
+}
+
 
 /* Overlay */
 
@@ -1085,7 +1481,8 @@ Profile Page
 	align-items:center;
 	justify-content:center;
 	line-height:20px;
-	border-radius: 0px;
+	border-top-right-radius:10px;
+	border-top-left-radius:10px;
 }
 
 #np-header h1
@@ -1099,6 +1496,7 @@ Profile Page
 {
 	background-color:white;
 	border-radius:0px;
+	border-bottom-left-radius:10px;
 }
 
 #profile-avatar
@@ -1124,6 +1522,7 @@ Profile Page
 	background-color:white;
 	border-radius:0px;
 	min-height:600px;
+	border-bottom-right-radius:10px;
 }
 
 #np-navigation
@@ -1166,12 +1565,46 @@ Profile Page
 #tab-edit-img
 {
 	display:none;
+	opacity:0;
+	transition: opacity 1s ease-out;
 }
 
 #tab-edit-img.show-edit
 {
 	display:flex;
+	opacity:1;
+	flex-direction:column;
+}
+
+#edit-form-header
+{
+	display:flex;
 	flex-direction:row;
+	align-items:center;
+	justify-content:space-between;
+	margin-bottom:1rem;
+}
+
+#edit-form-body
+{
+	display:flex;
+	flex-direction:row;
+}
+
+#exit-edit
+{
+	font-size:1.8rem;
+	cursor:pointer;
+	color:#b0b0b0;
+	padding: .15em .25em;
+	border: .08em solid #eee;
+	border-radius: 5px;
+	transition: background-color 0.5s ease-out;
+}
+
+#exit-edit:hover
+{
+	background-color:#e8e8e8;
 }
 
 #showAllImages
@@ -1181,6 +1614,26 @@ Profile Page
 	background-color: #007bff;
 	color:white;
 	line-height:10px;
+}
+
+.image-profile-wrapper
+{
+	overflow:hidden;
+	cursor:pointer;
+	width:100%;
+	height:100%;
+}
+
+.image-profile
+{
+	object-fit:cover;
+	height:100%;
+	transition: transform .5s; /* Animation */
+}
+
+.image-profile:hover
+{
+	transform: scale(1.15); /* (120% Zoom) */
 }
 
 
@@ -1359,6 +1812,28 @@ Profile Page
 	color:white;
 }
 
+/* 
+==========================
+ Overlay Social
+==========================
+*/
+
+#image-wrapper-new
+{
+	padding:0;
+	display: flex;
+	align-items: center;
+	/* background-color: #f2efef; */
+	background-color:black;
+}
+
+#image-panel
+{
+	display:flex;
+	flex-direction:column;
+	padding-right: 0px;
+}
+
 #image-wrapper
 {
 	position:relative;
@@ -1368,12 +1843,27 @@ Profile Page
 	justify-content: center;
 	padding:0;
 	background-color:black;
+	
 }
 
-#image-wrapper:hover #button-panel
+#image-wrapper-new:hover #button-panel
 {
 	opacity:1;
 	visibility:1;
+}
+
+#connect-prompt
+{
+	position: relative;
+	padding: .75rem 1.25rem;
+	margin-bottom: 0.5rem;
+	border: 1px solid transparent;
+	border-radius: .25rem;
+	margin-top: 0.5rem;
+	color: #4f4f4f;
+	background-color:#f9f9f9;
+	border-color: #dbdbdb;
+	text-align: center;
 }
 
 #admin-image-wrapper
@@ -1388,11 +1878,9 @@ Profile Page
 	background-color:white;
 }
 
-#image-midsize
+#image-midsizenew
 {
-	max-width:100%;
-	cursor: pointer;
-	max-height:770px;
+	width:100%;
 }
 
 #button-panel
@@ -1403,8 +1891,7 @@ Profile Page
 	width:100%;
 	opacity:0;
 	visibility:0;
-	background: rgb(61,61,61);
-	background: linear-gradient(0deg, rgba(61,61,61,0.7539216370141807) 29%, rgba(255,255,255,0) 100%);
+	background: linear-gradient(transparent, rgba(0, 0, 0, .5));
 	transition: opacity .60s;
 }
 
@@ -1413,11 +1900,16 @@ Profile Page
 {
 	margin-top:10px;
 	overflow:auto;
-	padding:10px;
-	/*height:450px;*/
-	max-height:900px;
+	/* padding:10px; */
+	max-height:350px;
+	display:flex;
+	flex-direction:column;
 	flex:1;
 }
+
+
+/* Comments */
+
 
 .comment
 {
@@ -1437,6 +1929,32 @@ Profile Page
 	opacity:1;
 }
 
+.comment-title
+{
+	margin:0;
+	font-weight:500;
+}
+
+
+.comment-body
+{
+	flex: 1 1 auto;
+	padding: 1rem;
+}
+
+.comment-date
+{
+	font-size:0.8rem;
+}
+
+.comment-text
+{
+	margin-top: 0.5rem;
+	margin-bottom:0;
+}
+
+
+
 .comment-options
 {
 	position:absolute;
@@ -1444,6 +1962,9 @@ Profile Page
 	right:10px;
 	cursor:pointer;
 	opacity:0;
+	padding: 5px;
+	line-height: 1rem;
+	/* background-color: #993636; */
 	transition: opacity .20s;
 }
 
@@ -1452,10 +1973,15 @@ Profile Page
 	color: #ccc;
 }
 
-
 .comment-options i:hover
 {
-	color: #1caad9;
+	color: #737373;
+}
+
+.report-comment-btn
+{
+	background-color:white;
+	border:0;
 }
 
 .comment-options:hover .options-menu
@@ -1472,15 +1998,16 @@ Profile Page
 
 .comment-avatar
 {
-	padding:20px 0px 20px 20px;
+	padding:1rem 0 1rem 1rem;
 }
 
 .options-menu
 {	
 	padding:10px;
+	margin-bottom:0;
 	position:absolute;
-	top:15px;
-	right:10px;
+	top:20px;
+	right:0px;
 	z-index:2;
 	list-style:none;
 	opacity:0;
@@ -1488,7 +2015,20 @@ Profile Page
 	box-shadow: 0 1px 1px rgba(0,0,0,.25);
 	background-color:white;
 	color:black;
+	transition: opacity .20s;
 }
+
+.options-menu li:hover
+{
+	background-color:grey;
+}
+
+
+.comment-text:hover .options-menu
+{
+	opacity:1;
+	visibility:visible;
+}	
 
 
 .comment-form-wrapper
@@ -1525,6 +2065,26 @@ Profile Page
 	transition: color .4s;
 }
 
+.card-heart
+{
+	color: #c86262;
+}
+
+.card-comments
+{
+	color: #68b8e8;
+}
+
+.like-count
+{
+	color: #c86262;
+}
+
+.comments-count
+{
+	color: #3c7fbb;
+}
+
 .social-button:hover
 {	
 	color: #666;
@@ -1558,6 +2118,21 @@ Profile Page
 }
 
 
+/* Tests Layout */
+
+#test-flex-container
+{
+	border:2px solid black;
+}
+
+#test-flex
+{
+	
+	height:150px;
+	background-color:grey;
+}
+
+
 
 /* Media Queries */
 @media screen and (max-width: 1200px)
@@ -1580,6 +2155,11 @@ Profile Page
 	{
 		position:static;
 		width:100%;
+	}
+	
+	#image-panel
+	{
+		padding:0;
 	}
 	
 	#info-btn-ext
