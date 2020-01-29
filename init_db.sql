@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 22 jan. 2020 à 04:34
+-- Généré le :  mer. 29 jan. 2020 à 08:02
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -152,7 +152,26 @@ CREATE TABLE IF NOT EXISTS `logs` (
   `post_name` varchar(255) NOT NULL,
   `post_content` varchar(255) NOT NULL,
   `author_id` int(11) NOT NULL,
+  `post_date` datetime DEFAULT NULL,
   `mod_type` varchar(255) NOT NULL DEFAULT 'none',
+  `mod_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `logs_com`
+--
+
+DROP TABLE IF EXISTS `logs_com`;
+CREATE TABLE IF NOT EXISTS `logs_com` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `com_id` int(11) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `com_date` datetime NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `mod_type` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

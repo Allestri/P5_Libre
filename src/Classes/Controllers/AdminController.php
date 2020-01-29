@@ -72,6 +72,7 @@ class AdminController extends Controller
                                 
                 // Logs
                 $args['logs'] = $adminModel->getLogs();
+                $args['logs_com'] = $adminModel->getComLogs();
     
                 return $this->render($response, 'pages/admin.twig', $args);
             }
@@ -137,6 +138,23 @@ class AdminController extends Controller
         echo json_encode($report);
     }
     
+    // Reports
+    
+    public function clearPostReport($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        $postId = $datas['postId'];
+        
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->clearReport($postId);
+        
+        $this->flash('Le signalement a été supprimé avec succès');
+        return $this->redirect($response, 'admin');
+    }
+    
+    
+    // Moderation
+    
     public function editPost($request, $response)
     {
         $datas = $request->getParsedBody();
@@ -144,11 +162,15 @@ class AdminController extends Controller
         $name = $datas['name'];
         $content = $datas['description'];
         
+        // M as moderated
+        $modType = 'M';
+        
         $adminModel = $this->container->get('adminModel');
+        $adminModel->insertPostLogs($modType, $postId);
         $adminModel->editPost($name, $content, $postId);
         $adminModel->clearReport($postId);
         
-        $this->flash('Post supprimé avec succès');
+        $this->flash('Post edité avec succès');
         return $this->redirect($response, 'admin');
         
     }
@@ -162,8 +184,38 @@ class AdminController extends Controller
         $adminModel->deletePost($postId);
         $adminModel->clearReport($postId);
         
-        $this->flash('Post edité avec succès');
+        $this->flash('Post supprimé avec succès');
         return $this->redirect($response, 'admin');
     }
+    
+    public function editComment($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        $commentId = $datas['commentId'];
+        $content = $datas['content'];
+        
+        // M as moderated 
+        $modType = 'M';
+        
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->insertComLogs($modType, $commentId);
+        $adminModel->editComment($content, $commentId);
+        
+        $this->flash('Commentaire moderé avec succès');
+        return $this->redirect($response, 'admin');
+    }
+    
+    public function deleteComment($request, $response)
+    {
+        $datas = $request->getParsedBody();
+        $commentId = $datas['commentId'];
+        
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->deleteComment($commentId);
+        
+        $this->flash('Commentaire supprimé avec succès');
+        return $this->redirect($response, 'admin');
+    }
+    
     
 }

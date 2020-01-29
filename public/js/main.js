@@ -1,6 +1,7 @@
 // General JS code not related to GMaps or Images viewers.
 
 
+
 /*
 $('#edit-profile-btn').on('click', function(){
 	
@@ -13,11 +14,36 @@ $('#edit-profile-btn').on('click', function(){
 
 
 // Navbar
-$('#navbar > ul.nav li a').click(function(e) {
-    var $this = $(this);
-    $this.parent().siblings().removeClass('active').end().addClass('active');
-    e.preventDefault();
+
+
+$(document).ready(function() {
+	
+	console.log($('#navbar .navbar-nav a'));
+	
+	var url = window.location.href;
+	var activePage = url;
+		 
+	$('.navbar-nav a').each(function () {
+		var linkPage = this.href;
+		console.log(linkPage);
+		
+		if(activePage == linkPage){
+			$(this).closest( 'li' ).addClass( 'active' );
+		}
+		
+	});
+	/*
+	$( '#navbar .navbar-nav a' ).on( 'click', function () {
+		console.log('bonjour');
+		$( '#navbar .navbar-nav' ).find( 'li.active' ).removeClass( 'active' );
+		$( this ).parent( 'li' ).addClass( 'active' );
+	});
+	*/
+	
 });
+
+
+
 
 AOS.init();
 

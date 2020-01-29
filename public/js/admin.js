@@ -19,7 +19,13 @@ function admin() {
 		this.setDeletePost();
 		this.getReportedPostDatas();
 		
+		this.getReportedCommentDatas();
+		
+		this.flipCard();
+		this.expandComLogs();
+		
 		this.memberPagination();
+		this.toggleNavbarStyle();
 	}
 	
 	this.closeOverlay = function() {
@@ -103,7 +109,33 @@ function admin() {
 		
 	};
 	
+	this.expandComLogs = function() {
+		
+		$('.expandComButton').click(function() {
+			
+			console.log($(this).parents('.card').find('.com-logs-hidden'));
+			$(this).closest('.card-body').find('.com-logs-hidden').toggleClass('showCom');
+			
+		});
+		
+		
+	};
+	
+	
 	// Admin CRUD
+	
+	
+	this.flipCard = function() {
+		
+		$('.clickFlip').click(function() {
+			
+			console.log($(this).parents(".card").find('.flipper'));
+			
+			$(this).parents(".card").find('.flipper').toggleClass('flipped');
+			
+			
+		});
+	};
 	
 	this.setDeletePost = function() {
 		
@@ -183,6 +215,34 @@ function admin() {
 		$('#edit-preview').append($('<img id="image-preview" />').attr('src', image));
 		
 	};
+	
+	this.getReportedCommentDatas = function() {
+		
+		$('.mod').click(function(e){
+			
+			e.preventDefault();
+			
+			var commentContent = $(this).parent().parent().parent().find('.comment-content').text();
+			var commentId = $(this).parent().parent().parent().find('.comment-id').text();
+			
+			//var commentContent = $(this).parents('.card-body');
+			var test = $('.card-body').find('.comment-content');
+			
+			console.log(commentContent);
+			console.log(commentId);
+			
+			$('#input-content').val(commentContent);
+			$('#input-id').val(commentId);
+			
+			
+		});
+		
+	};
+	
+	this.setReportedComment = function() {
+		
+		
+	};
 			
 			
 	this.clearAllReports = function() {
@@ -204,6 +264,16 @@ function admin() {
 			
 		});
 		
+	};
+	
+	this.toggleNavbarStyle = function() {
+		
+		$('.back-dashboard').click(function(){
+			
+			$('#admin-nav li a').removeClass('active');
+			$('#admin-nav li a').first().addClass('active');
+			
+		});
 	};
 }
 

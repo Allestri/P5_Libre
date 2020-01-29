@@ -2,9 +2,10 @@
 
 {% block content %}
 
+{{ include ('flash.twig') }}
 
 <div class="row">
-	<div id="admin-panel" class="col-lg-12 mt-5" >
+	<div id="admin-panel" class="col-lg-12 mt-3" >
     	<div class="row" id="admin-header">
     		<div id="admin-title" class="col-lg-5 mx-auto">
         		<h1>Administration</h1>
@@ -23,16 +24,13 @@
             				<a class="nav-link" href="#reports-wrapper" data-toggle="pill">Signalements</a>
             			</li>
             			<li class="nav-item">
-            				<a class="nav-link" href="#reports-comments-wrapper" data-toggle="pill">Commentaires</a>
-            			</li>
-            			<li class="nav-item">
             				<a class="nav-link" href="#edit-tab" role="tab" data-toggle="pill">Moderation</a>
             			</li>
             			<li class="nav-item">
             				<a class="nav-link" href="#members-tab" data-toggle="pill">Membres</a>
             			</li>
             			<li class="nav-item">
-            				<a class="nav-link" href="#responsive-tab" data-toggle="pill">Logs</a>
+            				<a class="nav-link" href="#responsive-tab" data-toggle="pill">Historique</a>
             			</li>
             			<li class="nav-item">
             				<a class="nav-link" href="#debug-tab" data-toggle="pill">Debug</a>
@@ -43,7 +41,14 @@
             <div class="col-lg-10 tab-content admin-tab">
         		<div id="dashboard-admin-tab" class="tab-pane fade show active" role="tabpanel">
         		<div class="row">
-        			<div class="col-lg-12">
+        			<div class="col-lg-6">
+        				<div class="dashboard-title">
+            				<i class="fas fa-chart-area"></i>
+            				<h2>Outils</h2>
+        				</div>
+        				<div class="admin-hr"></div>
+        			</div>
+        			<div class="col-lg-6">
         				<div class="dashboard-title">
             				<i class="fas fa-chart-area"></i>
             				<h2>Statistiques</h2>
@@ -51,28 +56,77 @@
         				<div class="admin-hr"></div>
         			</div>
         		</div>
+        		
+        		<div class="row">
+        		
+        			<div class="col-lg-6">
+        			
+        			
+        			</div>
+        			
+        			<div class="col-lg-6">
+        				<div class="row justify-content-around">
+            				<div id="stats-photos" class="col-lg-5 dashboard-card card-stats">
+            				<span class="photos-count">
+            					<i class="fas fa-images"></i>
+            					{{ totalPhoto }}
+            				</span>
+            				<p>photos</p>
+                			</div>
+                			<div id="stats-comments" class="col-lg-5 dashboard-card card-stats">
+                				<span class="comments-count">
+                					<i class="fas fa-comments"></i>
+                					{{ commentsNbr }}
+                				</span>
+                				<p>commentaires</p>
+                			</div>
+                			<div id="stats-likes" class="col-lg-5 dashboard-card card-stats">
+                				<span class="likes-count">
+                					<i class="fas fa-heart"></i>
+                					{{ likesNbr }}
+                				</span>
+                				<p>mention j'aime</p>
+                			</div>
+                			<div id="stats-members" class="col-lg-5 dashboard-card card-stats">
+                				<span class="likes-count">
+                					<i class="fas fa-users"></i>
+                					33
+                				</span>
+                				<p>photographes !</p>
+                			</div>
+            			</div>
+        			</div>
+        		
+        		</div>
+        		
         		<div class="row d-flex justify-content-between">
-        			<div class="border-top my-3"></div>
-        			<div id="stats-photos" class="col-lg-3 dashboard-card card-stats">
+        			<div id="stats-photos" class="col-lg-2 dashboard-card card-stats">
         				<span class="photos-count">
         					<i class="fas fa-images"></i>
         					{{ totalPhoto }}
         				</span>
         				<p>photos</p>
         			</div>
-        			<div id="stats-comments" class="col-lg-3 dashboard-card card-stats">
+        			<div id="stats-comments" class="col-lg-2 dashboard-card card-stats">
         				<span class="comments-count">
         					<i class="fas fa-comments"></i>
         					{{ commentsNbr }}
         				</span>
         				<p>commentaires</p>
         			</div>
-        			<div id="stats-likes" class="col-lg-3 dashboard-card card-stats">
+        			<div id="stats-likes" class="col-lg-2 dashboard-card card-stats">
         				<span class="likes-count">
         					<i class="fas fa-heart"></i>
         					{{ likesNbr }}
         				</span>
         				<p>mention j'aime</p>
+        			</div>
+        			<div id="stats-members" class="col-lg-2 dashboard-card card-stats">
+        				<span class="likes-count">
+        					<i class="fas fa-users"></i>
+        					33
+        				</span>
+        				<p>photographes !</p>
         			</div>
         		</div>
         		<div class="row">
@@ -84,8 +138,8 @@
         				<div class="admin-hr"></div>
         			</div>
         		</div>
-        		<div class="row">
-        			<div class="col-lg-8 dashboard-card">
+        		<div class="row d-flex justify-content-between">
+        			<div class="col-lg-7 card dashboard-card">
         				<h3>Signalements</h3>
         				{% if not reportsNbr %}
         				<div class="alert alert-success">
@@ -103,7 +157,7 @@
                     	</div>
                         {% endif %}
         			</div>
-        			<div class="col-lg-4 dashboard-card">
+        			<div class="col-lg-3 dashboard-card">
         				<div class="dashboard-card-title">
         					<h4>Zone de Quarantaine</h4>
         				</div>
@@ -140,98 +194,155 @@
         	</div>
         	<!-- End Dashboard -->
             <div id="reports-wrapper" class="tab-pane fade show" role="tabpanel">
-            	{% if not reportsNbr %}
-            		<div class="empty-div">
-            			<img src="images/question_mark.png" alt="empty-content">
-            			<p>Il n'y a pas de signalements !</p>
-            		</div>
-            	{% endif %}
-        	    {% if reportsNbr == 1 %}
-                	<div class="alert alert-warning">
-                		<i class="fas fa-exclamation-triangle"></i>
-                		<span>Il y a {{ reportsNbr }} signalement reporté par la communauté</span>
-                	</div>
-               	{% elseif reportsNbr > 1 %}
-               		<div class="alert alert-danger">
-                		<i class="fas fa-exclamation-triangle"></i>
-                		<span>Il y a {{ reportsNbr }} signalements reportés par la communauté</span>
-                	</div>
-                {% endif %}
-                {% if reportsNbr > 0 %}
-                	<div id="img-report-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
-                	<span id="clear-btn">
-                		<a href="admin/clear">Vider<i class="fas fa-times"></i></a>
-                	</span>
-                	{% for posts in reportedPosts %}
-                		<div class="card img-single-report">
-                			<div class="image-reported-wrapper">
-                				<img class="card-img-top image-reported" src="uploads/photos/{{ posts.filename }}" />
-                			</div>
-                			<div class="card-body img-info-panel">
-                				<div class="alert alert-warning">Cette image a éte reportée {{ posts.reported }} fois</div>
-                				<h2 class="card-title">{{ posts.name }}</h2>
-                				<div class="admin-btn-panel">
-                					<div class="admin-btn-container">
-                    					<form id="getreport" method="POST" action="admin/getreport">
-                            				<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
-                            				<button class="admin-btn edit" href="#edit-tab" role="tab" data-toggle="pill">
-                            					<i class="fas fa-edit"></i>Editer post
-                            				</button>
-                        				</form>
-                    				</div>
-                					<div class="admin-btn-container">
-                            			<form id="deleteImg" method="POST" action="admin/delete">
-                        					<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
-                        					<button class="admin-btn delete">
-                        						<i class="fas fa-trash-alt"></i>Supprimer post
-                        					</button>
-                    					</form>
-                					</div>
-                				</div>
-                			</div>
+            
+            	<div id="menu-pills">
+            		<ul class="nav nav-pills" role="tablist">
+    					<li class="nav-item">
+    						<a class="nav-link profile-pills active" data-toggle="tab" href="#reports-posts-duo" role="tab">
+    						<i class="fas fa-images"></i>
+    						Posts
+    						</a>
+    					</li>
+    					<li class="nav-item ">
+    						<a class="nav-link profile-pills" data-toggle="tab" href="#reports-comments-duo" role="tab">
+    						<i class="fas fa-comments"></i>
+    						Commentaires
+    						</a>
+    					</li>
+    				</ul>
+            	</div>
+            	
+            	<div class="tab-content">
+            	
+            		<div id="reports-posts-duo" class="tab-pane fade show active" role="tabpanel">
+                    	<div class="adm-tab-header">
+                        	{% if not reportsNbr %}
+                        		<div class="empty-div">
+                        			<img src="images/question_mark.png" alt="empty-content">
+                        			<p>Il n'y a pas de signalements !</p>
+                        		</div>
+                        	{% endif %}
+                    	    {% if reportsNbr == 1 %}
+                            	<div class="alert alert-warning">
+                            		<i class="fas fa-exclamation-triangle"></i>
+                            		<span>Il y a {{ reportsNbr }} signalement reporté par la communauté</span>
+                            	</div>
+                           	{% elseif reportsNbr > 1 %}
+                           		<div class="alert alert-danger">
+                            		<i class="fas fa-exclamation-triangle"></i>
+                            		<span>Il y a {{ reportsNbr }} signalements reportés par la communauté</span>
+                            	</div>
+                            {% endif %}
+                            <a class="btn square" title="Vider signalements" href="admin/clear"><i class="fas fa-check-double"></i></a>
+                        </div>
+                        {% if reportsNbr > 0 %}
+                        <div class="row d-flex justify-content-between">
+                        	<!--  <div id="img-report-wrapper" class="d-flex justify-content-around flex-row flex-wrap"> -->
+                        	
+                        	{% for posts in reportedPosts %}
+                        		<!--<div class="card img-single-report"> -->
+                        		<div class="col-lg-5">
+                        			<div class="card hoverable">
+                            			<img class="card-img-top" src="uploads/thumbnails/{{ posts.filename }}" />
+                            			<div class="card-body">
+                            				<div class="admin-bandeau">
+                            					<div class="alert alert-warning">Cette image a éte signalée {{ posts.nbReports }} fois</div>
+                            					<form id="clearPostReport" method="POST" action="admin/clear-reports/post">
+                                        			<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
+                                        			<button class="btn square" title="Vider signalement" ><i class="fas fa-check"></i></button>
+                                    			</form>
+                            				</div>
+                            				<h2 class="card-title">{{ posts.name }}</h2>
+                            				<div class="admin-btn-panel">
+                            					<div class="admin-btn-container">
+                                					<form id="getreport" method="POST" action="admin/getreport">
+                                        				<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
+                                        				<button class="admin-btn edit" href="#edit-tab" role="tab" data-toggle="pill">
+                                        					<i class="fas fa-edit"></i>Editer post
+                                        				</button>
+                                    				</form>
+                                				</div>
+                            					<div class="admin-btn-container">
+                                        			<form id="deleteImg" method="POST" action="admin/delete">
+                                    					<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
+                                    					<button class="admin-btn delete">
+                                    						<i class="fas fa-trash-alt"></i>Supprimer post
+                                    					</button>
+                                					</form>
+                            					</div>
+                            				</div>
+                            			</div>
+                        			</div>
+                        		</div>
+                        	{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    
+                    <div id="reports-comments-duo" class="tab-pane fade" role="tabpanel">
+                		<div id="reported-comments-container">
+                    		<div id="reports-comments-header">
+                    			<h3><i class="fas fa-comment-slash"></i>Modération commentaires</h3>
+                    			<a class="btn back-dashboard" href="/admin/clear-reports/comments" title="Vider signalements"><i class="fas fa-trash"></i></a>
+                    		</div>
+                    		<div id="reported-comments-wrapper">
+                        	{% for comment in reportedComments %}
+                        		<div class="card reported-comment">
+                        			<div class="card-header">
+                        				{% if members.avatar_file == NULL %}
+                                		<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ author.id }} avatar" height="60" width="auto">
+                                	    {% else %}
+                                		<img src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" alt="{{ author.id }} avatar" height="60" width="auto">
+                                	    {% endif %}
+                        			</div>
+                        			            			
+                                	<div class='card-body'>
+                                		<span class="comment-id">{{ comment.id }}</span>
+                                		<p class="card-text">{{ comment.name }} - posté le {{ comment.com_date }}</p>
+                                    	<p class='card-text comment-content'>{{ comment.content }}</p>
+                                	</div>
+                                	<div class="card-footer">
+                            	        <form id="admin-edit-comment">
+                            	        	<input type="hidden" name="commentId" value="{{ comment.id }}" />
+                            	        	<button class="btn btn-primary mod" type="submit"><i class="fas fa-edit"></i></button>
+                            	        </form>
+                            	        <form id="admin-delete-comment">
+                            	        	<input type="hidden" name="commentId" value="{{ comment.id }}" />
+                            	        	<button class="btn btn-primary" type="submit" ><i class="fas fa-trash"></i></button>
+                            	        </form>
+                        	        </div>
+                        		</div>
+                        	{% endfor %}
+                        	</div>
+                    		<div class="row">
+                    			<div class="col-lg-6">
+                        			<div id="admin-edit-wrapper" class="card hoverable">
+                                		<form id="editPost" method="POST" action="admin/edit/comment" >
+                                			<div class="form-group">
+                                				<label for="content">Message</label>
+                                				<textarea class="form-control" id="input-content" name="content" rows="2"></textarea>
+                                			</div>
+                                			<input type="hidden" id="input-id" name="commentId" />
+                                			<button type="submit" href="#edit-tab" class="btn btn-primary">Modérer le commentaire</button>
+                                		</form>
+                            		</div>
+                            	</div>
+                    		</div>
                 		</div>
-                	{% endfor %}
-                	</div>
-                {% endif %}
+        			</div>
+                    
+                    
+                </div>
         	</div>
-        	<!-- End Report tab -->
-        	<div id="reports-comments-wrapper" class="tab-pane fade show" role="tabpanel">
-        		<div id="reports-comments-header">
-        			<h3><i class="fas fa-comment-slash"></i>Modération commentaires</h3>
-        			<a href="/admin/clear-reports/comments" class="btn btn-primary">Vider signalements</a>
-        		</div>
-            	{% for comment in reportedComments %}
-            		<div class="card reported-comment">
-            			<div class="card-header">
-            				{% if members.avatar_file == NULL %}
-                    		<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ author.id }} avatar" height="60" width="auto">
-                    	    {% else %}
-                    		<img src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" alt="{{ author.id }} avatar" height="60" width="auto">
-                    	    {% endif %}
-            			</div>
-            			            			
-                    	<div class='card-body'>
-                    		<p class="card-text">{{ comment.name }} - posté le {{ comment.com_date }}</p>
-                        	<p class='card-text'>{{ comment.content }}</p>
-                    	</div>
-                    	<div class="card-footer">
-                	        <form id="admin-edit-comment">
-                	        	<input type="hidden" name="commentId" value="{{ comment.id }}" />
-                	        	<button class="btn btn-primary" type="submit"><i class="fas fa-edit"></i></button>
-                	        </form>
-                	        <form id="admin-delete-comment">
-                	        	<input type="hidden" name="commentId" value="{{ comment.id }}" />
-                	        	<button class="btn btn-primary" type="submit" ><i class="fas fa-trash"></i></button>
-                	        </form>
-            	        </div>
-            		</div>
-            	{% endfor %}
-        	</div>
-        	<!-- End Comments Reports tab -->
+        	
+        	<!-- End Reports tab -->
+
         	<div class="tab-pane fade" id="edit-tab" role="tabpanel">
         		<div class="row">
-        			<div class="col-lg-12">
+        			<div id="admin-edit-hdr" class="col-lg-12">
         				<h3>Editer un post</h3>
+        				<a class="btn back-dashboard" href="#reports-wrapper" data-toggle="pill" title="Retour"><i class="fas fa-arrow-left"></i></a>
         			</div>
         		</div>
         		<div class="row">
@@ -258,6 +369,9 @@
             		<div class="col-lg-6" id="edit-preview"></div>
         		</div>
         	</div>
+        	
+        	<!-- End Edit Image Reports tab -->
+        
         	<div id="members-tab" class="tab-pane fade" role="tabpanel">
         		<div id="members-tab-container">
             		<div id="members-tab-header">
@@ -279,7 +393,13 @@
                         		<h4>{{ members.name }}</h4>
                         	</div>
                         	<div class="adm-member-item">
-                				<p>Membre depuis {{ members.date_fr }} jours</p>
+                				<p>Membre depuis {{ members.days_timestamp }} jours</p>
+                			</div>
+                			<div class="adm-member-item">
+                				<i class="fas fa-images"></i>{{ members.nbrPosts }}
+                			</div>
+                			<div class="adm-member-item">
+                				<i class="fas fa-comments"></i>{{ members.nbrComments }}
                 			</div>
                 		</div>
             		    {% endfor %}
@@ -297,39 +417,126 @@
             		</div>
             	</div>
         	</div>
+        	
         	<!-- End Members tab -->
-        	<div id="logs-tab" class="tab-pane fade" role="tabpanel">
-    			<h3><i class="fas fa-clipboard-list"></i>Logs modération</h3>
-    		    {% for logs in logs %}
-    			<div class="logs-card">
-    				<h4>{{ logs.old_name }}</h4>
-    				<p>{{ logs.old_content }}</p>
-    			</div>
-    		    {% endfor %}
-        	</div>
+        	
         	<div id="responsive-tab" class="tab-pane fade" role="tabpanel">
-            	<div class="row">
-                	<div class="col-lg-6 mb-2 pr-lg-1">
-                    	<div class="image-profile-wrapper">
-                    		<img src="uploads/photos/d69cf28d8ab8aa0a.JPG" alt="" class="img-fluid image-profile rounded shadow-sm">
+        		<div id="menu-pills">
+        		
+        			<ul class="nav nav-pills" role="tablist">
+    					<li class="nav-item">
+    						<a class="nav-link profile-pills active" data-toggle="tab" href="#logs-posts" role="tab">
+    						<i class="fas fa-images"></i>
+    						Posts
+    						</a>
+    					</li>
+    					<li class="nav-item ">
+    						<a class="nav-link profile-pills" data-toggle="tab" href="#logs-comments" role="tab">
+    						<i class="fas fa-comments"></i>
+    						Commentaires
+    						</a>
+    					</li>
+    				</ul>
+        		
+        		</div>
+        		<div class="tab-content">
+    				<div id="logs-posts" class="tab-pane fade show active" role="tabpanel">
+                		<h2>Logs Posts</h2>
+                    	<div class="row d-flex justify-content-between">
+                    	
+                    		{% for logs in logs %}
+                    		
+                        	<div class="col-lg-5">
+                        		<div class="card hoverable">
+                        			<div class="flip-container">
+                        				<div class="flipper">
+                                			<div class="flip-front">
+                                				<img class="card-img-top" src="uploads/thumbnails/{{ logs.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
+                                				<div class="card-body">
+                                            		<div class="logs-header">
+                                            			{{ logs.old_name }}
+                                            			<span class="logs-date"><i class="far fa-clock"></i> {{ logs.date }}</span>
+                                                		{% if logs.mod_type == 'M' %}
+                            							<span class="badge badge-pill badge-info">Modifié</span>
+                            						    {% else %}
+                            						    <span class="badge badge-pill badge-danger">Supprimé</span>
+                            						    {% endif %}
+                                            		</div>
+                        						    <p>{{ logs.old_content }}</p>
+                                        		</div>
+                                			</div>
+                                			<!-- Card flip back -->
+                                			<div class="flip-back">
+                                				<div class="card-header">
+                                					Contenus modifié
+                                				</div>
+                                				<div class="card-body">
+                                					<p>{{ logs.new_name }}</p>
+                                					<p>{{ logs.new_content }}</p>
+                                				</div>
+                                			</div>
+                                		</div>
+                                	</div>
+                                	<div class="card-footer logs-footer">
+                            			<i class="far fa-comments"></i> 7
+                            			<i class="far fa-heart"></i> 128
+                            			<button class="btn square-grey clickFlip"><i class="fas fa-redo-alt"></i></button>
+                                	</div>
+                            	</div>
+                        	</div>
+                        	
+                        	{% endfor %}
+	                       	
+                        	
                     	</div>
-                	</div>
-                	<div class="col-lg-6 mb-2 pr-lg-1">
-                    	<div class="image-profile-wrapper">
-                    		<img src="uploads/photos/{{ images.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
+    				</div>
+    				<div id="logs-comments" class="tab-pane fade" role="tabpanel">
+                		<h2>Logs Commentaires</h2>
+                    	<div class="row d-flex justify-content-between">
+                    	
+                    		{% for logs in logs_com %}
+                        	<div class="col-lg-5 mb-5">
+                        		<div class="card hoverable">
+                        			<div class="com-logs-header">
+                        				
+                        				{% if members.avatar_file == NULL %}
+                                    	<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ members.name }} avatar" height="60" width="auto">
+                                    	{% else %}
+                                    	<img src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" class="avatar-mini" alt="{{ members.name }} avatar" height="60" width="auto">
+                                    	{% endif %}
+                                    	<div class="com-logs-meta">
+                                        	<h4>{{ logs.name }}</h4>
+                                        	<div class="logs-header">
+                                    			<span class="logs-date"><i class="far fa-clock"></i> {{ logs.com_date}}</span>
+                                        		{% if logs.mod_type == 'M' %}
+                    							<span class="badge badge-pill badge-info">Modifié</span>
+                    						    {% else %}
+                    						    <span class="badge badge-pill badge-danger">Supprimé</span>
+                    						    {% endif %}
+                                    		</div>
+                                		</div>
+                        			
+                        			</div>
+                        			<div class="card-body">
+                                    	<p>{{ logs.content }}</p>
+                                    	<div class="com-logs-hidden">
+                                    		<hr>
+                                    		<p>Message moderé</p>
+                                    		<p>Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou</p>
+                                    	</div>
+                                    	<hr>
+                                    	<div class="expand-button-wrapper">
+                                    		<button class="btn expandComButton"><i class="fas fa-chevron-down"></i></button>
+                                    	</div>
+                                	</div>
+                            	</div>
+                        	</div>
+                        	{% endfor %}
+                        	
+                        	
                     	</div>
-                	</div>
-                	<div class="col-lg-6 mb-2 pr-lg-1">
-                    	<div class="image-profile-wrapper">
-                    		<img src="uploads/photos/{{ images.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
-                    	</div>
-                	</div>
-                	<div class="col-lg-6 mb-2 pr-lg-1">
-                    	<div class="image-profile-wrapper">
-                    		<img src="uploads/photos/{{ images.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
-                    	</div>
-                	</div>
-            	</div>
+    				</div>
+				</div>
         	</div>
         	<div id="debug-tab" class="tab-pane fade" role="tabpanel">
             	<div class="row">

@@ -422,7 +422,9 @@ class ImagesController extends ContentController
         $groupImg = $this->manageDevice($exif);
         
         // Thumbnail
-        $thumbnail = $this->getThumbnail($filename, $directory, $exif);
+        //$thumbnail = $this->getThumbnail($filename, $directory, $exif);
+        $this->createThumbnailFourThree($filename, $directory, $picInfos['type'], $picInfos['width'], $picInfos['height']);
+        
         //var_dump($thumbnail);
         
         // EXIF
@@ -448,6 +450,42 @@ class ImagesController extends ContentController
         
         $this->flash('Votre image a bien été mise en ligne');
         return $this->redirect($response, 'admin');
+        
+    }
+    
+    public function createThumbnailFourThree($file, $directory, $ext, $fileWidth, $fileHeight)
+    {
+        // Gets image ratio
+        $ratio = $this->getImageRatio($fileWidth, $fileHeight);
+        
+        $thumbWidth = 700;
+        $thumbHeight = 525;
+        
+        $path = $directory . DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $file;
+        var_dump($path);
+        $thumbnail = imagecreatetruecolor($thumbWidth, $thumbHeight);
+        //$ext = exif_imagetype($file);
+        switch($ext){
+            case 'image/jpg' || 'image/jpeg':
+                $img = imageCreateFromJpeg($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file);
+                break;
+            case 'image/png':
+                $img = imageCreateFromPng($directory. DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $file);
+                break;
+        }
+        //imagecopyresized($thumbnail, $img, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $fileWidth, $fileHeight);
+        imagecopyresampled($thumbnail, $img, 0, 0, 0, 0, $thumbWidth, $thumbHeight, $fileWidth, $fileHeight);
+        switch($ext){
+            case 'image/jpg' || 'image/jpeg':
+                imagejpeg($thumbnail, $path, 100);
+                break;
+            case 'image/png':
+                imagepng($thumbnail, $path, 100);
+                break;
+            default:
+                imagejpeg($thumbnail, $path, 100);
+        }
+        
         
     }
     

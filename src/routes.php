@@ -77,7 +77,11 @@ return function (App $app) {
     $app->post('/admin/getreport', \App\Controllers\AdminController:: class . ':getSelectedPost');
     $app->post('/admin/edit', \App\Controllers\AdminController:: class . ':editPost');
     
+    $app->post('/admin/edit/comment', \App\Controllers\AdminController:: class . ':editComment');
+    
     $app->get('/admin/clear', \App\Controllers\AdminController:: class . ':clearReports');
+    
+    $app->post('/admin/clear-reports/post', \App\Controllers\AdminController:: class . ':clearPostReport');
     
     $app->post('/admin/debugupload', \App\Controllers\ImagesController:: class . ':debugUpload');
     
