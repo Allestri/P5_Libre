@@ -45,17 +45,19 @@ function postInfos(data){
 		// Info sidepanel
 		$("#main-title").html("<h2> " + this.name + "</h2>");
 		
-		$("#author").replaceWith("<span id='author'> " + this.user + "</span>");
+		$("#author").replaceWith("<h3 id='author'>" + this.user + "</h3>");
 		
 		var avatar = this.getAvatar(this.authorAvatar);
-		$('#author').prepend($('<img id="author-avatar" />').attr('src', avatar));
+		//$('#author').prepend($('<img id="author-avatar" />').attr('src', avatar));
+		$('#author-avatar').replaceWith($('<img id="author-avatar" />').attr('src', avatar));
 		
 		$('#date').replaceWith("<span id='date'>" + this.date + "</span>");
+		$('#likes').replaceWith("<span id='likes'>" + this.likes + "</span>");
 		$("#long").replaceWith("<span id='long'> " + this.lng + "</span>");
 		$("#lat").replaceWith("<span id='lat'> " + this.lat + "</span>");
 		$("#alt").replaceWith("<span id='alt'> " + this.alt + " m</span>");
 
-		
+		$('#dimension').replaceWith("<span id='dimension'> " + this.width + " x " + this.height + " px</span>");
 		$("#width").replaceWith("<span id='width'> " + this.width + " px</span>");
 		$("#height").replaceWith("<span id='height'> " + this.height + " px</span>");
 		$("#type").replaceWith("<span id='type'> " + this.type + "</span>");

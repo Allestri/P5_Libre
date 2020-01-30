@@ -401,7 +401,7 @@ Map Page
 
 #info-panel
 {
-	height:90%;
+	margin-top:2rem;
 	padding-right:15px;
 	padding-left:15px;
 }
@@ -470,9 +470,25 @@ Map Page
 	line-height:100px;
 }
 
+/* Info Panel */
+
+.list-group-item
+{
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+}
+
+.list-group-item h2
+{
+	margin:0;
+}
+
+
 #author-avatar
 {
-	height:35px;
+	height:55px;
+	padding-right: 1.5rem;
 }
 
 
@@ -810,7 +826,6 @@ Admin Panel
 	height: 200px;
 	border-radius:0.4rem;
 	background-color:white;
-	margin-top:20px;
 	margin-bottom:20px;
 	padding:15px;
 	display:flex;
@@ -854,6 +869,12 @@ Admin Panel
 	color:#8a8a8a;
 }
 
+.dashboard-title i
+{
+	margin-right:1rem;
+	color:#3683DF;
+}
+
 .admin-hr
 {
     border: 0;
@@ -871,6 +892,11 @@ Admin Panel
 }
 
 #stats-likes
+{
+	background-image: linear-gradient(to bottom, #54a4e0, #56a8e0, #58ace1, #5bafe1, #5fb3e1); 
+}
+
+#stats-members
 {
 	background-image: linear-gradient(to bottom, #54a4e0, #56a8e0, #58ace1, #5bafe1, #5fb3e1); 
 }
@@ -1641,6 +1667,7 @@ Profile Page
 #thumbnail
 {
 	cursor: pointer;
+	width:150px;
 }
 
 

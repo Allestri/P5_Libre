@@ -70,7 +70,7 @@ Class ImagesModel extends Model
     public function fetchImgsInfos($markerId)
     {
         $sql = "SELECT markers.name, markers.address, markers.lng,markers.lat, markers.altitude,
-                images.height, images.width, images.size, images.type, images.upload_date, images.liked, 
+                images.height, images.width, images.size, images.type, DATE_FORMAT(images.upload_date, '%d/%m/%Y à %Hh%imin%') as upload_date, images.liked, 
                 members.name as author, members.avatar_file
                 FROM markers
                     INNER JOIN images
@@ -86,7 +86,7 @@ Class ImagesModel extends Model
     {
         $sql = "SELECT markers.name, markers.lng, markers.lat, markers.altitude,
                 posts.name, posts.content as description, posts.liked, posts.reported, 
-                images.height, images.width, images.size, images.type, images.upload_date,
+                images.height, images.width, images.size, images.type, DATE_FORMAT(images.upload_date, '%d/%m/%Y à %Hh%i') as upload_date,
                 members.name as author, avatars.avatar_file as author_avatar
                 FROM markers
                     INNER JOIN posts

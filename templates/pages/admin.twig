@@ -40,10 +40,12 @@
             </div>
             <div class="col-lg-10 tab-content admin-tab">
         		<div id="dashboard-admin-tab" class="tab-pane fade show active" role="tabpanel">
+        		
+        		<!--  
         		<div class="row">
         			<div class="col-lg-6">
         				<div class="dashboard-title">
-            				<i class="fas fa-chart-area"></i>
+            				<i class="fas fa-tools"></i>
             				<h2>Outils</h2>
         				</div>
         				<div class="admin-hr"></div>
@@ -56,91 +58,99 @@
         				<div class="admin-hr"></div>
         			</div>
         		</div>
+        		-->
         		
         		<div class="row">
-        		
+        			
         			<div class="col-lg-6">
-        			
-        			
+        				<div class="row">
+        					<div class="col-lg-12 mb-4">
+                				<div class="dashboard-title">
+                    				<i class="fas fa-tools"></i>
+                    				<h2>Outils</h2>
+                				</div>
+                				<div class="admin-hr"></div>
+                			</div>
+            				<div class="col-lg-12">
+                				<div class="card">
+                    				<div class="card-header">
+                    					<h4>Zone de Quarantaine</h4>
+                    				</div>
+                    				<div class="card-body">
+                            			{% if not fileQuarantine %}
+                                			
+                                			<p>Il n'y a aucune photos placées en quarantaine</p>
+                                		{% else %}
+                                			<p>Il y a {{ fileQuarantine }} photos placées en quarantaine</p>
+                                		<div class="button-wrapper">
+                        					<a href="admin/clearquar" class="btn btn-primary">Vider ?</a>
+                        				</div>
+                        				{% endif %}
+                        			</div>
+                				</div>
+            				</div>
+        				</div>
         			</div>
         			
         			<div class="col-lg-6">
-        				<div class="row justify-content-around">
-            				<div id="stats-photos" class="col-lg-5 dashboard-card card-stats">
-            				<span class="photos-count">
-            					<i class="fas fa-images"></i>
-            					{{ totalPhoto }}
-            				</span>
-            				<p>photos</p>
-                			</div>
-                			<div id="stats-comments" class="col-lg-5 dashboard-card card-stats">
-                				<span class="comments-count">
-                					<i class="fas fa-comments"></i>
-                					{{ commentsNbr }}
-                				</span>
-                				<p>commentaires</p>
-                			</div>
-                			<div id="stats-likes" class="col-lg-5 dashboard-card card-stats">
-                				<span class="likes-count">
-                					<i class="fas fa-heart"></i>
-                					{{ likesNbr }}
-                				</span>
-                				<p>mention j'aime</p>
-                			</div>
-                			<div id="stats-members" class="col-lg-5 dashboard-card card-stats">
-                				<span class="likes-count">
-                					<i class="fas fa-users"></i>
-                					33
-                				</span>
-                				<p>photographes !</p>
+        				<div class="row">
+        				
+        					<div class="col-lg-12 mb-4">
+                				<div class="dashboard-title">
+                    				<i class="fas fa-chart-area"></i>
+                    				<h2>Statistiques</h2>
+                				</div>
+                				<div class="admin-hr"></div>
+            				</div>
+        					<div class="col-lg-12">
+                				<div class="row justify-content-around">
+                    				<div id="stats-photos" class="col-lg-5 dashboard-card card-stats">
+                    				<span class="photos-count">
+                    					<i class="fas fa-image"></i>
+                    					{{ totalPhoto }}
+                    				</span>
+                    				<p>photos</p>
+                        			</div>
+                        			<div id="stats-comments" class="col-lg-5 dashboard-card card-stats">
+                        				<span class="comments-count">
+                        					<i class="fas fa-comments"></i>
+                        					{{ commentsNbr }}
+                        				</span>
+                        				<p>commentaires</p>
+                        			</div>
+                        			<div id="stats-likes" class="col-lg-5 dashboard-card card-stats">
+                        				<span class="likes-count">
+                        					<i class="fas fa-heart"></i>
+                        					{{ likesNbr }}
+                        				</span>
+                        				<p>mention j'aime</p>
+                        			</div>
+                        			<div id="stats-members" class="col-lg-5 dashboard-card card-stats">
+                        				<span class="likes-count">
+                        					<i class="fas fa-users"></i>
+                        					33
+                        				</span>
+                        				<p>photographes !</p>
+                        			</div>
+                    			</div>
                 			</div>
             			</div>
         			</div>
         		
         		</div>
         		
-        		<div class="row d-flex justify-content-between">
-        			<div id="stats-photos" class="col-lg-2 dashboard-card card-stats">
-        				<span class="photos-count">
-        					<i class="fas fa-images"></i>
-        					{{ totalPhoto }}
-        				</span>
-        				<p>photos</p>
-        			</div>
-        			<div id="stats-comments" class="col-lg-2 dashboard-card card-stats">
-        				<span class="comments-count">
-        					<i class="fas fa-comments"></i>
-        					{{ commentsNbr }}
-        				</span>
-        				<p>commentaires</p>
-        			</div>
-        			<div id="stats-likes" class="col-lg-2 dashboard-card card-stats">
-        				<span class="likes-count">
-        					<i class="fas fa-heart"></i>
-        					{{ likesNbr }}
-        				</span>
-        				<p>mention j'aime</p>
-        			</div>
-        			<div id="stats-members" class="col-lg-2 dashboard-card card-stats">
-        				<span class="likes-count">
-        					<i class="fas fa-users"></i>
-        					33
-        				</span>
-        				<p>photographes !</p>
-        			</div>
-        		</div>
         		<div class="row">
-        			<div class="col-lg-12">
+        			<div class="col-lg-12 mb-4">
         				<div class="dashboard-title">
-            				<i class="fas fa-tools"></i>
-            				<h2>Outils</h2>
+            				<i class="fas fa-flag"></i>
+            				<h2>Signalements</h2>
         				</div>
         				<div class="admin-hr"></div>
         			</div>
         		</div>
         		<div class="row d-flex justify-content-between">
-        			<div class="col-lg-7 card dashboard-card">
-        				<h3>Signalements</h3>
+        			<div class="col-lg-5 card dashboard-card">
+        				<h3>Posts Signalés</h3>
         				{% if not reportsNbr %}
         				<div class="alert alert-success">
                     		<span>Bonne nouvelle ! Il n'y a aucun signalements</span>
@@ -148,46 +158,37 @@
         				{% elseif reportsNbr == 1 %}
                     	<div class="alert alert-warning">
                     		<i class="fas fa-exclamation-triangle"></i>
-                    		<span>Il y a {{ reportsNbr }} signalement reporté par la communauté</span>
+                    		<span>{{ reportsNbr }} signalement reporté par la communauté</span>
                     	</div>
                    	    {% elseif reportsNbr > 1 %}
                    		<div class="alert alert-danger">
                     		<i class="fas fa-exclamation-triangle"></i>
-                    		<span>Il y a {{ reportsNbr }} signalements reportés par la communauté</span>
+                    		<span>{{ reportsNbr }} signalements reportés par la communauté</span>
                     	</div>
                         {% endif %}
         			</div>
-        			<div class="col-lg-3 dashboard-card">
-        				<div class="dashboard-card-title">
-        					<h4>Zone de Quarantaine</h4>
-        				</div>
-            			<div class="dashboard-card-body">
-            			{% if fileQuarantine %}
-                			<p>Il y a {{ fileQuarantine }} photos placées en quarantaine</p>
-                		{% else %}
-                			<p>Il n'y a aucune photos placées en quarantaine</p>
-                		{% endif %}
-            			</div>
-            			<div class="button-wrapper">
-            				<a href="admin/clearquar" class="btn btn-primary">Vider ?</a>
-            			</div>
+        			
+        			<div class="col-lg-5 dashboard-card">
+        				<h3>Commentaires signalés</h3>
+        				<div class="alert alert-danger">
+                    		<i class="fas fa-exclamation-triangle"></i>
+                    		<span>{{ reportsNbr }} signalements reportés par la communauté</span>
+                    	</div>
+        			
         			</div>
+        			
+        			
         		</div>
-        		<div class="row">
-        			<div class="col-lg-12">
-        				<div class="dashboard-title">
-            				<i class="fas fa-flag"></i>
-            				<h2>Modération commentaires</h2>
-        				</div>
-        				<div class="admin-hr"></div>
-        			</div>
-        		</div>
+        		
+        		
+        		
+        		
         		<div class="row">
         			<div class="col-lg-12 dashboard-card">
         				<h3>Commentaires signalés</h3>
         				<div class="alert alert-danger">
                     		<i class="fas fa-exclamation-triangle"></i>
-                    		<span>Il y a {{ reportsNbr }} signalements reportés par la communauté</span>
+                    		<span>{{ reportsNbr }} signalements reportés par la communauté</span>
                     	</div>
         			</div>
         		</div>
