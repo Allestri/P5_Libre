@@ -59,6 +59,7 @@ function profileComponents(){
     		var child = ($(this).children());
     		var filename = $(this).find("img").attr( "src" );
     		console.log(filename);
+    		console.log('pathfilename :' + filename);
     		self.displayFullScreen(filename);
     	});		
 		
@@ -128,7 +129,7 @@ function profileComponents(){
 	this.displayFullScreen = function (filepath) {
 	
 		console.log('display fs fired');
-		let filename = filepath.split("uploads/photos/");
+		let filename = filepath.split("uploads/thumbnails/");
 		
 		var dir = "uploads/photos";
 		var file = dir + "/" + filename[1];

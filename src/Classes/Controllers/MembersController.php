@@ -174,13 +174,18 @@ class MembersController extends Controller
             
             // Friend Request notifications
             $args['request'] = $memberModel->getFriendRequests($uid);
+            if(isset($args['request'])){
+                $this->flash('Vous avez une nouvelle notification');
+            }
             
             $args['commentslist'] = $contentModel->getMyComments($uid);
             $args['commentsNbr'] = count($args['commentslist']);
             
+            /*
             if(isset($args['request']['0'])){
                 $_SESSION['sender_id'] = $args['request']['0']['sender_id'];
             }
+            */
             return $this->container->view->render($response, 'pages/profile.twig', $args);
         } else {
             return $this->redirect($response, 'home');
@@ -221,7 +226,7 @@ class MembersController extends Controller
             var_dump($datas);
             
             if($datas['sort'] == "name"){
-                $args['memberslist'] = $memberModel->getMembersSortName($limit, $args['offset'], $userId);
+                //$args['memberslist'] = $memberModel->getMembersSortName($limit, $args['offset'], $userId);
             }
         } else {
             $args['memberslist'] = $memberModel->getAllMembersLimit($limit, $args['offset'], $userId);
@@ -311,26 +316,31 @@ class MembersController extends Controller
     public function ignoreFriendRequest($request, $response)
     {
         $membersModel = $this->container->get('membersModel');
-
+        $datas = $request->getQueryParams();
+        
         $uid = $_SESSION['uid'];
-        $fid = $_SESSION['sender_id'];
+        $fid = $datas['fid'];
         
-        $membersModel->clearFriendRequest($fid, $uid);
+        $membersModel->ignoreFriendRequest($fid, $uid);
+        $this->flash('Demande d\'ami ignorée');
         
-        return $this->container->view->render($response, 'pages/profile.twig');
+        return $this->redirect($response, 'profile');
     }
     
     public function acceptFriend($request, $response)
     {
         $memberModel = $this->container->get('membersModel');
+        $datas = $request->getQueryParams();
         
         $uid = $_SESSION['uid'];
-        $fid = $_SESSION['sender_id'];
+        $fid = $datas['fid'];
                 
         $memberModel->addFriendAccept($fid, $uid);
         $memberModel->clearFriendRequest($fid, $uid);
         
-        return $this->container->view->render($response, 'pages/profile.twig');
+        $this->flash('Hello Friend.');
+        
+        return $this->redirect($response, 'profile');
               
     }
     

@@ -69,7 +69,7 @@ function displayMap()
 	                // Customizing marker
 	                let iconImg;
 	                if( (data[i].groupimg_id) > 1){
-	                	iconImg = 'images/camera-pin-min.png';
+	                	iconImg = 'images/marker-pastel.png';
 	                } else {
 	                	iconImg = 'images/marker-pastel.png';
 	                }

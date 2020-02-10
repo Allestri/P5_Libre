@@ -43,7 +43,7 @@ class MembersModel extends Model
                     ON members.id = avatars.user_id
                     AND avatars.active = 1
                 WHERE members.id != :param
-                ORDER BY members.date ASC
+                ORDER BY members.date DESC
                 LIMIT :limit OFFSET :offset";
         $members = $this->executeLimitQuery($sql, $limit, $offset, $userId);
         return $members->fetchAll();
@@ -147,7 +147,17 @@ class MembersModel extends Model
     
     public function addFriendAccept($fid, $uid)
     {
-        $sql ="INSERT INTO friendship (friend_a, friend_b, friend_date) VALUES (?, ?, NOW())";
+        $sql ="UPDATE friendship 
+               SET status='friend' 
+               WHERE friend_a = ? AND friend_b = ?";
+        $this->executeQuery($sql, array($fid, $uid));
+    }
+    
+    public function ignoreFriendRequest($fid, $uid)
+    {
+        $sql = "UPDATE friendship
+                SET ignored = 1
+                WHERE friend_a = ? AND friend_b = ?";
         $this->executeQuery($sql, array($fid, $uid));
     }
     
@@ -160,11 +170,11 @@ class MembersModel extends Model
     
     public function getFriendRequests($uid)
     {
-        $sql = "SELECT friend_requests.sender_id, members.name
-                FROM friend_requests
+        $sql = "SELECT friendship.friend_a, members.name
+                FROM friendship
                 INNER JOIN members 
-                    ON friend_requests.sender_id = members.id
-                WHERE receiver_id = ?";
+                    ON friendship.friend_a = members.id
+                WHERE friend_b = ? AND status = 'pending' AND ignored = 0";
         $fReq = $this->executeQuery($sql, array($uid));
         return $fReq->fetchAll();
     }
@@ -178,7 +188,7 @@ class MembersModel extends Model
                 LEFT OUTER JOIN avatars
                     ON members.id = avatars.user_id
                     AND avatars.active = 1
-                WHERE friendship.friend_a = :uid OR friendship.friend_b = :uid";
+                WHERE (friendship.friend_a = :uid OR friendship.friend_b = :uid) AND status='friend'";
         $friends = $this->executeQuery($sql, array(':uid' => $uid));
         return $friends->fetchAll();
     }

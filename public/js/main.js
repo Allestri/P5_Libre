@@ -15,7 +15,7 @@ $('#edit-profile-btn').on('click', function(){
 
 // Navbar
 
-
+/*
 $(document).ready(function() {
 	
 	console.log($('#navbar .navbar-nav a'));
@@ -38,9 +38,11 @@ $(document).ready(function() {
 		$( '#navbar .navbar-nav' ).find( 'li.active' ).removeClass( 'active' );
 		$( this ).parent( 'li' ).addClass( 'active' );
 	});
-	*/
+	
 	
 });
+*/
+
 
 
 
@@ -55,6 +57,7 @@ $('.carousel').carousel({
 	})
 	
 // Flash messages
+
 $( '.alert-dismissible' ).delay( 1500 ).fadeOut( 400 );
 
 // Popovers

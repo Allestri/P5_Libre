@@ -11,6 +11,20 @@ Class ContentModel extends Model
         return $testDatas;
     }
     
+    public function getRecentPosts()
+    {
+        $sql = "SELECT posts.name, posts.content, members.name as author, posts.liked, images.filename, images.upload_date
+                FROM posts
+                INNER JOIN images
+                	ON posts.image_id = images.id
+                INNER JOIN members
+                	ON posts.user_id = members.id
+                ORDER BY upload_date DESC
+                LIMIT 0,3";
+        $recentPosts = $this->executeQuery($sql);
+        return $recentPosts->fetchAll();
+    }
+    
     public function getContent($limit, $offset)
     {
         $sql = 'SELECT * FROM placeholder LIMIT :limit OFFSET :offset';
@@ -165,7 +179,7 @@ Class ContentModel extends Model
         $this->executeQuery($sql,array($commentId));
     }
     
-    public function likePostNew($userId, $postId)
+    public function likePost($userId, $postId)
     {
         $sql = "INSERT INTO likes (user_id, post_id) VALUES (?, ?)";
         $this->executeQuery($sql, array($userId, $postId));
@@ -208,16 +222,6 @@ Class ContentModel extends Model
         $likes = $this->executeQuery($sql, array($markerId));
         return $likes->fetch();
     }
-    
-    // Deprecated
-    
-    public function likePost($postId){
-        $sql = "UPDATE posts
-                SET liked = liked + 1
-                WHERE id = ?";
-        $this->executeQuery($sql, array($postId));
-    }
-    
-    
+            
 
 }

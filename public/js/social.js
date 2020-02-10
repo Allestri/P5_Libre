@@ -170,7 +170,8 @@ function Social () {
 	    	
 	    	let avatar = this.getAvatar(data[i].name, data[i].avatar_file);
 	    	
-	    	comments += "<div class='card comment'><div class='comment-avatar'><img src='" + avatar + "' width='50' alt='avatar'></div><div class='comment-body'><h5 class='comment-title'>" + data[i].name + "</h5>" +
+	    	comments += "<div class='card comment'><div class='comment-avatar'><img src='" + avatar + "' width='50' alt='avatar'></div><div class='comment-body'><h5 class='comment-title'>" + data[i].name + "</h5>"
+	    	+ optionsStart + "<input type='hidden' name='commentId' value='" + data[i].id + "'/>" + optionsEnd +
     		"<span class='comment-date' data-toggle='tooltip' data-placement='bottom' title='" + data[i].com_date.absolute + "'>" + data[i].com_date.relative +	"</span><p class='comment-text'>" + data[i].content + "</p></div></div>";
 
 	    }

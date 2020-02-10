@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 29 jan. 2020 à 08:02
+-- Généré le :  lun. 10 fév. 2020 à 02:38
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -67,27 +67,11 @@ CREATE TABLE IF NOT EXISTS `friendship` (
   `friend_a` tinyint(4) NOT NULL,
   `friend_b` tinyint(4) NOT NULL,
   `status` varchar(10) NOT NULL DEFAULT 'friend',
+  `ignored` tinyint(1) NOT NULL DEFAULT '0',
   `friend_date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_friendship_to_members` (`friend_b`),
   KEY `fk_friendship_to_members2` (`friend_a`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `friend_requests`
---
-
-DROP TABLE IF EXISTS `friend_requests`;
-CREATE TABLE IF NOT EXISTS `friend_requests` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sender_id` tinyint(4) NOT NULL,
-  `receiver_id` tinyint(4) NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `uid` (`sender_id`),
-  KEY `fk_members_to_friend_req2` (`receiver_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -172,6 +156,7 @@ CREATE TABLE IF NOT EXISTS `logs_com` (
   `com_date` datetime NOT NULL,
   `author_id` int(11) NOT NULL,
   `mod_type` varchar(255) NOT NULL,
+  `mod_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -298,13 +283,6 @@ CREATE TABLE IF NOT EXISTS `privacy_categories` (
 ALTER TABLE `friendship`
   ADD CONSTRAINT `fk_friendship_to_members` FOREIGN KEY (`friend_b`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_friendship_to_members2` FOREIGN KEY (`friend_a`) REFERENCES `members` (`id`);
-
---
--- Contraintes pour la table `friend_requests`
---
-ALTER TABLE `friend_requests`
-  ADD CONSTRAINT `fk_members_to_friend_req` FOREIGN KEY (`sender_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_members_to_friend_req2` FOREIGN KEY (`receiver_id`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `images`

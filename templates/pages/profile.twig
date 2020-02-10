@@ -3,14 +3,6 @@
 {% block content %}
 {{ include ('flash.twig') }}
 
-{% if request %}
-    	<div class="col-lg-7 mx-auto">
-    		<p>Vous avez une demande d'ami de {{ request.0.name }}</p>
-    		<a class ="btn btn-primary" href="/addedfriend">Accepter</a>
-    		<a class ="btn btn-danger" href="/ignorefriend">Refuser</a>
-    	</div>
-{% endif %}
-
 <div class="row">
     <div id="profile-container" class="col-lg-10 mx-auto mt-4">
         <div id="np-header" class="row">
@@ -153,7 +145,7 @@
 										</div>
                                		</div>
                                 {% for images in myimages %}
-                                		<div class="col-lg-6 mb-2 pr-lg-1">
+                                		<div class="col-md-6 mb-2 pr-lg-1">
                                 			<div class="image-profile-wrapper">
                                 				<img src="uploads/thumbnails/{{ images.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
                                 			</div>
@@ -166,40 +158,47 @@
                             
                             <!-- Tab Comments -->
                             <div id="np-comments-tab" class="tab-pane fade" role="tabpanel">
-                               	<h3>Mes commentaires</h3>
-                               	<div id="profile-comments-wrapper">
-                               	{% if not comment %}
-                               	<p>Vous n'avez pas publié de commentaires</p>
-                               	{% else %}
-                               	{% for comment in commentslist %}
-                               			<div class='card comment'>
-                               				<div class='card-body'>
-                               					<p class='card-text'>{{ comment.content }}</p>
-                               				</div>
-        									<div class='comment-options'>
-        										<i class='fa fa-cog'></i>
-        										<ul class='options-menu'>
-            										<li>
-        	        									<form class='deleteComment' method='POST' action='profile/deletecomment' >
-            	        									<input type='hidden' name='commentId' value={{ comment.id }} />
-            	        									<input type='hidden' name='uid' value={{ member }} />
-            	        									<button class='delete-comment-btn'>Supprimer</button>
-        	        									</form>
-    	        									</li>
-        										</ul>
-        									</div>
-	        							</div>
-                               	{% endfor %}
-                               	{% endif %}
+                            	<div class="py-4 px-4">
+                                   	<h5 class="mb-0">Mes commentaires</h3>
+                                   	<div id="profile-comments-wrapper" class="mt-4">
+                                   	{% if not commentslist %}
+                                   	<p>Vous n'avez pas publié de commentaires</p>
+                                   	{% else %}
+                                   	{% for comment in commentslist %}
+                                   			<div class='card comment'>
+                                   				<div class='card-body'>
+                                   					<p class='card-text'>{{ comment.content }}</p>
+                                   				</div>
+            									<div class='comment-options'>
+            										<i class='fa fa-cog'></i>
+            										<ul class='options-menu'>
+                										<li>
+            	        									<form class='deleteComment' method='POST' action='profile/deletecomment' >
+                	        									<input type='hidden' name='commentId' value={{ comment.id }} />
+                	        									<input type='hidden' name='uid' value={{ member }} />
+                	        									<button class='delete-comment-btn'>Supprimer</button>
+            	        									</form>
+        	        									</li>
+            										</ul>
+            									</div>
+    	        							</div>
+                                   	{% endfor %}
+                                   	{% endif %}
+                                   	</div>
                                	</div>
                             </div>
                             <div id="np-notifs-tab" class="tab-pane fade" role="tabpanel">
-                               	<div class="alert alert-success alert-dismissible fade show">
-                               		Plusieurs personnes ont aimé votre photo : Douarnenez
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    									<span aria-hidden="true">&times;</span>
-  									</button>
-								</div>
+                            	<div class="py-4 px-4">
+    								{% if request %}
+                                	<div class="col-lg-7 mx-auto">
+                                		<p>Vous avez une demande d'ami de {{ request.0.name }}</p>
+                                		<a class ="btn btn-primary" href="/addedfriend?fid={{ request.0.friend_a }}">Accepter</a>
+                                		<a class ="btn btn-danger" href="/ignorefriend?fid={{ request.0.friend_a }}">Refuser</a>
+                                	</div>
+                                	{% else %}
+                                		<p>Vous n'avez pas de notifications</p>
+                                    {% endif %}
+                                </div>
                             </div>
                      	</div>
                         
@@ -261,9 +260,11 @@
 <div id="modal-grid" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
+        	<!--  
             <div class="modal-header">
             	<h5 class="modal-title" id="exampleModalLabel">Placeholder</h5>
             </div>
+            -->
             <span id="exit-large-vw" class="icon-exit">
             	<i class="fas fa-times"></i>
             </span>
@@ -276,6 +277,23 @@
             		</div>
             	</div>
             </div>
+            <div class="modal-btn-wrapper">
+            	<form id="delete" class="mb-3" method="POST" action="profile/deleteimg">
+					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
+					<input type="hidden" class="postId" name="postId" value="1" />
+					<input type="hidden" id="filename" class="filename" name="filename" value="placeholder" />
+					<button class="btn btn-light modal-btn" id="delete-btn">
+						<i class='fas fa-trash-alt'></i>
+					</button>
+    			</form>
+    			<form id="editImg" method="POST" action="profile/getpost">
+					<input type="hidden" id="postId" class="postId" name="postId" value="86" />
+					<button class="btn btn-light modal-btn" id="edit-post-btn">
+						<i class='fas fa-edit'></i>
+					</button>
+    			</form>
+            </div>
+            <!--  
             <div class="modal-footer">
             	<form id="delete" method="POST" action="profile/deleteimg">
 					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
@@ -292,6 +310,7 @@
 					</button>
     			</form>
             </div>
+            -->
         </div>
     </div>
 </div>

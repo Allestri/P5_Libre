@@ -31,7 +31,10 @@ class ContentController extends Controller
     {
         
         $imageModel = $this->container->get('imagesModel');
+        $contentModel = $this->container->get('contentModel');
+        
         $args['images'] = $imageModel->mostLikedImgs();
+        $args['recent'] = $contentModel->getRecentPosts();
         
         return $this->render($response, 'home.twig', $args);
     }
@@ -197,7 +200,7 @@ class ContentController extends Controller
          $userId = $datas['userId'];
                  
          $contentModel = $this->container->get('contentModel');
-         $contentModel->likePostNew($userId, $postId);
+         $contentModel->likePost($userId, $postId);
      }
      
      public function unlikePost($request, $response)

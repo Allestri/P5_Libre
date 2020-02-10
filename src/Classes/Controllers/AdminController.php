@@ -113,6 +113,7 @@ class AdminController extends Controller
         $adminModel = $this->container->get('adminModel');
         $adminModel->clearCommentsReports();
         
+        $this->flash('Tous les signalements de commentaires ont étés vidés');
         return $this->redirect($response, 'admin');
     }
     
@@ -210,7 +211,11 @@ class AdminController extends Controller
         $datas = $request->getParsedBody();
         $commentId = $datas['commentId'];
         
+        // D as deleted
+        $modType = 'D';
+        
         $adminModel = $this->container->get('adminModel');
+        $adminModel->insertComLogs($modType, $commentId);
         $adminModel->deleteComment($commentId);
         
         $this->flash('Commentaire supprimé avec succès');

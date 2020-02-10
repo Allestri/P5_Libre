@@ -104,6 +104,12 @@ class AdminModel extends Model
         $this->executeQuery($sql, array($postId));
     }
     
+    public function deleteComment($commentId)
+    {
+        $sql = "DELETE FROM comments WHERE id = ?";
+        $this->executeQuery($sql, array($commentId));
+    }
+    
     public function editComment($content, $commentId)
     {
         $sql = "UPDATE comments 
@@ -181,8 +187,8 @@ class AdminModel extends Model
     
     public function insertComLogs($modType, $commentId)
     {
-        $sql = "INSERT INTO logs_com (com_id, content, com_date, author_id, mod_type)
-                SELECT id, content, com_date, author_id, ? as mod_type
+        $sql = "INSERT INTO logs_com (com_id, content, com_date, author_id, mod_type, mod_date)
+                SELECT id, content, com_date, author_id, ? as mod_type, NOW()
                 FROM comments
                 WHERE id = ?";
         $this->executeQuery($sql, array($modType, $commentId));

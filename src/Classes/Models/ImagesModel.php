@@ -152,11 +152,13 @@ Class ImagesModel extends Model
     }   
     
     public function mostLikedImgs(){
-        $sql = "SELECT posts.id, images.filename, posts.liked
-                FROM images
-                INNER JOIN posts
-                    ON images.id = posts.image_id
-                WHERE posts.privacy = 0
+        $sql = "SELECT posts.id, images.filename, count(likes.id) as liked
+                FROM posts
+                INNER JOIN images
+                    ON posts.image_id = images.id
+                INNER JOIN likes
+                    ON posts.id = likes.post_id
+                GROUP BY posts.id
                 ORDER BY liked DESC
                 LIMIT 0,3";
         $likedImages = $this->executeQuery($sql);

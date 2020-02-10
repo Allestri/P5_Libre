@@ -20,11 +20,13 @@ function admin() {
 		this.getReportedPostDatas();
 		
 		this.getReportedCommentDatas();
+		this.setDeleteComment();
 		
 		this.flipCard();
 		this.expandComLogs();
 		
 		this.memberPagination();
+		this.hideEditComForm();
 		this.toggleNavbarStyle();
 	}
 	
@@ -113,8 +115,8 @@ function admin() {
 		
 		$('.expandComButton').click(function() {
 			
-			console.log($(this).parents('.card').find('.com-logs-hidden'));
-			$(this).closest('.card-body').find('.com-logs-hidden').toggleClass('showCom');
+			$(this).toggleClass('flipCross');
+			$(this).closest('.card-body').find('.com-logs-hidden').toggle(500);
 			
 		});
 		
@@ -158,6 +160,39 @@ function admin() {
 					},
 					error: function(result, status, error){
 						console.log('Error on photo deletion');
+					}
+				});
+				
+				// Confirmation
+				// clear window
+				
+			} else {
+				e.preventDefault();
+			}
+			
+		});
+	};
+	
+	
+	this.setDeleteComment = function() {
+			
+		$('.delete-com').click(function(e) {
+						
+			if(confirm("Voulez vous supprimer ce commentaire ?")){
+				console.log("Confirmation suppression");
+				e.preventDefault();
+				
+				var datas = $(this).parent().serialize();
+				
+				$.ajax({
+					type: "POST",
+					url:"http://projetlibre/admin/delete/comment",
+					data: datas,
+					success: function(data){
+						console.log('Success, comment deleted');
+					},
+					error: function(result, status, error){
+						console.log('Error on comment deletion');
 					}
 				});
 				
@@ -241,6 +276,17 @@ function admin() {
 	
 	this.setReportedComment = function() {
 		
+		
+	};
+	
+	
+	this.hideEditComForm = function() {
+		
+		$('#hide-edit-form').click(function() {
+			
+			$('#editComment').toggle(600);
+			
+		});
 		
 	};
 			

@@ -74,6 +74,8 @@ return function (App $app) {
     $app->get('/admin/paginate', \App\Controllers\AdminController:: class . ':paginateMembers');
     
     $app->post('/admin/delete', \App\Controllers\AdminController:: class . ':deletePost');
+    $app->post('/admin/delete/comment', \App\Controllers\AdminController:: class . ':deleteComment');
+    
     $app->post('/admin/getreport', \App\Controllers\AdminController:: class . ':getSelectedPost');
     $app->post('/admin/edit', \App\Controllers\AdminController:: class . ':editPost');
     
