@@ -263,12 +263,15 @@ Home Page
 
 .home-card
 {
-	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
-	width:30%;
+	padding:2.5rem 3rem;
+	border-radius:1rem;
+	background-image: linear-gradient(to left top, #7db9e8, #6aade4, #56a1e0, #4195dc, #2989d8);
 }
 
-.home-image-item
+.home-card .card-body
 {
+	border-radius:10px;
+	background-color: #f2f2f7;
 }
 
 .card-img-top

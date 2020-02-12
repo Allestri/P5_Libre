@@ -6,7 +6,7 @@
 <div class="row mt-5">
 	<div class="col-lg-12">
 		{% if not images %}
-		<img id='home-image' src="images/pink-coast-wide.jpg" alt="pink-coast-brittany" height="auto" width="100%" title="Côte de granit Rose © Alexandre Lamoureux">
+		<img id='home-image' class="img-thumbnail" src="images/pink-coast-wide.jpg" alt="pink-coast-brittany" height="auto" width="100%" title="Côte de granit Rose © Alexandre Lamoureux">
 		{% else %}
           <div id="carouselExampleControls" class="carousel slide carousel-fade" data-ride="carousel">
           	<div class="carousel-inner">
@@ -34,7 +34,7 @@
 </div>
 
 <div class="row">
-    <section id="home-banner" class="col-lg-12">
+    <section id="home-banner" class="col-lg-10 mx-auto">
     
     	<div class="row">
         	<div id="welcome-card" class="card col-lg-10 mx-auto">
@@ -48,48 +48,80 @@
     	</div>
     	
     	    	
-    	
-    	<div id="home-wrapper" class="mt-4">
-        	<div id="photograph" class="home-item">
-        		<div class="home-description home-b" data-aos="fade-left" data-aos-duration="800">
-        			<div class="home-b-example">
-        				<h5>Photographiez</h5>
-        				<p class="text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-        			</div>
-        		</div>
-        		<div class="card home-card hoverable"">
-        			<div class="card-img-top">
-        				<img src="images/icons/photograph.png" width="256px" height="auto" class="home-image-item" alt="camera-icon" title="Icon made by kiranshastry">
-        			</div>
+    	<div class="row mt-5">
+    		
+    		<div id="photograph" class="col-lg-12">
+        		<div class="row justify-content-between ">
+        			<div class="col-lg-5">
+                		<div class="card" data-aos="fade-left" data-aos-duration="800">
+                			<div class="card-header">
+                				<h5>Photographiez</h5>
+                			</div>
+                			<div class="card-body">
+                				<p class="text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                				Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                			</div>
+                		</div>
+                	</div>
+                	<div class="col-lg-3">
+                		<div class="card hoverable px-4 py-4">
+                			<div class="card-img-top">
+                				<img src="images/icons/photograph.png" width="256px" height="auto" class="home-image-item" alt="camera-icon" title="Icon made by kiranshastry">
+                			</div>
+                    	</div>
+                	</div>
             	</div>
         	</div>
-        	<div id="send" class="home-item">
-        		<div class="card home-card hoverable">
-        			<div class="card-img-top">
-        				<img src="images/icons/file.png" width="256px" height="auto" class="home-image-item" alt="download-icon" title="Icon made by kiranshastry">
-        			</div>
-            	</div>
-        		<div class="home-description home-b" data-aos="fade-right" data-aos-duration="900">
-        			<div class="home-b-example">
-        				<h5 class="text-uppercase">Envoyez</h5>
-        				<p class="text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-        			</div>
-        		</div>
-        	</div>
-        	<div id="react" class="home-item">
-        		<div class="home-description home-b" data-aos="fade-left" data-aos-duration="900">
-        			<div class="home-b-example">
-        				<h5>Reagissez</h5>
-        				<p class="text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-        			</div>
-        		</div>
-        		<div class="card home-card hoverable">
-        			<div class="card-img-top">
-        				<img src="images/icons/chat.png" width="256px" height="auto" class="home-image-item" alt="users-icon" title="Icon made by kiranshastry">
-        			</div>
+        	
+        	<div id="send" class="col-lg-12 mt-4">
+        		<div class="row justify-content-between ">
+                	<div class="col-lg-3">
+                		<div class="card hoverable px-4 py-4">
+                			<div class="card-img-top">
+                				<img src="images/icons/file.png" width="256px" height="auto" class="home-image-item" alt="camera-icon" title="Icon made by kiranshastry">
+                			</div>
+                    	</div>
+                	</div>
+                	<div class="col-lg-5">
+                		<div class="card" data-aos="fade-right" data-aos-duration="800">
+                			<div class="card-header">
+                				<h5>Envoyez, Partagez</h5>
+                			</div>
+                			<div class="card-body">
+                    			<p class="text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                			</div>
+                		</div>
+                	</div>
             	</div>
         	</div>
+        	
+        	<div id="react" class="col-lg-12 mt-4">
+        		<div class="row justify-content-between ">
+        			<div class="col-lg-5">
+                		<div class="card" data-aos="fade-left" data-aos-duration="800">
+                			<div class="card-header">
+                				<h5>Reagissez</h5>
+                			</div>
+                			<div class="card-body">
+                				<p class="text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                				Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                			</div>
+                		</div>
+                	</div>
+                	<div class="col-lg-3">
+                		<div class="card hoverable px-4 py-4">
+                			<div class="card-img-top">
+                				<img src="images/icons/chat.png" width="256px" height="auto" class="home-image-item" alt="camera-icon" title="Icon made by kiranshastry">
+                			</div>
+                    	</div>
+                	</div>
+            	</div>
+        	</div>
+        	       	
+        	
+        	
     	</div>
+    	
     	
     	{% if recent %}
     	<div class="row mt-5">

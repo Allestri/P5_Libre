@@ -118,5 +118,6 @@ return function (App $app) {
     // Debug / Tests
     $app->get('/test-dummy', \App\Controllers\ContentController:: class . ':testDummy')->setName('testflex');
     $app->get('/debug-login', \App\Controllers\MembersController:: class . ':getFormLogin')->setName('debug-login');
+    $app->post('/login-debug', \App\Controllers\MembersController:: class . ':loginDebug');
     
 };

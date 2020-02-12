@@ -60,7 +60,7 @@ class MembersController extends Controller
             }
         }
         
-        return $this->container->view->render($response, 'pages/inscription.twig');
+        return $this->redirect($response, 'inscription');
     }
     
     
@@ -111,6 +111,70 @@ class MembersController extends Controller
            //return $this->redirect($response, 'profile');
         }
          
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+        
+    }
+    
+    
+    public function loginDebug($request, $response)
+    {
+        $userEntries = $request->getParsedBody();
+        
+        $username = $userEntries['uname'];
+        
+        $membersModel = $this->container->get('membersModel');
+        
+        $connexion = false;
+        $member = $membersModel->getAccountInfo($username);
+        
+        if(isset($username) && ($userEntries['pwd'])){
+            
+            $isPwdCorrect = password_verify($userEntries['pwd'], $member['password']);
+            
+            if($isPwdCorrect){
+                
+                $_SESSION['username'] = $username;
+                $_SESSION['uid'] = $member['id'];
+                
+                
+                // Ternary operator coming here
+                // Checks if avatar set on db
+                $_SESSION['avatar'] = isset($member['avatar_file']) ? $member['avatar_file'] : 'no_avatar';
+                
+                /*
+                if(isset($member['avatar_file'])){
+                    $_SESSION['avatar'] = $member['avatar_file'];
+                } else {
+                    $_SESSION['avatar'] = 'no_avatar';
+                }
+                */                
+                
+                if($member['group_id'] == 1){
+                    $_SESSION['admin'] = $member['group_id'];
+                }
+                $connexion = true;
+            } else {
+                $connexion = false;
+            }
+        }
+        
+        if(!$connexion)
+        {
+            throw new Exception('La connexion a echouée');
+        }
+        try
+        {
+            
+            // Greet message
+            $this->flash('Bienvenue sur votre profil');
+            
+            //$this->container->flash->addMessage('Test', 'This is a message');
+            return $this->redirect($response, 'profile');
+        }
+        
         catch (Exception $e)
         {
             echo $e->getMessage();

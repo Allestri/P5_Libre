@@ -8,7 +8,7 @@ class MembersModel extends Model
     {        
         $sql = "SELECT members.id, members.password, members.group_id, avatars.avatar_file  
                 FROM members
-                INNER JOIN avatars
+                LEFT OUTER JOIN avatars
                 	ON members.id = avatars.user_id
                     AND avatars.active = 1
                 WHERE members.name = ?";
