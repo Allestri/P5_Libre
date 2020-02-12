@@ -8,7 +8,8 @@ Fonts
 */
 html, body
 {
-	/*height:100%;*/
+	height:100%;
+	scroll-behavior: smooth;
 }
 body
 {
@@ -149,6 +150,7 @@ Main Components
 	width:100%;
 }
 
+
 .alert
 {
 	margin-bottom:0;
@@ -223,6 +225,13 @@ Home Page
 	/* color:white; */
 	margin-bottom:2.5rem;
 }
+
+
+#home-image
+{
+	box-shadow: 4px 11px 21px -9px rgba(0,0,0,0.75);
+}
+
 #welcome-card
 {
 	margin-top:-40px;
@@ -230,7 +239,7 @@ Home Page
 	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18),0 4px 15px 0 rgba(0,0,0,0.15);
 	padding:1.25rem;
 	z-index:50;
-	height:150px;
+	min-height:150px;
 }
 
 #navigation-pills
@@ -656,7 +665,7 @@ Forms
 
 .upload-wrapper
 {
-	padding: 0px 55px 30px;
+	padding: 0px 35px 30px;
 	border-radius:10px;
 }
 
@@ -677,7 +686,7 @@ Forms
 	margin-bottom:50px;
 	display:flex;
 	flex-direction:row;
-	justify-content:space-between;
+	justify-content:space-around;
 }
 
 .test-wrapper
@@ -831,7 +840,7 @@ Admin Panel
 	height: 200px;
 	border-radius:0.4rem;
 	background-color:white;
-	margin-bottom:20px;
+	margin-bottom:1.7rem;
 	padding:15px;
 	display:flex;
 	flex-direction:column;
@@ -1236,7 +1245,8 @@ Members Page
 {
 	border-radius:10px;
 	padding:0;
-	height:690px;
+	/*height:690px;*/
+	height:40rem;
 	background-color:white;
 	box-shadow: 4px 7px 21px -9px rgba(0,0,0,0.75);
 	display:flex;
@@ -1412,7 +1422,7 @@ Logs Tab
 
 .com-logs-header
 {
-	padding: .75rem 1.25rem 0 1.25rem;
+	padding: .75rem 1rem 0 1rem;
 	display:flex;
 	flex-direction:row;
 }
@@ -1421,6 +1431,15 @@ Logs Tab
 {
 	flex: 1;
 	padding-left: 1rem;
+	position:relative;
+}
+
+.com-logs-clear
+{
+	position:absolute;
+	top:0;
+	right: 0%;
+	color:#5e5e5e;
 }
 
 .flipCross
@@ -1890,7 +1909,7 @@ Profile Page
 .image-profile
 {
 	object-fit:cover;
-	height:100%;
+	/*height:100%;*/
 	transition: transform .5s; /* Animation */
 }
 
@@ -2214,6 +2233,7 @@ Profile Page
 {
 	margin-top: 0.5rem;
 	margin-bottom:0;
+	word-break:break-all;
 }
 
 
@@ -2343,10 +2363,12 @@ Profile Page
 	color: #c86262;
 }
 
+/*
 .comments-count
 {
 	color: #3c7fbb;
 }
+*/
 
 .social-button:hover
 {	
@@ -2502,16 +2524,38 @@ Footer
 */
 
 
-#footer i:first-child
+.credit i:nth-child(1)
 {
 	color:#d25555;
 }
 
-#footer i:nth-child(2)
+.credit i:nth-child(2)
 {
 	color: #4d1010;
 }
 
+#footer .fa-github
+{
+	font-size:2rem;
+	color:#424242;
+	text-align:center;
+	margin-right: 0.5rem;
+	margin-left: 0.5rem;
+}
+
+.hr-right
+{
+	width:40%;
+	height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+}
+
+.hr-left
+{
+	width:40%;
+	height: 1px;
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+}
 
 
 

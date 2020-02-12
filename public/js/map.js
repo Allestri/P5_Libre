@@ -81,7 +81,7 @@ function displayMap()
 	                    position: latlngset,
 	                    map: gmap,
 	                    icon: iconImg,
-	                    title: 'Marker : '
+	                    title: 'Marker'
 	                });
 	                
 	                

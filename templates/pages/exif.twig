@@ -6,24 +6,24 @@
     	
 	{% if not member %}
 		<div class="alert alert-primary">
-			<p>Veuillez vous <a href="{{ path_for('inscription') }}" class="alert-link">authentifier</a></p>
+			<p>Veuillez vous <a href="#" class="alert-link" data-toggle="modal" title="Se connecter"  data-target="#login-modal">authentifier</a> ou vous <a href="{{ path_for('inscription') }}" class="alert-link" title="S'inscrire">inscrire</a></p>
 		</div>
 		{% else %}
 		<div class="row">
     		<div id="test-exif-form" class="col-lg-6 mx-auto mt-3">
     			<div class="upload-form-header">
-    				<h1>Test Exif</h1>
+    				<h1>Envoyez une photo</h1>
     			</div>
         		<div class="upload-wrapper tab-content">
-        			<div id="flash-wrapper">
-    				</div>
         			<!-- Tab Upload image & test exifs -->
         			<div class="tab-pane fade show active" role="tabpanel" id="tab-upload-form">
+            			<div id="flash-wrapper">
+        				</div>
             			<form id="test-form" method="POST" action="testexif" enctype="multipart/form-data">
             				<div class="form-group">
                         		<label for="myfile">Fichier</label><br />
                         		<input type="hidden" name="MAX_FILE_SIZE" value="10048576" />
-                        		<input type="file" class="form-control-file" name="myimage" id="myfile" /><br />
+                        		<input type="file" class="form-control-file" name="myimage" id="myfile" required/>
                     		</div>
                     		<div id="button-wrapper">
                     			<input type="submit" class="btn btn-primary" name="submit" value="Envoyer" />
@@ -33,15 +33,11 @@
             			<div class="exif-form-wrapper">
             				<div id="test-geo" class="test-wrapper">
             					<i class="fas fa-map-marked-alt"></i>
-            					<h4>Geo Datas*</h4>
+            					<h4 data-toggle='tooltip' data-placement='bottom' title='Métadonnées géolocalisées'>Geo Data</h4>
             				</div>
             				<div id="test-photo" class="test-wrapper">
             					<i class="fas fa-database"></i>
             					<h4>Photo</h4>
-            				</div>
-            				<div id="test-thumbnail" class="test-wrapper">
-            					<i class="fas fa-file-image"></i>
-            					<h4>Miniature</h4>
             				</div>
             			</div>
             			<div id="button-wrapper">
@@ -50,12 +46,12 @@
             		</div>
             		
             		<!-- Tab Post a Post ! -->
-            		<div class="tab-pane fade show" role="tabpanel" id="tab-post-form">
+            		<div class="tab-pane fade show mt-3" role="tabpanel" id="tab-post-form">
             			<a class="post-form-backward" data-toggle="tab" href="#tab-upload-form" role="tab">
             				<i class="fas fa-step-backward"></i>
             				Retour
             			</a>
-                		<h1>Votre Post</h1>
+                		<h3>Votre Post</h3>
                 		<form id="myForm" method="post" action="addexif" id="form" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="titre">Nommez votre photo</label><br />

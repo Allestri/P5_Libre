@@ -81,15 +81,14 @@ return function (App $app) {
     
     $app->post('/admin/edit/comment', \App\Controllers\AdminController:: class . ':editComment');
     
-    $app->get('/admin/clear', \App\Controllers\AdminController:: class . ':clearReports');
     
     $app->post('/admin/clear-reports/post', \App\Controllers\AdminController:: class . ':clearPostReport');
+    $app->get('/admin/clear-reports/comment', \App\Controllers\AdminController:: class . ':clearCommentReport');
+    
+    $app->get('/admin/clear', \App\Controllers\AdminController:: class . ':clearReports');
+    $app->get('/admin/clear-reports/comments', \App\Controllers\AdminController:: class . ':clearAllCommentsReports');
     
     $app->post('/admin/debugupload', \App\Controllers\ImagesController:: class . ':debugUpload');
-    
-    
-    $app->get('/admin/clear-reports/comments', \App\Controllers\AdminController:: class . ':clearCommentsReports');
-    
     
     $app->get('/admin/clearquar', \App\Controllers\AdminController:: class . ':clearQuarantineDir');
            
@@ -116,6 +115,8 @@ return function (App $app) {
     $app->post('/testexif', \App\Controllers\ImagesController:: class . ':testExif');
     
     
+    // Debug / Tests
     $app->get('/test-dummy', \App\Controllers\ContentController:: class . ':testDummy')->setName('testflex');
+    $app->get('/debug-login', \App\Controllers\MembersController:: class . ':getFormLogin')->setName('debug-login');
     
 };

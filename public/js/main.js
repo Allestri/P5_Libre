@@ -67,6 +67,28 @@ $(document).ready(function() {
 });
 
 
+
+// Form validation
+
+(function() {
+	'use strict';
+	window.addEventListener('load', function() {
+	// Fetch all the forms we want to apply custom Bootstrap validation styles to
+	var forms = document.getElementsByClassName('needs-validation');
+	// Loop over them and prevent submission
+	var validation = Array.prototype.filter.call(forms, function(form) {
+	form.addEventListener('submit', function(event) {
+	if (form.checkValidity() === false) {
+	event.preventDefault();
+	event.stopPropagation();
+	}
+	form.classList.add('was-validated');
+	}, false);
+	});
+	}, false);
+	})();
+
+
 // Test Exif Upload
 
 $('#test-form').submit(function(e){ 
@@ -171,6 +193,8 @@ $('#login-btn').click(function(e){
 				//$(".modal-footer").append("<p>" + data['message'] + "</p>");
 				$('#login-modal').modal('hide');
 
+				// Code spaghetti, I'll fix that I promise !
+				$("#main-navbar").load("http://projetlibre/ #main-navbar>*");
 				
 				$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*", function(response, statusTxt, xhr) {
 					if(statusTxt == "success")

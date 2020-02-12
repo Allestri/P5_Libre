@@ -223,8 +223,7 @@ class ImagesController extends ContentController
         $groupImg = $this->manageDevice($exif);
         
         // Thumbnail
-        $thumbnail = $this->getThumbnail($filename, $directory, $exif);
-        //var_dump($thumbnail);
+        $this->createThumbnailFourThree($filename, $directory, $picInfos['type'], $picInfos['width'], $picInfos['height']);
         
         // EXIF
         $coordinates = $this->putExif($exif);

@@ -99,23 +99,6 @@ class AdminController extends Controller
         return $this->render($response, 'pages/admin.twig', $args);       
     }
     
-    public function clearReports($request, $response)
-    {
-        
-        $adminModel = $this->container->get('adminModel');
-        $adminModel->clearAllReports();
-        
-        return $this->redirect($response, 'admin');
-    }
-    
-    public function clearCommentsReports($request, $response)
-    {
-        $adminModel = $this->container->get('adminModel');
-        $adminModel->clearCommentsReports();
-        
-        $this->flash('Tous les signalements de commentaires ont étés vidés');
-        return $this->redirect($response, 'admin');
-    }
     
     public function clearQuarantineDir($request, $response)
     {
@@ -150,6 +133,38 @@ class AdminController extends Controller
         $adminModel->clearReport($postId);
         
         $this->flash('Le signalement a été supprimé avec succès');
+        return $this->redirect($response, 'admin');
+    }
+    
+    public function clearReports($request, $response)
+    {
+        
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->clearAllReports();
+        
+        $this->flash('Tous les signalements de posts ont étés ignorés');
+        return $this->redirect($response, 'admin');
+    }
+    
+    public function clearCommentReport($request, $response)
+    {
+        
+        $datas = $request->getQueryParams();
+        $commentId = $datas['commentId'];
+        
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->clearCommentReport($commentId);
+        
+        $this->flash('Ce signalement a été ignoré');
+        return $this->redirect($response, 'admin');
+    }
+    
+    public function clearAllCommentsReports($request, $response)
+    {
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->clearAllCommentsReports();
+        
+        $this->flash('Tous les signalements de commentaires ont étés ignorés');
         return $this->redirect($response, 'admin');
     }
     

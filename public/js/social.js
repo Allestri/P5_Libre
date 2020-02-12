@@ -90,7 +90,7 @@ function Social () {
 						
 					},
 					error: function(result, status, error){
-						console.log('erreur');
+						console.log('erreur:' + error);
 					}
 				});
 			

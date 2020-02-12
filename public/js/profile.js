@@ -10,8 +10,9 @@ function profileComponents(){
 		this.setClickedPhoto();
 		this.closeOverlayNew();
 		this.setEditForm();
-		this.deletePost();
 		this.deleteComment();
+		
+		this.testDom();
 	};
 	
 	
@@ -55,12 +56,14 @@ function profileComponents(){
 		
 		$('.image-profile-wrapper').click(function(){
     		
+			// Sets clicked Dom
+			var imageDom = this;
     		// Get event content
     		var child = ($(this).children());
     		var filename = $(this).find("img").attr( "src" );
     		console.log(filename);
     		console.log('pathfilename :' + filename);
-    		self.displayFullScreen(filename);
+    		self.displayFullScreen(filename, imageDom);
     	});		
 		
 	};
@@ -126,7 +129,7 @@ function profileComponents(){
 	
 	
 	//Display full screen via image viewer
-	this.displayFullScreen = function (filepath) {
+	this.displayFullScreen = function (filepath, imageDom) {
 	
 		console.log('display fs fired');
 		let filename = filepath.split("uploads/thumbnails/");
@@ -136,7 +139,6 @@ function profileComponents(){
 		
 		// Get clicked photo unique IDs
 		this.getUniqueIds(filename).done(setValues);
-		
 		// Sets filename on form.
 		/*
 		var filenameElt = $(".filename");
@@ -151,10 +153,11 @@ function profileComponents(){
 		}
 		*/
 		
-		$('#image-profile-midsize').attr('src', file);
+		$('#image-profile-midsize').attr('src', file);		
 		
-		// Icon exit (?)
-		//$('#myphoto-wrapper').append($('<div id="myphoto-panel">' + deleteButton + editButton + '</div>'));
+		// Set delete option up
+		self.deletePost(imageDom);
+		
 		
 		// Show photo overlay.
 		$('#modal-grid').modal('show');
@@ -227,7 +230,6 @@ function profileComponents(){
 				data: formData,
 				success: function(data){
 					console.log('Success, comment deleted');
-					console.log(data);
 					self.refreshCommentsDom(comment);
 				},
 				error: function(result, status, error){
@@ -240,34 +242,21 @@ function profileComponents(){
 		
 	};
 	
+	// Removes the deleted comment and decrement comment count
 	this.refreshCommentsDom = function(comment) {
 
-		comment.fadeOut(800, function(){
+		var commentsNbr = document.getElementById('profile-comment-nbr').textContent;
+		if(commentsNbr != 0){
+			--commentsNbr;
+		}
+		document.getElementById('profile-comment-nbr').innerHTML = commentsNbr;
+		
+		comment.fadeOut(600, function(){
 			comment.remove();
 			console.log('Comment succesfully removed on DOM');
 		});
 
-	};
-	
-	/* Deprecated 
-	this.refreshComments = function() {
-		
-		$.ajax({
-			type: "GET",
-			url: "http://projetlibre/profile/getcomments",
-			dataType: "JSON",
-			success: function(data){
-				console.log('Success, comment refreshed');
-				console.log(data);
-				self.displayComments(data);
-			},
-			error: function(result, status, error){
-				console.log('Error on comment refresh : ' + status);
-			}	
-		});
-		
-	};
-	*/
+	};	
 	
 	this.displayComments = function(data) {
 
@@ -320,8 +309,32 @@ function profileComponents(){
 		});
 		
 	};
+	
+	this.testDom = function() {
 		
-	this.deletePost = function() {
+		$('.image-profile').click(function(){
+			
+			console.log(this);
+			
+		});
+		
+	};
+	
+	// Refreshes DOM after any deletion.
+	
+	this.refreshPostDom = function(){
+		
+		var photosNbr = document.getElementById('profile-img-nbr').textContent;
+		if(photosNbr != 0){
+			--photosNbr;
+		}
+		document.getElementById('profile-img-nbr').innerHTML = photosNbr;
+		
+		$("#np-photos-tab").load("http://projetlibre/profile #np-photos-tab>*");
+	};	
+	
+		
+	this.deletePost = function(imageDom) {
 		
 		$("#delete").on('click', function(e) {
 			//e.preventDefault();
@@ -329,17 +342,20 @@ function profileComponents(){
 					console.log("Confirmation suppression");
 					e.preventDefault();
 					
-					//var filename = $('#myphoto').attr('src');
-					console.log(filename);
 					var datas = $("#delete").serialize();
-	
 					console.log(datas);
+					
+					var photoDom = $('#np-photos-tab').find(filename);
+					console.log(photoDom);
+					
 					$.ajax({
 						type: "POST",
 						url:"http://projetlibre/profile/deleteimg",
 						data: datas,
 						success: function(data){
 							console.log('Success, photo deleted');
+							$('#modal-grid').modal('hide');
+							self.refreshPostDom();
 						},
 						error: function(result, status, error){
 							console.log('error on photo deletion');

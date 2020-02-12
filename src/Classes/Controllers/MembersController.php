@@ -21,6 +21,11 @@ class MembersController extends Controller
         return $this->container->view->render($response, 'pages/inscription.twig');
     }
     
+    public function getFormLogin($request, $response)
+    {
+        return $this->container->view->render($response, 'pages/debug-login.twig');
+    }
+    
     // Inscription
     public function postSignup($request, $response)
     {
@@ -137,7 +142,6 @@ class MembersController extends Controller
         $member['profile'] = $username;
         $member['uid'] = $uid;
         
-        
         //$timestamp = $contentModel->getDate();
         //$date = $this->relativeDate($timestamp);
         //var_dump($date);
@@ -174,7 +178,7 @@ class MembersController extends Controller
             
             // Friend Request notifications
             $args['request'] = $memberModel->getFriendRequests($uid);
-            if(isset($args['request'])){
+            if($args['request']){
                 $this->flash('Vous avez une nouvelle notification');
             }
             
@@ -288,11 +292,10 @@ class MembersController extends Controller
 
         $myId = $datas['myId'];
         $memberId = $datas['memberId'];
-        $_SESSION['sender_id'] = $memberId;
         
         $memberModel = $this->container->get('membersModel');
         $memberModel->addFriendRequest($myId, $memberId);
-        //$this->getIds($myId, $memberId);
+        
         $this->flash('Votre demande d\'ami a bien été envoyée');
         
         return $this->redirect($response, 'memberList');
@@ -301,7 +304,7 @@ class MembersController extends Controller
     public function cancelFriendRequest($request, $response)
     {
         $datas = $request->getParsedBody();
-        var_dump($datas);
+
         $uid = $datas['myId'];
         $fid = $datas['memberId'];
         
@@ -336,7 +339,6 @@ class MembersController extends Controller
         $fid = $datas['fid'];
                 
         $memberModel->addFriendAccept($fid, $uid);
-        $memberModel->clearFriendRequest($fid, $uid);
         
         $this->flash('Hello Friend.');
         

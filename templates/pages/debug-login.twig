@@ -1,0 +1,33 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+
+
+
+<div class="row h-100 my-auto">
+	<div class="col-lg-6 my-auto mx-auto">
+    	<div class="card py-4 px-4">
+    		<form method="POST" class="needs-validation" action="login" novalidate>
+                <div class="form-group wrap-input">
+                	<input type="text" class="form-control input-inscription" name="uname" placeholder="Pseudonyme" id="uid" required />
+                	<span class="icon-input">
+                		<i class="fa fa-user" aria-hidden="true"></i>
+                	</span>
+                </div>
+                <div class="form-group wrap-input">
+                	<input type="password" class="form-control input-inscription" name="pwd" placeholder="Mot de passe" required />
+                	<span class="icon-input">
+                		<i class="fa fa-lock" aria-hidden="true"></i>
+                	</span>
+                </div>
+                <div id="button-wrapper">
+                	<input type="submit" class="btn btn-primary" name="submit" value="Se connecter" />
+                </div>
+            </form>
+    	</div>
+	</div>
+</div>
+
+
+
+{% endblock %}

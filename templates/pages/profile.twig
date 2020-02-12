@@ -31,10 +31,10 @@
                 <div class="bg-light mt-5 p-4 d-flex justify-content-end text-center">
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                        	<h5 class="font-weight-bold mb-0 d-block">{{ imgnbr }}</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Photos</small>
+                        	<h5 id="profile-img-nbr" class="font-weight-bold mb-0 d-block">{{ imgnbr }}</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Photos</small>
                         </li>
                         <li class="list-inline-item">
-                        	<h5 class="font-weight-bold mb-0 d-block">{{ commentsNbr }}</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>commentaires</small>
+                        	<h5 id="profile-comment-nbr" class="font-weight-bold mb-0 d-block">{{ commentsNbr }}</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>commentaires</small>
                         </li>
                     </ul>
                 </div>
@@ -55,7 +55,7 @@
                     	<img src="uploads/avatar/{{ friendship.name }}/{{ friendship.avatar_file }}" alt="{{ friendship.name }} avatar" height="35">
                     	{% endif %}
                                 {{ friendship.name }}
-    						</span>
+    					</span>
     					{% endfor %}
                     </div>
                 </div>
@@ -278,18 +278,17 @@
             	</div>
             </div>
             <div class="modal-btn-wrapper">
-            	<form id="delete" class="mb-3" method="POST" action="profile/deleteimg">
-					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
-					<input type="hidden" class="postId" name="postId" value="1" />
-					<input type="hidden" id="filename" class="filename" name="filename" value="placeholder" />
-					<button class="btn btn-light modal-btn" id="delete-btn">
-						<i class='fas fa-trash-alt'></i>
-					</button>
-    			</form>
-    			<form id="editImg" method="POST" action="profile/getpost">
+            	<form id="editImg" class="mb-3" method="POST" action="profile/getpost">
 					<input type="hidden" id="postId" class="postId" name="postId" value="86" />
 					<button class="btn btn-light modal-btn" id="edit-post-btn">
 						<i class='fas fa-edit'></i>
+					</button>
+    			</form>
+            	<form id="delete" method="POST" action="profile/deleteimg">
+					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
+					<input type="hidden" class="postId" name="postId" value="1" />
+					<button class="btn btn-light modal-btn" id="delete-btn">
+						<i class='fas fa-trash-alt'></i>
 					</button>
     			</form>
             </div>

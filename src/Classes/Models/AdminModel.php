@@ -81,10 +81,17 @@ class AdminModel extends Model
         $this->executeQuery($sql);
     }
     
-    public function clearCommentsReports()
+    public function clearAllCommentsReports()
     {
         $sql = "UPDATE comments SET reported = 0 WHERE reported > 0";
         $this->executeQuery($sql);
+    }
+    
+    public function clearCommentReport($commentId)
+    {
+        $sql = "UPDATE comments SET reported = 0
+                WHERE id = ?";
+        $this->executeQuery($sql, array($commentId));
     }
     
     public function clearReport($postId)

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 10 fév. 2020 à 02:38
+-- Généré le :  mer. 12 fév. 2020 à 00:54
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `com_date` datetime NOT NULL,
   `reported` int(11) NOT NULL DEFAULT '0',
   `moderated` int(11) NOT NULL DEFAULT '0',
-  `post_id` tinyint(4) NOT NULL,
+  `post_id` smallint(4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `placeholder` (
 
 DROP TABLE IF EXISTS `posts`;
 CREATE TABLE IF NOT EXISTS `posts` (
-  `id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `id` smallint(4) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET latin1 NOT NULL,
   `content` varchar(255) CHARACTER SET latin1 NOT NULL DEFAULT 'placeholder',
   `user_id` int(11) NOT NULL,

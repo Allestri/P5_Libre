@@ -138,13 +138,6 @@ class MembersModel extends Model
         $this->executeQuery($sql, array($uid, $fid));
     }
     
-    public function clearFriendRequest($fid, $uid)
-    {
-        $sql = "DELETE FROM friend_requests
-                WHERE sender_id = ? AND receiver_id = ?";
-        $this->executeQuery($sql, array($fid, $uid));
-    }
-    
     public function addFriendAccept($fid, $uid)
     {
         $sql ="UPDATE friendship 
