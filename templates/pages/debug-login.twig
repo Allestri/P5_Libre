@@ -2,7 +2,7 @@
 
 {% block content %}
 
-
+{{ include ('flash.twig') }}
 
 <div class="row h-100 my-auto">
 	<div class="col-lg-6 my-auto mx-auto">
@@ -13,12 +13,19 @@
                 	<span class="icon-input">
                 		<i class="fa fa-user" aria-hidden="true"></i>
                 	</span>
+                	<div class="invalid-feedback">
+          				Veuillez choisir un pseudonyme valide.
+        			</div>
                 </div>
+                
                 <div class="form-group wrap-input">
                 	<input type="password" class="form-control input-inscription" name="pwd" placeholder="Mot de passe" required />
                 	<span class="icon-input">
                 		<i class="fa fa-lock" aria-hidden="true"></i>
                 	</span>
+                	<div class="invalid-feedback">
+          				Veuillez entrez votre mot de passe.
+        			</div>
                 </div>
                 <div id="button-wrapper">
                 	<input type="submit" class="btn btn-primary" name="submit" value="Se connecter" />

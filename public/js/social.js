@@ -100,18 +100,18 @@ function Social () {
 	
 	this.reportComment = function() {
 		
-		$(".report-comment-btn").on('click', (function(e){
+		$(".reportCom-form").on('submit', (function(e){
 			e.preventDefault();
 			
-			var formData = $(this).parent().serialize();
-			
+			var formData = $(this).serialize();
+
 			$.ajax({
 				type: "POST",
 				url: "http://projetlibre/map/report-comment",
 				data: formData,
 				success: function(data){
 					console.log('Success, comment reported');
-					self.removeListeners();
+					//self.removeListeners();
 					// Update report form.
 					
 				},
@@ -151,9 +151,8 @@ function Social () {
 	this.getAvatar = function(username, avatarFile) {
 		
 		let avatar;
-		if(avatarFile == null){
-    		avatar = 'uploads/avatar/avatar_default.png';
-    		return avatar;
+		if(avatarFile === ""){
+    		return avatar = 'uploads/avatar/avatar_default.png';
     	}
     	return avatar = 'uploads/avatar/' + username + '/' + avatarFile;
 	};

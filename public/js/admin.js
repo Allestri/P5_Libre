@@ -173,6 +173,12 @@ function admin() {
 		});
 	};
 	
+	this.refreshDom = function() {
+		
+		$("#reported-comments-wrapper").load("http://projetlibre/admin #reported-comments-wrapper>*");
+		
+	};
+	
 	
 	this.setDeleteComment = function() {
 			
@@ -190,6 +196,7 @@ function admin() {
 					data: datas,
 					success: function(data){
 						console.log('Success, comment deleted');
+						self.refreshDom();
 					},
 					error: function(result, status, error){
 						console.log('Error on comment deletion');

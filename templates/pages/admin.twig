@@ -15,23 +15,27 @@
             <div class="row">
             	<div id="admin-sidebar" class="col-lg-2">
                 	<div id="profile-wrapper">
-                		<img id="admin-avatar" src="uploads/avatar/SOku/{{ session_avatar }}" alt="my-avatar" class="img-thumbnail" width="200" />
+                	{% if session_avatar == 'no_avatar' %}
+                		<img id="admin-avatar" src="uploads/avatar/avatar_default.png" alt="my-avatar" class="img-thumbnail" width="200" />
+                	{% else %}
+                		<img id="admin-avatar" src="uploads/avatar/{{ username }}/{{ session_avatar }}" alt="my-avatar" class="img-thumbnail" width="200" />
+                	{% endif %}
                 	</div>
                 	<nav id="admin-nav" class="navbar bg-light">
                 		<ul class="nav nav-pills">
                 			<li class="nav-item">
-                				<a class="nav-link active" href="#dashboard-admin-tab" data-toggle="pill"><i class="fas fa-home"></i>Tableau de bord</a>
+                				<a class="nav-link active" href="#dashboard-admin-tab" data-toggle="pill"><i class="fas fa-home fa-fw"></i>Tableau de bord</a>
                 			<li class="nav-item">
-                				<a class="nav-link" href="#reports-wrapper" data-toggle="pill"><i class="fas fa-flag"></i>Signalements</a>
+                				<a class="nav-link" href="#reports-wrapper" data-toggle="pill"><i class="fas fa-flag fa-fw"></i>Signalements</a>
                 			</li>
                 			<li class="nav-item">
                 				<a class="nav-link" href="#edit-tab" role="tab" data-toggle="pill">Moderation</a>
                 			</li>
                 			<li class="nav-item">
-                				<a class="nav-link" href="#members-tab" data-toggle="pill"><i class="fas fa-users"></i>Membres</a>
+                				<a class="nav-link" href="#members-tab" data-toggle="pill"><i class="fas fa-users fa-fw"></i>Membres</a>
                 			</li>
                 			<li class="nav-item">
-                				<a class="nav-link" href="#responsive-tab" data-toggle="pill"><i class="fas fa-history"></i>Historique</a>
+                				<a class="nav-link" href="#responsive-tab" data-toggle="pill"><i class="fas fa-history fa-fw"></i>Historique</a>
                 			</li>
                 			<li class="nav-item">
                 				<a class="nav-link" href="#debug-tab" data-toggle="pill">Debug</a>
@@ -139,7 +143,7 @@
                             			<div id="stats-members" class="col-sm-5 dashboard-card card-stats">
                             				<span class="likes-count">
                             					<i class="fas fa-users"></i>
-                            					33
+                            					{{ membersNbr }}
                             				</span>
                             				<p>photographes</p>
                             			</div>
@@ -158,38 +162,45 @@
             				</div>
             				<div class="admin-hr"></div>
             			</div>
-            			<div class="col-sm-5 card dashboard-card">
-            				<h3>Posts Signalés</h3>
-            				{% if not reportsNbr %}
-            				<div class="alert alert-success">
-                        		<span>Bonne nouvelle ! Il n'y a aucun signalements</span>
-                        	</div>
-            				{% elseif reportsNbr == 1 %}
-                        	<div class="alert alert-warning">
-                        		<i class="fas fa-exclamation-triangle"></i>
-                        		<span>{{ reportsNbr }} signalement reporté par la communauté</span>
-                        	</div>
-                       	    {% elseif reportsNbr > 1 %}
-                       		<div class="alert alert-danger">
-                        		<i class="fas fa-exclamation-triangle"></i>
-                        		<span>{{ reportsNbr }} signalements reportés par la communauté</span>
-                        	</div>
-                            {% endif %}
+            			<div class="col-sm-6">
+            				<div class="card">
+            					<div class="card-body">
+                    				<h3>Posts & Photos</h3>
+                    				{% if not reportsNbr %}
+                    				<div class="alert alert-success">
+                                		<span>Bonne nouvelle ! Il n'y a aucun signalements</span>
+                                	</div>
+                    				{% elseif reportsNbr == 1 %}
+                                	<div class="alert alert-warning">
+                                		<i class="fas fa-exclamation-triangle"></i>
+                                		<span>{{ reportsNbr }} signalement reporté par la communauté</span>
+                                	</div>
+                               	    {% elseif reportsNbr > 1 %}
+                               		<div class="alert alert-danger">
+                                		<i class="fas fa-exclamation-triangle"></i>
+                                		<span>{{ reportsNbr }} signalements reportés par la communauté</span>
+                                	</div>
+                                    {% endif %}
+                                </div>
+                            </div>
             			</div>
             			
-            			<div class="col-sm-5 dashboard-card">
-            				<h3>Commentaires signalés</h3>
-            				{% if not reportedComments %}
-            				<div class="alert alert-success">
-                        		<span>Il n'y a aucun commentaires signalés</span>
-                        	</div>
-            				{% else %}
-            				<div class="alert alert-danger">
-                        		<i class="fas fa-exclamation-triangle"></i>
-                        		<span>{{ reportsNbr }} signalements reportés par la communauté</span>
-                        	</div>
-                        	{% endif %}
-            			
+            			<div class="col-sm-6">
+            				<div class="card">
+            					<div class="card-body">
+                    				<h3>Commentaires</h3>
+                    				{% if not reportedComments %}
+                    				<div class="alert alert-success">
+                                		<span>Il n'y a aucun commentaires signalés</span>
+                                	</div>
+                    				{% else %}
+                    				<div class="alert alert-danger">
+                                		<i class="fas fa-exclamation-triangle"></i>
+                                		<span>{{ reportsNbr }} signalements reportés par la communauté</span>
+                                	</div>
+                                	{% endif %}
+                            	</div>
+            				</div>
             			</div>
             			
             		</div>

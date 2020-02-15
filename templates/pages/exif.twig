@@ -26,16 +26,18 @@
                         		<input type="file" class="form-control-file" name="myimage" id="myfile" required/>
                     		</div>
                     		<div id="button-wrapper">
-                    			<input type="submit" class="btn btn-primary" name="submit" value="Envoyer" />
+                    			<button id="upload-btn" type="submit" class="btn btn-primary" name="submit">
+                                    Envoyer
+                                </button>
                     		</div>
             			</form>
             			
             			<div class="exif-form-wrapper">
-            				<div id="test-geo" class="test-wrapper">
+            				<div id="test-geo" class="test-wrapper card hoverable">
             					<i class="fas fa-map-marked-alt"></i>
             					<h4 data-toggle='tooltip' data-placement='bottom' title='Métadonnées géolocalisées'>Geo Data</h4>
             				</div>
-            				<div id="test-photo" class="test-wrapper">
+            				<div id="test-photo" class="test-wrapper card hoverable">
             					<i class="fas fa-database"></i>
             					<h4>Photo</h4>
             				</div>
@@ -47,11 +49,13 @@
             		
             		<!-- Tab Post a Post ! -->
             		<div class="tab-pane fade show mt-3" role="tabpanel" id="tab-post-form">
-            			<a class="post-form-backward" data-toggle="tab" href="#tab-upload-form" role="tab">
-            				<i class="fas fa-step-backward"></i>
-            				Retour
-            			</a>
-                		<h3>Votre Post</h3>
+                		<div class="d-flex justify-content-between">
+                			<h3>Votre Post</h3>
+                			<a class="post-form-backward" data-toggle="tab" href="#tab-upload-form" role="tab">
+                				<i class="fas fa-step-backward"></i>
+                				Retour
+            				</a>
+                		</div>
                 		<form id="myForm" method="post" action="addexif" id="form" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="titre">Nommez votre photo</label><br />

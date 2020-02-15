@@ -64,7 +64,10 @@ class AdminController extends Controller
                 
                 // Memberlist
                 $totalMembers = $membersModel->countAllMembers();
+                // Making sure to get an int from it.
                 $totalMembers = (int)$totalMembers['totalmembers'];
+                // Variable for template.
+                $args['membersNbr'] = $totalMembers;
                    
                 $limit = 4;
                 $args['pagination'] = $this->pagination($request, $totalMembers, $limit);
@@ -73,7 +76,7 @@ class AdminController extends Controller
                 // Logs
                 $args['logs'] = $adminModel->getLogs();
                 $args['logs_com'] = $adminModel->getComLogs();
-    
+                
                 return $this->render($response, 'pages/admin.twig', $args);
             }
             

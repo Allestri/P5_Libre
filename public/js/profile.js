@@ -13,6 +13,7 @@ function profileComponents(){
 		this.deleteComment();
 		
 		this.testDom();
+		this.previewAvatar();
 	};
 	
 	
@@ -381,6 +382,30 @@ function profileComponents(){
 		elements.val(id);
 		console.log(elements);
 			
+	};
+	
+	// Preview avatar before submitting
+	this.previewAvatar = function() {
+		
+		$("#avatar-form").change(function(){
+
+			var file = this.files[0];
+			console.log(file);
+			console.log(this);
+			var reader = new FileReader();
+			reader.onload = self.imageIsLoaded;
+			reader.readAsDataURL(this.files[0]);
+		});
+		
+		
+	};
+	
+	this.imageIsLoaded = function(e){
+		
+		console.log(e);
+		$('#avatar-preview-ctn').append($('<img id="avatar-preview" />').attr('src', e.target.result));
+		$('#avatar-preview').attr('width', '150px');
+		//$('#avatar-preview').attr('height', '150px');
 	};
 					
 

@@ -32,11 +32,12 @@ class Controller
         return $_SESSION['flash'][$type] = $message;
     }
     
-    public function flashAjax($message, $type ='success')
+    public function flashAjax($message, $type ='success', $input = null)
     {
         $response = [
             "message" => $message,
             "type" => $type,
+            "input" => $input,
         ];
         
         echo json_encode($response);
@@ -51,7 +52,6 @@ class Controller
         $diff = $now - $time2;
                 
         // Relative time / date
-        // var
                 
         if($diff < 60){ // x seconds ago
             return 'a l\'instant';
@@ -68,7 +68,7 @@ class Controller
             return 'hier';
         }
         else {
-            return 'une eternité ...';
+            return 'il y a plusieurs jours';
         }
     }
     

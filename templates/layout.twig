@@ -60,12 +60,11 @@
         	    				{% endif %}
         	    			</a>
         	    		    <div class="main-nav-dropdown dropdown-menu">
-                                <a class="dropdown-item" href="{{ path_for('profile') }}"><i class="fas fa-user"></i>Mon profil</a>
+                                <a class="dropdown-item" href="{{ path_for('profile') }}"><i class="fas fa-user fa-fw"></i>&nbsp; Mon profil</a>
                                 {% if admin %}
-                                <a class="dropdown-item" href="{{ path_for('admin') }}"><i class="fas fa-user-cog"></i>Administration</a>
+                                <a class="dropdown-item" href="{{ path_for('admin') }}"><i class="fas fa-user-cog fa-fw"></i>&nbsp; Administration</a>
                                 {% endif %}
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ path_for('deconnexion') }}"><i class="fas fa-sign-out-alt"></i>Se deconnecter</a>
+                                <a class="dropdown-item" href="{{ path_for('deconnexion') }}"><i class="fas fa-sign-out-alt fa-fw"></i>&nbsp; Deconnexion</a>
                             </div>
         				</li>
         			</ul>
@@ -74,7 +73,7 @@
         	</div>    	       	
         </nav>
         
-        
+        <!--  
         <div id="login-modal" class="modal fade" tabindex="-1" role="dialog">
         	<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             	<div id="login-wrapper" class="modal-content">
@@ -105,6 +104,49 @@
             		</div>
             	</div>
         	</div>
+        </div>-->
+        
+        <div id="login-modal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="login-modal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Se connecter</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        	<span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    	<form id="login-overlay" class="needs-validation" method="POST" action="login" novalidate>
+                			<div class="form-group wrap-input">
+                				<input id="modal-input-uname" class="form-control input-login" type="text" name="uname" placeholder="Pseudonyme" aria-label="Pseudonyme" required>
+                				<span class="icon-input">
+                					<i class="fa fa-user" aria-hidden="true"></i>
+                				</span>
+                				<div class="invalid-feedback">
+                      				Veuillez choisir un pseudonyme valide.
+                    			</div>
+                			</div>
+							<div class="form-group wrap-input">
+								<input id="modal-input-pwd" class="form-control input-login" type="password" name="pwd" placeholder="Mot de passe" aria-label="mot de passe" required>
+								<span class="icon-input">
+                					<i class="fa fa-lock" aria-hidden="true"></i>
+                				</span>
+                            	<div class="invalid-feedback">
+                      				Veuillez entrer votre mot de passe.
+                    			</div>
+							</div>
+                		</form>
+                	<div id="form-error-wrapper" class="text-danger"></div>
+                    </div>
+                    
+                    <hr>
+                    <div class="modal-footer">
+                    	<button id="login-btn" class="btn form-button" type="submit" form="login-overlay">Se connecter</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button id="notify-me" type="button" class="btn btn-success">Notification</button>
+                    </div>
+                </div>
+            </div>
         </div>
                  
     	<div id="main-container" class="container">

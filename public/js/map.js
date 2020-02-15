@@ -295,7 +295,7 @@ function displayMap()
 	    var brittany = {lat: 47.847963, lng: -1.465993};
 	    gmap = new google.maps.Map(document.getElementById('map'), {
 	          center: brittany,
-	          zoom: 7,
+	          zoom: 4,
 	          styles: [
 	        	    {
 	        	        "featureType": "all",

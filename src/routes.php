@@ -6,7 +6,7 @@ use Slim\Http\Response;
 
 return function (App $app) {
     
-    $container = $app->getContainer();
+    //$container = $app->getContainer();
     /*
     $app->get('/[{name}]', function (Request $request, Response $response, array $args) use ($container) {
         // Sample log message

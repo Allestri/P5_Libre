@@ -75,6 +75,10 @@ class MembersController extends Controller
         $connexion = false;
         $member = $membersModel->getAccountInfo($username);
         
+        if(empty($member)) {
+            return $this->flashAjax('Ce pseudonyme n\'existe pas !', 'error', 'username');
+        }
+        
         if(isset($username) && ($userEntries['pwd'])){
             
             $isPwdCorrect = password_verify($userEntries['pwd'], $member['password']);
@@ -83,7 +87,8 @@ class MembersController extends Controller
                 
                 $_SESSION['username'] = $username;
                 $_SESSION['uid'] = $member['id'];
-                $_SESSION['avatar'] = $member['avatar_file'];
+                // Checks if avatar set on db
+                $_SESSION['avatar'] = isset($member['avatar_file']) ? $member['avatar_file'] : 'no_avatar';
                 
                 if($member['group_id'] == 1){
                     $_SESSION['admin'] = $member['group_id'];
@@ -96,25 +101,15 @@ class MembersController extends Controller
         
         if(!$connexion)
         {
-            throw new Exception('La connexion a echouée');
+            return $this->flashAjax('La connexion a echouée', 'error', 'failed');
         }
-        try 
-        {
            
-           // Greet message
-           //$flash = $this->flash('Bienvenue sur votre profil');
            
-           $flash2 = $this->flashAjax('Connexion effectuee');
+        return $this->flashAjax('Connexion effectuee');
            
-           return $flash2;
-           //$this->container->flash->addMessage('Test', 'This is a message');
-           //return $this->redirect($response, 'profile');
-        }
+       //$this->container->flash->addMessage('Test', 'This is a message');
+       //return $this->redirect($response, 'profile');
          
-        catch (Exception $e)
-        {
-            echo $e->getMessage();
-        }
         
     }
     
@@ -133,14 +128,13 @@ class MembersController extends Controller
         if(isset($username) && ($userEntries['pwd'])){
             
             $isPwdCorrect = password_verify($userEntries['pwd'], $member['password']);
-            
+            $this->flash('Erreur de connexion', 'error');
             if($isPwdCorrect){
                 
                 $_SESSION['username'] = $username;
                 $_SESSION['uid'] = $member['id'];
                 
                 
-                // Ternary operator coming here
                 // Checks if avatar set on db
                 $_SESSION['avatar'] = isset($member['avatar_file']) ? $member['avatar_file'] : 'no_avatar';
                 
@@ -163,23 +157,17 @@ class MembersController extends Controller
         
         if(!$connexion)
         {
-            throw new Exception('La connexion a echouée');
+            $this->flash('Erreur de connexion', 'error');
+            return $this->redirect($response, 'home');
         }
-        try
-        {
-            
-            // Greet message
-            $this->flash('Bienvenue sur votre profil');
-            
-            //$this->container->flash->addMessage('Test', 'This is a message');
-            return $this->redirect($response, 'profile');
-        }
+
+        /*
+        // Greet message
+        $this->flash('Bienvenue sur votre profil');
         
-        catch (Exception $e)
-        {
-            echo $e->getMessage();
-        }
-        
+        $this->container->flash->addMessage('Test', 'This is a message');
+        return $this->redirect($response, 'profile');
+        */
     }
     
     

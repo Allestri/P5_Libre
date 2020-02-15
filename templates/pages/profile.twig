@@ -59,6 +59,7 @@
     					{% endfor %}
                     </div>
                 </div>
+                <button id="notification">Notify me</button>
         	</div>
         	<div id="np-body" class="col-lg-9">
             	<div class="tab-content">
@@ -79,7 +80,11 @@
             					</li>
             					<li class="nav-item">
             						<a class="nav-link profile-pills" data-toggle="tab" href="#np-notifs-tab" role="tab">
+            						{% if not request %}
             						<i class="fas fa-envelope"></i>
+            						{% else %}
+            						<span class="badge badge-primary">1</span><span class="sr-only">friendship requests</span>
+            						{% endif %}
             						Notifications
             						</a>
             					</li>
@@ -190,10 +195,16 @@
                             <div id="np-notifs-tab" class="tab-pane fade" role="tabpanel">
                             	<div class="py-4 px-4">
     								{% if request %}
-                                	<div class="col-lg-7 mx-auto">
-                                		<p>Vous avez une demande d'ami de {{ request.0.name }}</p>
-                                		<a class ="btn btn-primary" href="/addedfriend?fid={{ request.0.friend_a }}">Accepter</a>
-                                		<a class ="btn btn-danger" href="/ignorefriend?fid={{ request.0.friend_a }}">Refuser</a>
+                                	<div class="col-lg-6">
+                                		<div class="card">
+                                    		<div class="card-body">
+                                    			<p>Vous avez une demande d'ami de {{ request.0.name }}</p>
+                                    		</div>
+                                    		<div class="card-footer">
+                                        		<a class ="btn btn-primary" href="/addedfriend?fid={{ request.0.friend_a }}">Accepter</a>
+                                        		<a class ="btn btn-danger" href="/ignorefriend?fid={{ request.0.friend_a }}">Refuser</a>
+                                    		</div>
+                                		</div>
                                 	</div>
                                 	{% else %}
                                 		<p>Vous n'avez pas de notifications</p>

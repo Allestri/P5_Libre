@@ -30,14 +30,13 @@ function postInfos(data){
 	};
 	
 	// Checks if a custom avatar is set, returns default avatar file if null.
-	this.getAvatar = function(avatarFile) {
+	this.getAvatar = function(username, avatarFile) {
 		
 		let avatar;
-		if(avatarFile == null){
-    		avatar = 'uploads/avatar/avatar_default.png';
-    		return avatar;
+		if(avatarFile === ""){
+    		return avatar = 'uploads/avatar/avatar_default.png';
     	}
-    	return avatar = 'uploads/avatar/' + this.user + '/' + this.authorAvatar;
+    	return avatar = 'uploads/avatar/' + username + '/' + avatarFile;
 	};
 	
 	this.displayInfos = function() {
@@ -47,7 +46,7 @@ function postInfos(data){
 		
 		$("#author").replaceWith("<h3 id='author'>" + this.user + "</h3>");
 		
-		var avatar = this.getAvatar(this.authorAvatar);
+		var avatar = this.getAvatar(this.user, this.authorAvatar);
 		//$('#author').prepend($('<img id="author-avatar" />').attr('src', avatar));
 		$('#author-avatar').replaceWith($('<img id="author-avatar" />').attr('src', avatar));
 		
@@ -89,7 +88,7 @@ function postInfos(data){
 
 	    for( var i = 0; i < data.comments.length; i++){
 	    	
-	    	let avatar = this.getAvatar(data.comments[i].avatar_file);
+	    	let avatar = this.getAvatar(data.comments[i].name, data.comments[i].avatar_file);
 
 	    	
 	        comments += "<div class='card comment'><div class='comment-avatar'><img src='" + avatar + "' width='50' alt='avatar'></div><div class='comment-body'><h5 class='comment-title'>" + data.comments[i].name + "</h5>" 

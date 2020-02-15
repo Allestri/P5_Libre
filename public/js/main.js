@@ -43,12 +43,11 @@ $(document).ready(function() {
 });
 */
 
-
-
-
-
-AOS.init();
-
+$('#home-banner').ready(function() {
+	
+	AOS.init();
+	
+});
 
 //Home page carousel
 
@@ -58,7 +57,7 @@ $('.carousel').carousel({
 	
 // Flash messages
 
-$( '.alert-dismissible' ).delay( 1500 ).fadeOut( 400 );
+$( '.alert-dismissible' ).delay( 2000 ).fadeOut( 400 );
 
 // Popovers
 
@@ -73,31 +72,83 @@ $(document).ready(function() {
 (function() {
 	'use strict';
 	window.addEventListener('load', function() {
-	// Fetch all the forms we want to apply custom Bootstrap validation styles to
-	var forms = document.getElementsByClassName('needs-validation');
-	// Loop over them and prevent submission
-	var validation = Array.prototype.filter.call(forms, function(form) {
-	form.addEventListener('submit', function(event) {
-	if (form.checkValidity() === false) {
-	event.preventDefault();
-	event.stopPropagation();
-	}
-	form.classList.add('was-validated');
+		// Fetch all the forms we want to apply custom Bootstrap validation styles to
+		var forms = document.getElementsByClassName('needs-validation');
+		console.log(forms);
+		// Loop over them and prevent submission
+		var validation = Array.prototype.filter.call(forms, function(form) {
+			form.addEventListener('submit', function(event) {
+			if (form.checkValidity() === false) {
+				event.preventDefault();
+				event.stopPropagation();
+			} else {
+				
+				event.preventDefault();
+				var formData = $("#login-overlay").serialize();
+				$.ajax({
+					type: "POST",
+					url: "http://projetlibre/login",
+					data: formData,
+					dataType: "JSON",
+					success: function(data){
+						console.log(data);
+						//self.refreshLikes();
+						if(data.type == 'error'){
+							displayError(data);
+						} else {
+						
+							$.notify('Connecté', 'success');
+	
+							
+							//$(".modal-footer").append("<p>" + data['message'] + "</p>");
+							$('#login-modal').modal('hide');
+	
+							// Code spaghetti, I'll fix that I promise !
+							$("#main-navbar").load("http://projetlibre/ #main-navbar>*");
+							
+							$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*", function(response, statusTxt, xhr) {
+								if(statusTxt == "success")
+									console.log(response);
+								if(statusTxt == "error")
+								    console.log("Error: " + xhr.status + ": " + xhr.statusText);
+							});
+						}
+						
+						//$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*");
+
+
+						//$( "#dynamic-layout" ).load( "http://projetlibre/map #dynamic-layout" );
+					},
+					complete: function(data){
+						console.log('Callback: ' + data);
+						
+					},
+					error: function(result, status, error){
+						console.log('erreur : ' + error + ' status: ' + status);
+						
+					}
+				});	
+
+			}
+			form.classList.add('was-validated');
+			}, false);
+		});
 	}, false);
-	});
-	}, false);
-	})();
+})();
 
 
 // Test Exif Upload
 
 $('#test-form').submit(function(e){ 
 	
+	e.preventDefault();
+	$('#upload-btn').text('Chargement...');
+	
 	// Reset testdiv classes
 	$('.test-wrapper').removeClass('invalid');
 	$('.test-wrapper').removeClass('valid');
 	
-	e.preventDefault();
+	
 	$.ajax({
 		type: "POST",
 		url: "http://projetlibre/testexif",
@@ -110,12 +161,25 @@ $('#test-form').submit(function(e){
 			console.log('Success, test data recovered');
 			displayFlash(data);
 			console.log(data);
+			$('#upload-btn').text('Envoyer');
 		},
 		error: function(result, status, error){
 			console.log('Error on data recovery' + error);
 		}	
 	});
 });
+
+$('#notification').click(function(){
+	
+	$.notify('Hello world', "success");
+	
+});
+
+/*
+window.addEventListener('load', (event) => {
+	  alert('page is fully loaded');
+});
+*/
 
 
 
@@ -175,8 +239,31 @@ $('#triggerTest').click(function(e){
 	
 });
 
-$('#login-btn').click(function(e){
+$('#notify-me').click(function(){
+	$.notify('Connecté', 'success');
+});
+
+
+
+function displayError(data){
 	
+	$("#login-overlay").removeClass('was-validated');
+	
+	var error = data.message;
+	var input = data.input;
+	
+	if(data.input == 'username'){
+		$('#modal-input-uname').addClass('is-invalid');
+	}
+	
+	$('#form-error-wrapper').html(error);
+	
+	
+};
+
+/*
+$('#login-btn').click(function(e){
+			
 	e.preventDefault();
 	var formData = $("#login-overlay").serialize();
 	
@@ -186,14 +273,23 @@ $('#login-btn').click(function(e){
 			data: formData,
 			dataType: "JSON",
 			success: function(data){
-				console.log('Success, member successfully connected:' + status);
+				console.log('Success');
 				console.log(data);
 				//self.refreshLikes();
+				if(data.type == 'error'){
+					displayError(data);
+				}
+				/*
+				if(data.type == "success"){
+					$.notify('Connecté', data.type);
+				}
+				*/
 				
 				//$(".modal-footer").append("<p>" + data['message'] + "</p>");
-				$('#login-modal').modal('hide');
+				//$('#login-modal').modal('hide');
 
 				// Code spaghetti, I'll fix that I promise !
+				/*
 				$("#main-navbar").load("http://projetlibre/ #main-navbar>*");
 				
 				$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*", function(response, statusTxt, xhr) {
@@ -202,11 +298,13 @@ $('#login-btn').click(function(e){
 					if(statusTxt == "error")
 					    console.log("Error: " + xhr.status + ": " + xhr.statusText);
 				});
+				*/
 				
 				//$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*");
 
 
 				//$( "#dynamic-layout" ).load( "http://projetlibre/map #dynamic-layout" );
+				/*
 			},
 			complete: function(data){
 				console.log('Callback: ' + data);
@@ -214,10 +312,12 @@ $('#login-btn').click(function(e){
 			},
 			error: function(result, status, error){
 				console.log('erreur : ' + error + ' status: ' + status);
+				
 			}
 		});	
 	
 });
+			
 
 
 /* 
@@ -263,6 +363,7 @@ $('.memberlist-btn').click(function (e) {
 */
 
 // Preview avatar before submitting - Profile Page
+/*
 $("#avatar-form").change(function(){
 
 	var file = this.files[0];
@@ -279,3 +380,4 @@ function imageIsLoaded(e){
 	$('#avatar-preview').attr('width', '150px');
 	//$('#avatar-preview').attr('height', '150px');
 };
+*/
