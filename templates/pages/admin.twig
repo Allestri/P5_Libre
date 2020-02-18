@@ -24,21 +24,18 @@
                 	<nav id="admin-nav" class="navbar bg-light">
                 		<ul class="nav nav-pills">
                 			<li class="nav-item">
-                				<a class="nav-link active" href="#dashboard-admin-tab" data-toggle="pill"><i class="fas fa-home fa-fw"></i>Tableau de bord</a>
+                				<a class="nav-link active" href="#dashboard-admin-tab" data-toggle="pill"><i class="fas fa-home fa-fw"></i>&nbsp; Tableau de bord</a>
                 			<li class="nav-item">
-                				<a class="nav-link" href="#reports-wrapper" data-toggle="pill"><i class="fas fa-flag fa-fw"></i>Signalements</a>
+                				<a class="nav-link" href="#reports-wrapper" data-toggle="pill"><i class="fas fa-flag fa-fw"></i>&nbsp; Signalements</a>
                 			</li>
                 			<li class="nav-item">
-                				<a class="nav-link" href="#edit-tab" role="tab" data-toggle="pill">Moderation</a>
+                				<a class="nav-link" href="#members-tab" data-toggle="pill"><i class="fas fa-users fa-fw"></i>&nbsp; Membres</a>
                 			</li>
                 			<li class="nav-item">
-                				<a class="nav-link" href="#members-tab" data-toggle="pill"><i class="fas fa-users fa-fw"></i>Membres</a>
+                				<a class="nav-link" href="#responsive-tab" data-toggle="pill"><i class="fas fa-history fa-fw"></i>&nbsp; Historique</a>
                 			</li>
                 			<li class="nav-item">
-                				<a class="nav-link" href="#responsive-tab" data-toggle="pill"><i class="fas fa-history fa-fw"></i>Historique</a>
-                			</li>
-                			<li class="nav-item">
-                				<a class="nav-link" href="#debug-tab" data-toggle="pill">Debug</a>
+                				<a class="nav-link" href="#debug-tab" data-toggle="pill"><i class="fa fa-bug fa-fw" aria-hidden="true"></i>&nbsp; Debug</a>
                 			</li>
                 		</ul>
                 	</nav>
@@ -274,11 +271,12 @@
                                         			</form>
                                 				</div>
                                 				<h2 class="card-title">{{ posts.name }}</h2>
+
                                 				<div class="admin-btn-panel">
                                 					<div class="admin-btn-container">
                                     					<form id="getreport" method="POST" action="admin/getreport">
                                             				<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
-                                            				<button class="admin-btn edit" href="#edit-tab" role="tab" data-toggle="pill">
+                                            				<button class="admin-btn edit" role="tab" data-toggle="pill">
                                             					<i class="fas fa-edit"></i>Editer post
                                             				</button>
                                         				</form>
@@ -296,6 +294,39 @@
                             			</div>
                             		</div>
                             	{% endfor %}
+                            	<hr>
+                            	<div id="form-collapse" class="col-lg-12 mt-5 collapse">
+                            		<div class="card">
+                            			<div class="card-header d-flex justify-content-between">
+                            				<h5>Editer un post</h5>
+                            				<button class="btn back-dashboard" data-toggle="collapse" data-target="#form-collapse" title="Fermer"><i class="fa fa-times" aria-hidden="true"></i></button>
+                            			</div>
+                            			<div class="card-body">
+                                			<div class="row">
+                                    			<div class="col-lg-6">
+                                    				<form id="editPost" method="POST" action="admin/edit" >
+                                            			<div class="form-group">
+                                            				<label for="name">Titre</label>
+                                            				<input id="name" type="text" class="form-control" name="name">
+                                            			</div>
+                                            			<div class="form-group">
+                                            				<label for="author">Auteur</label>
+                                            				<input id="author" class="form-control" type="text" name="author" readonly>
+                                            			</div>
+                                            			<div class="form-group">
+                                            				<label for="content">Description</label>
+                                            				<textarea class="form-control" id="description" name="description" rows="2"></textarea>
+                                            			</div>
+                                            			<input type="hidden" id="edit-imgId" name="postId" />
+                                            			<button type="submit" href="#edit-tab" class="btn btn-primary">Editer le Post</button>
+                                        			</form>
+                                    			</div>
+                                    			<div class="col-lg-6" id="edit-preview"></div>
+                                    		</div>
+                            			</div>
+                            			
+                            		</div>
+                            	</div>
                             </div>
                             {% endif %}
                         </div>
@@ -318,7 +349,7 @@
                             		<div class="col-lg-12 adm-tab-header mb-3">
                             			<div class="alert alert-warning">
                                     		<i class="fas fa-exclamation-triangle"></i>
-                                    		<span>Il y a 5 commentaires signalés</span>
+                                    		<span>Il y a {{ reportedComNbr }} commentaires signalés</span>
                             			</div>
                             			<a class="btn back-dashboard" title="Vider signalements" href="admin/clear-reports/comments"><i class="fas fa-trash"></i></a>
                             		</div>
@@ -382,40 +413,6 @@
             	</div>
             	
             	<!-- End Reports tab -->
-    
-            	<div class="tab-pane fade" id="edit-tab" role="tabpanel">
-            		<div class="row">
-            			<div id="admin-edit-hdr" class="col-lg-12">
-            				<h3>Editer un post</h3>
-            				<a class="btn back-dashboard" href="#reports-wrapper" data-toggle="pill" title="Retour"><i class="fas fa-arrow-left"></i></a>
-            			</div>
-            		</div>
-            		<div class="row">
-            			<div class="col-lg-6">
-                			<div id="admin-edit-wrapper">
-                        		<form id="editPost" method="POST" action="admin/edit" >
-                        			<div class="form-group">
-                        				<label for="name">Titre</label>
-                        				<input id="name" type="text" class="form-control" name="name">
-                        			</div>
-                        			<div class="form-group">
-                        				<label for="author">Auteur</label>
-                        				<input id="author" class="form-control" type="text" name="author" readonly>
-                        			</div>
-                        			<div class="form-group">
-                        				<label for="content">Description</label>
-                        				<textarea class="form-control" id="description" name="description" rows="2"></textarea>
-                        			</div>
-                        			<input type="hidden" id="edit-imgId" name="postId" />
-                        			<button type="submit" href="#edit-tab" class="btn btn-primary">Editer le Post</button>
-                        		</form>
-                    		</div>
-                    	</div>
-                		<div class="col-lg-6" id="edit-preview"></div>
-            		</div>
-            	</div>
-            	
-            	<!-- End Edit Image Reports tab -->
             
             	<div id="members-tab" class="tab-pane fade" role="tabpanel">
             		<div id="members-tab-container">
@@ -486,9 +483,17 @@
             		</div>
             		<div class="tab-content">
         				<div id="logs-posts" class="tab-pane fade show active" role="tabpanel">
-    
+        				
+        					<div class="adm-tab-header mb-3">
+        						<div class="alert alert-secondary">
+                            		<i class="fa fa-history" aria-hidden="true"></i>
+                            		<span>Historique de posts</span>
+                                </div>
+                                <a class="btn back-dashboard" title="Vider historique modération" href="admin/clear-logs/posts"><i class="fas fa-trash"></i></a>
+                            </div>
+    						
                         	<div class="row d-flex justify-content-between">
-                        	
+                        		
                         		{% for logs in logs %}
                             	<div class="col-lg-5 post-log">
                             		<div class="card hoverable">
@@ -497,8 +502,8 @@
                                     			<div class="flip-front">
                                     				<img class="card-img-top" src="uploads/thumbnails/{{ logs.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
                                     				<div class="card-body">
-                                                		<div class="logs-header">
-                                                			{{ logs.old_name }}
+                                                		<div class="logs-header d-flex align-items-center">
+                                                			<h4 class="mb-0" title="titre original">{{ logs.old_name }}</h4>
                                                 			<span class="logs-date"><i class="far fa-clock"></i> {{ logs.date }}</span>
                                                     		{% if logs.mod_type == 'M' %}
                                 							<span class="badge badge-pill badge-info">Modifié</span>
@@ -506,7 +511,7 @@
                                 						    <span class="badge badge-pill badge-danger">Supprimé</span>
                                 						    {% endif %}
                                                 		</div>
-                            						    <p>{{ logs.old_content }}</p>
+                            						    <p title="Contenus original">{{ logs.old_content }}</p>
                                             		</div>
                                     			</div>
                                     			<!-- Card flip back -->
@@ -530,11 +535,21 @@
                             	</div>
                             	
                             	{% endfor %}
-    	                       	
                             	
                         	</div>
+                        	
+                        	<hr>
+                        	
         				</div>
         				<div id="logs-comments" class="tab-pane fade" role="tabpanel">
+        					<div class="adm-tab-header mb-3">
+        						<div class="alert alert-secondary">
+                            		<i class="fa fa-history" aria-hidden="true"></i>
+                            		<span>Historique de commentaires</span>
+                                </div>
+                                <a class="btn back-dashboard" title="Vider historique modération" href="admin/clear-logs/posts"><i class="fas fa-trash"></i></a>
+                            </div>
+                            
                         	<div class="row d-flex justify-content-between">
                         	
                         		{% for logs in logs_com %}

@@ -27,7 +27,6 @@ function admin() {
 		
 		this.memberPagination();
 		this.hideEditComForm();
-		this.toggleNavbarStyle();
 	}
 	
 	this.closeOverlay = function() {
@@ -76,35 +75,18 @@ function admin() {
 	this.memberPagination = function() {
 		
 		$('#admin-pagination li').click(function(e){
-			//console.log($('#admin-pagination li'));
 			
 			e.preventDefault();
 			var pageNbr = $(this).find("a").data('page');
 			
 			$("#members-tab").load("http://projetlibre/admin/paginate?page=" + pageNbr + " #members-tab>*", function(response, statusTxt, xhr) {
 				if(statusTxt == "success")
-					console.log(response);
+					// Refresh listeners
 					self.memberPagination();
 				if(statusTxt == "error")
 				    console.log("Error: " + xhr.status + ": " + xhr.statusText);
 			});
 			
-			/*
-			$.ajax({
-				type:"GET",
-				url: "http://projetlibre/admin",
-				data: "page=" + pageNbr,
-				success: function(data){
-					console.log('Success, pagination');
-					console.log(data);
-					$("#members-card-wrapper").load("http://projetlibre/admin?page=2 #members-card-wrapper>*");
-				},
-				error: function(result, status, error){
-					console.log('Error on data recovery');
-				}
-				
-			});
-			*/
 			
 		});
 		
@@ -217,8 +199,9 @@ function admin() {
 	// Get values from a report to edit form
 	this.getReportedPostDatas = function() {
 		
-		$('.edit').click(function() {
+		$('.edit').click(function(e) {
 			
+			e.preventDefault();
 			var imgId = $(this).parent().serialize();
 			
 			$.ajax({
@@ -229,6 +212,7 @@ function admin() {
 				success: function(data){
 					console.log('Success, data recovered');
 					self.setValuesEdit(data);
+					$('#form-collapse').collapse('show');
 				},
 				error: function(result, status, error){
 					console.log('Error on data recovery');
@@ -254,7 +238,7 @@ function admin() {
 		$('#name').val(title);
 		$('#author').val(author);
 		$('#description').val(description);
-		$('#edit-preview').append($('<img id="image-preview" />').attr('src', image));
+		$('#edit-preview').html($('<img id="image-preview" />').attr('src', image));
 		
 	};
 	
@@ -319,15 +303,6 @@ function admin() {
 		
 	};
 	
-	this.toggleNavbarStyle = function() {
-		
-		$('.back-dashboard').click(function(){
-			
-			$('#admin-nav li a').removeClass('active');
-			$('#admin-nav li a').first().addClass('active');
-			
-		});
-	};
 }
 
 $("#admin-panel").ready(function() {

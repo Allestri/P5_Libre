@@ -88,6 +88,8 @@ return function (App $app) {
     $app->get('/admin/clear', \App\Controllers\AdminController:: class . ':clearReports');
     $app->get('/admin/clear-reports/comments', \App\Controllers\AdminController:: class . ':clearAllCommentsReports');
     
+    $app->get('/admin/clear-logs/posts', \App\Controllers\AdminController:: class . ':clearLogsPosts');
+    
     $app->post('/admin/debugupload', \App\Controllers\ImagesController:: class . ':debugUpload');
     
     $app->get('/admin/clearquar', \App\Controllers\AdminController:: class . ':clearQuarantineDir');
@@ -106,6 +108,8 @@ return function (App $app) {
     
     $app->get('/addedfriend', \App\Controllers\MembersController:: class . ':acceptFriend');
     $app->get('/ignorefriend', \App\Controllers\MembersController:: class . ':ignoreFriendRequest');
+    
+    $app->post('/readdfriend', \App\Controllers\MembersController:: class . ':reAddFriendRequest');
         
     // Upload de photos
     $app->get('/upload', \App\Controllers\ImagesController:: class . ':getTestForm')->setName('upload');

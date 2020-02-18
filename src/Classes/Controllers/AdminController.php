@@ -53,6 +53,7 @@ class AdminController extends Controller
                 }
                 
                 $args['reportedComments'] = $adminModel->getReportsComments();
+                $args['reportedComNbr'] = count($args['reportedComments']);
                           
                 // Quarantine files
                 $quarantineDir = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR;
@@ -61,7 +62,6 @@ class AdminController extends Controller
                 {
                     $args['fileQuarantine'] = count($quarFiles);
                 }
-                
                 // Memberlist
                 $totalMembers = $membersModel->countAllMembers();
                 // Making sure to get an int from it.
@@ -199,7 +199,11 @@ class AdminController extends Controller
         $datas = $request->getParsedBody();
         $postId = $datas['postId'];
         
+        // D as deleted
+        $modType = 'D';
+        
         $adminModel = $this->container->get('adminModel');
+        $adminModel->insertPostLogs($modType, $postId);
         $adminModel->deletePost($postId);
         $adminModel->clearReport($postId);
         
@@ -238,6 +242,17 @@ class AdminController extends Controller
         
         $this->flash('Commentaire supprimé avec succès');
         return $this->redirect($response, 'admin');
+    }
+    
+    // Logs
+    
+    public function clearLogsPosts($request, $response)
+    {
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->clearLogsPosts();
+        
+        $this->flash('L\'historique de modération a été vidé');
+        return $this->redirect($response, 'admin');   
     }
     
     

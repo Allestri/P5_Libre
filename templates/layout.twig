@@ -115,31 +115,35 @@
                         	<span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body mt-4 px-4">
                     	<form id="login-overlay" class="needs-validation" method="POST" action="login" novalidate>
-                			<div class="form-group wrap-input">
+                			<div class="form-group input-group wrap-input">
+                				<div class="input-group-prepend">
+                    				<span class="input-group-text">
+                                		<i class="fa fa-user" aria-hidden="true"></i>
+									</span>
+                				</div>
                 				<input id="modal-input-uname" class="form-control input-login" type="text" name="uname" placeholder="Pseudonyme" aria-label="Pseudonyme" required>
-                				<span class="icon-input">
-                					<i class="fa fa-user" aria-hidden="true"></i>
-                				</span>
                 				<div class="invalid-feedback">
                       				Veuillez choisir un pseudonyme valide.
                     			</div>
                 			</div>
-							<div class="form-group wrap-input">
-								<input id="modal-input-pwd" class="form-control input-login" type="password" name="pwd" placeholder="Mot de passe" aria-label="mot de passe" required>
-								<span class="icon-input">
-                					<i class="fa fa-lock" aria-hidden="true"></i>
-                				</span>
+							<div class="form-group input-group wrap-input">
+								<div class="input-group-prepend">
+                                	<span class="input-group-text">
+                                		<i class="fa fa-lock" aria-hidden="true"></i>
+									</span>
+                                </div>
+								<input id="modal-input-pwd" class="form-control" type="password" name="pwd" placeholder="Mot de passe" aria-label="mot de passe" required>
                             	<div class="invalid-feedback">
                       				Veuillez entrer votre mot de passe.
                     			</div>
 							</div>
                 		</form>
-                	<div id="form-error-wrapper" class="text-danger"></div>
+                	<div id="form-error-wrapper" class="text-danger text-center"></div>
                     </div>
                     
-                    <hr>
+                    <hr class="w-100">
                     <div class="modal-footer">
                     	<button id="login-btn" class="btn form-button" type="submit" form="login-overlay">Se connecter</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -153,6 +157,7 @@
             {% block content %}{% endblock %}
             
     	</div>
+
     	<div id="footer">
     		<div class="container">
     			<div class="row">
@@ -165,6 +170,7 @@
     			</div>
     		</div>
     	</div>
+
         <!-- jQuery, Popper.js, Bootstrap JS -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

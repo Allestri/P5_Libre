@@ -154,13 +154,13 @@ class AdminModel extends Model
     
     public function getLogs()
     {
-        $sql = "SELECT logs.post_name as old_name, posts.name as new_name, posts.user_id as author, 
+        $sql = "SELECT logs.post_name as old_name, posts.name as new_name, logs.author_id as author, 
                 logs.post_content as old_content, posts.content as new_content, 
                 logs.mod_type, DATE_FORMAT(post_date, '%d/%m/%Y') as date, images.filename
 		        FROM logs 
-                INNER JOIN posts 
+                LEFT JOIN posts 
                     ON logs.post_id = posts.id
-                INNER JOIN images
+				LEFT JOIN images
                 	ON posts.image_id = images.id
                 ORDER BY logs.id DESC";
         $logs = $this->executeQuery($sql);
@@ -201,6 +201,11 @@ class AdminModel extends Model
         $this->executeQuery($sql, array($modType, $commentId));
     }
     
+    public function clearLogsPosts()
+    {
+        $sql = "DELETE FROM logs";
+        $this->executeQuery($sql);
+    }
     
 
 }

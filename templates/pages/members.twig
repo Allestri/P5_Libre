@@ -22,14 +22,16 @@
                         	<div class="memberlist-item main-items">
                 				<h4>{{ members.name }}</h4>
                 			</div>
-                			<div class="memberlist-item main-items">
+                			<div class="memberlist-item small-items">
                 			    {{ members.days_timestamp }} jours
                 			</div>
                 			<div class="memberlist-item item-status">
                                 {% if members.status == 'friend' %}
     							<span class="badge badge-pill badge-success">Amis</span>
-    						    {% elseif members.status == 'pending' %}
+    						    {% elseif members.status == 'pending' and not members.ignored %}
     							<span class="badge badge-pill badge-secondary">En attente</span>
+    							{% elseif members.status == 'pending' and members.ignored %}
+    							<span class="badge badge-pill badge-secondary">Demande ignorée</span>
 							    {% else %}
 								<span class="badge badge-pill badge-light">-</span>
 							    {% endif %}
@@ -41,23 +43,40 @@
                           	<input type="hidden" name="memberId" value="{{ members.id }}"/>
                       	</form>
                       	<div class="memberlist-item addfriend-btn-wrapper">
-                      		<button class="memberlist-btn removefriend-btn" form="removefriend{{ members.id }}"><i class="fas fa-user-times"></i></button>
+                      		<button class="memberlist-btn removefriend-btn" title="Supprimer un ami" form="removefriend{{ members.id }}"><i class="fas fa-user-times"></i></button>
                       	</div>
                       	{% elseif members.status == 'pending' %}
-                      	<form id="cancelreq{{ members.id }}"method="POST" action="cancelrequest">
-                          	<input type="hidden" name="myId" value="{{ member }}" />
-                          	<input type="hidden" name="memberId" value="{{ members.id }}"/>
-                      	</form>
-                      	<div class="memberlist-item addfriend-btn-wrapper">
-            				<button class="memberlist-btn cancel-btn" form="cancelreq{{ members.id }}"><i class="fas fa-times"></i></button>
-            			</div>
+                      		
+                      		{% if members.req_direction == "out" %}
+                      		<form id="cancelreq{{ members.id }}"method="POST" action="cancelrequest">
+                              	<input type="hidden" name="myId" value="{{ member }}" />
+                              	<input type="hidden" name="memberId" value="{{ members.id }}"/>
+                          	</form>
+                          	<div class="memberlist-item addfriend-btn-wrapper">
+                				<button class="memberlist-btn cancel-btn" title="Annuler la demande d'ami" form="cancelreq{{ members.id }}"><i class="fas fa-times"></i></button>
+                			</div>
+                			
+                      		{% elseif members.req_direction == 'in' and members.ignored %}
+                          	<form id="readdfriend{{ members.id }}"method="POST" action="readdfriend">
+                              	<input type="hidden" name="myId" value="{{ member }}" />
+                              	<input type="hidden" name="memberId" value="{{ members.id }}"/>
+                          	</form>
+                          	<div class="memberlist-item addfriend-btn-wrapper">
+                				<button class="memberlist-btn addfriend-btn" title="Ajouter une demande d'ami" form="readdfriend{{ members.id }}"><i class="fas fa-user-plus"></i></button>
+                			</div>
+
+                			{% else %}
+                			<div class="memberlist-item addfriend-btn-wrapper">
+                				<button class="memberlist-btn" title="Vous avez une demande d'ami"><i class="fa fa-envelope" aria-hidden="true"></i></button>
+                			</div>
+                			{% endif %}
                       	{% else %}
                      	<form id="addfriend{{ members.id }}"method="POST" action="addfriend">
                           	<input type="hidden" name="myId" value="{{ member }}" />
                           	<input type="hidden" name="memberId" value="{{ members.id }}"/>
                       	</form>
                       	<div class="memberlist-item addfriend-btn-wrapper">
-            				<button class="memberlist-btn addfriend-btn" form="addfriend{{ members.id }}"><i class="fas fa-user-plus"></i></button>
+            				<button class="memberlist-btn addfriend-btn" title="Ajouter une demande d'ami" form="addfriend{{ members.id }}"><i class="fas fa-user-plus"></i></button>
             			</div>
                       	{% endif %}
                     </div>

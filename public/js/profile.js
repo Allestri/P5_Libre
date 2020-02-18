@@ -403,7 +403,7 @@ function profileComponents(){
 	this.imageIsLoaded = function(e){
 		
 		console.log(e);
-		$('#avatar-preview-ctn').append($('<img id="avatar-preview" />').attr('src', e.target.result));
+		$('#avatar-preview-ctn').html($('<img id="avatar-preview" />').attr('src', e.target.result));
 		$('#avatar-preview').attr('width', '150px');
 		//$('#avatar-preview').attr('height', '150px');
 	};

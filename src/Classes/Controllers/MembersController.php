@@ -36,7 +36,7 @@ class MembersController extends Controller
         $password = $userEntries['pwd'];
         $passwordRpt = $userEntries['pwdRpt'];
         
-        $ip = $_SERVER['REMOTE_ADDR'];
+        //$ip = $_SERVER['REMOTE_ADDR'];
         
         if(isset ($username))
         {
@@ -49,7 +49,7 @@ class MembersController extends Controller
             }
             elseif ($password == $passwordRpt){
                 $rdp = password_hash($password, PASSWORD_DEFAULT);
-                $membersModel->signup($username, $rdp, $ip);
+                $membersModel->signup($username, $rdp);
                 // Avatar(personal) folder creation
                 $directory = $this->container->get('uploaded_directory');
                 mkdir($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $username);
@@ -272,32 +272,22 @@ class MembersController extends Controller
         //var_dump($totalMembers);
         
         $limit = 4;
+        // To do : Total member -1 ( actual connected member )
+        
         $args = $this->pagination($request, $totalMembers, $limit);
-        
-        
-        if(isset($_GET['sort'])){
-            
-            $datas = $request->getQueryParams();
-            $_SESSION['sort'] = $datas['sort'];
-            var_dump($datas);
-            
-            if($datas['sort'] == "name"){
-                //$args['memberslist'] = $memberModel->getMembersSortName($limit, $args['offset'], $userId);
-            }
-        } else {
-            $args['memberslist'] = $memberModel->getAllMembersLimit($limit, $args['offset'], $userId);
-        }
+              
+        $args['memberslist'] = $memberModel->getAllMembersLimit($limit, $args['offset'], $userId);
         
         $relationships = $memberModel->getFriendships($userId);
         
-                
         
+        // Putting relationship status on memberlist array
         foreach($args['memberslist'] as $key1=>$value1)
         {
             foreach($relationships as $key2=>$value2)
             {
+                // Determining the actual direction of a given request :
                 // true : from user to others / false = from others to user.
-
                 $direction = $value2['friend_a'] == $userId;
 
                 if($direction){
@@ -309,11 +299,14 @@ class MembersController extends Controller
                 
                 if($value1['id'] == $fid)
                 {
-                    // P = Outgoing friend request from user to others
-                    // PP = Incoming friend request from others
+                    // Out = Outgoing friend request from user to others
+                    // In = Incoming friend request from others
                     if($value2['status'] == "pending")
                     {
-                        $args['memberslist'][$key1]['status'] = $direction ? "P" : "PP" ;
+                        $args['memberslist'][$key1]['req_direction'] = $direction ? "out" : "in" ;
+                        if($value2['ignored'] == 1){
+                            $args['memberslist'][$key1]['ignored'] = true;
+                        }
                     }
                     $args['memberslist'][$key1]['status'] = $value2['status'];
                 }
@@ -412,6 +405,25 @@ class MembersController extends Controller
         
         return $this->redirect($response, 'memberList');
     }
+    
+    // in a special case anyone previously ignored a given request.
+    public function reAddFriendRequest($request, $response)
+    {
+        
+        $memberModel = $this->container->get('membersModel');
+        $datas = $request->getParsedBody();
+        
+        $uid = $_SESSION['uid'];
+        $fid = $datas['memberId'];
+        
+        $memberModel->reAddFriendRequest($uid, $fid);
+        
+        $this->flash('Demande d\'ami envoyée');
+        
+        return $this->redirect($response, 'memberList');
+        
+    }
+    
     
     // Settings manager
     public function changeSettings($request, $response) 

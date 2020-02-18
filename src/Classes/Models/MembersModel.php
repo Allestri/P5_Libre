@@ -115,10 +115,10 @@ class MembersModel extends Model
         return true;
     }
        
-    public function signup($username, $rdp, $ip)
+    public function signup($username, $rdp)
     {
-        $sql = "INSERT INTO members (name, password, ip_address, group_id, date) VALUES (?, ?, ?, 3, NOW())";
-        $this->executeQuery($sql, array($username, $rdp, $ip));
+        $sql = "INSERT INTO members (name, password, group_id, date) VALUES (?, ?, 3, NOW())";
+        $this->executeQuery($sql, array($username, $rdp));
     }
     
     // Friendship System
@@ -159,6 +159,15 @@ class MembersModel extends Model
         $sql = "DELETE FROM friendship
                 WHERE (friend_a = :from AND friend_b = :to) OR (friend_a = :to AND friend_b = :from)";
         $this->executeQuery($sql, array(':from' => $uid, ':to' => $fid));
+    }
+    
+    // When someone previously ignored a given request, clear it and send. ( flip sides )
+    public function reAddFriendRequest($uid, $fid)
+    {
+        $sql = "UPDATE friendship
+                SET ignored = 0, friend_a = :uid, friend_b = :fid
+                WHERE friend_a = :fid AND friend_b = :uid";
+        $this->executeQuery($sql, array(':uid' => $uid, ':fid' => $fid));
     }
     
     public function getFriendRequests($uid)
