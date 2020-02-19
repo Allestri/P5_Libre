@@ -167,12 +167,14 @@ class ImagesController extends ContentController
         } else {
             $hasGeoExif = false;
         }
-        // Checks thumbnail
+        // Checks thumbnail - deprecated
+        /*
         if(isset($exif['THUMBNAIL'])){
             $hasThumbnail = true;
         } else {
             $hasThumbnail = false;
         }
+        */
         // Checks image datas
         if(isset($exif['COMPUTED']) || ($exif)){
             $hasInfos = true;
@@ -184,7 +186,7 @@ class ImagesController extends ContentController
         
         // Variables for test exif indicators
         $args['geodata'] = $hasGeoExif;
-        $args['thumbnail'] = $hasThumbnail;
+        //$args['thumbnail'] = $hasThumbnail;
         $args['info'] = $hasInfos;
         
         echo json_encode($args);

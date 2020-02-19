@@ -251,9 +251,17 @@ class AdminController extends Controller
         $adminModel = $this->container->get('adminModel');
         $adminModel->clearLogsPosts();
         
-        $this->flash('L\'historique de modération a été vidé');
-        return $this->redirect($response, 'admin');   
+        $this->flash('L\'historique de modération de posts a été vidé');
+        return $this->redirect($response, 'admin');
     }
     
+    public function clearLogsComments($request, $response)
+    {
+        $adminModel = $this->container->get('adminModel');
+        $adminModel->clearLogsComments();
+        
+        $this->flash('L\'historique de modération de commentaires a été vidé');
+        return $this->redirect($response, 'admin');
+    }
     
 }

@@ -207,5 +207,11 @@ class AdminModel extends Model
         $this->executeQuery($sql);
     }
     
+    public function clearLogsComments()
+    {
+        $sql = "DELETE FROM logs_com";
+        $this->executeQuery($sql);
+    }
+    
 
 }

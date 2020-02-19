@@ -193,7 +193,7 @@
                     				{% else %}
                     				<div class="alert alert-danger">
                                 		<i class="fas fa-exclamation-triangle"></i>
-                                		<span>{{ reportsNbr }} signalements reportés par la communauté</span>
+                                		<span>{{ reportedComNbr }} signalements reportés par la communauté</span>
                                 	</div>
                                 	{% endif %}
                             	</div>
@@ -294,7 +294,6 @@
                             			</div>
                             		</div>
                             	{% endfor %}
-                            	<hr>
                             	<div id="form-collapse" class="col-lg-12 mt-5 collapse">
                             		<div class="card">
                             			<div class="card-header d-flex justify-content-between">
@@ -331,80 +330,81 @@
                             {% endif %}
                         </div>
                         
+                        <!-- End Post Report sub-tab -->
                         
                         <div id="reports-comments-duo" class="tab-pane fade" role="tabpanel">
                     		<div id="reported-comments-container">
                         		
                         		<div id="reported-comments-wrapper">
                             		<div class="row d-flex justify-content-between">
-                            		{% if reportedComments == null %}
-                            		<div class="empty-div">
-                            			<img src="images/question_mark.png" alt="empty-content">
-                            			<div class="alert alert-primary">
-                                    		<i class="far fa-smile-wink"></i>
-                                    		<span>Il n'y a pas de signalements</span>
-                                    	</div>
-                            		</div>
-                            		{% else %}
-                            		<div class="col-lg-12 adm-tab-header mb-3">
-                            			<div class="alert alert-warning">
-                                    		<i class="fas fa-exclamation-triangle"></i>
-                                    		<span>Il y a {{ reportedComNbr }} commentaires signalés</span>
-                            			</div>
-                            			<a class="btn back-dashboard" title="Vider signalements" href="admin/clear-reports/comments"><i class="fas fa-trash"></i></a>
-                            		</div>
-                                    	{% for comment in reportedComments %}
-                                    	<div class="col-md-5">
-                                    		<div class="card reported-comment">
-                                    			<div class="com-logs-header">
-                                    				{% if comment.avatar_file == NULL %}
-                                            		<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ author.id }} avatar" height="60" width="auto">
-                                            	    {% else %}
-                                            		<img src="uploads/avatar/{{ comment.name }}/{{ comment.avatar_file }}" alt="{{ author.id }} avatar" height="60" width="auto">
-                                            	    {% endif %}
-                                            	    <div class="com-logs-meta">
-                                                	    <h4>{{ comment.name }}</h4>
-                                                	    <p><i class="far fa-clock"></i>{{ comment.com_date }}</p>
-                                            	    </div>
-                                            	    <a class="btn square com-logs-clear" href="admin/clear-reports/comment?commentId={{ comment.id }}" title="Vider signalement"><i class="fas fa-check"></i></a>
-                                    			</div>
-                                    			            			
-                                            	<div class='card-body'>
-                                            		<span class="comment-id">{{ comment.id }}</span>
-                                            		
-                                                	<p class='card-text comment-content'>{{ comment.content }}</p>
-                                            	</div>
-                                            	<div class="card-footer d-flex justify-content-around">
-                                        	        <form id="admin-edit-comment">
-                                        	        	<input type="hidden" name="commentId" value="{{ comment.id }}" />
-                                        	        	<button class="btn btn-primary mod" type="submit"><i class="fas fa-edit"></i></button>
-                                        	        </form>
-                                        	        <form id="admin-delete-comment">
-                                        	        	<input type="hidden" name="commentId" value="{{ comment.id }}" />
-                                        	        	<button class="btn btn-primary delete-com" type="submit" ><i class="fas fa-trash"></i></button>
-                                        	        </form>
-                                    	        </div>
-                                    		</div>
-                                    	</div>
-                                    	{% endfor %}
-                                    {% endif %}
+                                		{% if reportedComments == null %}
+                                		<div class="empty-div">
+                                			<img src="images/question_mark.png" alt="empty-content">
+                                			<div class="alert alert-primary">
+                                        		<i class="far fa-smile-wink"></i>
+                                        		<span>Il n'y a pas de signalements</span>
+                                        	</div>
+                                		</div>
+                                		{% else %}
+                                		<div class="col-lg-12 adm-tab-header mb-3">
+                                			<div class="alert alert-warning">
+                                        		<i class="fas fa-exclamation-triangle"></i>
+                                        		<span>Il y a {{ reportedComNbr }} commentaires signalés</span>
+                                			</div>
+                                			<a class="btn back-dashboard" title="Vider signalements" href="admin/clear-reports/comments"><i class="fas fa-trash"></i></a>
+                                		</div>
+                                        	{% for comment in reportedComments %}
+                                        	<div class="col-md-5">
+                                        		<div class="card reported-comment">
+                                        			<div class="com-logs-header">
+                                        				{% if comment.avatar_file == NULL %}
+                                                		<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ author.id }} avatar" height="60" width="auto">
+                                                	    {% else %}
+                                                		<img src="uploads/avatar/{{ comment.name }}/{{ comment.avatar_file }}" alt="{{ author.id }} avatar" height="60" width="auto">
+                                                	    {% endif %}
+                                                	    <div class="com-logs-meta">
+                                                    	    <h4>{{ comment.name }}</h4>
+                                                    	    <p><i class="far fa-clock"></i>{{ comment.com_date }}</p>
+                                                	    </div>
+                                                	    <a class="btn square com-logs-clear" href="admin/clear-reports/comment?commentId={{ comment.id }}" title="Vider signalement"><i class="fas fa-check"></i></a>
+                                        			</div>
+                                        			            			
+                                                	<div class='card-body'>
+                                                		<span class="comment-id">{{ comment.id }}</span>
+                                                		
+                                                    	<p class='card-text comment-content'>{{ comment.content }}</p>
+                                                	</div>
+                                                	<div class="card-footer d-flex justify-content-around">
+                                            	        <form id="admin-edit-comment">
+                                            	        	<input type="hidden" name="commentId" value="{{ comment.id }}" />
+                                            	        	<button class="btn btn-primary mod" type="submit"><i class="fas fa-edit"></i></button>
+                                            	        </form>
+                                            	        <form id="admin-delete-comment">
+                                            	        	<input type="hidden" name="commentId" value="{{ comment.id }}" />
+                                            	        	<button class="btn btn-primary delete-com" type="submit" ><i class="fas fa-trash"></i></button>
+                                            	        </form>
+                                        	        </div>
+                                        		</div>
+                                        	</div>
+                                        	{% endfor %}
+                                        	<div id="edit-comment-collapse" class="col-lg-5 collapse">
+                                    			<div id="admin-edit-wrapper" class="card">
+                                    				<div class="d-flex justify-content-between mb-1">
+                                    					<h4 class="mb-0">Editer commentaire</h4>
+                                    					<button id="hide-edit-form" class="btn" title="Fermer le volet" aria-label="Hide"><i class="fas fa-times"></i></button>
+                                    				</div>
+                                            		<form id="editComment" method="POST" action="admin/edit/comment" >
+                                            			<div class="form-group">
+                                            				<textarea class="form-control" id="input-content" name="content" rows="2"></textarea>
+                                            			</div>
+                                            			<input type="hidden" id="input-id" name="commentId" />
+                                            			<button type="submit" href="#edit-tab" class="btn btn-primary">Modérer le commentaire</button>
+                                            		</form>
+                                        		</div>
+                                        	</div>
+                                        {% endif %}
                                 	</div>
                             	</div>
-                        		<div class="row">
-                        			<div class="col-lg-6 collapse">
-                            			<div id="admin-edit-wrapper" class="card hoverable">
-                            				<button id="hide-edit-form" class="btn back-dashboard" aria-label="Hide"><i class="fas fa-times"></i></button>
-                                    		<form id="editComment" method="POST" action="admin/edit/comment" >
-                                    			<div class="form-group">
-                                    				<label for="content">Message</label>
-                                    				<textarea class="form-control" id="input-content" name="content" rows="2"></textarea>
-                                    			</div>
-                                    			<input type="hidden" id="input-id" name="commentId" />
-                                    			<button type="submit" href="#edit-tab" class="btn btn-primary">Modérer le commentaire</button>
-                                    		</form>
-                                		</div>
-                                	</div>
-                        		</div>
                     		</div>
             			</div>
                         
@@ -459,9 +459,9 @@
                 		</div>
                 	</div>
             	</div>
-            	
             	<!-- End Members tab -->
             	
+            	<!-- Logs Tab -->
             	<div id="responsive-tab" class="tab-pane fade" role="tabpanel">
             		<div id="menu-pills">
             		
@@ -500,7 +500,11 @@
                             			<div class="flip-container">
                             				<div class="flipper">
                                     			<div class="flip-front">
+                                    				{% if logs.filename %}
                                     				<img class="card-img-top" src="uploads/thumbnails/{{ logs.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
+                                    				{% else %}
+                                    				<img class="card-img-top" src="uploads/thumbnails/e30632acb3ae0f90.jpg" alt="" class="img-fluid image-profile rounded shadow-sm">
+                                    				{% endif %}
                                     				<div class="card-body">
                                                 		<div class="logs-header d-flex align-items-center">
                                                 			<h4 class="mb-0" title="titre original">{{ logs.old_name }}</h4>
@@ -510,6 +514,7 @@
                                 						    {% else %}
                                 						    <span class="badge badge-pill badge-danger">Supprimé</span>
                                 						    {% endif %}
+                                						    <button class="btn"><i class="fas fa-chevron-down"></i></button>
                                                 		</div>
                             						    <p title="Contenus original">{{ logs.old_content }}</p>
                                             		</div>
@@ -533,13 +538,36 @@
                                     	</div>
                                 	</div>
                             	</div>
-                            	
                             	{% endfor %}
-                            	
+
+                            	<!-- Dummy card test -->
+                            	<div class="col-lg-5 post-log">
+                            		<div class="card hoverable">
+    
+                        				<img class="card-img-top" src="uploads/thumbnails/e30632acb3ae0f90.jpg" alt="" class="img-fluid image-profile rounded shadow-sm">
+                        				<div class="card-body">
+                                    		<div class="logs-header d-flex align-items-center">
+                                    			<h4 class="mb-0" title="titre original">Dummy</h4>
+                                    			<span class="logs-date"><i class="far fa-clock"></i>Hier</span>
+                    							<span class="badge badge-pill badge-info">Modifié</span>
+                    						    <button class="btn" data-toggle="collapse" data-target="#collapse1"><i class="fas fa-chevron-down"></i></button>
+                                    		</div>
+                						    <p title="Contenus original">Une photo qui a vraisemblablement été moderée</p>
+                                		</div>
+                            			<!-- Card Collapse -->
+                            			<div id="collapse1" class="collapse">
+                            				<hr>
+    										<div class="card-body">
+    											<p>Contenus modifié</p>
+    										</div>
+                            			</div>
+                                    	<div class="card-footer logs-footer">
+                                			<i class="far fa-comments"></i> 7
+                                			<i class="far fa-heart"></i> 128
+                                    	</div>
+                                	</div>
+                                </div>
                         	</div>
-                        	
-                        	<hr>
-                        	
         				</div>
         				<div id="logs-comments" class="tab-pane fade" role="tabpanel">
         					<div class="adm-tab-header mb-3">
@@ -547,7 +575,7 @@
                             		<i class="fa fa-history" aria-hidden="true"></i>
                             		<span>Historique de commentaires</span>
                                 </div>
-                                <a class="btn back-dashboard" title="Vider historique modération" href="admin/clear-logs/posts"><i class="fas fa-trash"></i></a>
+                                <a class="btn back-dashboard" title="Vider historique modération" href="admin/clear-logs/comments"><i class="fas fa-trash"></i></a>
                             </div>
                             
                         	<div class="row d-flex justify-content-between">

@@ -89,6 +89,7 @@ return function (App $app) {
     $app->get('/admin/clear-reports/comments', \App\Controllers\AdminController:: class . ':clearAllCommentsReports');
     
     $app->get('/admin/clear-logs/posts', \App\Controllers\AdminController:: class . ':clearLogsPosts');
+    $app->get('/admin/clear-logs/comments', \App\Controllers\AdminController:: class . ':clearLogsComments');
     
     $app->post('/admin/debugupload', \App\Controllers\ImagesController:: class . ':debugUpload');
     

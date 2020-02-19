@@ -28,8 +28,14 @@
                 			<div class="memberlist-item item-status">
                                 {% if members.status == 'friend' %}
     							<span class="badge badge-pill badge-success">Amis</span>
-    						    {% elseif members.status == 'pending' and not members.ignored %}
-    							<span class="badge badge-pill badge-secondary">En attente</span>
+    						    {% elseif members.status == 'pending' %}
+    						    	{% if members.req_direction == "out" and members.ignored %}
+    						    	<span class="badge badge-pill badge-secondary">En attente</span>
+    						    	{% elseif members.req_direction == "in" and members.ignored %}
+    						    	<span class="badge badge-pill badge-secondary">Demande ignorée</span>
+    						    	{% else %}
+    						    	<span class="badge badge-pill badge-secondary">En attente</span>
+    						    	{% endif %}
     							{% elseif members.status == 'pending' and members.ignored %}
     							<span class="badge badge-pill badge-secondary">Demande ignorée</span>
 							    {% else %}

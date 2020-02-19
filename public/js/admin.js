@@ -139,6 +139,7 @@ function admin() {
 					data: datas,
 					success: function(data){
 						console.log('Success, photo deleted');
+						$("#reported-tab-content").load("http://projetlibre/admin #reported-tab-content>*");
 					},
 					error: function(result, status, error){
 						console.log('Error on photo deletion');
@@ -259,6 +260,7 @@ function admin() {
 			
 			$('#input-content').val(commentContent);
 			$('#input-id').val(commentId);
+			$('#edit-comment-collapse').collapse('show');
 			
 			
 		});
@@ -275,7 +277,7 @@ function admin() {
 		
 		$('#hide-edit-form').click(function() {
 			
-			$('#editComment').toggle(600);
+			$('#edit-comment-collapse').collapse('hide');
 			
 		});
 		

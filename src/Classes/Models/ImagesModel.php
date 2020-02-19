@@ -30,7 +30,7 @@ Class ImagesModel extends Model
                     	ON markers.image_id = posts.image_id
 					INNER JOIN friendship
 						ON images.user_id = friendship.friend_b
-                WHERE friendship.friend_a = ? AND posts.privacy = 1";
+                WHERE friendship.friend_a = ? AND friendship.status = 'friend' AND posts.privacy = 1";
         $dataImages = $this->executeQuery($sql, array($uid));
         return $dataImages->fetchAll();
     }

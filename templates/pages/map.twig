@@ -34,81 +34,84 @@
 	
 	<!-- New Overlay -->
     <div id="modal-grid" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="image-viewer-modal" aria-hidden="true">
-      <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content">
-        	<span id="exit-large-vw" class="icon-exit">
-            	<i class="fas fa-times"></i>
-         	</span>
-            <div class="modal-body">
-            	<div class="container-fluid">
-            		<div class="row">
-            			<div id="image-wrapper-new" class="col-lg-9">
-            				<img id="image-midsizenew" >
-            				{% if member %}
-            				<div id="button-panel" class="d-flex align-items-center justify-content-around">
-                				<form id="likeImg" method="POST" action="map/like">
-                					<input type="hidden" class="postId" name="postId" value="23"/>
-                					<input type="hidden" name="userId" value="{{ member }}"/>
-                					<button class="social-button like">
-                						<i class="fas fa-heart"></i>
-                					</button>
-                				</form>
-                				<form id="reportImg" method="POST" action="map/report">
-                					<input type="hidden" class="postId" name="postId" value="23" />
-                					<input type="hidden" class="userId" name="userId" value="{{ member }}" />
-                					<button class="social-button report">
-                						<i class="fas fa-exclamation-circle"></i>
-                					</button>
-                				</form>
-            				</div>
-            				{% endif %}
-            			</div>
-            			<div id="image-panel" class="col-lg-3">
-            				<div class="card mb-3 photo-infocard">
-                				<h2 id="image-name" class="card-header">Placeholder</h2>
-                				<p id="image-description" class="card-header">Image description</p>
-                				<span id="exit-small-vw" class="icon-exit">
-            						<i class="fas fa-times"></i>
-            					</span>
-            				</div>
-            				<div id="social-wrapper">
-            					<span class="social-card">
-            						<i class="fas fa-heart card-heart"></i>
-            						<span class="likes-count text-muted"></span>
-            					</span>
-            					<span class="social-card">
-            						<i class="fas fa-comments card-comments"></i>
-            						<span class="comments-count text-muted"></span>
-            					</span>
-            				</div>
-                			<div id="dynamic-layout">
-                				{% if not member %}
-                					<div id="connect-prompt">
-                    					<p>Veuillez vous <a href="#" data-toggle="modal" data-target="#login-modal">authentifier pour commenter</a></p>
-                    				</div>
-                				{% else %}
-                				<div class="comment-form-wrapper">
-                    				<form id="comment-form" method="POST" action="map/comment">
-                    					<input type="hidden" name="uid" value="{{ member }}" />
-                    					<textarea class="input-comment form-control" rows="1" form="comment-form" name="content" placeholder="Un petit message" required></textarea>
-                    					<input type="hidden" id="postId" class="postId" name="postId" value="23" />
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+            	<span id="exit-large-vw" class="icon-exit">
+                	<i class="fas fa-times"></i>
+             	</span>
+                <div class="modal-body">
+                	<div class="container-fluid">
+                		<div class="row">
+                			<div id="image-wrapper-new" class="col-lg-9">
+                				<img id="image-midsizenew" >
+                				{% if member %}
+                				<div id="button-panel" class="d-flex align-items-center justify-content-around">
+                    				<form id="likeImg" method="POST" action="map/like">
+                    					<input type="hidden" class="postId" name="postId" value="23"/>
+                    					<input type="hidden" name="userId" value="{{ member }}"/>
+                    					<button class="social-button like">
+                    						<i class="fas fa-heart"></i>
+                    					</button>
                     				</form>
-                    				<div id="comment-btn-wrapper">
-                        				<button type="submit" class="btn btn-secondary" id="comment-btn" form="comment-form">
-                        						<i class="fas fa-comment"></i>
-                        				</button>
-                    				</div>
+                    				<form id="reportImg" method="POST" action="map/report">
+                    					<input type="hidden" class="postId" name="postId" value="23" />
+                    					<input type="hidden" class="userId" name="userId" value="{{ member }}" />
+                    					<button class="social-button report">
+                    						<i class="fas fa-exclamation-circle"></i>
+                    					</button>
+                    				</form>
                 				</div>
                 				{% endif %}
                 			</div>
-                			<div id="comments-wrapper">
-                    		</div>
-            			</div>
-            		</div>
-            	</div>
+                			<div id="image-panel" class="col-lg-3">
+                				<div class="card mb-3 photo-infocard">
+                    				<h2 id="image-name" class="card-header">Placeholder</h2>
+                    				<p id="image-description" class="card-header">Image description</p>
+                    				<span id="exit-small-vw" class="icon-exit">
+                						<i class="fas fa-times"></i>
+                					</span>
+                				</div>
+                				<div id="social-wrapper">
+                					<span class="social-card">
+                						<i class="fas fa-heart card-heart"></i>
+                						<span class="likes-count text-muted"></span>
+                					</span>
+                					<span class="social-card">
+                						<i class="fas fa-comments card-comments"></i>
+                						<span class="comments-count text-muted"></span>
+                					</span>
+                					<span class="social-card">
+                						<i class="fa fa-users" aria-hidden="true"></i>
+                					</span>
+                				</div>
+                    			<div id="dynamic-layout">
+                    				{% if not member %}
+                    					<div id="connect-prompt">
+                        					<p>Veuillez vous <a href="#" data-toggle="modal" data-target="#login-modal">authentifier pour commenter</a></p>
+                        				</div>
+                    				{% else %}
+                    				<div class="comment-form-wrapper">
+                        				<form id="comment-form" method="POST" action="map/comment">
+                        					<input type="hidden" name="uid" value="{{ member }}" />
+                        					<textarea class="input-comment form-control" rows="1" form="comment-form" name="content" placeholder="Un petit message" required></textarea>
+                        					<input type="hidden" id="postId" class="postId" name="postId" value="23" />
+                        				</form>
+                        				<div id="comment-btn-wrapper">
+                            				<button type="submit" class="btn btn-secondary" id="comment-btn" form="comment-form">
+                            						<i class="fas fa-comment"></i>
+                            				</button>
+                        				</div>
+                    				</div>
+                    				{% endif %}
+                    			</div>
+                    			<div id="comments-wrapper">
+                        		</div>
+                			</div>
+                		</div>
+                	</div>
+                </div>
             </div>
-        </div>
-      </div>
+    	</div>
     </div>
         
     

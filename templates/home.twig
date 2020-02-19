@@ -126,22 +126,23 @@
     	{% if recent %}
     	<div class="row mt-5">
     		<div class="col-lg-12 mt-5" data-aos="fade-up" data-aos-duration="900">
-    			<h2>Posté récemment</h2>
-    			<div class="row">
+    			<h2 class="mb-3">Posté récemment</h2>
+    			<div class="row justify-content-between">
     			
     				{% for posts in recent %}
         			<div class="col-lg-4">
             			<div class="card">
             				<div class="card-header">
-            					<h2>{{ posts.name }}</h2>
+            					<h3>{{ posts.name }}</h3>
             				</div>
-            				<img class="card-img-top" src="uploads/thumbnails/{{ posts.filename }}" />
+            				<img class="recent-img card-img-top" src="uploads/thumbnails/{{ posts.filename }}" />
             				<div class="card-body">
-    							<p>{{ posts.content }}</p>
-            				</div>
-            				<div class="card-footer">
-            					<i class="far fa-comments"></i> 7
-                            	<i class="far fa-heart"></i> 128
+    							<p class="text-muted mb-3">{{ posts.content }}</p>
+    							<hr>
+    							<div class="recent-post-footer d-flex justify-content-around">
+                                	<span class="home-like"><i class="far fa-heart"></i>&nbsp; {{ posts.liked }}</span>
+                                	<span class="home-comments"><i class="far fa-comments"></i>&nbsp; 7</span>
+                            	</div>
             				</div>
             			</div>
             		</div>
