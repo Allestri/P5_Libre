@@ -39,19 +39,20 @@
     	<div class="row">
         	<div id="welcome-card" class="card col-lg-10 mx-auto">
         		<h1>Bienvenue</h1>
-        		<div id="navigation-pills" class="mt-2">
-            		<a href="#photograph"><div class="pill">Photographiez</div></a>
-            		<a href="#send"><div class="pill">Envoyez</div></a>
-            		<a href="#react"><div class="pill">Réagissez</div></a>
+        		<div class="navigation-pills2 d-flex justify-content-center">
+            		<ul class="nav nav-pills">
+                		<li class="nav-item"><a href="#photograph" class="pill"><i class="fa fa-camera" aria-hidden="true"></i>Photographier</a></li>
+                		<li class="nav-item"><a href="#send" class="pill"><i class="fa fa-paper-plane" aria-hidden="true"></i>Envoyer</a></li>
+                		<li class="nav-item"><a href="#react" class="pill"><i class="fa fa-comments" aria-hidden="true"></i>Réagisser</a></li>
+            		</ul>
         		</div>
         	</div>
     	</div>
-    	
     	    	
-    	<div class="row mt-5">
+    	<div class="row my-5">
     		
     		<div id="photograph" class="col-lg-12">
-        		<div class="row justify-content-between ">
+        		<div class="row justify-content-between">
         			<div class="col-lg-5">
                 		<div class="card" data-aos="fade-left" data-aos-duration="800">
                 			<div class="card-header">
@@ -73,7 +74,7 @@
             	</div>
         	</div>
         	
-        	<div id="send" class="col-lg-12 mt-4">
+        	<div id="send" class="col-xl-12 mt-4">
         		<div class="row justify-content-between ">
                 	<div class="col-lg-3">
                 		<div class="card hoverable px-4 py-4">
@@ -84,10 +85,9 @@
                 	</div>
                 	<div class="col-lg-5">
                 		<div class="card" data-aos="fade-right" data-aos-duration="800">
-                			<div class="card-header">
-                				<h5>Envoyez, Partagez</h5>
-                			</div>
                 			<div class="card-body">
+                				<h5>Envoyez, Partagez</h5>
+                				<hr>
                     			<p class="text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
                 			</div>
                 		</div>
@@ -97,7 +97,7 @@
         	
         	<div id="react" class="col-lg-12 mt-4">
         		<div class="row justify-content-between ">
-        			<div class="col-lg-5">
+        			<div class="col-lg-5 col-md-6">
                 		<div class="card" data-aos="fade-left" data-aos-duration="800">
                 			<div class="card-header">
                 				<h5>Reagissez</h5>
@@ -108,10 +108,10 @@
                 			</div>
                 		</div>
                 	</div>
-                	<div class="col-lg-3">
+                	<div class="col-lg-3 col-md-6">
                 		<div class="card hoverable px-4 py-4">
                 			<div class="card-img-top">
-                				<img src="images/icons/chat.png" width="256px" height="auto" class="home-image-item" alt="camera-icon" title="Icon made by kiranshastry">
+                				<img src="images/icons/chat.png" height="auto" class="home-image-item" alt="camera-icon" title="Icon made by kiranshastry">
                 			</div>
                     	</div>
                 	</div>
@@ -121,16 +121,19 @@
         	
         	
     	</div>
-    	
-    	
+    	   	
     	{% if recent %}
-    	<div class="row mt-5">
-    		<div class="col-lg-12 mt-5" data-aos="fade-up" data-aos-duration="900">
+    	<div class="row my-2">
+    		<hr class="w-100">
+    	</div>
+    	<div class="row mt-4">
+    	
+    		<div class="col-lg-12 mt-3" data-aos="fade-up" data-aos-duration="900">
     			<h2 class="mb-3">Posté récemment</h2>
     			<div class="row justify-content-between">
     			
     				{% for posts in recent %}
-        			<div class="col-lg-4">
+        			<div class="col-md-4">
             			<div class="card">
             				<div class="card-header">
             					<h3>{{ posts.name }}</h3>

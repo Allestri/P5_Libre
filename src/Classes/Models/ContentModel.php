@@ -19,6 +19,7 @@ Class ContentModel extends Model
                 	ON posts.image_id = images.id
                 INNER JOIN members
                 	ON posts.user_id = members.id
+				WHERE posts.privacy = 0
                 ORDER BY upload_date DESC
                 LIMIT 0,3";
         $recentPosts = $this->executeQuery($sql);

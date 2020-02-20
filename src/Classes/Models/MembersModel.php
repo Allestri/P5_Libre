@@ -190,7 +190,7 @@ class MembersModel extends Model
                 LEFT OUTER JOIN avatars
                     ON members.id = avatars.user_id
                     AND avatars.active = 1
-                WHERE (friendship.friend_a = :uid OR friendship.friend_b = :uid) AND status='friend'";
+                WHERE (friendship.friend_a = :uid OR friendship.friend_b = :uid) AND status='friend' AND NOT members.id = :uid";
         $friends = $this->executeQuery($sql, array(':uid' => $uid));
         return $friends->fetchAll();
     }

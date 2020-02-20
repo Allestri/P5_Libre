@@ -24,6 +24,7 @@ function admin() {
 		
 		this.flipCard();
 		this.expandComLogs();
+		this.expandPostLogs();
 		
 		this.memberPagination();
 		this.hideEditComForm();
@@ -97,11 +98,23 @@ function admin() {
 		
 		$('.expandComButton').click(function() {
 			
-			$(this).toggleClass('flipCross');
+			$(this).toggleClass('flipCross-flipped');
 			$(this).closest('.card-body').find('.com-logs-hidden').toggle(500);
+			//$(this).closest('.card-body').find('.com-logs-hidden').collapse('toggle');
 			
 		});
 		
+		
+	};
+	
+	this.expandPostLogs = function() {
+		
+		$('.expandPostButton').click(function() {
+			
+			$(this).toggleClass('flipCross-flipped');
+			$(this).closest('.card-body').find('.collapse').toggle(500);
+			
+		});
 		
 	};
 	

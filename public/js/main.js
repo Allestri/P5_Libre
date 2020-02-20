@@ -65,6 +65,13 @@ $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 });
 
+/*
+$('#home-image').on('load', function(){
+	
+	
+});
+*/
+
 
 
 // Form validation

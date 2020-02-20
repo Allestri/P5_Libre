@@ -481,6 +481,7 @@
         				</ul>
             		
             		</div>
+            		<!-- Logs Posts -->
             		<div class="tab-content">
         				<div id="logs-posts" class="tab-pane fade show active" role="tabpanel">
         				
@@ -550,25 +551,23 @@
                                     			<h4 class="mb-0" title="titre original">Dummy</h4>
                                     			<span class="logs-date"><i class="far fa-clock"></i>Hier</span>
                     							<span class="badge badge-pill badge-info">Modifié</span>
-                    						    <button class="btn" data-toggle="collapse" data-target="#collapse1"><i class="fas fa-chevron-down"></i></button>
+                    						    <button class="btn expandPostButton flipCross"><i class="fas fa-chevron-down"></i></button>
                                     		</div>
                 						    <p title="Contenus original">Une photo qui a vraisemblablement été moderée</p>
+                						    <!-- Card Collapse -->
+                						    <div class="collapse">
+                                				<hr>
+                                				<p class="text-muted">Contenus moderé:</p>
+        										<p>Contenus modifié</p>
+                                			</div>
                                 		</div>
-                            			<!-- Card Collapse -->
-                            			<div id="collapse1" class="collapse">
-                            				<hr>
-    										<div class="card-body">
-    											<p>Contenus modifié</p>
-    										</div>
-                            			</div>
-                                    	<div class="card-footer logs-footer">
-                                			<i class="far fa-comments"></i> 7
-                                			<i class="far fa-heart"></i> 128
-                                    	</div>
                                 	</div>
                                 </div>
                         	</div>
         				</div>
+        				<!-- End Logs Posts -->
+        				
+        				<!-- Logs Comments -->
         				<div id="logs-comments" class="tab-pane fade" role="tabpanel">
         					<div class="adm-tab-header mb-3">
         						<div class="alert alert-secondary">
@@ -593,7 +592,7 @@
                                         	<div class="com-logs-meta">
                                             	<h4>{{ logs.name }}</h4>
                                             	<div class="logs-header">
-                                        			<span class="logs-date"><i class="far fa-clock"></i> {{ logs.com_date}}</span>
+                                        			<span class="logs-date"><i class="far fa-clock"></i>{{ logs.com_date}}</span>
                                             		{% if logs.mod_type == 'M' %}
                         							<span class="badge badge-pill badge-info">Modifié</span>
                         						    {% else %}
@@ -604,15 +603,15 @@
                             			
                             			</div>
                             			<div class="card-body">
-                                        	<p>{{ logs.content }}</p>
+                                        	<p title="Contenus original">{{ logs.old_content }}</p>
                                         	<div class="com-logs-hidden collapse">
                                         		<hr>
                                         		<p>Message moderé</p>
-                                        		<p>Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou Coucou coucou</p>
+                                        		<p title="Contenus moderé">{{ logs.new_content }}</p>
                                         	</div>
                                         	<hr>
                                         	<div class="expand-button-wrapper">
-                                        		<button class="btn expandComButton"><i class="fas fa-chevron-down"></i></button>
+                                        		<button class="btn flipCross expandComButton"><i class="fas fa-chevron-down"></i></button>
                                         	</div>
                                     	</div>
                                 	</div>
@@ -622,6 +621,7 @@
                             	
                         	</div>
         				</div>
+        				<!-- End Logs Comments -->
     				</div>
             	</div>
             	<div id="debug-tab" class="tab-pane fade" role="tabpanel">

@@ -59,7 +59,6 @@ body.noscroll
 	float:none;
 	background-color:white;
 	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 5px 10px 0 rgba(21,111,170,.25);
-	height: 4.5rem;
 }
 
 .main-navbar-real
@@ -232,6 +231,7 @@ Home Page
 #home-image
 {
 	box-shadow: 4px 11px 21px -9px rgba(0,0,0,0.75);
+	background-color:white;
 }
 
 #welcome-card
@@ -251,16 +251,30 @@ Home Page
 	justify-content:center;
 }
 
+
 .pill
 {
-	padding:1rem;
-	width:10rem;
+	padding: 15px;
+	display: flex;
 	border-radius:7px;
-	margin-right:2rem;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-decoration: none;
+	transition:all .3s;
+	color:#2184DB;
+}
+
+.pill i
+{
+	padding-bottom:10px;
+	font-size:1.8rem;
+}
+
+.pill:hover
+{
 	background-color: #f2f2f2;
-	cursor:pointer;
-	display:flex;
-	justify-content:center;
+	text-decoration:none;
 }
 
 .home-card
@@ -717,7 +731,7 @@ Forms
 	align-items:center;
 	justify-content:center;
 	background-color:#cacaca;
-	transition: background-color 2s ease-in;
+	transition: background-color 2s ease-in, box-shadow 0.45s ease-in-out;
 	border-radius:10px;
 }
 
@@ -1476,9 +1490,14 @@ Logs Tab
 /* Logs */
 
 .flipCross
-{
-   transform: rotate( -180deg );            
+{     
    transition: transform 350ms ease;
+}
+
+.flipCross-flipped
+{
+	transform: rotate( -180deg );            
+   	transition: transform 350ms ease;
 }
 
 .com-logs-hidden.showCom
