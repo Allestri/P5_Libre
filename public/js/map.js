@@ -239,7 +239,7 @@ function displayMap()
 		
 	};
 	
-	// New overlay
+	// Photo overlay
 	
 	this.setNewOverlay = function() {
 		

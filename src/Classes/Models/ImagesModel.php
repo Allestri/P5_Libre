@@ -97,6 +97,7 @@ Class ImagesModel extends Model
                         ON markers.image_id = images.id
                     LEFT OUTER JOIN avatars
                         ON members.id = avatars.user_id
+                        AND avatars.active = 1
                 WHERE markers.id = ?";
         $infosImages = $this->executeQuery($sql, array($markerId));
         return $infosImages->fetch();

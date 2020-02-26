@@ -48,10 +48,12 @@ function postInfos(data){
 		
 		var avatar = this.getAvatar(this.user, this.authorAvatar);
 		//$('#author').prepend($('<img id="author-avatar" />').attr('src', avatar));
-		$('#author-avatar').replaceWith($('<img id="author-avatar" />').attr('src', avatar));
+		//$('#author-avatar').html($('<img id="author-avatar" class="rounded-circle" />').attr('src', avatar));
+		$('#author-avatar').attr('src', avatar);
 		
 		$('#date').replaceWith("<span id='date'>" + this.date + "</span>");
 		$('#likes').replaceWith("<span id='likes'>" + this.likes + "</span>");
+		$('#comments').replaceWith("<span id='comments'>" + data.comments.length + "</span>");
 		$("#long").replaceWith("<span id='long'> " + this.lng + "</span>");
 		$("#lat").replaceWith("<span id='lat'> " + this.lat + "</span>");
 		$("#alt").replaceWith("<span id='alt'> " + this.alt + " m</span>");

@@ -7,20 +7,21 @@
 <div class="row">
     	<div id="admin-panel" class="col-lg-12 mt-3" >
         	<div class="row" id="admin-header">
-        		<div id="admin-title" class="col-lg-5 mx-auto">
-            		<h1>Administration</h1>
+        		<div id="admin-avatar-container" class='col-lg-2 text-center'>
+            		{% if session_avatar == 'no_avatar' %}
+                	<img id="admin-avatar" src="uploads/avatar/avatar_default.png" alt="my-avatar" class="img-thumbnail" width="200" />
+                	{% else %}
+                	<img id="admin-avatar" src="uploads/avatar/{{ username }}/{{ session_avatar }}" alt="my-avatar" class="img-thumbnail" width="200" />
+                	{% endif %}
+                </div>
+        		<div id="admin-title" class="col-lg-5">
+            		<h1 class="mt-4">Administration</h1>
             	</div>
             </div>
             
             <div class="row">
-            	<div id="admin-sidebar" class="col-lg-2">
-                	<div id="profile-wrapper">
-                	{% if session_avatar == 'no_avatar' %}
-                		<img id="admin-avatar" src="uploads/avatar/avatar_default.png" alt="my-avatar" class="img-thumbnail" width="200" />
-                	{% else %}
-                		<img id="admin-avatar" src="uploads/avatar/{{ username }}/{{ session_avatar }}" alt="my-avatar" class="img-thumbnail" width="200" />
-                	{% endif %}
-                	</div>
+            	<div id="admin-sidebar" class="col-lg-2 mt-5">
+
                 	<nav id="admin-nav" class="navbar bg-light">
                 		<ul class="nav nav-pills">
                 			<li class="nav-item">
@@ -498,45 +499,34 @@
                         		{% for logs in logs %}
                             	<div class="col-lg-5 post-log">
                             		<div class="card hoverable">
-                            			<div class="flip-container">
-                            				<div class="flipper">
-                                    			<div class="flip-front">
-                                    				{% if logs.filename %}
-                                    				<img class="card-img-top" src="uploads/thumbnails/{{ logs.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
-                                    				{% else %}
-                                    				<img class="card-img-top" src="uploads/thumbnails/e30632acb3ae0f90.jpg" alt="" class="img-fluid image-profile rounded shadow-sm">
-                                    				{% endif %}
-                                    				<div class="card-body">
-                                                		<div class="logs-header d-flex align-items-center">
-                                                			<h4 class="mb-0" title="titre original">{{ logs.old_name }}</h4>
-                                                			<span class="logs-date"><i class="far fa-clock"></i> {{ logs.date }}</span>
-                                                    		{% if logs.mod_type == 'M' %}
-                                							<span class="badge badge-pill badge-info">Modifié</span>
-                                						    {% else %}
-                                						    <span class="badge badge-pill badge-danger">Supprimé</span>
-                                						    {% endif %}
-                                						    <button class="btn"><i class="fas fa-chevron-down"></i></button>
-                                                		</div>
-                            						    <p title="Contenus original">{{ logs.old_content }}</p>
-                                            		</div>
-                                    			</div>
-                                    			<!-- Card flip back -->
-                                    			<div class="flip-back">
-                                    				<div class="card-header">
-                                    					Contenus modifié
-                                    				</div>
-                                    				<div class="card-body">
-                                    					<p>{{ logs.new_name }}</p>
-                                    					<p>{{ logs.new_content }}</p>
-                                    				</div>
-                                    			</div>
+                            		
+                        				{% if logs.filename %}
+                        				<img class="card-img-top" src="uploads/thumbnails/{{ logs.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
+                        				{% else %}
+                        				<img class="card-img-top" src="uploads/thumbnails/e30632acb3ae0f90.jpg" alt="" class="img-fluid image-profile rounded shadow-sm">
+                        				{% endif %}
+                        				<div class="card-body">
+                                    		<div class="logs-header d-flex align-items-center">
+                                    			<h4 class="mb-0" title="titre original">{{ logs.old_name }}</h4>
+                                    			<span class="logs-date"><i class="far fa-clock"></i>&nbsp; {{ logs.date }}</span>
+                                        		{% if logs.mod_type == 'M' %}
+                    							<span class="badge badge-pill badge-info">Modifié</span>
+                    						    {% else %}
+                    						    <span class="badge badge-pill badge-danger">Supprimé</span>
+                    						    {% endif %}
+                    						    <button class="btn expandPostButton flipCross"><i class="fas fa-chevron-down"></i></button>
                                     		</div>
-                                    	</div>
-                                    	<div class="card-footer logs-footer">
-                                			<i class="far fa-comments"></i> 7
-                                			<i class="far fa-heart"></i> 128
-                                			<button class="btn square-grey clickFlip"><i class="fas fa-redo-alt"></i></button>
-                                    	</div>
+                						    <p title="Contenus original">{{ logs.old_content }}</p>
+                                		
+                                			<!-- Card Collapse -->
+                						    <div class="collapse">
+                                				<hr>
+                                				<h5 class="text-muted text-center">Contenus moderé</h5>
+                                				<h4>{{ logs.new_name }}</h4>
+                        						<p class="mb-2">{{ logs.new_content }}</p>
+        										<p class="text-muted text-center"><small><i class="far fa-clock"></i>&nbsp; Moderé le {{ logs.mod_date }}</small></p>
+                                			</div>
+										</div>
                                 	</div>
                             	</div>
                             	{% endfor %}
@@ -549,7 +539,7 @@
                         				<div class="card-body">
                                     		<div class="logs-header d-flex align-items-center">
                                     			<h4 class="mb-0" title="titre original">Dummy</h4>
-                                    			<span class="logs-date"><i class="far fa-clock"></i>Hier</span>
+                                    			<span class="logs-date"><i class="far fa-clock"></i>&nbsp; Hier</span>
                     							<span class="badge badge-pill badge-info">Modifié</span>
                     						    <button class="btn expandPostButton flipCross"><i class="fas fa-chevron-down"></i></button>
                                     		</div>
@@ -557,13 +547,16 @@
                 						    <!-- Card Collapse -->
                 						    <div class="collapse">
                                 				<hr>
-                                				<p class="text-muted">Contenus moderé:</p>
-        										<p>Contenus modifié</p>
+                                				<h5 class="text-muted text-center">Contenus moderé</h5>
+                                				<h4>Dummy</h4>
+        										<p class="mb-2">Contenus modifié</p>
+        										<p class="text-muted text-center"><small><i class="far fa-clock"></i>&nbsp; Moderé le 18/02/2020</small></p>
                                 			</div>
                                 		</div>
                                 	</div>
                                 </div>
                         	</div>
+                        	<hr>
         				</div>
         				<!-- End Logs Posts -->
         				

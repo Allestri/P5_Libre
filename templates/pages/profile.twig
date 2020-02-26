@@ -6,7 +6,10 @@
 <div class="row">
     <div id="profile-container" class="col-lg-10 mx-auto mt-4">
         <div id="np-header" class="row">
-        	<div class="col-lg-5 mx-auto">
+        	<div id="profile-avatar-container" class="col-lg-3 text-center">
+        		<img id="profile-avatar" src="{{ avatar }}" alt="my-avatar" width="200" class="img-thumbnail">
+        	</div>
+        	<div class="col-lg-5">
         		<h1 class="profile-name">{{ profile }}</h1>
         	</div>
             <div id="profile-nav">
@@ -26,15 +29,14 @@
         </div>
         <div class="row">
         	<div id="np-infos" class="col-lg-3">
-        		<img id="profile-avatar" src="{{ avatar }}" alt="my-avatar" width="200" class="mb-2 img-thumbnail">
 
-                <div class="bg-light mt-5 p-4 d-flex justify-content-end text-center">
+                <div class="bg-light mt-5 p-3 d-flex justify-content-end text-center">
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                        	<h5 id="profile-img-nbr" class="font-weight-bold mb-0 d-block">{{ imgnbr }}</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>Photos</small>
+                        	<h5 id="profile-img-nbr" class="font-weight-bold mb-0 d-block">{{ imgnbr }}</h5><small class="text-muted"><i class="fas fa-image mr-1"></i>Photos</small>
                         </li>
                         <li class="list-inline-item">
-                        	<h5 id="profile-comment-nbr" class="font-weight-bold mb-0 d-block">{{ commentsNbr }}</h5><small class="text-muted"> <i class="fa fa-picture-o mr-1"></i>commentaires</small>
+                        	<h5 id="profile-comment-nbr" class="font-weight-bold mb-0 d-block">{{ commentsNbr }}</h5><small class="text-muted"><i class="fas fa-comments mr-1"></i>Commentaires</small>
                         </li>
                     </ul>
                 </div>
@@ -286,7 +288,29 @@
             			</div>
             		</div>
             	</div>
+            	<hr>
+            	<i class="fa fa-comments" aria-hidden="true"></i>
+            	<i class="far fa-heart"></i>
+            	<form id="editImg" class="mb-3" method="POST" action="profile/getpost">
+					<input type="hidden" id="postId" class="postId" name="postId" value="86" />
+					<button class="btn btn-light modal-btn" id="edit-post-btn">
+						<i class='fas fa-edit'></i>
+					</button>
+    			</form>
+    			<form id="delete" method="POST" action="profile/deleteimg">
+					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
+					<input type="hidden" class="postId" name="postId" value="1" />
+					<button class="btn btn-light modal-btn" id="delete-btn">
+						<i class='fas fa-trash-alt'></i>
+					</button>
+    			</form>
             </div>
+            <div class="modal-footer">
+            
+            	<span class="badge">Privée</span>
+            </div>
+            
+            <!-- 
             <div class="modal-btn-wrapper">
             	<form id="editImg" class="mb-3" method="POST" action="profile/getpost">
 					<input type="hidden" id="postId" class="postId" name="postId" value="86" />
@@ -302,7 +326,6 @@
 					</button>
     			</form>
             </div>
-            <!--  
             <div class="modal-footer">
             	<form id="delete" method="POST" action="profile/deleteimg">
 					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />

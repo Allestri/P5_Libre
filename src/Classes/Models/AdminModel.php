@@ -156,7 +156,7 @@ class AdminModel extends Model
     {
         $sql = "SELECT logs.post_name as old_name, posts.name as new_name, logs.author_id as author, 
                 logs.post_content as old_content, posts.content as new_content, 
-                logs.mod_type, DATE_FORMAT(post_date, '%d/%m/%Y') as date, images.filename
+                logs.mod_type, DATE_FORMAT(post_date, '%d/%m/%Y') as date, images.filename, DATE_FORMAT(mod_date, '%d/%m/%Y') as mod_date
 		        FROM logs 
                 LEFT JOIN posts 
                     ON logs.post_id = posts.id

@@ -89,17 +89,33 @@ class AdminController extends Controller
     
     public function paginateMembers($request, $response)
     {
-        $limit = 4;
-        $membersModel = $this->container->get('membersModel');
-        $totalMembers = $membersModel->countAllMembers();
         
-        $adminModel = $this->container->get('adminModel');
-        $totalMembers = (int)$totalMembers['totalmembers'];
-        
-        $args['pagination'] = $this->pagination($request, $totalMembers, $limit);
-        $args['membersList'] = $adminModel->getMembers($limit, $args['pagination']['offset']);
-        
-        return $this->render($response, 'pages/admin.twig', $args);       
+        if(!isset($_SESSION['admin']))
+            
+            {
+                throw new Exception('L\'accès de cette partie du site est restreint.');
+            }
+            
+            try
+            {
+                $limit = 4;
+                $membersModel = $this->container->get('membersModel');
+                $totalMembers = $membersModel->countAllMembers();
+                
+                $adminModel = $this->container->get('adminModel');
+                $totalMembers = (int)$totalMembers['totalmembers'];
+                
+                $args['pagination'] = $this->pagination($request, $totalMembers, $limit);
+                $args['membersList'] = $adminModel->getMembers($limit, $args['pagination']['offset']);
+                
+                return $this->render($response, 'pages/admin.twig', $args);
+            }
+            
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+            }
+           
     }
     
     

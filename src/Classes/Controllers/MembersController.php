@@ -54,13 +54,13 @@ class MembersController extends Controller
                 $directory = $this->container->get('uploaded_directory');
                 mkdir($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $username);
                 
-                $this->flash('Inscription effectuée ! Bienvenue, cliquez ici pour rejoindre votre profil');
+                $this->flash('Inscription effectuée ! Bienvenue');
             } else {
                 $this->flash('Mauvaise combinaison de mot de passe', 'warning');
             }
         }
         
-        return $this->redirect($response, 'inscription');
+        return $this->redirect($response, 'profile');
     }
     
     

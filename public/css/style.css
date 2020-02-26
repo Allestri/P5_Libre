@@ -444,7 +444,7 @@ Map Page
 	padding-left:15px;
 }
 
-.info-toggle
+.info-toggle-old
 {
 	position:absolute;
 	border-radius:20%;
@@ -455,12 +455,29 @@ Map Page
 	z-index:1;
 }
 
+/* Newer approach info button inside map */
+.info-toggle
+{
+	position:absolute;
+	border-radius:0.2em;
+	color:#666666;
+	font-size:1.4em;
+	background-color:#FFFFFF;
+	cursor: pointer;
+	z-index:2;
+}
+
 /* Button while viewport > 1200px */
 #info-btn-ext
 {
-	right:-30px;
+	right:10px;
 	top:50%;
-	padding:12px;
+	width:45px;
+	height:45px;
+	text-align:center;
+	line-height:45px;
+	border: 1px solid rgba(0,0,0,.125);
+	transition: all 0.5s ease-in;
 }
 
 /* Button for smaller devices */
@@ -481,6 +498,7 @@ Map Page
 .info-toggle.active
 {
 	background-color:#07a1ff;
+	color:white;
 }
 
 /*
@@ -494,19 +512,24 @@ Map Page
 }
 */
 
-.info-title
+#panel-header
 {
 	height:100px;
 	width:100%;
 	background-color:#07a1ff;
 	padding-left:15px;
 	color:white;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
 }
 
+/*
 .info-title h2
 {
 	line-height:100px;
 }
+*/
 
 /* Info Panel */
 
@@ -522,10 +545,25 @@ Map Page
 	margin:0;
 }
 
+.info-categories
+{
+	background-color: #CEDEE8;
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+	justify-content:space-between;
+}
+
 
 #author-avatar
 {
 	height:55px;
+	width:55px;
+	object-fit:cover;	
+}
+
+#author-avatar-container
+{
 	padding-right: 1.5rem;
 }
 
@@ -792,7 +830,7 @@ Admin Panel
 #admin-header
 {
 	display:flex;
-	justify-content:center;
+	justify-content:flex-start;
 	align-items:center;
 	background: linear-gradient(79deg, rgba(58,132,221,1) 24%, rgba(105,191,226,1) 90%); 
 	border-top-left-radius:25px;
@@ -860,12 +898,20 @@ Admin Panel
 	width: 160px;
 	height: 160px;
 	object-fit: cover;
-	position: absolute;
-	transform: translate3d(-50%, -80%, 0);
+	/* position: absolute; */
+	transform: translate3d(0%, 30%, 0);
 	left:50%;
 	background:#fff;
 	box-shadow: 0 5px 7px rgba(0,0,0,0.1);
 	border-radius:50%;
+}
+
+
+/* Floating avatar */
+#admin-avatar-container
+{
+	padding:0;
+	margin-top: -50px;
 }
 
 .dashboard-card
@@ -1492,6 +1538,7 @@ Logs Tab
 .flipCross
 {     
    transition: transform 350ms ease;
+   border-radius:2rem;
 }
 
 .flipCross-flipped
@@ -1625,8 +1672,6 @@ Profile Page
 {
 	border: 1px solid rgba(0,0,0,.125);
 }
-
-
 
 
 .collapsing
@@ -1792,7 +1837,7 @@ Profile Page
 	background-image: linear-gradient(to bottom, #7db9e8, #6aade4, #56a1e0, #4195dc, #2989d8);
 	display:flex;
 	align-items:center;
-	justify-content:center;
+	justify-content:flex-start;
 	line-height:20px;
 	border-top-right-radius:10px;
 	border-top-left-radius:10px;
@@ -1807,22 +1852,28 @@ Profile Page
 
 #np-infos
 {
-	background-color:white;
 	border-radius:0px;
 	border-bottom-left-radius:10px;
 }
 
 #profile-avatar
-{
+{	
 	width: 160px;
 	height: 160px;
 	object-fit: cover;
-	position: absolute;
-	transform: translate3d(-50%, -50%, 0);
+	/* position: absolute; */
+	transform: translate3d(0%, 45%, 0);
 	left:50%;
 	background:#fff;
 	box-shadow: 0 5px 7px rgba(0,0,0,0.1);
 	border-radius:50%;
+	z-index:2;
+}
+
+#profile-avatar-container
+{
+	padding:0;
+	margin-top: -70px;
 }
 
 #np-tab
