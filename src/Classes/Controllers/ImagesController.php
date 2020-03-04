@@ -165,14 +165,7 @@ class ImagesController extends ContentController
         } else {
             $hasGeoExif = false;
         }
-        // Checks thumbnail - deprecated
-        /*
-        if(isset($exif['THUMBNAIL'])){
-            $hasThumbnail = true;
-        } else {
-            $hasThumbnail = false;
-        }
-        */
+        
         // Checks image datas
         if(isset($exif['COMPUTED']) || ($exif)){
             $hasInfos = true;
@@ -189,62 +182,69 @@ class ImagesController extends ContentController
         
         echo json_encode($args);
         
-        //return $this->container->view->render($response, 'pages/exif.twig');
     }
              
     public function manageExif($request, $response)
     {
-
-        $imageModel = $this->container->get('imagesModel');
-        $contentModel = $this->container->get('contentModel');
+        // Checks if the user previously uploaded a file
+        if(isset($_SESSION['filename'])) {
+            
+            $imageModel = $this->container->get('imagesModel');
+            $contentModel = $this->container->get('contentModel');
+            
+            // Get form datas
+            $datas = $request->getParsedBody();
+            $privacy = $datas['privacy'];
+            $name = $datas['name'];
+            $description = $datas['description'];
+            
+            $directory = $this->container->get('uploaded_directory');
+            $filename = $_SESSION['filename'];
+            
+            $oldPath = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename;
+            $newPath = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename;
+            
+            rename($oldPath, $newPath);
+            
+            $exif = $this->seekExif($filename, $directory, "photos");
+            
+            // Gets the user id who uploaded the photo
+            $user = $this->getUser();
+            
+            // Picture infos ( size, height, width)
+            $picInfos = $this->getPictureInfos($exif);
+            
+            $groupImg = $this->manageDevice($exif);
+            
+            // Thumbnail
+            $this->createThumbnailFourThree($filename, $directory, $picInfos['type'], $picInfos['width'], $picInfos['height']);
+            
+            // EXIF
+            $coordinates = $this->putExif($exif);
+            //$hasExif = $this->exifReady($filename, $directory);
+            //var_dump($hasExif);
+            
+            // Insert info data ( height, width, privacy .. )
+            $imageModel->addInfos($filename, $picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user, $groupImg, $privacy);
+            
+            // Fetch the file's unique ID
+            $imageId = $imageModel->linkId();
+            
+            // Insert exif Datas if there is exif available.
+            $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude'], $imageId['id']);
+            // Fetch the matching marker id.
+            $markerId = $imageModel->linkMarkerId();
+            
+            $contentModel->addPost($name, $description, $user, $imageId['id'], $markerId['id'], $privacy);
+            
+            $this->flash('Votre image a bien été mise en ligne');
+            return $this->redirect($response, 'upload');
+              
+        } else {
+            $this->flash('Il vous faut envoyer une photo afin de publier un post', 'error');
+            return $this->redirect($response, 'upload');
+        }
         
-        // Get form datas
-        $datas = $request->getParsedBody();
-        $privacy = $datas['privacy'];
-        $name = $datas['name'];
-        $description = $datas['description'];
-        
-        $directory = $this->container->get('uploaded_directory');
-        $filename = $_SESSION['filename'];
-        
-        $oldPath = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR . $filename;
-        $newPath = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename;
-        
-        rename($oldPath, $newPath);        
-
-        $exif = $this->seekExif($filename, $directory, "photos");                
-               
-        // Gets the user id who uploaded the photo
-        $user = $this->getUser();
-        
-        // Picture infos ( size, height, width)
-        $picInfos = $this->getPictureInfos($exif);
-        
-        $groupImg = $this->manageDevice($exif);
-        
-        // Thumbnail
-        $this->createThumbnailFourThree($filename, $directory, $picInfos['type'], $picInfos['width'], $picInfos['height']);
-        
-        // EXIF
-        $coordinates = $this->putExif($exif);
-        //$hasExif = $this->exifReady($filename, $directory);
-        //var_dump($hasExif);
-        
-        // Insert info data ( height, width, privacy .. )
-        $imageModel->addInfos($filename, $picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user, $groupImg, $privacy);
-        
-        // Fetch the file's unique ID
-        $imageId = $imageModel->linkId();
-        
-        // Insert exif Datas if there is exif available.
-        $imageModel->addGeoDatas($coordinates['longitude'], $coordinates['latitude'], $coordinates['altitude'], $imageId['id']);
-        // Fetch the matching marker id.
-        $markerId = $imageModel->linkMarkerId();
-        
-        $contentModel->addPost($name, $description, $user, $imageId['id'], $markerId['id'], $privacy);
-        
-        $this->flash('Votre image a bien été mise en ligne');
-        return $this->redirect($response, 'upload');
     }
         
     // Test if Exif or not.

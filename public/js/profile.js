@@ -5,7 +5,8 @@ function profileComponents(){
 	var self = this;
 	
 	this.initialization = function() {
-		
+			
+		this.modalClean();
 		this.setOverlay();
 		this.setClickedPhoto();
 		this.closeOverlayNew();
@@ -39,6 +40,23 @@ function profileComponents(){
 		});
 	});
 	*/
+	
+	// Removes any listeners when a modal is closing.
+	this.modalClean = function() {
+		
+		$('#modal-grid').on('hidden.bs.modal', function(e) {
+			console.log('modal cleaned');
+			self.removeListeners();
+		});
+		
+	};
+	
+	
+	this.removeListeners = function() {
+		
+		$('#edit-post-btn').unbind('click');
+		$("#delete").unbind('click');
+	};
 	
 	this.setOverlay = function() {
 		
@@ -121,47 +139,9 @@ function profileComponents(){
 		
 	};
 	
-	this.deleteMyAccount = function () {
-		
-		$("#delete-account").on('click', function(e) {
-			//e.preventDefault();
-				if(confirm("Voulez vous supprimer cette photo ?")){
-					console.log("Confirmation suppression");
-					e.preventDefault();
-					
-					//var filename = $('#myphoto').attr('src');
-					console.log(filename);
-					var datas = $("#delete").serialize();
-	
-					console.log(datas);
-					$.ajax({
-						type: "POST",
-						url:"http://projetlibre/profile/deleteimg",
-						data: datas,
-						success: function(data){
-							console.log('Success, photo deleted');
-						},
-						error: function(result, status, error){
-							console.log('error on photo deletion');
-						}
-					});
-					
-					// Confirmation
-					// clear window
-					
-				} else {
-					e.preventDefault();
-				}
-		});
-		
-		
-	}
-	
-	
 	//Display full screen via image viewer
 	this.displayFullScreen = function (filepath, imageDom) {
 	
-		console.log('display fs fired');
 		let filename = filepath.split("uploads/thumbnails/");
 		
 		var dir = "uploads/photos";
@@ -191,9 +171,7 @@ function profileComponents(){
 		
 		// Show photo overlay.
 		$('#modal-grid').modal('show');
-			
-		
-		
+							
 	};
 	
 	// Gets post and image unique ids.
@@ -206,38 +184,7 @@ function profileComponents(){
 			data: {filename : filename[1]}
 		});
 	};
-	
-	
-	// Deprecated
-	this.displayMyPhotos = function(data) {
 		
-		var photos = "";
-		// 
-		var template = "";
-		//console.log(data);
-		
-		for( var i = 0; i < data.length; i++){
-			// use template
-			photos += "<div class='profile-photos-card card'><div class='profile-photo-wrapper'><img class='profile-photo card-img-top' src='uploads/photos/" + data[i].filename + "' /><div class='card-overlay'>Cliquez pour aggrandir</div></div><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><div class='card-social'><i class='fas fa-heart'></i>" + data[i].liked + "</div></div></div>";
-	    }
-	    $('#profile-images-wrapper').html(photos); // use template
-	    
-	    
-	    $('#profile-images-wrapper').ready(function (){
-	    	
-	    	$('.profile-photo-wrapper').click(function(){
-	    		
-	    		// Get event content
-	    		var child = ($(this).children());
-	    		var filename = $(this).find("img").attr( "src" );
-	    		console.log(filename);
-	    		self.displayFullScreen(filename);
-	    	});
-	    	
-	    });
-		
-	};
-	
 	this.closeOverlay = function() {
 		
 		$('#exit-large-vw').click(function() {
@@ -246,6 +193,7 @@ function profileComponents(){
 	};
 	
 	// CRUD
+	
 	this.deleteComment = function() {
 		
 		$('.delete-comment-btn').click(function(e) {
@@ -470,6 +418,81 @@ function profileComponents(){
 		});
 		
 	};
+	
+	
+	
+	/* Deprecated
+	 * 
+	 
+	this.displayMyPhotos = function(data) {
+		
+		var photos = "";
+		// 
+		var template = "";
+		//console.log(data);
+		
+		for( var i = 0; i < data.length; i++){
+			// use template
+			photos += "<div class='profile-photos-card card'><div class='profile-photo-wrapper'><img class='profile-photo card-img-top' src='uploads/photos/" + data[i].filename + "' /><div class='card-overlay'>Cliquez pour aggrandir</div></div><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><div class='card-social'><i class='fas fa-heart'></i>" + data[i].liked + "</div></div></div>";
+	    }
+	    $('#profile-images-wrapper').html(photos); // use template
+	    
+	    
+	    $('#profile-images-wrapper').ready(function (){
+	    	
+	    	$('.profile-photo-wrapper').click(function(){
+	    		
+	    		// Get event content
+	    		var child = ($(this).children());
+	    		var filename = $(this).find("img").attr( "src" );
+	    		console.log(filename);
+	    		self.displayFullScreen(filename);
+	    	});
+	    	
+	    });
+		
+	};
+	*/
+	
+	
+	
+	
+	/* Not using
+	 * 
+	this.deleteMyAccount = function () {
+		
+		$("#delete-account").on('click', function(e) {
+			//e.preventDefault();
+				if(confirm("Voulez vous vraiment supprimer votre compte ?")){
+					console.log("Confirmation suppression");
+					e.preventDefault();
+					
+	
+					console.log(datas);
+					$.ajax({
+						type: "POST",
+						url:"http://projetlibre/profile/deleteaccount",
+						data: datas,
+						success: function(data){
+							console.log('Success, account deleted');
+						},
+						error: function(result, status, error){
+							console.log('error on deletion');
+						}
+					});
+					
+					// Confirmation
+					// clear window
+					
+				} else {
+					e.preventDefault();
+				}
+		});
+		
+		
+	}
+	*/
+	
 
 	
 }

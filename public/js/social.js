@@ -13,6 +13,7 @@ function Social () {
 	
 	this.initialization = function() {
 		
+		this.modalClean();
 		//this.closeOverlay();
 		this.toggleLikeButton();
 		this.toggleReportButton();
@@ -34,6 +35,16 @@ function Social () {
 				self.removeListeners();
 			});
 		});
+	};
+	
+	// Removes any listeners when a modal is closing.
+	this.modalClean = function() {
+		
+		$('#modal-grid').on('hidden.bs.modal', function(e) {
+			console.log('modal cleaned');
+			self.removeListeners();
+		});
+		
 	};
 	
 	this.removeListeners = function() {
@@ -260,7 +271,7 @@ function Social () {
 				error: function(result, status, error){
 					console.log('erreur');
 				}
-			});	
+			});
 	};
 	
 	// Toggle report unreport button then fire the right method.
