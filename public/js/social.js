@@ -235,6 +235,7 @@ function Social () {
 					console.log('Success, image liked');
 					self.refreshLikes(postId);
 					console.log(postId);
+					$.notify('Liked', 'success');
 				},
 				error: function(result, status, error){
 					console.log('erreur');
@@ -254,6 +255,7 @@ function Social () {
 				success: function(data){
 					console.log('Success, image unliked');
 					self.refreshLikes();
+					$.notify('Unliked', 'success');
 				},
 				error: function(result, status, error){
 					console.log('erreur');

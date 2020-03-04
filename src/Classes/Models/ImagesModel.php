@@ -54,19 +54,25 @@ Class ImagesModel extends Model
     // Fetch every photos posted from the connected member, used in Profile Page.
     public function fetchAllMyImgs($uid)
     {
-        $sql = "SELECT posts.id, posts.name, posts.liked, posts.reported,
+        $sql = "SELECT posts.id, posts.name, posts.privacy, COUNT(distinct likes.id) as likes, COUNT(distinct comments.id) as nbrComments,
                 members.name as user_name,
                 images.filename, images.upload_date, images.type
                 FROM posts
+                	LEFT JOIN likes
+						ON posts.id = likes.post_id 
                     INNER JOIN images
                         ON posts.image_id = images.id
                     INNER JOIN members
                         ON posts.user_id = members.id
-                WHERE posts.user_id = ?";
+                    LEFT OUTER JOIN comments
+                        ON posts.id = comments.post_id
+                WHERE posts.user_id = 6
+                GROUP BY posts.id";
         $dataImages = $this->executeQuery($sql, array($uid));
         return $dataImages->fetchAll();
     }
     
+    // Deprecated
     public function fetchImgsInfos($markerId)
     {
         $sql = "SELECT markers.name, markers.address, markers.lng,markers.lat, markers.altitude,
@@ -85,7 +91,7 @@ Class ImagesModel extends Model
     public function fetchImgsInfosNew($markerId)
     {
         $sql = "SELECT markers.name, markers.lng, markers.lat, markers.altitude,
-                posts.name, posts.content as description, posts.liked, posts.reported, 
+                posts.name, posts.content as description, posts.reported, posts.privacy,
                 images.height, images.width, images.size, images.type, DATE_FORMAT(images.upload_date, '%d/%m/%Y à %Hh%i') as upload_date,
                 members.name as author, avatars.avatar_file as author_avatar
                 FROM markers

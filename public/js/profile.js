@@ -59,13 +59,42 @@ function profileComponents(){
     		
 			// Sets clicked Dom
 			var imageDom = this;
+						
     		// Get event content
-    		var child = ($(this).children());
+    		var child = this.childNodes[1];
+    		
+    		// Data attributes
+    		let privacy = child.getAttribute("data-privacy");
+    		let likes = child.getAttribute("data-likes");
+    		let commentsNbr = child.getAttribute("data-comments");
+    		
+    		self.setPrivacy(privacy);
+    		self.setSocialCount(likes, commentsNbr);
+    		
     		var filename = $(this).find("img").attr( "src" );
-    		console.log(filename);
     		console.log('pathfilename :' + filename);
     		self.displayFullScreen(filename, imageDom);
     	});		
+		
+	};
+	
+	// Sets data attribute
+	this.setSocialCount = function(likes, commentsNbr) {
+		
+		$('#liked-count').html(likes);
+		$('#comments-count').html(commentsNbr);
+	};
+	
+	this.setPrivacy = function(privacy) {
+		
+		if (privacy == 1) {
+			$('.privacy').html("<p class='text-muted'>Mes amis seulement</p>");
+		} else if (privacy == 2) {
+			$('.privacy').html("<p class='text-muted'>Photo Privée</p>");
+		} else {
+			$('.privacy').html("<p class='text-muted'>Photo publique</p>");
+		}
+		
 		
 	};
 	
@@ -179,6 +208,7 @@ function profileComponents(){
 	};
 	
 	
+	// Deprecated
 	this.displayMyPhotos = function(data) {
 		
 		var photos = "";
@@ -402,7 +432,6 @@ function profileComponents(){
 	
 	this.imageIsLoaded = function(e){
 		
-		console.log(e);
 		$('#avatar-preview-ctn').html($('<img id="avatar-preview" />').attr('src', e.target.result));
 		$('#avatar-preview').attr('width', '150px');
 		//$('#avatar-preview').attr('height', '150px');

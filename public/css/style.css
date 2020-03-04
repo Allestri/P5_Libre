@@ -437,6 +437,14 @@ Map Page
 	opacity:1;
 }
 
+#image-info-panel.show-min
+{
+	opacity:1;
+	top:100%;
+	position:static;
+	transition: all 1s ease-in;
+}
+
 #info-panel
 {
 	margin-top:2rem;
@@ -483,11 +491,15 @@ Map Page
 /* Button for smaller devices */
 #info-btn-min
 {
-	bottom:-35px;
-	right:0;
-	padding:10px;
-	box-shadow: 0px 10px 9px -10px rgba(0,0,0,0.52);
+	bottom:22px;
+	right:45%;
+	width:45px;
+	height:45px;
+	text-align:center;
+	line-height:45px;
+	border: 1px solid rgba(0,0,0,.125);
 	display:none;
+	transition: all 0.5s ease-in;
 }
 
 .info-toggle i
@@ -547,7 +559,7 @@ Map Page
 
 .info-categories
 {
-	background-color: #CEDEE8;
+	/* background-color: #CEDEE8; */
 	display:flex;
 	flex-direction:row;
 	align-items:center;
@@ -1625,7 +1637,7 @@ Profile Page
 	z-index:2;
 	position:absolute;
 	right:30px;
-	top:70px;
+	top:80%;
 	line-height:20px;
 }
 
@@ -2265,7 +2277,8 @@ Profile Page
 
 #image-midsizenew
 {
-	width:100%;
+	max-width:100%;
+	height:auto;
 }
 
 #button-panel
@@ -2451,6 +2464,9 @@ Profile Page
 	transition: color .4s;
 }
 
+
+/* Triple cards image viewer */
+
 .card-heart
 {
 	color: #c86262;
@@ -2459,6 +2475,11 @@ Profile Page
 .card-comments
 {
 	color: #68b8e8;
+}
+
+.card-privacy
+{
+	color:#717171;
 }
 
 .like-count
@@ -2695,7 +2716,7 @@ Media Queries
 {
 	#image-info-panel
 	{
-		position:static;
+		position:absolute;
 		width:100%;
 	}
 	

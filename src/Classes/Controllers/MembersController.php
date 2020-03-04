@@ -255,6 +255,8 @@ class MembersController extends Controller
         session_unset();
         // Troubleshooting Session flash
         session_destroy();
+        
+        $this->flash('Deconnecté');
         return $this->redirect($response, 'home');
     }
     
@@ -509,7 +511,8 @@ class MembersController extends Controller
         $memberModel = $this->container->get('membersModel');
                 
         $memberModel->unactiveAvatars($uid);
-        $memberModel->switchAvatar($avatarId, $uid);   
+        $memberModel->switchAvatar($avatarId, $uid);
+        
     }
     
     public function deleteAvatar($request, $response)
@@ -553,6 +556,9 @@ class MembersController extends Controller
         // Then sets has custom avatar.
         $memberModel->changeAvatarNew($uid, $filename);
         $memberModel->hasCustomAvatar();
+        
+        // Refreshes Session avatar
+        $_SESSION['avatar'] = $filename;
         
         
         $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $member . DIRECTORY_SEPARATOR . $filename);

@@ -20,7 +20,7 @@
             </div>
             
             <div class="row">
-            	<div id="admin-sidebar" class="col-lg-2 mt-5">
+            	<div id="admin-sidebar" class="col-lg-2 px-1 mt-5">
 
                 	<nav id="admin-nav" class="navbar bg-light">
                 		<ul class="nav nav-pills">
@@ -490,13 +490,15 @@
         						<div class="alert alert-secondary">
                             		<i class="fa fa-history" aria-hidden="true"></i>
                             		<span>Historique de posts</span>
+                            		<span class="badge badge-pill badge-info">Modifiés</span>
                                 </div>
                                 <a class="btn back-dashboard" title="Vider historique modération" href="admin/clear-logs/posts"><i class="fas fa-trash"></i></a>
                             </div>
-    						
+    						<!-- Logs Edited -->
                         	<div class="row d-flex justify-content-between">
                         		
                         		{% for logs in logs %}
+                        		{% if logs.mod_type == 'M' %}
                             	<div class="col-lg-5 post-log">
                             		<div class="card hoverable">
                             		
@@ -509,11 +511,6 @@
                                     		<div class="logs-header d-flex align-items-center">
                                     			<h4 class="mb-0" title="titre original">{{ logs.old_name }}</h4>
                                     			<span class="logs-date"><i class="far fa-clock"></i>&nbsp; {{ logs.date }}</span>
-                                        		{% if logs.mod_type == 'M' %}
-                    							<span class="badge badge-pill badge-info">Modifié</span>
-                    						    {% else %}
-                    						    <span class="badge badge-pill badge-danger">Supprimé</span>
-                    						    {% endif %}
                     						    <button class="btn expandPostButton flipCross"><i class="fas fa-chevron-down"></i></button>
                                     		</div>
                 						    <p title="Contenus original">{{ logs.old_content }}</p>
@@ -529,34 +526,52 @@
 										</div>
                                 	</div>
                             	</div>
+                            	{% endif %}
                             	{% endfor %}
 
-                            	<!-- Dummy card test -->
-                            	<div class="col-lg-5 post-log">
+                        	</div>
+                        	<hr>
+                        	<!-- Logs Deleted -->
+                        	<div class="adm-tab-header mb-3">
+        						<div class="alert alert-secondary">
+                            		<i class="fa fa-history" aria-hidden="true"></i>
+                            		<span>Historique de posts</span>
+                            		<span class="badge badge-pill badge-danger">Supprimés</span>
+                                </div>
+                            </div>
+                        	<div class="row d-flex justify-content-between">
+                        	
+                        		{% for logs in logs %}
+                        		{% if logs.mod_type == 'D' %}
+                        		<div class="col-lg-5 post-log">
                             		<div class="card hoverable">
-    
-                        				<img class="card-img-top" src="uploads/thumbnails/e30632acb3ae0f90.jpg" alt="" class="img-fluid image-profile rounded shadow-sm">
+                            			{% if logs.filename %}
+                        				<img class="card-img-top" src="uploads/thumbnails/{{ logs.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
+                        				{% else %}
+                        				<img class="card-img-top" src="images/placeholder.png" alt="" class="img-fluid image-profile rounded shadow-sm">
+                        				{% endif %}
                         				<div class="card-body">
                                     		<div class="logs-header d-flex align-items-center">
-                                    			<h4 class="mb-0" title="titre original">Dummy</h4>
-                                    			<span class="logs-date"><i class="far fa-clock"></i>&nbsp; Hier</span>
-                    							<span class="badge badge-pill badge-info">Modifié</span>
+                                    			<h4 class="mb-0" title="titre original">{{ logs.old_name }}</h4>
+                                    			<span class="logs-date"><i class="far fa-clock mr-1"></i>{{ logs.date }}</span>
                     						    <button class="btn expandPostButton flipCross"><i class="fas fa-chevron-down"></i></button>
                                     		</div>
-                						    <p title="Contenus original">Une photo qui a vraisemblablement été moderée</p>
-                						    <!-- Card Collapse -->
+                						    <p title="Contenus original">{{ logs.old_content }}</p>
+                                		
+                                			<!-- Card Collapse -->
                 						    <div class="collapse">
                                 				<hr>
                                 				<h5 class="text-muted text-center">Contenus moderé</h5>
-                                				<h4>Dummy</h4>
-        										<p class="mb-2">Contenus modifié</p>
-        										<p class="text-muted text-center"><small><i class="far fa-clock"></i>&nbsp; Moderé le 18/02/2020</small></p>
+        										<p class="text-muted text-center"><small><i class="far fa-clock mr-1"></i>Moderé le {{ logs.mod_date }}</small></p>
                                 			</div>
-                                		</div>
-                                	</div>
-                                </div>
+										</div>
+                            		</div>
+                            	</div>
+                        		{% endif %}
+                        		{% endfor %}
+                        	
+                        	
                         	</div>
-                        	<hr>
         				</div>
         				<!-- End Logs Posts -->
         				
@@ -585,7 +600,7 @@
                                         	<div class="com-logs-meta">
                                             	<h4>{{ logs.name }}</h4>
                                             	<div class="logs-header">
-                                        			<span class="logs-date"><i class="far fa-clock"></i>{{ logs.com_date}}</span>
+                                        			<span class="logs-date"><i class="far fa-clock mr-1"></i>{{ logs.com_date}}</span>
                                             		{% if logs.mod_type == 'M' %}
                         							<span class="badge badge-pill badge-info">Modifié</span>
                         						    {% else %}

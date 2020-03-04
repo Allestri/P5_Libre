@@ -112,14 +112,12 @@ class ImagesController extends ContentController
         array_walk($datas['comments'], array($this, 'addRelativeDate'));
 
         // If a member is connected, gets his likes.
-        /*
         if(isset($_SESSION['uid'])){
             
             $userId = $_SESSION['uid'];
             $mylikes = $contentModel->getMyLikes($markerId, $userId);
             $datas = array_merge($datas, $mylikes);
         }
-        */
         
         array_walk_recursive($datas, array($this, 'sanitizeDatas'));
         

@@ -173,7 +173,7 @@ class AdminModel extends Model
         $sql = "SELECT logs_com.content as old_content, comments.content as new_content, logs_com.com_date, logs_com.author_id, logs_com.mod_type,
                 members.name, avatars.avatar_file
                 FROM logs_com
-                INNER JOIN comments
+                LEFT JOIN comments
                 	ON logs_com.com_id = comments.id
                 INNER JOIN members
                     ON logs_com.author_id = members.id

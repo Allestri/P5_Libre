@@ -13,13 +13,19 @@ Class ContentModel extends Model
     
     public function getRecentPosts()
     {
-        $sql = "SELECT posts.name, posts.content, members.name as author, posts.liked, images.filename, images.upload_date
+        $sql = "SELECT posts.id, posts.name, posts.content, members.name as author, images.filename, images.upload_date, 
+                COUNT(distinct likes.id) as likes, COUNT(distinct comments.id) as comNbr
                 FROM posts
                 INNER JOIN images
                 	ON posts.image_id = images.id
                 INNER JOIN members
                 	ON posts.user_id = members.id
+                LEFT JOIN likes
+                    ON posts.id = likes.post_id
+                LEFT JOIN comments
+                	ON posts.id = comments.post_id
 				WHERE posts.privacy = 0
+				GROUP BY posts.id
                 ORDER BY upload_date DESC
                 LIMIT 0,3";
         $recentPosts = $this->executeQuery($sql);

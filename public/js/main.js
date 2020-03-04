@@ -72,8 +72,6 @@ $('#home-image').on('load', function(){
 });
 */
 
-
-
 // Form validation
 
 (function() {
@@ -176,12 +174,6 @@ $('#test-form').submit(function(e){
 	});
 });
 
-$('#notification').click(function(){
-	
-	$.notify('Hello world', "success");
-	
-});
-
 /*
 window.addEventListener('load', (event) => {
 	  alert('page is fully loaded');
@@ -245,11 +237,6 @@ $('#triggerTest').click(function(e){
 	});
 	
 });
-
-$('#notify-me').click(function(){
-	$.notify('Connecté', 'success');
-});
-
 
 
 function displayError(data){
@@ -367,24 +354,4 @@ $('.memberlist-btn').click(function (e) {
 	var formData = $("#comment-form").serialize();
 	
 });
-*/
-
-// Preview avatar before submitting - Profile Page
-/*
-$("#avatar-form").change(function(){
-
-	var file = this.files[0];
-	console.log(file);
-	
-	var reader = new FileReader();
-	reader.onload = imageIsLoaded;
-	reader.readAsDataURL(this.files[0]);
-});
-
-function imageIsLoaded(e){
-	$('#avatar-preview-ctn').append($('<img id="avatar-preview" />').attr('src', e.target.result));
-	//$('#preview-avatar').attr('src', e.target.result);
-	$('#avatar-preview').attr('width', '150px');
-	//$('#avatar-preview').attr('height', '150px');
-};
 */

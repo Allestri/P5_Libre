@@ -15,6 +15,7 @@ function postInfos(data){
 	this.user = data.author;
 	this.authorAvatar = data.author_avatar;
 	this.likes = data.likes;
+	this.privacy = data.privacy;
 		
 	
 	this.togglePanel = function() {
@@ -25,7 +26,7 @@ function postInfos(data){
 		});
 
 		$('#info-btn-min').click(function() {
-			$('#image-info-panel').toggleClass('show');
+			$('#image-info-panel').toggleClass('show-min');
 		});
 	};
 	
@@ -39,21 +40,39 @@ function postInfos(data){
     	return avatar = 'uploads/avatar/' + username + '/' + avatarFile;
 	};
 	
+	
+	// Gets privacy number, returns icon + text to display
+	this.getPrivacy = function(privacy) {
+		
+		let iconPublic = "<i class='fa fa-users' aria-hidden='true'></i>";
+		let iconPrivate = "<i class='fas fa-user-secret'></i>";
+		
+		if(privacy == 0){
+			return "Publique";
+		} else if (privacy == 1) { 
+			return "Amis";
+		} else {
+			return "Privée";
+		}		
+	};
+	
+	
 	this.displayInfos = function() {
 		
 		// Info sidepanel
 		$("#main-title").html("<h2> " + this.name + "</h2>");
 		
-		$("#author").replaceWith("<h3 id='author'>" + this.user + "</h3>");
+		$("#author").replaceWith("<h3 id='author' title='Auteur de la photo' >" + this.user + "</h3>");
 		
 		var avatar = this.getAvatar(this.user, this.authorAvatar);
-		//$('#author').prepend($('<img id="author-avatar" />').attr('src', avatar));
-		//$('#author-avatar').html($('<img id="author-avatar" class="rounded-circle" />').attr('src', avatar));
+		//var privacy = this.getPrivacy(this.privacy);
+		
 		$('#author-avatar').attr('src', avatar);
 		
 		$('#date').replaceWith("<span id='date'>" + this.date + "</span>");
 		$('#likes').replaceWith("<span id='likes'>" + this.likes + "</span>");
 		$('#comments').replaceWith("<span id='comments'>" + data.comments.length + "</span>");
+		$('#privacy').text(this.getPrivacy(this.privacy));
 		$("#long").replaceWith("<span id='long'> " + this.lng + "</span>");
 		$("#lat").replaceWith("<span id='lat'> " + this.lat + "</span>");
 		$("#alt").replaceWith("<span id='alt'> " + this.alt + " m</span>");

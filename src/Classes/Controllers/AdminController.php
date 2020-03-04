@@ -45,7 +45,6 @@ class AdminController extends Controller
                 $reportsNbr = $adminModel->countReports();
                 $args = array_merge($args, $reportsNbr);
                 // If there are any reports, fetch those ones.
-                //var_dump($args['reportsNbr']);
                 if($args['reportsNbr'] >= 1){
                     
                     $args['reportedPosts'] = $adminModel->getReports();

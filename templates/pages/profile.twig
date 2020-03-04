@@ -10,7 +10,7 @@
         		<img id="profile-avatar" src="{{ avatar }}" alt="my-avatar" width="200" class="img-thumbnail">
         	</div>
         	<div class="col-lg-5">
-        		<h1 class="profile-name">{{ profile }}</h1>
+        		<h1 class="profile-name mt-5">{{ profile }}</h1>
         	</div>
             <div id="profile-nav">
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -153,7 +153,7 @@
                                 {% for images in myimages %}
                                 		<div class="col-md-6 mb-2 pr-lg-1">
                                 			<div class="image-profile-wrapper">
-                                				<img src="uploads/thumbnails/{{ images.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
+                                				<img src="uploads/thumbnails/{{ images.filename }}" alt="{{ images.name }}" data-likes="{{ images.likes }}" data-comments="{{ images.nbrComments }}" data-privacy="{{ images.privacy }}" class="img-fluid image-profile rounded shadow-sm">
                                 			</div>
                                 		</div>
                                 {% endfor %}
@@ -165,7 +165,7 @@
                             <!-- Tab Comments -->
                             <div id="np-comments-tab" class="tab-pane fade" role="tabpanel">
                             	<div class="py-4 px-4">
-                                   	<h5 class="mb-0">Mes commentaires</h3>
+                                   	<h5 class="mb-0">Mes commentaires</h5>
                                    	<div id="profile-comments-wrapper" class="mt-4">
                                    	{% if not commentslist %}
                                    	<p>Vous n'avez pas publié de commentaires</p>
@@ -284,32 +284,41 @@
             	<div class="container-fluid">
             		<div class="row">
             			<div id="image-wrapper" class="col-lg-12">
-            				<img id="image-profile-midsize" >
+            				<img id="image-profile-midsize" class="img-fluid">
             			</div>
             		</div>
             	</div>
-            	<hr>
-            	<i class="fa fa-comments" aria-hidden="true"></i>
-            	<i class="far fa-heart"></i>
-            	<form id="editImg" class="mb-3" method="POST" action="profile/getpost">
-					<input type="hidden" id="postId" class="postId" name="postId" value="86" />
-					<button class="btn btn-light modal-btn" id="edit-post-btn">
-						<i class='fas fa-edit'></i>
-					</button>
-    			</form>
-    			<form id="delete" method="POST" action="profile/deleteimg">
-					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
-					<input type="hidden" class="postId" name="postId" value="1" />
-					<button class="btn btn-light modal-btn" id="delete-btn">
-						<i class='fas fa-trash-alt'></i>
-					</button>
-    			</form>
             </div>
-            <div class="modal-footer">
-            
-            	<span class="badge">Privée</span>
+            <div class="modal-footer d-flex flex-row justify-content-between">
+            	<div class="d-flex flex-row justify-content-between">
+                	<div id="comments" class="mr-2">
+                		<i class="far fa-comments"></i>
+                		<span id="comments-count" class="text-muted"></span>
+                	</div>
+                	<div id="liked">
+                		<i class="far fa-heart"></i>
+                		<span id="liked-count" class="text-muted"></span>
+                	</div>
+            	</div>
+            	<div class="privacy">
+            		<p class="text-muted"><i class="fas fa-users mr-1"></i>Qui peut voir ma photo ?</p>
+            	</div>
+            	<div class="d-flex flex-row justify-content-between">
+                	<form id="editImg" class="mr-2" method="POST" action="profile/getpost">
+    					<input type="hidden" id="postId" class="postId" name="postId" value="86" />
+    					<button class="btn btn-light modal-btn" id="edit-post-btn" title="Editer mon post">
+    						<i class='fas fa-edit'></i>
+    					</button>
+        			</form>
+        			<form id="delete" method="POST" action="profile/deleteimg">
+    					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
+    					<input type="hidden" class="postId" name="postId" value="1" />
+    					<button class="btn btn-light modal-btn" id="delete-btn" title="Supprimer mon post">
+    						<i class='fas fa-trash-alt'></i>
+    					</button>
+        			</form>
+    			</div>
             </div>
-            
             <!-- 
             <div class="modal-btn-wrapper">
             	<form id="editImg" class="mb-3" method="POST" action="profile/getpost">

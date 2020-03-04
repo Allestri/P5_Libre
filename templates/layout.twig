@@ -61,7 +61,7 @@
                                 {% if admin %}
                                 <a class="dropdown-item" href="{{ path_for('admin') }}"><i class="fas fa-user-cog fa-fw"></i>&nbsp; Administration</a>
                                 {% endif %}
-                                <a class="dropdown-item" href="{{ path_for('deconnexion') }}"><i class="fas fa-sign-out-alt fa-fw"></i>&nbsp; Deconnexion</a>
+                                <a id="logout" class="dropdown-item" href="{{ path_for('deconnexion') }}"><i class="fas fa-sign-out-alt fa-fw"></i>&nbsp; Deconnexion</a>
                             </div>
         				</li>
         			</ul>

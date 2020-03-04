@@ -23,16 +23,13 @@ function displayMap()
 	        dataType: "json",
 	        success: (data)=> {
 	        	console.log(data);
-	           //console.log(data[0].lng, data[0].lat);
 	        	
-	           //console.log(data);
 	            // Info window
                 infoWindow = new google.maps.InfoWindow;
                 
                 
                 google.maps.event.addListener(infoWindow, 'domready', ()=> {
                 	$('#thumbnail-wrapper').click(()=> {
-                		console.log('image-clicked');
                 		this.getImageFullScreen();
                 	})
                 	
@@ -114,7 +111,6 @@ function displayMap()
 	                markers.push(marker);
 	            }
 	    		// Clusterer
-	    		//this.markerCluster.setMap(null);
 	    		this.markerCluster = new MarkerClusterer(gmap, markers,{
 	    			imagePath: 'images/assets/m'
 	    		});
