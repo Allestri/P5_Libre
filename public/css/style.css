@@ -144,7 +144,6 @@ Main Components
 
 .pagination-wrapper
 {
-	margin-top:40px;
 	display:flex;
 	flex-direction:row;
 	justify-content:center;
@@ -883,10 +882,19 @@ Admin Panel
 	color:#fff;
 }
 
-#admin-nav
+#admin-nav-container
 {
 	padding:5px;
 }
+
+#admin-nav.nav-link
+{
+	/* padding: 0.75rem 1rem; */
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+	width:100%;
+}
+
 
 #admin-panel
 {
@@ -1332,12 +1340,13 @@ Members Page
 ==========================
 */
 
+
 #memberlist-container
 {
 	border-radius:10px;
-	padding:0;
+	/*padding:0; */
 	/*height:690px;*/
-	height:40rem;
+	height:42rem;
 	background-color:white;
 	box-shadow: 4px 7px 21px -9px rgba(0,0,0,0.75);
 	display:flex;
@@ -1346,7 +1355,7 @@ Members Page
 
 #memberlist-wrapper
 {
-	padding: 0px 40px 30px;
+	padding: 0 25px 25px;
 	height:100%;
 	display:flex;
 	flex-direction:column;
@@ -1356,7 +1365,7 @@ Members Page
 {
 	height:130px;
 	display:flex;
-	padding:0 40px;
+	/* padding:0 40px; */
 	align-items:center;
 	color:#fff;
 	border-top-right-radius:10px;
@@ -1380,9 +1389,40 @@ Members Page
 	flex:1;
 }
 
+
+/* New Memberlist container */
+
+#new-memberlist-container
+{
+	background-color:white;
+}
+
+#new-memberlist-header
+{
+	height:120px;
+	display:flex;
+	align-items:center;
+	color:#fff;
+	border-top-right-radius:10px;
+	border-top-left-radius:10px;
+	border-bottom-left-radius:0px;
+	border-bottom-right-radius:0px;
+	background: linear-gradient(79deg, rgba(58,132,221,1) 24%, rgba(105,191,226,1) 90%)
+}
+
+.new-memberlist-card
+{
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+	justify-content:space-between;
+}
+
+
 .memberlist-card
 {
-	height:80px;
+	height:92px;
+	/*
 	margin-top:20px;
 	margin-bottom:10px;
 	padding-left:15px;
@@ -1393,8 +1433,10 @@ Members Page
 	background-color: #fff;
 	border-radius: .25rem;
 	border: 1px solid rgba(0,0,0,.125);
+	*/
 	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(97,108,121,.13);
 	transition: box-shadow .3s ease;
+	
 }
 
 .memberlist-card h4
@@ -1413,6 +1455,14 @@ Members Page
 	flex:1;
 	display:flex;
 	flex-direction:row;
+}
+
+.new-item-test
+{
+	display:flex;
+	flex-direction:column;
+	justify-content:start;
+	align-items:start;
 }
 
 .main-items
@@ -1459,6 +1509,8 @@ Members Page
 	transition: all .4s;
 }
 
+
+/* Deprecated */
 .addfriend-btn-wrapper
 {
 	padding-left:25px;
@@ -2085,14 +2137,14 @@ Profile Page
 	background-color: #fff;
 	border-radius: .25rem;
 	border: 1px solid rgba(0,0,0,.125);
-	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(97,108,121,.13);
+	/* box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(97,108,121,.13); */
 	transition: box-shadow .3s ease;
 }
 
 .social-card:hover
 {
 	background-color: #eeeeee;
-	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(21,111,170,.3);
+	/* box-shadow: 0 1px 1px rgba(97,108,121,.1),0 7px 18px 0 rgba(21,111,170,.3); */
 }
 
 #content-wrapper
@@ -2480,6 +2532,7 @@ Profile Page
 .card-privacy
 {
 	color:#717171;
+	/*color: #6c757d; */
 }
 
 .like-count

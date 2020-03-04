@@ -22,8 +22,8 @@
             <div class="row">
             	<div id="admin-sidebar" class="col-lg-2 px-1 mt-5">
 
-                	<nav id="admin-nav" class="navbar bg-light">
-                		<ul class="nav nav-pills">
+                	<nav id="admin-nav-container" class="navbar bg-light">
+                		<ul id="admin-nav" class="nav nav-pills">
                 			<li class="nav-item">
                 				<a class="nav-link active" href="#dashboard-admin-tab" data-toggle="pill"><i class="fas fa-home fa-fw"></i>&nbsp; Tableau de bord</a>
                 			<li class="nav-item">
@@ -278,7 +278,7 @@
                                     					<form id="getreport" method="POST" action="admin/getreport">
                                             				<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
                                             				<button class="admin-btn edit" role="tab" data-toggle="pill">
-                                            					<i class="fas fa-edit"></i>Editer post
+                                            					<i class="fas fa-edit mr-2"></i>Editer
                                             				</button>
                                         				</form>
                                     				</div>
@@ -286,7 +286,7 @@
                                             			<form id="deleteImg" method="POST" action="admin/delete">
                                         					<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
                                         					<button class="admin-btn delete">
-                                        						<i class="fas fa-trash-alt"></i>Supprimer post
+                                        						<i class="fas fa-trash-alt mr-2"></i>Supprimer
                                         					</button>
                                     					</form>
                                 					</div>

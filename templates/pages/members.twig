@@ -4,104 +4,110 @@
 {{ include ('flash.twig') }}
 
     <div class="row">
-    	<div id="memberlist-container" class="col-lg-6 mx-auto mt-3">
-    		<div id="memberlist-header">
-    			<h1><i class="fas fa-users"></i>Liste des membres</h1>
-    		</div>
-    		<div id="memberlist-wrapper">
-
-                <div id="memberlist">
-                    {% for members in memberslist %}
-                    <div class="memberlist-card">
-                    	{% if members.avatar_file == NULL %}
-                    	<img src="uploads/avatar/avatar_default.png" alt="{{ members.name }} avatar" height="60" width="60">
-                    	{% else %}
-                    	<img src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" alt="{{ members.name }} avatar" height="60" width="60">
-                    	{% endif %}
-                    	<div class="item-test">
-                        	<div class="memberlist-item main-items">
-                				<h4>{{ members.name }}</h4>
-                			</div>
-                			<div class="memberlist-item small-items">
-                			    {{ members.days_timestamp }} jours
-                			</div>
-                			<div class="memberlist-item item-status">
-                                {% if members.status == 'friend' %}
-    							<span class="badge badge-pill badge-success">Amis</span>
-    						    {% elseif members.status == 'pending' %}
-    						    	{% if members.req_direction == "out" and members.ignored %}
-    						    	<span class="badge badge-pill badge-secondary">En attente</span>
-    						    	{% elseif members.req_direction == "in" and members.ignored %}
-    						    	<span class="badge badge-pill badge-secondary">Demande ignorée</span>
-    						    	{% else %}
-    						    	<span class="badge badge-pill badge-secondary">En attente</span>
-    						    	{% endif %}
-    							{% elseif members.status == 'pending' and members.ignored %}
-    							<span class="badge badge-pill badge-secondary">Demande ignorée</span>
-							    {% else %}
-								<span class="badge badge-pill badge-light">-</span>
-							    {% endif %}
-                			</div>
-            			</div>
-                      	{% if members.status == 'friend' %}
-                      	<form id="removefriend{{ members.id }}"method="POST" action="removefriend">
-                          	<input type="hidden" name="myId" value="{{ member }}" />
-                          	<input type="hidden" name="memberId" value="{{ members.id }}"/>
-                      	</form>
-                      	<div class="memberlist-item addfriend-btn-wrapper">
-                      		<button class="memberlist-btn removefriend-btn" title="Supprimer un ami" form="removefriend{{ members.id }}"><i class="fas fa-user-times"></i></button>
-                      	</div>
-                      	{% elseif members.status == 'pending' %}
-                      		
-                      		{% if members.req_direction == "out" %}
-                      		<form id="cancelreq{{ members.id }}"method="POST" action="cancelrequest">
-                              	<input type="hidden" name="myId" value="{{ member }}" />
-                              	<input type="hidden" name="memberId" value="{{ members.id }}"/>
-                          	</form>
-                          	<div class="memberlist-item addfriend-btn-wrapper">
-                				<button class="memberlist-btn cancel-btn" title="Annuler la demande d'ami" form="cancelreq{{ members.id }}"><i class="fas fa-times"></i></button>
-                			</div>
-                			
-                      		{% elseif members.req_direction == 'in' and members.ignored %}
-                          	<form id="readdfriend{{ members.id }}"method="POST" action="readdfriend">
-                              	<input type="hidden" name="myId" value="{{ member }}" />
-                              	<input type="hidden" name="memberId" value="{{ members.id }}"/>
-                          	</form>
-                          	<div class="memberlist-item addfriend-btn-wrapper">
-                				<button class="memberlist-btn addfriend-btn" title="Ajouter une demande d'ami" form="readdfriend{{ members.id }}"><i class="fas fa-user-plus"></i></button>
-                			</div>
-
-                			{% else %}
-                			<div class="memberlist-item addfriend-btn-wrapper">
-                				<button class="memberlist-btn" title="Vous avez une demande d'ami"><i class="fa fa-envelope" aria-hidden="true"></i></button>
-                			</div>
-                			{% endif %}
-                      	{% else %}
-                     	<form id="addfriend{{ members.id }}"method="POST" action="addfriend">
-                          	<input type="hidden" name="myId" value="{{ member }}" />
-                          	<input type="hidden" name="memberId" value="{{ members.id }}"/>
-                      	</form>
-                      	<div class="memberlist-item addfriend-btn-wrapper">
-            				<button class="memberlist-btn addfriend-btn" title="Ajouter une demande d'ami" form="addfriend{{ members.id }}"><i class="fas fa-user-plus"></i></button>
-            			</div>
-                      	{% endif %}
-                    </div>
-    			    {% endfor %}
-                </div>
-            	<div class="pagination-wrapper">
-    			    <nav aria-label="Page navigation example">
-                  		<ul class="pagination">
-                    		<li class="page-item {% if currentPage == 1 %}disabled{% endif %}"><a class="page-link" href="members?page={{ previousPage }}">Précédent</a></li>
-                                {% for i in range(1, totalPages) %}
-                    			<li class="page-item {% if currentPage == i %}active{% endif %}"><a class="page-link" href="members?page={{ i }}">{{ i }}</a></li>
-                                {% endfor %}
-                    		<li class="page-item {% if currentPage == totalPages %}disabled{% endif %}"><a class="page-link" href="members?page={{ nextPage }}">Suivant</a></li>
-                  		</ul>
-            		</nav>
+    	<div id="memberlist-container" class="col-lg-6 mx-auto mt-2">
+    		<div class="row">
+        		<div id="new-memberlist-header" class="col-lg-12">
+        			<h1 class="ml-3"><i class="fas fa-users mr-2"></i>Membres</h1>
         		</div>
+        	</div>
+        	<div class="row h-100">
+        		<div id="memberlist-wrapper" class="col-lg-12">
+    
+                    <div id="memberlist">
+                    	{% for members in memberslist %}
+                		<div class="row mt-3">
+                			<div class="col-lg-12">
+                    			<div class="card">
+                        			<div class="memberlist-card card-body p-3">
+                            			<div class="row align-items-center">
+                            				<div class="col-2">
+                            					{% if members.avatar_file == NULL %}
+                                            	<img src="uploads/avatar/avatar_default.png" class="img-fluid mr-2" alt="{{ members.name }} avatar" height="60" width="60">
+                                            	{% else %}
+                                            	<img src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" class="img-fluid mr-2" alt="{{ members.name }} avatar" height="60" width="60">
+                                            	{% endif %}
+                            				</div>
+                            				<div class="col-5 pl-0">
+                                				<h4 class="display-6 mb-0">{{ members.name }}</h4>
+                                				<small><date class="text-muted"><i class="far fa-clock mr-2"></i>{{ members.days_timestamp }} jours</date></small>
+                            				</div>
+                            				<div class="col-3 px-0 text-center">
+                            					{% if members.status == 'friend' %}
+                    							<span class="badge badge-pill badge-success">Amis</span>
+                    						    {% elseif members.status == 'pending' %}
+                    						    	{% if members.req_direction == "out" and members.ignored %}
+                    						    	<span class="badge badge-pill badge-secondary">En attente</span>
+                    						    	{% elseif members.req_direction == "in" and members.ignored %}
+                    						    	<span class="badge badge-pill badge-secondary">Demande ignorée</span>
+                    						    	{% else %}
+                    						    	<span class="badge badge-pill badge-secondary">En attente</span>
+                    						    	{% endif %}
+                    							{% elseif members.status == 'pending' and members.ignored %}
+                    							<span class="badge badge-pill badge-secondary">Demande ignorée</span>
+                							    {% else %}
+                								<span class="badge badge-pill badge-light">-</span>
+                							    {% endif %}
+                            				</div>
+                            				<div class="col-2 pl-0 text-center">
+                                				{% if members.status == 'friend' %}
+                                              	<form id="removefriend{{ members.id }}"method="POST" action="removefriend">
+                                                  	<input type="hidden" name="myId" value="{{ member }}" />
+                                                  	<input type="hidden" name="memberId" value="{{ members.id }}"/>
+                                              	</form>
+                                              	<button class="memberlist-btn removefriend-btn" title="Supprimer un ami" form="removefriend{{ members.id }}"><i class="fas fa-user-times"></i></button>
+                                              	{% elseif members.status == 'pending' %}
+                                              		
+                                              		{% if members.req_direction == "out" %}
+                                              		<form id="cancelreq{{ members.id }}"method="POST" action="cancelrequest">
+                                                      	<input type="hidden" name="myId" value="{{ member }}" />
+                                                      	<input type="hidden" name="memberId" value="{{ members.id }}"/>
+                                                  	</form>
+                                        			<button class="memberlist-btn cancel-btn" title="Annuler la demande d'ami" form="cancelreq{{ members.id }}"><i class="fas fa-times"></i></button>
+                                        			
+                                              		{% elseif members.req_direction == 'in' and members.ignored %}
+                                                  	<form id="readdfriend{{ members.id }}"method="POST" action="readdfriend">
+                                                      	<input type="hidden" name="myId" value="{{ member }}" />
+                                                      	<input type="hidden" name="memberId" value="{{ members.id }}"/>
+                                                  	</form>
+                                        			<button class="memberlist-btn addfriend-btn" title="Ajouter une demande d'ami" form="readdfriend{{ members.id }}"><i class="fas fa-user-plus"></i></button>
+                        
+                                        			{% else %}
+                                        			<button class="memberlist-btn" title="Vous avez une demande d'ami"><i class="fa fa-envelope" aria-hidden="true"></i></button>
+                                        			{% endif %}
+                                              	{% else %}
+                                             	<form id="addfriend{{ members.id }}"method="POST" action="addfriend">
+                                                  	<input type="hidden" name="myId" value="{{ member }}" />
+                                                  	<input type="hidden" name="memberId" value="{{ members.id }}"/>
+                                              	</form>
+                                    			<button class="memberlist-btn addfriend-btn" title="Ajouter une demande d'ami" form="addfriend{{ members.id }}"><i class="fas fa-user-plus"></i></button>
+                                              	{% endif %}
+                            				</div>
+                            			</div>
+                        			</div>
+                        		</div>
+                			</div>
+                		</div>
+                		{% endfor %}
+                    </div>
+                                          
+                	<div class="pagination-wrapper mt-4">
+        			    <nav aria-label="Page navigation example">
+                      		<ul class="pagination">
+                        		<li class="page-item {% if currentPage == 1 %}disabled{% endif %}"><a class="page-link" href="members?page={{ previousPage }}">Précédent</a></li>
+                                    {% for i in range(1, totalPages) %}
+                        			<li class="page-item {% if currentPage == i %}active{% endif %}"><a class="page-link" href="members?page={{ i }}">{{ i }}</a></li>
+                                    {% endfor %}
+                        		<li class="page-item {% if currentPage == totalPages %}disabled{% endif %}"><a class="page-link" href="members?page={{ nextPage }}">Suivant</a></li>
+                      		</ul>
+                		</nav>
+            		</div>
+                </div>
             </div>
         </div>
     </div>
+    
+    
+    
     
 
 {% endblock %}
