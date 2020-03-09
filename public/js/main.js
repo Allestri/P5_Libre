@@ -57,7 +57,7 @@ $('.carousel').carousel({
 	
 // Flash messages
 
-$( '.alert-dismissible' ).delay( 2000 ).fadeOut( 400 );
+$( '.alert-success.alert-dismissible' ).delay( 2000 ).fadeOut( 400 );
 
 // Popovers
 

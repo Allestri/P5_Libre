@@ -192,7 +192,7 @@
                                 		<span>Il n'y a aucun commentaires signalés</span>
                                 	</div>
                     				{% else %}
-                    				<div class="alert alert-danger">
+                    				<div class="alert alert-warning">
                                 		<i class="fas fa-exclamation-triangle"></i>
                                 		<span>{{ reportedComNbr }} signalements reportés par la communauté</span>
                                 	</div>
@@ -595,10 +595,13 @@
                             				{% if logs.avatar_file == NULL %}
                                         	<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ logs.name }} avatar" height="60" width="auto">
                                         	{% else %}
-                                        	<img src="uploads/avatar/{{ logs.name }}/{{ logs.avatar_file }}" class="avatar-mini" alt="{{ logs.name }} avatar" height="60" width="auto">
+                                        	<img src="uploads/avatar/{{ logs.name }}/{{ logs.avatar_file }}" class="avatar-mini rounded" alt="{{ logs.name }} avatar" height="60" width="auto">
                                         	{% endif %}
                                         	<div class="com-logs-meta">
-                                            	<h4>{{ logs.name }}</h4>
+                                            	<div class="d-flex flex-row justify-content-between">
+                                            		<h4>{{ logs.name }}</h4>
+                                            		<button class="btn flipCross expandCom"><i class="fas fa-chevron-down"></i></button>
+                                            	</div>
                                             	<div class="logs-header">
                                         			<span class="logs-date"><i class="far fa-clock mr-1"></i>{{ logs.com_date}}</span>
                                             		{% if logs.mod_type == 'M' %}
@@ -614,12 +617,8 @@
                                         	<p title="Contenus original">{{ logs.old_content }}</p>
                                         	<div class="com-logs-hidden collapse">
                                         		<hr>
-                                        		<p>Message moderé</p>
+                                        		<p class="text-muted text-center">Contenus moderé</h5>
                                         		<p title="Contenus moderé">{{ logs.new_content }}</p>
-                                        	</div>
-                                        	<hr>
-                                        	<div class="expand-button-wrapper">
-                                        		<button class="btn flipCross expandComButton"><i class="fas fa-chevron-down"></i></button>
                                         	</div>
                                     	</div>
                                 	</div>

@@ -11,6 +11,7 @@
 function admin() {
 	
 	var self = this;
+	var pUrl = "http://projetlibre/admin";
 	
 	this.initialization = function () {
 		
@@ -22,7 +23,6 @@ function admin() {
 		this.getReportedCommentDatas();
 		this.setDeleteComment();
 		
-		this.flipCard();
 		this.expandComLogs();
 		this.expandPostLogs();
 		
@@ -80,7 +80,7 @@ function admin() {
 			e.preventDefault();
 			var pageNbr = $(this).find("a").data('page');
 			
-			$("#members-tab").load("http://projetlibre/admin/paginate?page=" + pageNbr + " #members-tab>*", function(response, statusTxt, xhr) {
+			$("#members-tab").load(pUrl + "/paginate?page=" + pageNbr + " #members-tab>*", function(response, statusTxt, xhr) {
 				if(statusTxt == "success")
 					// Refresh listeners
 					self.memberPagination();
@@ -94,13 +94,13 @@ function admin() {
 		
 	};
 	
+	
 	this.expandComLogs = function() {
 		
-		$('.expandComButton').click(function() {
+		$('.expandCom').click(function() {
 			
 			$(this).toggleClass('flipCross-flipped');
-			$(this).closest('.card-body').find('.com-logs-hidden').toggle(500);
-			//$(this).closest('.card-body').find('.com-logs-hidden').collapse('toggle');
+			$(this).closest('.card').find('.com-logs-hidden').toggle(500);
 			
 		});
 		
@@ -119,20 +119,7 @@ function admin() {
 	};
 	
 	
-	// Admin CRUD
-	
-	
-	this.flipCard = function() {
-		
-		$('.clickFlip').click(function() {
-			
-			console.log($(this).parents(".card").find('.flipper'));
-			
-			$(this).parents(".card").find('.flipper').toggleClass('flipped');
-			
-			
-		});
-	};
+	// Admin CRUD		
 	
 	this.setDeletePost = function() {
 		
@@ -148,11 +135,11 @@ function admin() {
 				console.log(datas);	
 				$.ajax({
 					type: "POST",
-					url:"http://projetlibre/admin/delete",
+					url: pUrl + "/delete",
 					data: datas,
 					success: function(data){
 						console.log('Success, photo deleted');
-						$("#reported-tab-content").load("http://projetlibre/admin #reported-tab-content>*");
+						$("#reports-posts-duo").load(pUrl + "#reports-posts-duo>*");
 					},
 					error: function(result, status, error){
 						console.log('Error on photo deletion');

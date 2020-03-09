@@ -3,6 +3,7 @@
 function profileComponents(){
 	
 	var self = this;
+	var projectUrl = "http://projetlibre/profile";
 	
 	this.initialization = function() {
 			
@@ -10,7 +11,7 @@ function profileComponents(){
 		this.setOverlay();
 		this.setClickedPhoto();
 		this.closeOverlayNew();
-		this.setEditForm();
+		//this.setEditForm();
 		this.deleteComment();
 		
 		this.testDom();
@@ -148,7 +149,7 @@ function profileComponents(){
 		var file = dir + "/" + filename[1];
 		
 		// Get clicked photo unique IDs
-		this.getUniqueIds(filename).done(setValues);
+		this.getUniqueIds(filename).done(self.setValues);
 		// Sets filename on form.
 		/*
 		var filenameElt = $(".filename");
@@ -165,8 +166,9 @@ function profileComponents(){
 		
 		$('#image-profile-midsize').attr('src', file);		
 		
-		// Set delete option up
-		self.deletePost(imageDom);
+		// Setup form listeners
+		self.deletePost(imageDom, filename[1]);
+		self.setEditForm();
 		
 		
 		// Show photo overlay.
@@ -271,7 +273,7 @@ function profileComponents(){
 			
 			$.ajax({
 				type: "POST",
-				url: "http://projetlibre/profile/getpost",
+				url: projectUrl + "/getpost",
 				data: postId,
 				dataType: "JSON",
 				success: function(data){
@@ -313,7 +315,7 @@ function profileComponents(){
 	};	
 	
 		
-	this.deletePost = function(imageDom) {
+	this.deletePost = function(imageDom, filename) {
 		
 		$("#delete").on('click', function(e) {
 			//e.preventDefault();
@@ -322,15 +324,14 @@ function profileComponents(){
 					e.preventDefault();
 					
 					var datas = $("#delete").serialize();
-					console.log(datas);
-					
-					var photoDom = $('#np-photos-tab').find(filename);
-					console.log(photoDom);
+					//console.log(datas);
+					//var photoDom = $('#np-photos-tab').find(filename);
+					//console.log(photoDom);
 					
 					$.ajax({
 						type: "POST",
 						url:"http://projetlibre/profile/deleteimg",
-						data: datas,
+						data: datas + "&filename=" + filename,
 						success: function(data){
 							console.log('Success, photo deleted');
 							$('#modal-grid').modal('hide');
@@ -350,7 +351,7 @@ function profileComponents(){
 		});
 	};
 	
-	// Sets the unique ID value on inputs
+	// Deprecated // Sets the unique ID value on inputs
 	this.setIdPhoto = function() {
 		
 		var id = data;
@@ -361,6 +362,28 @@ function profileComponents(){
 		console.log(elements);
 			
 	};
+	
+	// Sets post & image unique IDs values on form inputs
+	this.setValues = function(data, status, object){
+		
+		console.log(data);
+		var imgId = data.image_id;
+		var postId = data.post_id;
+		console.log(postId);
+		
+		var imgIdElts = $(".imgId");
+		var postIdElts = $('.postId');
+		var postIdEltsTwo = $('#postId');
+		
+		imgIdElts.val(imgId);
+		postIdElts.val(postId);
+		postIdEltsTwo.val(postId);
+		
+		console.log(postIdEltsTwo);
+		
+	};
+	
+	
 	
 	// Preview avatar before submitting
 	this.previewAvatar = function() {
@@ -388,12 +411,15 @@ function profileComponents(){
 
 	this.setEditInterface = function(){
 		$('#modal-grid').modal('toggle');
-		$('#myphoto-wrapper').hide();
-		$('#tab-edit-img').toggleClass('show-edit');
+		//$('#myphoto-wrapper').hide();
+		$('#tab-edit-img').addClass('show-edit');
 		
+		// Set close event listener
 		this.closeEditForm();
 	};
 
+	
+	// Sets data on Edit Form
 	this.setValuesProfileEdit = function(data){
 		
 		var postId = data.id;
@@ -417,42 +443,9 @@ function profileComponents(){
 			
 		});
 		
-	};
-	
-	
-	
-	/* Deprecated
-	 * 
-	 
-	this.displayMyPhotos = function(data) {
+	};	
 		
-		var photos = "";
-		// 
-		var template = "";
-		//console.log(data);
-		
-		for( var i = 0; i < data.length; i++){
-			// use template
-			photos += "<div class='profile-photos-card card'><div class='profile-photo-wrapper'><img class='profile-photo card-img-top' src='uploads/photos/" + data[i].filename + "' /><div class='card-overlay'>Cliquez pour aggrandir</div></div><div class='card-body'><h5 class='card-title'>" + data[i].name + "</h5><div class='card-social'><i class='fas fa-heart'></i>" + data[i].liked + "</div></div></div>";
-	    }
-	    $('#profile-images-wrapper').html(photos); // use template
-	    
-	    
-	    $('#profile-images-wrapper').ready(function (){
-	    	
-	    	$('.profile-photo-wrapper').click(function(){
-	    		
-	    		// Get event content
-	    		var child = ($(this).children());
-	    		var filename = $(this).find("img").attr( "src" );
-	    		console.log(filename);
-	    		self.displayFullScreen(filename);
-	    	});
-	    	
-	    });
-		
-	};
-	*/
+	
 	
 	
 	

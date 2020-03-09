@@ -24,6 +24,7 @@ $('.icon-exit-full').click(function() {
 
 function getMyPhotoId(filename) {
 	
+	console.log('id fired');
 	return $.ajax({
 		type:"POST",
 		url: "http://projetlibre/getid",
@@ -34,7 +35,7 @@ function getMyPhotoId(filename) {
 
 
 
-
+/*
 // Sets post & image unique IDs values on form inputs
 function setValues(data, status, object){
 	
@@ -54,12 +55,13 @@ function setValues(data, status, object){
 	console.log(postIdEltsTwo);
 	
 };
+*/
 
 
 
 // Show photo informations such as comments.
 // WIP
-
+/*
 function showInfos(filename){
 	
 	console.log(filename);
@@ -78,7 +80,7 @@ function showInfos(filename){
 		}
 	});
 };
-
+*/
 
 
 // CRUD
@@ -97,61 +99,4 @@ function setIdPhoto(){
 	
 };
 
-/*
-// Edit a photo
-$('#edit-btn').on('click', function(e) {
-	e.preventDefault();
-	
-	var filename = $('#myphoto').attr('src');
-	console.log(filename);
-	
-	$.ajax({
-		type: "GET",
-		url:"http://projetlibre/map/showcomment",
-		data: "imgId=" + imgId,
-		dataType: "json",
-		success: function(data){
-			displayComments(data);
-			console.log('Success, comments loaded');
-		},
-		error: function(result, status, error){
-			console.log('error on displaying comments');
-		}
-	});
-	
-});
 
-//Delete a photo
-	
-$("#delete").on('click', function(e) {
-	//e.preventDefault();
-		if(confirm("Voulez vous supprimer cette photo ?")){
-			console.log("Confirmation suppression");
-			e.preventDefault();
-			
-			//var filename = $('#myphoto').attr('src');
-			console.log(filename);
-			var datas = $("#delete").serialize();
-
-			console.log(datas);
-			$.ajax({
-				type: "POST",
-				url:"http://projetlibre/profile/deleteimg",
-				data: datas,
-				success: function(data){
-					console.log('Success, photo deleted');
-				},
-				error: function(result, status, error){
-					console.log('error on photo deletion');
-				}
-			});
-			
-			// Confirmation
-			// clear window
-			
-		} else {
-			e.preventDefault();
-		}
-});
-
-*/

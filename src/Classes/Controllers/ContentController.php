@@ -234,7 +234,6 @@ class ContentController extends Controller
              $contentModel->deletePost($postId, $uid);
              
              $directory = $this->container->get('uploaded_directory');
-             var_dump($filename);
              
              $photoPath = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename;
              $thumbPath = $directory . DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $filename;

@@ -46,6 +46,7 @@ class MembersController extends Controller
             if(!$isUnique)
             {
                 $this->flash('Ce pseudonyme n\'est pas disponible', 'warning');
+                return $this->redirect($response, 'inscription');
             }
             elseif ($password == $passwordRpt){
                 $rdp = password_hash($password, PASSWORD_DEFAULT);
@@ -57,6 +58,7 @@ class MembersController extends Controller
                 $this->flash('Inscription effectuée ! Bienvenue');
             } else {
                 $this->flash('Mauvaise combinaison de mot de passe', 'warning');
+                return $this->redirect($response, 'inscription');
             }
         }
         
@@ -263,65 +265,70 @@ class MembersController extends Controller
     public function displayMembersList($request, $response)
     {        
         
-        $memberModel = $this->container->get('membersModel');
-        $username = $_SESSION['username'];
-        $userId = $_SESSION['uid'];              
+        if(isset ($_SESSION['uid'])) {
+            
         
-        
-        $totalMembers = $memberModel->countAllMembers();
-        $totalMembers = (int)$totalMembers['totalmembers'];
-      
-        //var_dump($totalMembers);
-        
-        $limit = 4;
-        // To do : Total member -1 ( actual connected member )
-        
-        $args = $this->pagination($request, $totalMembers, $limit);
-              
-        $args['memberslist'] = $memberModel->getAllMembersLimit($limit, $args['offset'], $userId);
-        
-        $relationships = $memberModel->getFriendships($userId);
-        
-        
-        // Putting relationship status on memberlist array
-        foreach($args['memberslist'] as $key1=>$value1)
-        {
-            foreach($relationships as $key2=>$value2)
+            $memberModel = $this->container->get('membersModel');
+            $username = $_SESSION['username'];
+            $userId = $_SESSION['uid'];              
+            
+            
+            $totalMembers = $memberModel->countAllMembers();
+            $totalMembers = (int)$totalMembers['totalmembers'];
+          
+            //var_dump($totalMembers);
+            
+            $limit = 4;
+            // To do : Total member -1 ( actual connected member )
+            
+            $args = $this->pagination($request, $totalMembers, $limit);
+                  
+            $args['memberslist'] = $memberModel->getAllMembersLimit($limit, $args['offset'], $userId);
+            
+            $relationships = $memberModel->getFriendships($userId);
+            
+            
+            // Putting relationship status on memberlist array
+            foreach($args['memberslist'] as $key1=>$value1)
             {
-                // Determining the actual direction of a given request :
-                // true : from user to others / false = from others to user.
-                $direction = $value2['friend_a'] == $userId;
-
-                if($direction){
-                    $fid = $value2['friend_b'];
-                } else {
-                    $fid = $value2['friend_a'];
-                }
-                
-                
-                if($value1['id'] == $fid)
+                foreach($relationships as $key2=>$value2)
                 {
-                    // Out = Outgoing friend request from user to others
-                    // In = Incoming friend request from others
-                    if($value2['status'] == "pending")
-                    {
-                        $args['memberslist'][$key1]['req_direction'] = $direction ? "out" : "in" ;
-                        if($value2['ignored'] == 1){
-                            $args['memberslist'][$key1]['ignored'] = true;
-                        }
+                    // Determining the actual direction of a given request :
+                    // true : from user to others / false = from others to user.
+                    $direction = $value2['friend_a'] == $userId;
+    
+                    if($direction){
+                        $fid = $value2['friend_b'];
+                    } else {
+                        $fid = $value2['friend_a'];
                     }
-                    $args['memberslist'][$key1]['status'] = $value2['status'];
-                }
                     
+                    
+                    if($value1['id'] == $fid)
+                    {
+                        // Out = Outgoing friend request from user to others
+                        // In = Incoming friend request from others
+                        if($value2['status'] == "pending")
+                        {
+                            $args['memberslist'][$key1]['req_direction'] = $direction ? "out" : "in" ;
+                            if($value2['ignored'] == 1){
+                                $args['memberslist'][$key1]['ignored'] = true;
+                            }
+                        }
+                        $args['memberslist'][$key1]['status'] = $value2['status'];
+                    }
+                        
+                    
+                }
                 
             }
+            //unset($users); // unset the reference
+                    
             
-            //$args['memberslist'][$userId]['status'] = $relations['status'];
+            return $this->container->view->render($response, 'pages/members.twig', $args);
+        } else {
+            return $this->redirect($response, 'home');
         }
-        //unset($users); // unset the reference
-                
-        
-        return $this->container->view->render($response, 'pages/members.twig', $args);
     }
     
     
