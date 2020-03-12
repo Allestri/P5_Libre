@@ -20,21 +20,6 @@ $('.icon-exit-full').click(function() {
 
 
 
-/* Profile page */
-
-function getMyPhotoId(filename) {
-	
-	console.log('id fired');
-	return $.ajax({
-		type:"POST",
-		url: "http://projetlibre/getid",
-		data: {filename : filename[1]}
-	});
-	
-};
-
-
-
 /*
 // Sets post & image unique IDs values on form inputs
 function setValues(data, status, object){
@@ -54,31 +39,6 @@ function setValues(data, status, object){
 	
 	console.log(postIdEltsTwo);
 	
-};
-*/
-
-
-
-// Show photo informations such as comments.
-// WIP
-/*
-function showInfos(filename){
-	
-	console.log(filename);
-	
-	$.ajax({
-		type: "GET",
-		url:"http://projetlibre/map/showinfo",
-		data: id,
-		dataType: "JSON",
-		success: function(data){
-			displayComments(data);
-			console.log('Success, informations loaded');
-		},
-		error: function(result, status, error){
-			console.log('error on displaying informations');
-		}
-	});
 };
 */
 

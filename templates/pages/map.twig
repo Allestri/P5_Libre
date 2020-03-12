@@ -15,7 +15,7 @@
 		<div id="image-info-panel" class="col-lg-3">
 			<div id="panel-header">
 				<div id="main-title" class="info-title"></div>
-				<div id="info-date"><i class="far fa-clock"></i>&nbsp; <span id="date" class="text-muted"></span></div>
+				<div id="info-date"><i class="far fa-clock mr-1"></i><span id="date" class="text-muted"></span></div>
 			</div>
 			<div id="info-panel" class="pb-2">
 				<div class="card">
@@ -152,86 +152,5 @@
     	</div>
     </div>
         
-    
-    
-	
-	
-	
-	<!-- 
-	<div id="overlay">
-
-    		<div class="row"> 
-        		<div id="content-wrapper" class="col-xl-9 mx-auto">
-        			<span id="exit-large-vw" class="icon-exit">
-            			<i class="fas fa-times"></i>
-            		</span>
-            		<div class="row">
-            			<div id="image-wrapper" class="col-xl-9">
-            				<img id="image-midsize" >
-            				{% if member %}
-            				<div id="button-panel" class="d-flex align-items-center justify-content-around">
-                				<form id="likeImg" method="POST" action="map/like">
-                					<input type="hidden" class="postId" name="postId" value="23"/>
-                					<input type="hidden" name="userId" value="{{ member }}"/>
-                					<button class="social-button like">
-                						<i class="fas fa-heart"></i>
-                					</button>
-                				</form>
-                				<form id="reportImg" method="POST" action="map/report">
-                					<input type="hidden" class="postId" name="postId" value="23" />
-                					<input type="hidden" class="userId" name="userId" value="{{ member }}" />
-                					<button class="social-button report">
-                						<i class="fas fa-exclamation-circle"></i>
-                					</button>
-                				</form>
-            				</div>
-            				{% endif %}
-            			</div>
-            			<div id="imgPanel" class="col-xl-3">
-            				<div class="card mb-3 photo-infocard">
-                				<h2 id="image-name" class="card-header">Placeholder</h2>
-                				<p id="image-description" class="card-header">Image description</p>
-                				<span id="exit-small-vw" class="icon-exit">
-            						<i class="fas fa-times"></i>
-            					</span>
-            				</div>
-            				<div id="social-wrapper">
-            					<span class="social-card">
-            						<i class="far fa-heart"></i>
-            						<span class="likes-count"></span>
-            					</span>
-            					<span class="social-card">
-            						<i class="fas fa-comments"></i>
-            						<span class="comments-count"></span>
-            					</span>
-            				</div>
-            				{% if not member %}
-            					<div class="alert alert-primary">
-                					<p>Veuillez vous <a href="{{ path_for('inscription') }}" class="alert-link">authentifier pour commenter</a></p>
-                				</div>
-            				{% else %}
-            				<div class="comment-form-wrapper">
-                				<form id="comment-form" method="POST" action="map/comment">
-                					<input type="hidden" name="uid" value="{{ member }}" />
-                					<textarea class="input-comment form-control" rows="1" form="comment-form" name="content" placeholder="Un petit message" required></textarea>
-                					<input type="hidden" id="postId" class="postId" name="postId" value="23" />
-                				</form>
-                				<div id="comment-btn-wrapper">
-                    				<button type="submit" class="btn btn-secondary" id="comment-btn" form="comment-form">
-                    						<i class="fas fa-comment"></i>
-                    				</button>
-                				</div>
-            				</div>
-            				{% endif %}
-            				<div id="comments-wrapper">
-                			</div>
-            			</div>
-        			</div>
-        		</div>
-        	</div>
-        	
-
-	</div>
-	-->
 	
 {% endblock %}

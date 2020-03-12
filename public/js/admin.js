@@ -158,7 +158,7 @@ function admin() {
 	
 	this.refreshDom = function() {
 		
-		$("#reported-comments-wrapper").load("http://projetlibre/admin #reported-comments-wrapper>*");
+		$("#reported-comments-wrapper").load(pUrl + "#reported-comments-wrapper>*");
 		
 	};
 	

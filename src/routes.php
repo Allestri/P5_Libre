@@ -53,7 +53,7 @@ return function (App $app) {
     
     // Espace membre
     $app->get('/profile', \App\Controllers\MembersController:: class . ':displayProfile')->setName('profile');
-    $app->get('/profile/myimgs', \App\Controllers\ImagesController:: class . ':getMyPhotos');
+    //$app->get('/profile/myimgs', \App\Controllers\ImagesController:: class . ':getMyPhotos');
     $app->get('/profile/getcomments', \App\Controllers\ContentController:: class . ':getMyComments');
     
     $app->post('/profile/deleteimg', \App\Controllers\ContentController:: class . ':deletePost');

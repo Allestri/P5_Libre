@@ -14,34 +14,10 @@ function profileComponents(){
 		//this.setEditForm();
 		this.deleteComment();
 		
-		this.testDom();
 		this.previewAvatar();
 	};
 	
-	
-	
-	// Profile Page CRUD
-	/*
-	$('#edit-post-form').submit(function(e) {
-		e.preventDefault();
-		
-		var formData = $("#edit-post-form").serialize();
-		console.log(formData);
-		
-		$.ajax({
-			type: "POST",
-			url: "http://projetlibre/newprofile/editpost",
-			data: formData,
-			success: function(data){
-				console.log('Success, post edited');
-			},
-			error: function(result, status, error){
-				console.log('Error post edition');
-			}	
-		});
-	});
-	*/
-	
+			
 	// Removes any listeners when a modal is closing.
 	this.modalClean = function() {
 		
@@ -122,23 +98,7 @@ function profileComponents(){
 		$('#exit-large-vw').click(function() {
 			$('#modal-grid').modal('hide');
 		});
-	};
-	
-	this.fetchMyPhotos = function() {
-		
-		$.ajax({
-			type: "GET",
-			url: "http://projetlibre/profile/myimgs",
-			dataType: "json",
-			success: function(data){
-				self.displayMyPhotos(data);
-			},
-			error: function(result, status, error){
-				console.log('erreur');
-			}
-		});
-		
-	};
+	};	
 	
 	//Display full screen via image viewer
 	this.displayFullScreen = function (filepath, imageDom) {
@@ -176,6 +136,7 @@ function profileComponents(){
 							
 	};
 	
+	// To be changed to Data attribute usage !
 	// Gets post and image unique ids.
 	this.getUniqueIds = function(filename) {
 
@@ -207,7 +168,7 @@ function profileComponents(){
 			
 			$.ajax({
 				type: "POST",
-				url: "http://projetlibre/profile/deletecomment",
+				url: projectUrl + "/profile/deletecomment",
 				data: formData,
 				success: function(data){
 					console.log('Success, comment deleted');
@@ -239,6 +200,8 @@ function profileComponents(){
 
 	};	
 	
+	
+	// Deprecated
 	this.displayComments = function(data) {
 
 		var commentOptionStart = "<div class='comment-options'><i class='fa fa-cog'></i><ul class='options-menu'><li><form class='deleteComment' method='POST' action='profile/deletecomment' >";
@@ -291,18 +254,31 @@ function profileComponents(){
 		
 	};
 	
-	this.testDom = function() {
+	
+	// Profile Page CRUD
+	/*
+	$('#edit-post-form').submit(function(e) {
+		e.preventDefault();
 		
-		$('.image-profile').click(function(){
-			
-			console.log(this);
-			
+		var formData = $("#edit-post-form").serialize();
+		console.log(formData);
+		
+		$.ajax({
+			type: "POST",
+			url: "http://projetlibre/newprofile/editpost",
+			data: formData,
+			success: function(data){
+				console.log('Success, post edited');
+			},
+			error: function(result, status, error){
+				console.log('Error post edition');
+			}	
 		});
-		
-	};
+	});
+	*/
+	
 	
 	// Refreshes DOM after any deletion.
-	
 	this.refreshPostDom = function(){
 		
 		var photosNbr = document.getElementById('profile-img-nbr').textContent;
@@ -311,7 +287,7 @@ function profileComponents(){
 		}
 		document.getElementById('profile-img-nbr').innerHTML = photosNbr;
 		
-		$("#np-photos-tab").load("http://projetlibre/profile #np-photos-tab>*");
+		$("#np-photos-tab").load(projectUrl + "#np-photos-tab>*");
 	};	
 	
 		
@@ -330,7 +306,7 @@ function profileComponents(){
 					
 					$.ajax({
 						type: "POST",
-						url:"http://projetlibre/profile/deleteimg",
+						url: projectUrl + "/deleteimg",
 						data: datas + "&filename=" + filename,
 						success: function(data){
 							console.log('Success, photo deleted');

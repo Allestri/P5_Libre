@@ -123,17 +123,7 @@ class ImagesController extends ContentController
         
         echo json_encode($datas);
     }
-           
-    // Account page - fetch member's photos.
-    public function getMyPhotos()
-    {
-        $imageModel = $this->container->get('imagesModel');
-        $uid = $_SESSION['uid'];
-        
-        $myPhotos = $imageModel->fetchAllMyImgs($uid);
-        
-        echo json_encode($myPhotos);
-    }            
+    
     
     /* 
      * Gets the user who uploaded the content 

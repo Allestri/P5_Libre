@@ -607,9 +607,11 @@ Forms
 
 #inscription-form-wrapper
 {
-	padding: 30px 55px 50px;
+	padding: 30px 55px 30px;
 	background-color:white;
 	margin:auto;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
 }
 
 #button-wrapper .btn

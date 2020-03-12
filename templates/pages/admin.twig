@@ -485,7 +485,14 @@
             		<!-- Logs Posts -->
             		<div class="tab-content">
         				<div id="logs-posts" class="tab-pane fade show active" role="tabpanel">
-        				
+        				       				
+        					{% if not logs %}
+                    		<div class="alert alert-primary">
+                                <i class="far fa-smile-wink"></i>
+                                <span>Il n'y a pas d'historique de modération</span>
+                            </div>
+                        	{% else %}
+                        	
         					<div class="adm-tab-header mb-3">
         						<div class="alert alert-secondary">
                             		<i class="fa fa-history" aria-hidden="true"></i>
@@ -572,11 +579,19 @@
                         	
                         	
                         	</div>
+                        	{% endif %}
         				</div>
         				<!-- End Logs Posts -->
         				
         				<!-- Logs Comments -->
         				<div id="logs-comments" class="tab-pane fade" role="tabpanel">
+        				
+        					{% if not logs_com %}
+                    		<div class="alert alert-primary">
+                                <i class="far fa-smile-wink"></i>
+                                <span>Il n'y a pas d'historique de modération</span>
+                            </div>
+                        	{% else %}
         					<div class="adm-tab-header mb-3">
         						<div class="alert alert-secondary">
                             		<i class="fa fa-history" aria-hidden="true"></i>
@@ -586,7 +601,7 @@
                             </div>
                             
                         	<div class="row d-flex justify-content-between">
-                        	
+                        		
                         		{% for logs in logs_com %}
                             	<div class="col-lg-5 mb-5">
                             		<div class="card hoverable">
@@ -627,6 +642,7 @@
                             	
                             	
                         	</div>
+                        	{% endif %}
         				</div>
         				<!-- End Logs Comments -->
     				</div>

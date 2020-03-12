@@ -10,6 +10,7 @@
 function Social () {
 	
 	var self = this;
+	var url = "http://projetlibre/map";
 	
 	this.initialization = function() {
 		
@@ -66,7 +67,7 @@ function Social () {
 			
 			$.ajax({
 					type: "POST",
-					url: "http://projetlibre/map/deletecomment",
+					url: url +"/deletecomment",
 					data: formData,
 					success: function(data){
 						console.log('Success, comment deleted'),
@@ -91,7 +92,7 @@ function Social () {
 			console.log(formData);
 			$.ajax({
 					type: "POST",
-					url: "http://projetlibre/map/comment",
+					url: url + "/comment",
 					data: formData,
 					success: function(data){
 						console.log('Success, image commented');
@@ -118,7 +119,7 @@ function Social () {
 
 			$.ajax({
 				type: "POST",
-				url: "http://projetlibre/map/report-comment",
+				url: url + "/report-comment",
 				data: formData,
 				success: function(data){
 					console.log('Success, comment reported');
@@ -144,7 +145,7 @@ function Social () {
 
 		$.ajax({
 				type: "GET",
-				url:"http://projetlibre/map/showcomment",
+				url: url + "/showcomment",
 				data: "postId=" + postId,
 				dataType: "json",
 				success: function(data){
@@ -219,7 +220,7 @@ function Social () {
 		console.log(postId);
 		$.ajax({
 			type: "GET",
-			url: "http://projetlibre/map/getlikes",
+			url: url + "/getlikes",
 			data: "postId=" + postId,
 			dataType: "JSON",
 			success: function(data){
@@ -240,7 +241,7 @@ function Social () {
 		
 		$.ajax({
 				type: "POST",
-				url: "http://projetlibre/map/like",
+				url: url + "/like",
 				data: formData,
 				success: function(data){
 					console.log('Success, image liked');
@@ -261,7 +262,7 @@ function Social () {
 		
 		$.ajax({
 				type: "POST",
-				url: "http://projetlibre/map/unlike",
+				url: url + "/unlike",
 				data: formData,
 				success: function(data){
 					console.log('Success, image unliked');
@@ -291,7 +292,7 @@ function Social () {
 		console.log(formData);
 		$.ajax({
 				type: "POST",
-				url: "http://projetlibre/map/report",
+				url: url + "/report",
 				data: formData,
 				success: function(data){	
 					console.log('Success, image reported');
