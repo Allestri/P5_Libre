@@ -142,7 +142,7 @@ function profileComponents(){
 
 		return $.ajax({
 			type:"POST",
-			url: "http://projetlibre/getids",
+			url: "http://projetlibre/profile/getids",
 			dataType: "JSON",
 			data: {filename : filename[1]}
 		});
@@ -168,7 +168,7 @@ function profileComponents(){
 			
 			$.ajax({
 				type: "POST",
-				url: projectUrl + "/profile/deletecomment",
+				url: projectUrl + "/deletecomment",
 				data: formData,
 				success: function(data){
 					console.log('Success, comment deleted');

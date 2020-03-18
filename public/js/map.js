@@ -6,6 +6,7 @@ function displayMap()
 	var gmap = null;
 	var markers = [];
 	var infoWindow = null;
+	var url = "http://projetlibre/map";
 	
 	
 	this.initialization = function() {
@@ -19,7 +20,7 @@ function displayMap()
 	this.getPoints = function(refresh = false) {
 		$.ajax({
 	        type: "GET",
-	        url: "http://projetlibre/map/api",
+	        url: url + "/api",
 	        dataType: "json",
 	        success: (data)=> {
 	        	console.log(data);
@@ -138,7 +139,7 @@ function displayMap()
 		console.log(markerId);
 		$.ajax({
 			type: "GET",
-	        url: "http://projetlibre/map/infos",
+	        url: url + "/infos",
 	        data: "id=" + markerId,
 	        dataType: "JSON",
 	        success: (data)=> {
@@ -178,7 +179,7 @@ function displayMap()
 		console.log(filename);
 		return $.ajax({
 			type:"POST",
-			url: "http://projetlibre/map/getid",
+			url: url + "/getid",
 			data: {filename : filename[1]}
 		});
 		

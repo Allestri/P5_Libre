@@ -73,7 +73,7 @@ class ContentController extends Controller
          echo json_encode($idNbr);
      }
      
-     // Retrieve post & image unique Ids with unique filename.
+     // Retrieve post & image unique Ids with unique filename - used in Profile Page
      public function retrieveIds($request, $response)
      {
          $datas = $request->getParsedBody();

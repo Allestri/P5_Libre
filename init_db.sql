@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 12 fév. 2020 à 00:54
+-- Généré le :  mer. 18 mars 2020 à 03:27
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -91,7 +91,6 @@ CREATE TABLE IF NOT EXISTS `images` (
   `upload_date` datetime NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `groupimg_id` int(11) NOT NULL DEFAULT '0',
-  `privacy` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `group_img` (`groupimg_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -109,6 +108,16 @@ CREATE TABLE IF NOT EXISTS `images_groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `images_groups`
+--
+
+INSERT INTO `images_groups` (`id`, `label`) VALUES
+(1, 'Drone'),
+(2, 'DLSR'),
+(3, 'Smartphone'),
+(4, 'Other');
+
 -- --------------------------------------------------------
 
 --
@@ -120,8 +129,9 @@ CREATE TABLE IF NOT EXISTS `likes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `post_id` (`post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -193,7 +203,6 @@ CREATE TABLE IF NOT EXISTS `members` (
   `email` varchar(255) NOT NULL DEFAULT 'email@default.com',
   `custom_avatar` tinyint(4) NOT NULL DEFAULT '0',
   `group_id` tinyint(4) NOT NULL,
-  `ip_address` varchar(50) DEFAULT NULL,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_members_to_members_groups` (`group_id`)
@@ -211,6 +220,15 @@ CREATE TABLE IF NOT EXISTS `members_groups` (
   `label` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `members_groups`
+--
+
+INSERT INTO `members_groups` (`id`, `label`) VALUES
+(1, 'Administrateur'),
+(2, 'Moderateur'),
+(3, 'Membre');
 
 -- --------------------------------------------------------
 
@@ -272,6 +290,15 @@ CREATE TABLE IF NOT EXISTS `privacy_categories` (
   `private_label` varchar(255) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `privacy_categories`
+--
+
+INSERT INTO `privacy_categories` (`id`, `private_label`) VALUES
+(0, 'Public'),
+(1, 'Friends'),
+(2, 'User_only');
 
 --
 -- Contraintes pour les tables déchargées

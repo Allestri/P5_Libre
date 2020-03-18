@@ -1,25 +1,6 @@
 /* Image Viewer */
 
 
-var self = this;
-
-
-// Hiding overlay
-
-
-
-/* Exit image viewer */
-
-
-
-
-$('.icon-exit-full').click(function() {
-	$('#myphoto-wrapper').hide();
-});
-
-
-
-
 /*
 // Sets post & image unique IDs values on form inputs
 function setValues(data, status, object){
@@ -46,17 +27,5 @@ function setValues(data, status, object){
 // CRUD
 
 
-// Sets the unique ID value on inputs - !!! possible duplication w setValues on map.js
-function setIdPhoto(){
-	
-	var id = data;
-	console.log(id);
-	
-	var elements = $(".imgId");
-	elements.val(id);
-	console.log(elements);
-	
-	
-};
 
 

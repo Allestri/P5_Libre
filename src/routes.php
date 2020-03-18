@@ -37,7 +37,7 @@ return function (App $app) {
     $app->post('/map/deletecomment', \App\Controllers\ContentController:: class . ':deleteComment');
     
     $app->post('/map/getid', \App\Controllers\ContentController:: class . ':retrievePostId');
-    $app->post('/getids', \App\Controllers\ContentController:: class . ':retrieveIds');
+    //$app->post('/getids', \App\Controllers\ContentController:: class . ':retrieveIds');
     $app->post('/getId', \App\Controllers\ImagesController:: class . ':retrieveImageId');
       
     $app->get('/map/api', \App\Controllers\ImagesController:: class . ':fetchMarkersRest');
@@ -54,6 +54,7 @@ return function (App $app) {
     // Espace membre
     $app->get('/profile', \App\Controllers\MembersController:: class . ':displayProfile')->setName('profile');
     //$app->get('/profile/myimgs', \App\Controllers\ImagesController:: class . ':getMyPhotos');
+    $app->post('/profile/getids', \App\Controllers\ContentController:: class . ':retrieveIds');
     $app->get('/profile/getcomments', \App\Controllers\ContentController:: class . ':getMyComments');
     
     $app->post('/profile/deleteimg', \App\Controllers\ContentController:: class . ':deletePost');

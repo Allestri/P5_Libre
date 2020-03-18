@@ -139,7 +139,7 @@ function admin() {
 					data: datas,
 					success: function(data){
 						console.log('Success, photo deleted');
-						$("#reports-posts-duo").load(pUrl + "#reports-posts-duo>*");
+						$("#reports-posts-duo").load(pUrl + " #reports-posts-duo>*");
 					},
 					error: function(result, status, error){
 						console.log('Error on photo deletion');
@@ -158,7 +158,7 @@ function admin() {
 	
 	this.refreshDom = function() {
 		
-		$("#reported-comments-wrapper").load(pUrl + "#reported-comments-wrapper>*");
+		$("#reported-comments-wrapper").load(pUrl + " #reported-comments-wrapper>*");
 		
 	};
 	
@@ -175,7 +175,7 @@ function admin() {
 				
 				$.ajax({
 					type: "POST",
-					url:"http://projetlibre/admin/delete/comment",
+					url: pUrl + "/delete/comment",
 					data: datas,
 					success: function(data){
 						console.log('Success, comment deleted');
@@ -207,7 +207,7 @@ function admin() {
 			
 			$.ajax({
 				type: "POST",
-				url: "http://projetlibre/admin/getreport",
+				url: pUrl + "/getreport",
 				data: imgId,
 				dataType: "JSON",
 				success: function(data){
@@ -291,7 +291,7 @@ function admin() {
 			
 			$.ajax({
 				type: "GET",
-				url: "http://projetlibre/admin/clear",
+				url: pUrl + "/clear",
 				data: formData,
 				success: function(data){
 					console.log('Success, reports cleared');

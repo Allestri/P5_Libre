@@ -214,8 +214,8 @@ class ImagesController extends ContentController
             //$hasExif = $this->exifReady($filename, $directory);
             //var_dump($hasExif);
             
-            // Insert info data ( height, width, privacy .. )
-            $imageModel->addInfos($filename, $picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user, $groupImg, $privacy);
+            // Insert info data ( height, width .. )
+            $imageModel->addInfos($filename, $picInfos['height'], $picInfos['width'], $picInfos['size'], $picInfos['type'], $user, $groupImg);
             
             // Fetch the file's unique ID
             $imageId = $imageModel->linkId();

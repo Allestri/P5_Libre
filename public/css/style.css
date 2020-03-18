@@ -1,11 +1,6 @@
 /* CSS */
 
 
-/* 
-==========================
-Fonts
-==========================
-*/
 html, body
 {
 	height:100%;
@@ -23,6 +18,12 @@ body.noscroll
 {
 	overflow:hidden;
 }
+
+/* 
+==========================
+Fonts
+==========================
+*/
 
 @font-face
 {
@@ -54,29 +55,6 @@ body.noscroll
 	src:url('../fonts/subscribe/subscribe.ttf') format('truetype');
 }
 
-#main-navbar
-{
-	float:none;
-	background-color:white;
-	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 5px 10px 0 rgba(21,111,170,.25);
-}
-
-.main-navbar-real
-{
-	display:flex;
-	justify-content:space-between;
-}
-
-.navbar
-{
-	z-index:1;
-}
-
-#main-container
-{
-	padding:0;
-	flex:1 0 auto;
-}
 
 [class*="col-"] 
 {
@@ -121,6 +99,31 @@ body.noscroll
 Main Components
 ==========================
 */
+
+
+#main-navbar
+{
+	float:none;
+	background-color:white;
+	box-shadow: 0 1px 1px rgba(97,108,121,.1),0 5px 10px 0 rgba(21,111,170,.25);
+}
+
+.main-navbar-real
+{
+	display:flex;
+	justify-content:space-between;
+}
+
+.navbar
+{
+	z-index:1;
+}
+
+#main-container
+{
+	padding:0;
+	flex:1 0 auto;
+}
 
 
 #footer
@@ -451,18 +454,8 @@ Map Page
 	padding-left:15px;
 }
 
-.info-toggle-old
-{
-	position:absolute;
-	border-radius:20%;
-	color:white;
-	font-size:1.4em;
-	background-color:#686868;
-	cursor: pointer;
-	z-index:1;
-}
 
-/* Newer approach info button inside map */
+/* info button inside map */
 .info-toggle
 {
 	position:absolute;
@@ -607,7 +600,7 @@ Forms
 
 #inscription-form-wrapper
 {
-	padding: 30px 55px 30px;
+	padding: 30px 55px 40px;
 	background-color:white;
 	margin:auto;
 	border-bottom-right-radius: 10px;
@@ -1491,12 +1484,6 @@ Members Page
 	align-items:center;
 }
 
-#sort-select
-{
-	width:150px;
-}
-
-
 
 .memberlist-btn
 {
@@ -2095,24 +2082,6 @@ Profile Page
 ==========================
 */
 
-#overlay {
-  position: fixed;
-  display: none;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 5;
-  overflow:hidden;
-}
-
-.overlay-profile 
-{
-  position: fixed;
-}
 
 .photo-infocard
 {

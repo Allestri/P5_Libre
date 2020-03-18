@@ -72,7 +72,7 @@ $('#home-image').on('load', function(){
 });
 */
 
-
+var url = "http://projetlibre/";
 
 
 // Upload form buttons
@@ -176,7 +176,7 @@ $('#test-form').submit(function(e){
 	
 	$.ajax({
 		type: "POST",
-		url: "http://projetlibre/testexif",
+		url: url + "/testexif",
 		data:  new FormData(this),
 		dataType: "JSON",
 		contentType: false,

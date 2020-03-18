@@ -116,7 +116,7 @@ function Social () {
 			e.preventDefault();
 			
 			var formData = $(this).serialize();
-
+			let formElt = $(this);
 			$.ajax({
 				type: "POST",
 				url: url + "/report-comment",
@@ -125,7 +125,8 @@ function Social () {
 					console.log('Success, comment reported');
 					//self.removeListeners();
 					// Update report form.
-					
+					formElt.replaceWith("<small>Contenus signalé</small>");
+					$.notify('Vous avez bien signalé un commentaire', 'success');
 				},
 				error: function(result, status, error){
 					console.log('error ' . status);
@@ -217,14 +218,12 @@ function Social () {
 	
 	this.refreshLikes = function(postId) {
 		
-		console.log(postId);
 		$.ajax({
 			type: "GET",
 			url: url + "/getlikes",
 			data: "postId=" + postId,
 			dataType: "JSON",
 			success: function(data){
-				console.log(data);
 				$('.likes-count').text(data.likes);
 			},
 			error: function(result, status, error){
@@ -246,7 +245,6 @@ function Social () {
 				success: function(data){
 					console.log('Success, image liked');
 					self.refreshLikes(postId);
-					console.log(postId);
 					$.notify('Liked', 'success');
 				},
 				error: function(result, status, error){
@@ -282,6 +280,7 @@ function Social () {
 		$('.report').click(function(e){
 			e.preventDefault();
 			$('.report').toggleClass('disabled', 1000);
+			$('.report').attr('disabled', true);
 			self.reportPost();
 		});
 	};
@@ -296,6 +295,7 @@ function Social () {
 				data: formData,
 				success: function(data){	
 					console.log('Success, image reported');
+					$.notify('Vous avez signalé ce contenus', 'success');
 				},
 				error: function(result, status, error){
 					console.log('error on reporting image');

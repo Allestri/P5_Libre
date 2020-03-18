@@ -145,11 +145,11 @@
                                 	<p>Vous n'avez pas encore publié de photos !</p>
                                 {% else %}
                                 	<div class="row position-relative">
-                                	<div id="loading" class="col-lg-12">
-                                   		<div class="spinner-profile" role="status">
-  											<span class="sr-only">Loading...</span>
-										</div>
-                               		</div>
+                                    	<div id="loading" class="col-lg-12">
+                                       		<div class="spinner-profile" role="status">
+      											<span class="sr-only">Loading...</span>
+    										</div>
+                                   		</div>
                                 {% for images in myimages %}
                                 		<div class="col-md-6 mb-2 pr-lg-1">
                                 			<div class="image-profile-wrapper">
@@ -353,70 +353,6 @@
             </div>
             -->
         </div>
-    </div>
-</div>
-
-
-<!-- Image Overlay -->
-<div id="overlay" class="overlay-profile">
-    <div class="row">
-    	<div id="profile-content-wrapper" class="col-lg-7 mx-auto">
-    		<div id="profile-content-header">
-    			<span class="myimgs-icon">
-    				<i class="fas fa-images"></i>
-    			</span>
-    			<h2 class="myimages-title">Mes Photos</h2>
-    			<span id="exit-large-vw" class="icon-exit">
-    				<i class="fas fa-times"></i>
-    			</span>
-    		</div>
-    		<div id="profile-images-wrapper" class="d-flex justify-content-around flex-row flex-wrap">
-    		</div>
-    		<!--  
-    		<div id="image-navigation">
-    			<nav aria-label="navigation images">
-                  <ul class="pagination">
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
-               </nav>
-    		</div>
-    		-->
-    		<div id="myphoto-wrapper" class="col-lg-12 mx-auto">
-    			<span class="icon-exit-full">
-    				<i class="fas fa-times"></i>
-    			</span>
-    			<div id="myphoto-panel" class="d-flex align-items-center justify-content-around">
-    				<form id="delete" method="POST" action="profile/deleteimg">
-    					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
-    					<input type="hidden" class="postId" name="postId" value="1" />
-    					<input type="hidden" id="filename" class="filename" name="filename" value="placeholder" />
-    					<button class="btn btn-secondary comment" id="delete-btn">
-    					<i class='fas fa-trash-alt'></i>
-    					Supprimer la photo
-    					</button>
-    				</form>
-    				<form id="editImg" method="POST" action="profile/getpost">
-    					<input type="hidden" id="postId" class="postId" name="postId" value="86" />
-    					<button class="btn btn-secondary comment" id="edit-post-btn">
-    					<i class='fas fa-edit'></i>
-    					Editer la photo
-    					</button>
-    				</form>
-    			</div>
-    		</div>
-    	</div>
     </div>
 </div>
 
