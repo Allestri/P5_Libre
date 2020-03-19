@@ -117,6 +117,10 @@ function Social () {
 			
 			var formData = $(this).serialize();
 			let formElt = $(this);
+
+			let options = formElt.closest('div.comment-options');
+			//let toolTip = "data-toggle='tooltip' data-placement='bottom' title='Ce commentaire a déjà été signalé'";			
+			
 			$.ajax({
 				type: "POST",
 				url: url + "/report-comment",
@@ -125,13 +129,15 @@ function Social () {
 					console.log('Success, comment reported');
 					//self.removeListeners();
 					// Update report form.
-					formElt.replaceWith("<small>Contenus signalé</small>");
+					options.html("<i class='far fa-flag'></i>");
+					options.attr('title', 'Ce commentaire a été signalé');
 					$.notify('Vous avez bien signalé un commentaire', 'success');
 				},
 				error: function(result, status, error){
 					console.log('error ' . status);
 				}
 			});
+			
 			
 		}));
 	};

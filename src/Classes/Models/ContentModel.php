@@ -77,7 +77,7 @@ Class ContentModel extends Model
     // Get comments from a marker from Map
     public function getCommentsNew($markerId)
     {
-        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, UNIX_TIMESTAMP(comments.com_date) as com_date
+        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, comments.reported, UNIX_TIMESTAMP(comments.com_date) as com_date
                 FROM comments
                 INNER JOIN members
                     ON comments.author_id = members.id
@@ -95,7 +95,7 @@ Class ContentModel extends Model
     // Get comments refreshed
     public function getComments($postId)
     {
-        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, UNIX_TIMESTAMP(comments.com_date) as com_date
+        $sql = "SELECT comments.id, members.name, avatars.avatar_file, comments.content, comments.reported, UNIX_TIMESTAMP(comments.com_date) as com_date
                 FROM comments 
                 INNER JOIN members
 	               ON comments.author_id = members.id
