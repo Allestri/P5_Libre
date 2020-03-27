@@ -287,7 +287,7 @@ function profileComponents(){
 		}
 		document.getElementById('profile-img-nbr').innerHTML = photosNbr;
 		
-		$("#np-photos-tab").load(projectUrl + "#np-photos-tab>*");
+		$("#np-photos-tab").load(projectUrl + " #np-photos-tab>*");
 	};	
 	
 		

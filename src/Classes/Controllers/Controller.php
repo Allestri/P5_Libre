@@ -24,12 +24,15 @@ class Controller
         return $response->withStatus(302)->withHeader('Location', $this->container->router->pathFor($name));
     }
     
-    public function flash($message, $type ='success')
+    public function flash($message, $type ='success', $isImportant = null)
     {
         if(!isset($_SESSION['flash'])){
             $_SESSION['flash'] = [];
         }
-        return $_SESSION['flash'][$type] = $message;
+        return $_SESSION['flash'] = [      
+            "$type" => $message,
+            "isImportant" => $isImportant,
+        ];
     }
     
     public function flashAjax($message, $type ='success', $input = null)

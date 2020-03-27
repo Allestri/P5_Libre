@@ -25,7 +25,7 @@ class AdminModel extends Model
     
     public function getReportsComments()
     {
-        $sql = "SELECT comments.id, author_id, content, com_date, members.name, avatars.avatar_file
+        $sql = "SELECT comments.id, author_id, content, DATE_FORMAT(com_date, '%d/%m/%Y à %Hh%imin') as com_date, members.name, avatars.avatar_file
                 FROM comments
                 INNER JOIN members
                     ON comments.author_id = members.id

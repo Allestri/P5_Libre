@@ -4,7 +4,7 @@
 	
 	<div id="flash-container">
     	{% if flash.success %}
-    	<div class="alert alert-success alert-dismissible fade show">
+    	<div class="alert alert-success {% if not flash.isImportant %}alert-dismissible{% endif %} fade show">
     		{{ flash.success }}
     		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
         		<span aria-hidden="true">&times;</span>

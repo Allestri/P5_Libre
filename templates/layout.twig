@@ -42,7 +42,7 @@
             	{% if not member %}
             		<div class="io-wrapper">
                 		<a href="{{ path_for('inscription') }}" class="btn login-pill" >S'inscrire</a>
-                		<button type="button" class="btn login-pill" data-toggle="modal" title="Se connecter" data-target="#login-modal"><i class="fas fa-sign-in-alt"></i></button>
+                		<button type="button" id="login-form-btn" class="btn login-pill" data-toggle="modal" title="Se connecter" data-target="#login-modal"><i class="fas fa-sign-in-alt"></i></button>
             		</div>
             	    {% else %}
         

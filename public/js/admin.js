@@ -249,8 +249,18 @@ function admin() {
 			
 			e.preventDefault();
 			
+			// Get event content
+			var button = $(this);
+    		var comment = button.closest('.card');
+    		
+    		// Data attributes
+    		let commentId = comment.attr("data-id");
+
+    		console.log(comment);
+    		console.log(button);
+			
 			var commentContent = $(this).parent().parent().parent().find('.comment-content').text();
-			var commentId = $(this).parent().parent().parent().find('.comment-id').text();
+			//var commentId = $(this).parent().parent().parent().find('.comment-id').text();
 			
 			//var commentContent = $(this).parents('.card-body');
 			var test = $('.card-body').find('.comment-content');
@@ -280,7 +290,6 @@ function admin() {
 			$('#edit-comment-collapse').collapse('hide');
 			
 		});
-		
 	};
 			
 			

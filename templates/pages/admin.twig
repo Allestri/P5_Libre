@@ -356,23 +356,21 @@
                                 		</div>
                                         	{% for comment in reportedComments %}
                                         	<div class="col-md-5">
-                                        		<div class="card reported-comment">
+                                        		<div class="card reported-comment" data-id={{ comment.id }}>
                                         			<div class="com-logs-header">
                                         				{% if comment.avatar_file == NULL %}
                                                 		<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ author.id }} avatar" height="60" width="auto">
                                                 	    {% else %}
-                                                		<img src="uploads/avatar/{{ comment.name }}/{{ comment.avatar_file }}" alt="{{ author.id }} avatar" height="60" width="auto">
+                                                		<img src="uploads/avatar/{{ comment.name }}/{{ comment.avatar_file }}" class="rounded" alt="{{ author.id }} avatar" height="60" width="auto">
                                                 	    {% endif %}
                                                 	    <div class="com-logs-meta">
                                                     	    <h4>{{ comment.name }}</h4>
-                                                    	    <p><i class="far fa-clock"></i>{{ comment.com_date }}</p>
+                                                    	    <p><i class="far fa-clock mr-1"></i>{{ comment.com_date }}</p>
                                                 	    </div>
                                                 	    <a class="btn square com-logs-clear" href="admin/clear-reports/comment?commentId={{ comment.id }}" title="Vider signalement"><i class="fas fa-check"></i></a>
                                         			</div>
                                         			            			
                                                 	<div class='card-body'>
-                                                		<span class="comment-id">{{ comment.id }}</span>
-                                                		
                                                     	<p class='card-text comment-content'>{{ comment.content }}</p>
                                                 	</div>
                                                 	<div class="card-footer d-flex justify-content-around">

@@ -54,15 +54,15 @@ class MembersController extends Controller
                 // Avatar(personal) folder creation
                 $directory = $this->container->get('uploaded_directory');
                 mkdir($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $username);
-                
-                $this->flash('Inscription effectuée ! Bienvenue');
+                $this->flash('Inscription effectuée ! Vous pouvez dès à présent vous connecter', 'success', 'important');
+                return $this->redirect($response, 'home');
             } else {
                 $this->flash('Mauvaise combinaison de mot de passe', 'warning');
                 return $this->redirect($response, 'inscription');
             }
         }
         
-        return $this->redirect($response, 'profile');
+        
     }
     
     
