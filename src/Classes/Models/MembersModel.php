@@ -186,7 +186,7 @@ class MembersModel extends Model
         $sql = "SELECT members.id, members.name, avatars.avatar_file
                 FROM members
                 INNER JOIN friendship
-                    ON members.id = friendship.friend_b
+                    ON members.id = friendship.friend_a OR members.id = friendship.friend_b
                 LEFT OUTER JOIN avatars
                     ON members.id = avatars.user_id
                     AND avatars.active = 1

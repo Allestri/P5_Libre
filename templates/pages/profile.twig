@@ -98,43 +98,50 @@
                                 
                                 
                                 <!-- Tab Edit Post -->
-                                <div id="tab-edit-img" class="tab-pane fade show active px-4" role="tabpanel">
-									<div id="edit-form-header">
-										<h2>Editer mon post</h2>
-										<span id="exit-edit">
-											<i class="fas fa-times"></i>
-										</span>
-									</div>
-									<div id="edit-form-body">
-                                    	<form method="POST" action="profile/editpost" id="edit-img-form">
-                                    		<div class="form-group">
-                                                <label for="titre">Titre du post</label><br />
-                                                <input type="text" class="form-control" name="name" placeholder="Titre du Post" id="name"/>
-                                                <span class="text-info">Le nom de votre photo sera visible par les autres utilisateurs.</span>
-                                       	 	</div>
-                                       	 	<div class="form-group">
-                                            	<textarea class="form-control" rows="2" name="description" id="description" required></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                            	<label for="privacy0">Confidentialité de la photo</label><br>
-                                                <div class="form-check form-check-inline">
-                                                	<input class="form-check-input" type="radio" name="privacy" id="privacy0"value="0" checked>
-                                                	<label class="form-check-label" for="privacy0">Publique</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                	<input class="form-check-input" type="radio" name="privacy" id="privacy1"value="1">
-                                                	<label class="form-check-label" for="privacy1">Mes amis</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                	<input class="form-check-input" type="radio" name="privacy" id="privacy2"value="2">
-                                                	<label class="form-check-label" for="privacy2">Privée</label>
-                                                </div>
-                                            </div>
-                                    		<input type="hidden" id="postId" name="postId" value="81"/>
-                                    		<input type="submit" class="btn btn-primary" name="submit" value="Modifier mon Post" />
-                                    	</form>
-                                    	<div id="edit-img-preview"></div>
-                                	</div>
+                                <div class="tab-content">
+                                    <div id="tab-edit-img" class="tab-pane fade px-4" role="tabpanel">
+                                        <div class="row">                                         
+        									<div id="edit-form-header" class="col-md-12">
+        										<h2>Editer mon post</h2>
+        										<span id="exit-edit">
+        											<i class="fas fa-times"></i>
+        										</span>
+        									</div>
+        									<div id="edit-form-body" class="col-md-6">
+                                            	<form method="POST" action="profile/editpost" id="edit-img-form">
+                                            		<div class="form-group">
+                                                        <label for="titre">Titre du post</label><br />
+                                                        <input type="text" class="form-control" name="name" placeholder="Titre du Post" id="name"/>
+                                                        <span class="text-info">Le nom de votre photo sera visible par les autres utilisateurs.</span>
+                                               	 	</div>
+                                               	 	<div class="form-group">
+                                                    	<textarea class="form-control" rows="2" name="description" id="description" required></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                    	<label for="privacy0">Confidentialité de la photo</label><br>
+                                                        <div class="form-check form-check-inline">
+                                                        	<input class="form-check-input" type="radio" name="privacy" id="privacy0"value="0" checked>
+                                                        	<label class="form-check-label" for="privacy0">Publique</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                        	<input class="form-check-input" type="radio" name="privacy" id="privacy1"value="1">
+                                                        	<label class="form-check-label" for="privacy1">Mes amis</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                        	<input class="form-check-input" type="radio" name="privacy" id="privacy2"value="2">
+                                                        	<label class="form-check-label" for="privacy2">Privée</label>
+                                                        </div>
+                                                    </div>
+                                            		<input type="hidden" id="postId" name="postId" value="81"/>
+                                            		<input type="submit" class="btn btn-primary" name="submit" value="Modifier mon Post" />
+                                            	</form>
+                                        	</div>
+                                        	<div class="col-md-6">
+                                        		<img id="edit-img-preview" class="img-fluid rounded" src="" />
+                                        	</div>
+                                    	</div>
+                                    	<hr>
+                                    </div>
                                 </div>
                         
                                 <div class="py-4 px-4">
@@ -176,16 +183,11 @@
                                    					<p class='card-text'>{{ comment.content }}</p>
                                    				</div>
             									<div class='comment-options'>
-            										<i class='fa fa-cog'></i>
-            										<ul class='options-menu'>
-                										<li>
-            	        									<form class='deleteComment' method='POST' action='profile/deletecomment' >
-                	        									<input type='hidden' name='commentId' value={{ comment.id }} />
-                	        									<input type='hidden' name='uid' value={{ member }} />
-                	        									<button class='delete-comment-btn'>Supprimer</button>
-            	        									</form>
-        	        									</li>
-            										</ul>
+    	        									<form class='deleteComment' method='POST' action='profile/deletecomment' >
+        	        									<input type='hidden' name='commentId' value={{ comment.id }} />
+        	        									<input type='hidden' name='uid' value={{ member }} />
+        	        									<button class='btn btn-secondary' title="Supprimer commentaire"><i class="fas fa-trash"></i></button>
+    	        									</form>
             									</div>
     	        							</div>
                                    	{% endfor %}
@@ -215,6 +217,7 @@
                      	</div>
                         
                      </div>
+                     <!-- Profile Settings -->
                      <div class="py-4 px-4 tab-pane fade" role="tabpanel" id="tab-profile-settings">
                         <form method="POST" action="/settings" class="form" id="PLACEHOLDER" enctype="multipart/form-data">
                         	<h3>Modifier mes informations</h3>
@@ -292,16 +295,16 @@
             <div class="modal-footer d-flex flex-row justify-content-between">
             	<div class="d-flex flex-row justify-content-between">
                 	<div id="comments" class="mr-2">
-                		<i class="far fa-comments"></i>
+                		<i class="far fa-comments text-muted"></i>
                 		<span id="comments-count" class="text-muted"></span>
                 	</div>
                 	<div id="liked">
-                		<i class="far fa-heart"></i>
+                		<i class="far fa-heart text-muted"></i>
                 		<span id="liked-count" class="text-muted"></span>
                 	</div>
             	</div>
-            	<div class="privacy">
-            		<p class="text-muted"><i class="fas fa-users mr-1"></i>Qui peut voir ma photo ?</p>
+            	<div class="d-flex flex-row align-items-center" data-toggle="tooltip" data-placement="top" title="Confidentialité de la photo">
+            		<i class="fas fa-users text-muted mr-1"></i><p class="privacy text-muted">Qui peut voir ma photo ?</p>
             	</div>
             	<div class="d-flex flex-row justify-content-between">
                 	<form id="editImg" class="mr-2" method="POST" action="profile/getpost">
@@ -310,13 +313,16 @@
     						<i class='fas fa-edit'></i>
     					</button>
         			</form>
-        			<form id="delete" method="POST" action="profile/deleteimg">
+        			<form id="delete" class="mr-2" method="POST" action="profile/deleteimg">
     					<input type="hidden" id="imgId" class="imgId" name="imgId" value="23" />
     					<input type="hidden" class="postId" name="postId" value="1" />
     					<button class="btn btn-light modal-btn" id="delete-btn" title="Supprimer mon post">
     						<i class='fas fa-trash-alt'></i>
     					</button>
         			</form>
+        			<button class="btn btn-light modal-btn flipchev" title="Plus d'informations">
+        				<i class="fas fa-chevron-down"></i>
+        			</button>
     			</div>
             </div>
             <!-- 

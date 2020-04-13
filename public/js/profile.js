@@ -83,11 +83,11 @@ function profileComponents(){
 	this.setPrivacy = function(privacy) {
 		
 		if (privacy == 1) {
-			$('.privacy').html("<p class='text-muted'>Mes amis seulement</p>");
+			$('.privacy').html("<p class='text-muted'>Mes amis</p>");
 		} else if (privacy == 2) {
-			$('.privacy').html("<p class='text-muted'>Photo Privée</p>");
+			$('.privacy').html("<p class='text-muted'>Privée</p>");
 		} else {
-			$('.privacy').html("<p class='text-muted'>Photo publique</p>");
+			$('.privacy').html("<p class='text-muted'>Publique</p>");
 		}
 		
 		
@@ -128,11 +128,14 @@ function profileComponents(){
 		
 		// Setup form listeners
 		self.deletePost(imageDom, filename[1]);
-		self.setEditForm();
+		self.setEditForm(filepath);
 		
 		
 		// Show photo overlay.
 		$('#modal-grid').modal('show');
+		
+		// Sets more infos event listener
+		this.flipChevron();
 							
 	};
 	
@@ -227,13 +230,14 @@ function profileComponents(){
 	};
 	
 	
-	this.setEditForm = function() {
+	this.setEditForm = function(file) {
 		
 		$('#edit-post-btn').click(function(e) {
 			
 			e.preventDefault();
 			var postId = $(this).parent().serialize();
 			
+			console.log(file);
 			$.ajax({
 				type: "POST",
 				url: projectUrl + "/getpost",
@@ -241,9 +245,9 @@ function profileComponents(){
 				dataType: "JSON",
 				success: function(data){
 					console.log('Success, data recovered');
-					self.setValuesProfileEdit(data);
+					self.setValuesProfileEdit(data, file);
 					// Hides overlay and toggle form tab
-					console.log(data);
+
 				    self.setEditInterface();
 				},
 				error: function(result, status, error){
@@ -339,6 +343,15 @@ function profileComponents(){
 			
 	};
 	
+	this.setEditInterface = function(){
+		
+		$('#modal-grid').modal('toggle');
+		$('#tab-edit-img').tab('show');
+		
+		// Set close event listener
+		this.closeEditForm();
+	};
+	
 	// Sets post & image unique IDs values on form inputs
 	this.setValues = function(data, status, object){
 		
@@ -385,24 +398,20 @@ function profileComponents(){
 	};
 					
 
-	this.setEditInterface = function(){
-		$('#modal-grid').modal('toggle');
-		//$('#myphoto-wrapper').hide();
-		$('#tab-edit-img').addClass('show-edit');
-		
-		// Set close event listener
-		this.closeEditForm();
-	};
+	
 
 	
 	// Sets data on Edit Form
-	this.setValuesProfileEdit = function(data){
+	this.setValuesProfileEdit = function(data, file){
 		
+		
+		var thumbnail = file;
 		var postId = data.id;
 		var title = data.name;
 		var description = data.content;
 		var privacy = data.privacy;
 		
+		$('#edit-img-preview').attr('src', thumbnail);
 		$('#edit-imgId').val(imgId);
 		$('#name').val(title);
 		$('#description').val(description);
@@ -415,11 +424,22 @@ function profileComponents(){
 		
 		$('#exit-edit').on('click', function() {
 			
-			$('#tab-edit-img').removeClass('show-edit');
+			$('#tab-edit-img').removeClass('active');
 			
 		});
 		
-	};	
+	};
+	
+	this.flipChevron = function() {
+		
+		$('.flipchev').click(function() {
+			console.log('bonjour');
+			$(this).toggleClass('flipchev-flipped');
+		});
+		
+	};
+	
+	
 		
 	
 	
@@ -466,6 +486,8 @@ function profileComponents(){
 	
 }
 
+
+// To be fixed soon !
 $(window).on('load', function() {
 	  $('#loading').addClass('loaded');
 });

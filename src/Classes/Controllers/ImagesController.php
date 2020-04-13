@@ -381,9 +381,13 @@ class ImagesController extends ContentController
         
         $directory = $this->container->get('uploaded_directory');
         $uploadedFile = $request->getUploadedFiles();
-        
+
+        // Todo : gets an error when the file is too heavy(php.ini) and display it accordingly 
+        $error = $uploadedFile->getError();
+        //var_dump($error);
         // Single file upload /*
         $uploadedFile = $uploadedFile['myimage'];
+        
         $filename = $this->moveUpLoadedFile($directory, $uploadedFile);
         
         $path = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename;

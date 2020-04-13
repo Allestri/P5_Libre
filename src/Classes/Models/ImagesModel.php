@@ -66,7 +66,7 @@ Class ImagesModel extends Model
                         ON posts.user_id = members.id
                     LEFT OUTER JOIN comments
                         ON posts.id = comments.post_id
-                WHERE posts.user_id = 6
+                WHERE posts.user_id = ?
                 GROUP BY posts.id";
         $dataImages = $this->executeQuery($sql, array($uid));
         return $dataImages->fetchAll();

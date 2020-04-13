@@ -206,6 +206,23 @@ Main Components
 {
 	border-bottom: 4px solid aqua;
 }
+/*
+	Buttons & Navigations
+*/
+
+/* flip-chevron */
+
+.flipchev
+{     
+   transition: transform 350ms ease;
+   border-radius:2rem;
+}
+
+.flipchev-flipped
+{
+	transform: rotate( -180deg );            
+   	transition: transform 350ms ease;
+}
 
 
 /* 
@@ -1979,6 +1996,7 @@ Profile Page
 	background-color: #f2f2f2;
 }
 
+/*--
 #tab-edit-img
 {
 	display:none;
@@ -1992,6 +2010,7 @@ Profile Page
 	opacity:1;
 	flex-direction:column;
 }
+*/
 
 #edit-form-header
 {
@@ -2412,6 +2431,7 @@ Profile Page
 	visibility:visible;
 }
 
+/* To be deleted */
 .delete-comment-btn
 {
 	border:0;

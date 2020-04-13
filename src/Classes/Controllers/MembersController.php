@@ -36,32 +36,34 @@ class MembersController extends Controller
         $password = $userEntries['pwd'];
         $passwordRpt = $userEntries['pwdRpt'];
         
-        //$ip = $_SERVER['REMOTE_ADDR'];
-        
-        if(isset ($username))
+        // 3-checks entries to prevent blank fields. 
+        if(empty ($username) || empty($username) || empty($passwordRpt))
         {
-            // If Username available.
-            $isUnique = $membersModel->checkMemberUnique($username);
-            
-            if(!$isUnique)
-            {
-                $this->flash('Ce pseudonyme n\'est pas disponible', 'warning');
-                return $this->redirect($response, 'inscription');
-            }
-            elseif ($password == $passwordRpt){
-                $rdp = password_hash($password, PASSWORD_DEFAULT);
-                $membersModel->signup($username, $rdp);
-                // Avatar(personal) folder creation
-                $directory = $this->container->get('uploaded_directory');
-                mkdir($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $username);
-                $this->flash('Inscription effectuée ! Vous pouvez dès à présent vous connecter', 'success', 'important');
-                return $this->redirect($response, 'home');
-            } else {
-                $this->flash('Mauvaise combinaison de mot de passe', 'warning');
-                return $this->redirect($response, 'inscription');
-            }
+            $this->flash('Veuillez renseigner tous les champs', 'warning', 'important');
+            return $this->redirect($response, 'inscription');
         }
+        // If Username available.
+        $isUnique = $membersModel->checkMemberUnique($username);
         
+        if(!$isUnique)
+        {
+            $this->flash('Ce pseudonyme n\'est pas disponible', 'warning');
+            return $this->redirect($response, 'inscription');
+        }
+        // Ok
+        elseif ($password == $passwordRpt){
+            $rdp = password_hash($password, PASSWORD_DEFAULT);
+            $membersModel->signup($username, $rdp);
+            // Avatar(personal) folder creation
+            $directory = $this->container->get('uploaded_directory');
+            mkdir($directory . DIRECTORY_SEPARATOR . "avatar" . DIRECTORY_SEPARATOR . $username);
+            $this->flash('Inscription effectuée ! Vous pouvez dès à présent vous connecter', 'success', 'important');
+            return $this->redirect($response, 'home');
+        } else {
+            $this->flash('Mauvaise combinaison de mot de passe', 'warning');
+            return $this->redirect($response, 'inscription');
+        }
+
         
     }
     
@@ -107,12 +109,7 @@ class MembersController extends Controller
         }
            
            
-        return $this->flashAjax('Connexion effectuee');
-           
-       //$this->container->flash->addMessage('Test', 'This is a message');
-       //return $this->redirect($response, 'profile');
-         
-        
+        return $this->flashAjax('Connexion effectuee');                          
     }
     
     
