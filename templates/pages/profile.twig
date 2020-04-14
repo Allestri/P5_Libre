@@ -120,15 +120,15 @@
                                                     <div class="form-group">
                                                     	<label for="privacy0">Confidentialité de la photo</label><br>
                                                         <div class="form-check form-check-inline">
-                                                        	<input class="form-check-input" type="radio" name="privacy" id="privacy0"value="0" checked>
+                                                        	<input class="form-check-input" type="radio" name="privacy" id="privacy0" value="0">
                                                         	<label class="form-check-label" for="privacy0">Publique</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                        	<input class="form-check-input" type="radio" name="privacy" id="privacy1"value="1">
+                                                        	<input class="form-check-input" type="radio" name="privacy" id="privacy1" value="1">
                                                         	<label class="form-check-label" for="privacy1">Mes amis</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                        	<input class="form-check-input" type="radio" name="privacy" id="privacy2"value="2">
+                                                        	<input class="form-check-input" type="radio" name="privacy" id="privacy2" value="2">
                                                         	<label class="form-check-label" for="privacy2">Privée</label>
                                                         </div>
                                                     </div>
@@ -186,7 +186,7 @@
     	        									<form class='deleteComment' method='POST' action='profile/deletecomment' >
         	        									<input type='hidden' name='commentId' value={{ comment.id }} />
         	        									<input type='hidden' name='uid' value={{ member }} />
-        	        									<button class='btn btn-secondary' title="Supprimer commentaire"><i class="fas fa-trash"></i></button>
+        	        									<button class="btn delete-comment-btn" title="Supprimer commentaire"><i class="fas fa-trash"></i></button>
     	        									</form>
             									</div>
     	        							</div>
@@ -219,7 +219,7 @@
                      </div>
                      <!-- Profile Settings -->
                      <div class="py-4 px-4 tab-pane fade" role="tabpanel" id="tab-profile-settings">
-                        <form method="POST" action="/settings" class="form" id="PLACEHOLDER" enctype="multipart/form-data">
+                        <form method="POST" action="/settings" class="form" id="profile-settings" enctype="multipart/form-data">
                         	<h3>Modifier mes informations</h3>
                         	<div class="form-group">
         						<label for="inputEmail">Adresse e-mail</label>
@@ -232,21 +232,20 @@
                         	<div class="form-group">
                         		<input type="password" class="form-control" name="passwordRpt" placeholder="Répeter mot de passe">
                         	</div>
-                        	<!-- <input type="submit" class="btn btn-primary" name="submit" value="Modifier mon profil" /> -->
                         	<h3>Mes Avatars</h3>
                         	<div class="row">
                             	<div class="form-group col-md-6">
                                 	<div class="form-check avatar-form">
                                 		<input class="form-check-input" type="radio" name="avatarId" id="activeAvatar" value="1" checked>
-                                		<label class="form-check-label" for="activeAvatar">Votre avatar actuel</label>
-                                		<img src="{{ avatar }}" width="50" alt="active-avatar">
+                                		<img class="mr-2" src="{{ avatar }}" width="50" alt="active-avatar">
+                                		<label class="form-check-label" for="activeAvatar">Mon avatar actuel</label>
                                 	</div>
                             		{% for key, custom_avatar in inactive_avatars %}
                             		<div class="form-check avatar-form">
                             			<input class="form-check-input" type="radio" name="avatarId" value="{{ custom_avatar.id }}">
-                                		<label class="form-check-label" for="activeAvatar">Avatar {{ key }}</label>
-                                		<img src="uploads/avatar/{{ profile }}/{{ custom_avatar.avatar_file }}" width="50" alt="inactive-avatar">
-                                		<a href="delete?id={{ custom_avatar.id }}&filename={{ custom_avatar.avatar_file }}">Supprimer</a>
+                            			<img class="mr-2" src="uploads/avatar/{{ profile }}/{{ custom_avatar.avatar_file }}" width="50" alt="inactive-avatar">
+                                		<!--  <label class="form-check-label" for="activeAvatar">Avatar {{ key }}</label> -->
+                                		<a href="delete?id={{ custom_avatar.id }}&filename={{ custom_avatar.avatar_file }}" title="Supprimer l'avatar">Supprimer</a>
                             		</div>
                             		{% endfor %}
                         		</div>
@@ -275,11 +274,6 @@
 <div id="modal-grid" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
-        	<!--  
-            <div class="modal-header">
-            	<h5 class="modal-title" id="exampleModalLabel">Placeholder</h5>
-            </div>
-            -->
             <span id="exit-large-vw" class="icon-exit">
             	<i class="fas fa-times"></i>
             </span>

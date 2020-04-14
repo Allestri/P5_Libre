@@ -437,10 +437,10 @@
                     				<p>Membre depuis {{ members.days_timestamp }} jours</p>
                     			</div>
                     			<div class="adm-member-item">
-                    				<i class="fas fa-images mr-1"></i>{{ members.nbrPosts }}
+                    				<i class="fas fa-images mr-1 text-muted"></i>{{ members.nbrPosts }}
                     			</div>
                     			<div class="adm-member-item">
-                    				<i class="fas fa-comments mr-1"></i>{{ members.nbrComments }}
+                    				<i class="fas fa-comments mr-1 text-muted"></i>{{ members.nbrComments }}
                     			</div>
                     		</div>
                 		    {% endfor %}
@@ -628,10 +628,12 @@
                             			</div>
                             			<div class="card-body">
                                         	<p title="Contenus original">{{ logs.old_content }}</p>
+                                        	<!-- Card Collapse -->
                                         	<div class="com-logs-hidden collapse">
                                         		<hr>
                                         		<p class="text-muted text-center">Contenus moderé</h5>
                                         		<p title="Contenus moderé">{{ logs.new_content }}</p>
+                                        		<p class="text-muted text-center"><small><i class="far fa-clock mr-1"></i>Moderé le {{ logs.mod_date }}</small></p>
                                         	</div>
                                     	</div>
                                 	</div>
@@ -693,14 +695,6 @@
             <!-- End main admin tab -->
         </div>
     </div>
-</div>
-
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <p>Bonjour</p>
-    </div>
-  </div>
 </div>
 
 

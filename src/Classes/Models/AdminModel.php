@@ -170,8 +170,8 @@ class AdminModel extends Model
     
     public function getComLogs()
     {
-        $sql = "SELECT logs_com.content as old_content, comments.content as new_content, logs_com.com_date, logs_com.author_id, logs_com.mod_type,
-                members.name, avatars.avatar_file
+        $sql = "SELECT logs_com.content as old_content, comments.content as new_content, DATE_FORMAT(logs_com.com_date, '%d/%m/%Y à %Hh%i') as com_date, logs_com.author_id, logs_com.mod_type,
+                members.name, avatars.avatar_file, DATE_FORMAT(logs_com.mod_date, '%d/%m/%Y à %Hh%i') as mod_date
                 FROM logs_com
                 LEFT JOIN comments
                 	ON logs_com.com_id = comments.id

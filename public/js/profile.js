@@ -415,7 +415,7 @@ function profileComponents(){
 		$('#edit-imgId').val(imgId);
 		$('#name').val(title);
 		$('#description').val(description);
-		$('#privacy').val(privacy);
+		$('#privacy' + privacy).prop('checked', true);
 		
 	};
 	

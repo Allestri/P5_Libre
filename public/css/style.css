@@ -2094,6 +2094,18 @@ Profile Page
 }
 
 
+.del-comment-container
+{
+	position:absolute;
+	top:0.7em;
+	right:0;
+	cursor:pointer;
+	opacity:0;
+	line-height: 1rem;
+	transition: opacity .20s;
+}
+
+
 
 /* 
 ==========================
@@ -2429,13 +2441,6 @@ Profile Page
 {
 	opacity:1;
 	visibility:visible;
-}
-
-/* To be deleted */
-.delete-comment-btn
-{
-	border:0;
-	background-color:white;
 }
 
 .comment-avatar
