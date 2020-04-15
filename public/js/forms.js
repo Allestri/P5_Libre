@@ -121,7 +121,6 @@ function Forms() {
 	// Login validation
 	this.loginValidation = function() {
 		//(!) Code spaghetti, I'm aware of that !
-		console.log('salut');
 		'use strict';
 		window.addEventListener('load', function() {
 			// Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -139,7 +138,7 @@ function Forms() {
 						var formData = $("#login-overlay").serialize();
 						$.ajax({
 							type: "POST",
-							url: "http://projetlibre/login",
+							url: url + "/login",
 							data: formData,
 							dataType: "JSON",
 							success: function(data){
@@ -154,9 +153,9 @@ function Forms() {
 									$('#login-modal').modal('hide');
 			
 									// Code spaghetti, known issue !
-									$("#main-navbar").load("http://projetlibre/ #main-navbar>*");
+									$("#main-navbar").load(url + " #main-navbar>*");
 									
-									$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*", function(response, statusTxt, xhr) {
+									$("#dynamic-layout").load(url + "/map #dynamic-layout>*", function(response, statusTxt, xhr) {
 										if(statusTxt == "success")
 											console.log(response);
 										if(statusTxt == "error")
