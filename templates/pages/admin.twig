@@ -419,31 +419,37 @@
                 			<h3><i class="fas fa-users"></i><span id="member-count"></span> Membres</h3>
                 		</div>
                 		<div id="members-card-wrapper">
-                    		{% for members in membersList %}
-                    		<div class="member-card">
-                    			{% if members.avatar_file == NULL %}
-                    			<div class="avatar-wrapper">
-                            		<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ members.name }} avatar" height="60" width="auto">
-                            	</div>
-                            	{% else %}
-                            	<div class="avatar-wrapper">
-                            		<img src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" alt="{{ members.name }} avatar" height="60" width="auto">
-                            	</div>
-                            	{% endif %}
-                            	<div class="adm-member-item">
-                            		<h4>{{ members.name }}</h4>
-                            	</div>
-                            	<div class="adm-member-item">
-                    				<p>Membre depuis {{ members.days_timestamp }} jours</p>
-                    			</div>
-                    			<div class="adm-member-item">
-                    				<i class="fas fa-images mr-1 text-muted"></i>{{ members.nbrPosts }}
-                    			</div>
-                    			<div class="adm-member-item">
-                    				<i class="fas fa-comments mr-1 text-muted"></i>{{ members.nbrComments }}
-                    			</div>
+                    		<div class="row">
+                        		{% for members in membersList %}
+                        		<div class="col-lg-12 mt-4">
+                            		<div class="card">
+                                		<div class="card-body d-flex flex-row align-items-center">
+                                			{% if members.avatar_file == NULL %}
+                                			<div class="avatar-wrapper">
+                                        		<img src="uploads/avatar/avatar_default.png" class="avatar-mini" alt="{{ members.name }} avatar" height="60" width="auto">
+                                        	</div>
+                                        	{% else %}
+                                        	<div class="avatar-wrapper">
+                                        		<img class="rounded" src="uploads/avatar/{{ members.name }}/{{ members.avatar_file }}" alt="{{ members.name }} avatar" height="60" width="auto">
+                                        	</div>
+                                        	{% endif %}
+                                        	<div class="adm-member-item">
+                                        		<h4>{{ members.name }}</h4>
+                                        	</div>
+                                        	<div class="adm-member-item">
+                                				<p>Membre depuis {{ members.days_timestamp }} jours</p>
+                                			</div>
+                                			<div class="adm-member-item">
+                                				<i class="fas fa-images mr-1 text-muted"></i>{{ members.nbrPosts }}
+                                			</div>
+                                			<div class="adm-member-item">
+                                				<i class="fas fa-comments mr-1 text-muted"></i>{{ members.nbrComments }}
+                                			</div>
+                                		</div>
+                            		</div>
+                        		</div>
+                    		    {% endfor %}
                     		</div>
-                		    {% endfor %}
                 		</div>
                 		<div class="pagination-wrapper">
             			    <nav aria-label="Page navigation">
@@ -483,14 +489,22 @@
             		<!-- Logs Posts -->
             		<div class="tab-content">
         				<div id="logs-posts" class="tab-pane fade show active" role="tabpanel">
-        				       				
-        					{% if not logs %}
+        				       			
+        				    <!-- No post logs at all -->      				    
+        					{% if not logs_del and not logs_edit %}
                     		<div class="alert alert-primary">
                                 <i class="far fa-smile-wink"></i>
-                                <span>Il n'y a pas d'historique de modération</span>
+                                <span>Il n'y a pas d'historique de modération de posts</span>
                             </div>
                         	{% else %}
                         	
+                        	<!-- Edited post logs -->
+                        	{% if not logs_edit %}
+                            	<div class="alert alert-primary">
+                                	<i class="far fa-smile-wink"></i>
+                                	<span>Il n'y a pas d'historique de posts edités</span>
+                            	</div>
+                            {% else %}
         					<div class="adm-tab-header mb-3">
         						<div class="alert alert-secondary">
                             		<i class="fa fa-history" aria-hidden="true"></i>
@@ -502,7 +516,8 @@
     						<!-- Logs Edited -->
                         	<div class="row d-flex justify-content-between">
                         		
-                        		{% for logs in logs %}
+                        		
+                        		{% for logs in logs_edit %}
                         		{% if logs.mod_type == 'M' %}
                             	<div class="col-lg-5 post-log">
                             		<div class="card hoverable">
@@ -533,10 +548,17 @@
                             	</div>
                             	{% endif %}
                             	{% endfor %}
-
+							
                         	</div>
+                        	{% endif %}
                         	<hr>
-                        	<!-- Logs Deleted -->
+                        	<!-- Deleted post logs -->
+                        	{% if not logs_del %}
+                            	<div class="alert alert-primary">
+                                	<i class="far fa-smile-wink"></i>
+                                	<span>Il n'y a pas d'historique de posts supprimés</span>
+                            	</div>
+                            {% else %}
                         	<div class="adm-tab-header mb-3">
         						<div class="alert alert-secondary">
                             		<i class="fa fa-history" aria-hidden="true"></i>
@@ -546,38 +568,41 @@
                             </div>
                         	<div class="row d-flex justify-content-between">
                         	
-                        		{% for logs in logs %}
-                        		{% if logs.mod_type == 'D' %}
-                        		<div class="col-lg-5 post-log">
-                            		<div class="card hoverable">
-                            			{% if logs.filename %}
-                        				<img class="card-img-top" src="uploads/thumbnails/{{ logs.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
-                        				{% else %}
-                        				<img class="card-img-top" src="images/placeholder.png" alt="" class="img-fluid image-profile rounded shadow-sm">
-                        				{% endif %}
-                        				<div class="card-body">
-                                    		<div class="logs-header d-flex align-items-center">
-                                    			<h4 class="mb-0" title="titre original">{{ logs.old_name }}</h4>
-                                    			<span class="logs-date"><i class="far fa-clock mr-1"></i>{{ logs.date }}</span>
-                    						    <button class="btn expandPostButton flipCross"><i class="fas fa-chevron-down"></i></button>
-                                    		</div>
-                						    <p title="Contenus original">{{ logs.old_content }}</p>
-                                		
-                                			<!-- Card Collapse -->
-                						    <div class="collapse">
-                                				<hr>
-                                				<h5 class="text-muted text-center">Contenus moderé</h5>
-        										<p class="text-muted text-center"><small><i class="far fa-clock mr-1"></i>Moderé le {{ logs.mod_date }}</small></p>
-                                			</div>
-										</div>
-                            		</div>
-                            	</div>
-                        		{% endif %}
+                        		{% for logs in logs_del %}
+                        		
+                            		{% if logs.mod_type == 'D' %}
+                            		<div class="col-lg-5 post-log">
+                                		<div class="card hoverable">
+                                			{% if logs.filename %}
+                            				<img class="card-img-top" src="uploads/thumbnails/{{ logs.filename }}" alt="" class="img-fluid image-profile rounded shadow-sm">
+                            				{% else %}
+                            				<img class="card-img-top" src="images/placeholder.png" alt="" class="img-fluid image-profile rounded shadow-sm">
+                            				{% endif %}
+                            				<div class="card-body">
+                                        		<div class="logs-header d-flex align-items-center">
+                                        			<h4 class="mb-0" title="titre original">{{ logs.old_name }}</h4>
+                                        			<span class="logs-date"><i class="far fa-clock mr-1"></i>{{ logs.date }}</span>
+                        						    <button class="btn expandPostButton flipCross"><i class="fas fa-chevron-down"></i></button>
+                                        		</div>
+                    						    <p title="Contenus original">{{ logs.old_content }}</p>
+                                    		
+                                    			<!-- Card Collapse -->
+                    						    <div class="collapse">
+                                    				<hr>
+                                    				<h5 class="text-muted text-center">Contenus moderé</h5>
+            										<p class="text-muted text-center"><small><i class="far fa-clock mr-1"></i>Moderé le {{ logs.mod_date }}</small></p>
+                                    			</div>
+    										</div>
+                                		</div>
+                                	</div>
+                            		{% endif %}
                         		{% endfor %}
                         	
                         	
                         	</div>
-                        	{% endif %}
+                        	{% endif %} <!-- End deleted post logs -->
+                        	{% endif %} <!-- End Logs Posts -->
+                        	
         				</div>
         				<!-- End Logs Posts -->
         				
@@ -587,7 +612,7 @@
         					{% if not logs_com %}
                     		<div class="alert alert-primary">
                                 <i class="far fa-smile-wink"></i>
-                                <span>Il n'y a pas d'historique de modération</span>
+                                <span>Il n'y a pas d'historique de modération de commentaires</span>
                             </div>
                         	{% else %}
         					<div class="adm-tab-header mb-3">

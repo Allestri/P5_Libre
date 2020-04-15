@@ -433,7 +433,6 @@ function profileComponents(){
 	this.flipChevron = function() {
 		
 		$('.flipchev').click(function() {
-			console.log('bonjour');
 			$(this).toggleClass('flipchev-flipped');
 		});
 		

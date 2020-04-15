@@ -73,7 +73,8 @@ class AdminController extends Controller
                 $args['membersList'] = $adminModel->getMembers($limit, $args['pagination']['offset']);
                                 
                 // Logs
-                $args['logs'] = $adminModel->getLogs();
+                $args['logs_edit'] = $adminModel->getLogsEdit();
+                $args['logs_del'] = $adminModel->getLogsDel();
                 $args['logs_com'] = $adminModel->getComLogs();
                 
                 return $this->render($response, 'pages/admin.twig', $args);
@@ -120,13 +121,26 @@ class AdminController extends Controller
     
     public function clearQuarantineDir($request, $response)
     {
-        $directory = $this->container->get('uploaded_directory');
-        $quarantineDir = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR;
         
-        array_map('unlink', glob($quarantineDir . '*'));
+        if(!isset($_SESSION['admin']))
+        {
+            throw new Exception('L\'accès de cette partie du site est restreint.');
+        }
+        try
+        {
+            $directory = $this->container->get('uploaded_directory');
+            $quarantineDir = $directory . DIRECTORY_SEPARATOR . "quarantine" . DIRECTORY_SEPARATOR;
+            
+            array_map('unlink', glob($quarantineDir . '*'));
+            
+            $this->flash('La quarantaine a été vidée de ses photos');
+            return $this->redirect($response, 'admin');
+        }
         
-        $this->flash('La quarantaine a été vidée de ses photos');
-        return $this->redirect($response, 'admin');
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
     }
     
     public function getSelectedPost($request, $response)
@@ -263,11 +277,29 @@ class AdminController extends Controller
     
     public function clearLogsPosts($request, $response)
     {
-        $adminModel = $this->container->get('adminModel');
-        $adminModel->clearLogsPosts();
         
-        $this->flash('L\'historique de modération de posts a été vidé');
-        return $this->redirect($response, 'admin');
+        if(!isset($_SESSION['admin']))
+        
+        {
+            throw new Exception('L\'accès de cette partie du site est restreint.');
+        }
+        
+        try 
+        {
+            
+            $adminModel = $this->container->get('adminModel');
+            $adminModel->clearLogsPosts();
+            
+            $this->flash('L\'historique de modération de posts a été vidé');
+            return $this->redirect($response, 'admin');
+            
+        }
+        
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+       
     }
     
     public function clearLogsComments($request, $response)

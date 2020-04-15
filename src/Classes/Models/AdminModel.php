@@ -152,7 +152,25 @@ class AdminModel extends Model
     
     // Logs
     
-    public function getLogs()
+    // Get logs of posts has been edited - parameter M as Modified.
+    public function getLogsEdit()
+    {
+        $sql = "SELECT logs.post_name as old_name, posts.name as new_name, logs.author_id as author,
+                logs.post_content as old_content, posts.content as new_content,
+                logs.mod_type, DATE_FORMAT(post_date, '%d/%m/%Y') as date, images.filename, DATE_FORMAT(mod_date, '%d/%m/%Y') as mod_date
+		        FROM logs
+                LEFT JOIN posts
+                    ON logs.post_id = posts.id
+				LEFT JOIN images
+                	ON posts.image_id = images.id
+                WHERE logs.mod_type = 'M'
+                ORDER BY logs.id DESC";
+        $logs = $this->executeQuery($sql);
+        return $logs->fetchAll();
+    }
+    
+    // Get logs of posts has been deleted - parameter D as Deleted.
+    public function getLogsDel()
     {
         $sql = "SELECT logs.post_name as old_name, posts.name as new_name, logs.author_id as author, 
                 logs.post_content as old_content, posts.content as new_content, 
@@ -162,6 +180,7 @@ class AdminModel extends Model
                     ON logs.post_id = posts.id
 				LEFT JOIN images
                 	ON posts.image_id = images.id
+                WHERE logs.mod_type = 'D'
                 ORDER BY logs.id DESC";
         $logs = $this->executeQuery($sql);
         return $logs->fetchAll();
