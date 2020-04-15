@@ -8,11 +8,20 @@ function Forms() {
 	// Work in progress
 	this.initialization = function() {
 		
+		this.loginValidation();
+		
 		this.checkUpload();
 		this.triggerButton();
 
 	};
 	
+	/* Upload Form *
+	 * 	
+	 * Metadata Exif check upload
+	 * Display valid or invalid depending on image datas
+	 */
+	
+	// First step of an upload : Checks if any image has needed datas available.
 	this.checkUpload = function() {
 
 		$('#test-form').submit(function(e){ 
@@ -35,7 +44,7 @@ function Forms() {
 				processData:false,
 				success: function(data){
 					console.log('Success, test data recovered');
-					displayFlash(data);
+					self.displayFlash(data);
 					console.log(data);
 					$('#upload-btn').text('Envoyer');
 				},
@@ -47,7 +56,8 @@ function Forms() {
 		
 	}
 	
-	// Display test exif components before upload
+	// Display test exif components after upload whether it's valid or not.
+	// Then unlock Continue button to the second step.
 	this.displayFlash = function(data) {
 
 		var flash = '';
@@ -82,6 +92,8 @@ function Forms() {
 		}
 	}
 	
+	
+	// Resets continue button class valid/invalid for navigation
 	this.triggerButton = function() {
 		
 		$('#continue-button').click(function() {
@@ -99,11 +111,17 @@ function Forms() {
 	}
 	
 	
+	/* Login Form *
+	 * 	
+	 * Login form validation
+	 * Display error messages
+	 */
+		
 	
-	
-	// Login Form validation
-	/*
-	(function() {
+	// Login validation
+	this.loginValidation = function() {
+		//(!) Code spaghetti, I'm aware of that !
+		console.log('salut');
 		'use strict';
 		window.addEventListener('load', function() {
 			// Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -117,59 +135,58 @@ function Forms() {
 					event.stopPropagation();
 				} else {
 					
-					event.preventDefault();
-					var formData = $("#login-overlay").serialize();
-					$.ajax({
-						type: "POST",
-						url: "http://projetlibre/login",
-						data: formData,
-						dataType: "JSON",
-						success: function(data){
-							console.log(data);
-							//self.refreshLikes();
-							if(data.type == 'error'){
-								displayError(data);
-							} else {
-							
-								$.notify('Connecté', 'success');
-									
-								$('#login-modal').modal('hide');
-		
-								// Code spaghetti, I'll fix that I promise !
-								$("#main-navbar").load("http://projetlibre/ #main-navbar>*");
+						event.preventDefault();
+						var formData = $("#login-overlay").serialize();
+						$.ajax({
+							type: "POST",
+							url: "http://projetlibre/login",
+							data: formData,
+							dataType: "JSON",
+							success: function(data){
+								console.log(data);
+								//self.refreshLikes();
+								if(data.type == 'error'){
+									self.displayError(data);
+								} else {
 								
-								$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*", function(response, statusTxt, xhr) {
-									if(statusTxt == "success")
-										console.log(response);
-									if(statusTxt == "error")
-									    console.log("Error: " + xhr.status + ": " + xhr.statusText);
-								});
+									$.notify('Connecté', 'success');
+										
+									$('#login-modal').modal('hide');
+			
+									// Code spaghetti, known issue !
+									$("#main-navbar").load("http://projetlibre/ #main-navbar>*");
+									
+									$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*", function(response, statusTxt, xhr) {
+										if(statusTxt == "success")
+											console.log(response);
+										if(statusTxt == "error")
+										    console.log("Error: " + xhr.status + ": " + xhr.statusText);
+									});
+								}
+								
+								//$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*");
+	
+	
+								//$( "#dynamic-layout" ).load( "http://projetlibre/map #dynamic-layout" );
+							},
+							complete: function(data){
+								console.log('Callback: ' + data);
+								
+							},
+							error: function(result, status, error){
+								console.log('erreur : ' + error + ' status: ' + status);
+								
 							}
-							
-							//$("#dynamic-layout").load("http://projetlibre/map #dynamic-layout>*");
-
-
-							//$( "#dynamic-layout" ).load( "http://projetlibre/map #dynamic-layout" );
-						},
-						complete: function(data){
-							console.log('Callback: ' + data);
-							
-						},
-						error: function(result, status, error){
-							console.log('erreur : ' + error + ' status: ' + status);
-							
-						}
-					});	
-
-				}
+						});	
+	
+					}
 				form.classList.add('was-validated');
 				}, false);
 			});
 		}, false);
-	})();
-	*/
+	};
 
-
+	// Display login error messages.
 	this.displayError = function(data){
 		
 		$("#login-overlay").removeClass('was-validated');
@@ -182,13 +199,12 @@ function Forms() {
 		}
 		
 		$('#form-error-wrapper').html(error);
-		
-		
+
 	};
 	
 	
 	
-	
-	
-	
 }
+
+let myForms = new Forms();
+myForms.initialization();
