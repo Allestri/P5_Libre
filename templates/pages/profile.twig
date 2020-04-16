@@ -52,9 +52,9 @@
     					{% for friendship in friends %}
     					<span>
     					{% if friendship.avatar_file == NULL %}
-                    	<img src="uploads/avatar/avatar_default.png" alt="{{ friendship.name }} avatar" height="35">
+                    	<img class="rounded" src="uploads/avatar/avatar_default.png" alt="{{ friendship.name }} avatar" height="35">
                     	{% else %}
-                    	<img src="uploads/avatar/{{ friendship.name }}/{{ friendship.avatar_file }}" alt="{{ friendship.name }} avatar" height="35">
+                    	<img class="rounded" src="uploads/avatar/{{ friendship.name }}/{{ friendship.avatar_file }}" alt="{{ friendship.name }} avatar" height="35">
                     	{% endif %}
                                 {{ friendship.name }}
     					</span>

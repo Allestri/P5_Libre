@@ -71,9 +71,9 @@ function Forms() {
 			flash = "<div class='alert alert-warning'>Certaines infos manquent pour une compatiblité complète</div>";
 			$("#continue-button").prop("disabled", true);
 			
-			display(data.thumbnail, "#test-thumbnail");
-			display(data.info, "#test-photo");
-			display(data.geodata, "#test-geo");
+			this.display(data.thumbnail, "#test-thumbnail");
+			this.display(data.info, "#test-photo");
+			this.display(data.geodata, "#test-geo");
 
 		} else {
 			flash = "<div class='alert alert-success'>Votre image est entièrement compatible avec cette application</div>";
@@ -125,7 +125,7 @@ function Forms() {
 		window.addEventListener('load', function() {
 			// Fetch all the forms we want to apply custom Bootstrap validation styles to
 			var forms = document.getElementsByClassName('needs-validation');
-			console.log(forms);
+
 			// Loop over them and prevent submission
 			var validation = Array.prototype.filter.call(forms, function(form) {
 				form.addEventListener('submit', function(event) {

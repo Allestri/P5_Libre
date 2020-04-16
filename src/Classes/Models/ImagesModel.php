@@ -51,7 +51,8 @@ Class ImagesModel extends Model
         return $dataImages->fetchAll();
     }
     
-    // Fetch every photos posted from the connected member, used in Profile Page.
+    // Used in Profile Page : 
+    // Fetch every photos posted from the connected member
     public function fetchAllMyImgs($uid)
     {
         $sql = "SELECT posts.id, posts.name, posts.privacy, COUNT(distinct likes.id) as likes, COUNT(distinct comments.id) as nbrComments,

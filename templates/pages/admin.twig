@@ -285,6 +285,7 @@
                                 					<div class="admin-btn-container">
                                             			<form id="deleteImg" method="POST" action="admin/delete">
                                         					<input type="hidden" id="imgId" class="imgId" name="postId" value="{{ posts.id }}" />
+                                        					<input type="hidden" name="filename" value="{{ posts.filename }}" />
                                         					<button class="admin-btn delete">
                                         						<i class="fas fa-trash-alt mr-2"></i>Supprimer
                                         					</button>
@@ -565,6 +566,7 @@
                             		<span>Historique de posts</span>
                             		<span class="badge badge-pill badge-danger">Supprimés</span>
                                 </div>
+                                <a class="btn back-dashboard" title="Vider historique modération" href="admin/clear-logs/posts"><i class="fas fa-trash"></i></a>
                             </div>
                         	<div class="row d-flex justify-content-between">
                         	

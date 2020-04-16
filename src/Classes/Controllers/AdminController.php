@@ -227,6 +227,7 @@ class AdminController extends Controller
     {
         $datas = $request->getParsedBody();
         $postId = $datas['postId'];
+        $filename = $datas['filename'];
         
         // D as deleted
         $modType = 'D';
@@ -235,6 +236,14 @@ class AdminController extends Controller
         $adminModel->insertPostLogs($modType, $postId);
         $adminModel->deletePost($postId);
         $adminModel->clearReport($postId);
+        
+        $directory = $this->container->get('uploaded_directory');
+        
+        $photoPath = $directory . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $filename;
+        $thumbPath = $directory . DIRECTORY_SEPARATOR . "thumbnails" . DIRECTORY_SEPARATOR . $filename;
+        
+        unlink($thumbPath);
+        unlink($photoPath);
         
         $this->flash('Post supprimé avec succès');
         return $this->redirect($response, 'admin');
